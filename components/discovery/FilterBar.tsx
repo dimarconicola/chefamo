@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import { Button, Chip } from '@heroui/react';
 
 import type { DiscoveryFilters, Locale } from '@/lib/catalog/types';
 
@@ -119,9 +120,9 @@ export function FilterBar({
           {activeFilters.length > 0 ? (
             <div className="active-filter-strip">
               {activeFilters.map((filter) => (
-                <span key={filter} className="filter-chip">
+                <Chip key={filter} size="sm" radius="full" variant="flat" className="filter-chip">
                   {filter}
-                </span>
+                </Chip>
               ))}
             </div>
           ) : (
@@ -132,18 +133,18 @@ export function FilterBar({
         <div className="stack-list">
           <p className="eyebrow">{labels.quickPicks}</p>
           <div className="quick-filter-row">
-            <Link href={`${basePath}?view=${view}&date=today`} className="quick-filter-link">
+            <Button as={Link} href={`${basePath}?view=${view}&date=today`} variant="light" radius="full" className="quick-filter-link">
               {labels.today}
-            </Link>
-            <Link href={`${basePath}?view=${view}&date=weekend`} className="quick-filter-link">
+            </Button>
+            <Button as={Link} href={`${basePath}?view=${view}&date=weekend`} variant="light" radius="full" className="quick-filter-link">
               {labels.weekend}
-            </Link>
-            <Link href={`${basePath}?view=${view}&date=week`} className="quick-filter-link">
+            </Button>
+            <Button as={Link} href={`${basePath}?view=${view}&date=week`} variant="light" radius="full" className="quick-filter-link">
               {labels.nextWeek}
-            </Link>
-            <Link href={`${basePath}?view=${view}&language=English`} className="quick-filter-link">
+            </Button>
+            <Button as={Link} href={`${basePath}?view=${view}&language=English`} variant="light" radius="full" className="quick-filter-link">
               {labels.english}
-            </Link>
+            </Button>
           </div>
         </div>
 
@@ -152,9 +153,16 @@ export function FilterBar({
             <p className="eyebrow">{labels.yogaStyles}</p>
             <div className="quick-filter-row">
               {yogaStyleQuickPicks.map((style) => (
-                <Link key={style.slug} href={`${basePath}?view=${view}&category=yoga&style=${style.slug}`} className="quick-filter-link">
+                <Button
+                  as={Link}
+                  key={style.slug}
+                  href={`${basePath}?view=${view}&category=yoga&style=${style.slug}`}
+                  variant="light"
+                  radius="full"
+                  className="quick-filter-link"
+                >
                   {style.name}
-                </Link>
+                </Button>
               ))}
             </div>
           </div>
@@ -253,12 +261,12 @@ export function FilterBar({
       </div>
 
       <div className="filter-panel-actions filter-panel-actions-bottom">
-        <Link href={`${basePath}?view=${view}`} className="button button-ghost">
+        <Button as={Link} href={`${basePath}?view=${view}`} variant="ghost" radius="full" className="button button-ghost">
           {labels.reset}
-        </Link>
-        <button type="submit" className="button button-primary">
+        </Button>
+        <Button type="submit" color="primary" radius="full" className="button button-primary">
           {labels.apply}
-        </button>
+        </Button>
       </div>
     </form>
   );

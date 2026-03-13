@@ -1,5 +1,9 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,100..900&family=Cormorant+Garamond:wght@300;400;500;600;700&display=swap');
 
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 :root {
   --bg: #f6efe6;
   --bg-strong: #efe2d0;
@@ -2034,4 +2038,86 @@ h4 {
   .newsletter-inline-digest {
     grid-template-columns: 1fr;
   }
+}
+
+/* HeroUI integration layer */
+.heroui-header [data-slot='base'] {
+  background: transparent;
+}
+
+.heroui-header [data-slot='wrapper'] {
+  width: var(--shell);
+  max-width: var(--shell);
+  padding-inline: 0;
+}
+
+.heroui-header [data-slot='menu'] {
+  border: 1px solid var(--line);
+  border-radius: 1rem;
+  margin: 0.4rem 0;
+  background: rgba(255, 255, 255, 0.95);
+}
+
+.site-nav-primary a {
+  font-size: 0.93rem;
+  font-weight: 500;
+}
+
+.button-signin[data-disabled='true'],
+.button-account[data-disabled='true'] {
+  opacity: 0.65;
+}
+
+.digest-input-wrapper {
+  background: rgba(255, 255, 255, 0.88) !important;
+  border: 1px solid var(--line) !important;
+}
+
+.newsletter-inline-digest [data-slot='base'] {
+  grid-column: 1 / -1;
+}
+
+.newsletter-inline-digest [data-slot='input-wrapper'] {
+  background: rgba(255, 255, 255, 0.1) !important;
+  border-color: rgba(255, 255, 255, 0.2) !important;
+  border-radius: 999px !important;
+  min-height: 3rem;
+}
+
+.newsletter-inline-digest [data-slot='input'] {
+  color: #ffffff !important;
+}
+
+.newsletter-inline-digest [data-slot='input']::placeholder {
+  color: rgba(232, 240, 233, 0.72) !important;
+}
+
+.newsletter-inline-digest .digest-submit {
+  border-radius: 999px !important;
+  min-height: 3rem;
+  padding-inline: 1.3rem;
+  background: #ffffff !important;
+  color: #4a5d4e !important;
+}
+
+.newsletter-inline-digest .digest-submit:hover {
+  background: #f4f7f5 !important;
+}
+
+.home-v2-feature-item [data-slot='base'],
+.home-v2-class-card [data-slot='base'] {
+  background: transparent !important;
+}
+
+.home-v2-feature-item {
+  border: 0 !important;
+  box-shadow: none !important;
+}
+
+.home-v2-class-card {
+  box-shadow: none !important;
+}
+
+.view-switcher .chip-option[data-disabled='true'] {
+  opacity: 0.75;
 }

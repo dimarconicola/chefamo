@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import { DateTime } from 'luxon';
+import { Button, Chip } from '@heroui/react';
 
 import { FilterBar } from '@/components/discovery/FilterBar';
 import { MapPanel } from '@/components/discovery/MapPanel';
@@ -221,23 +222,29 @@ export default async function ClassesPage({
           <h1>{dict.classes}</h1>
           <p className="lead">{intro}</p>
           <div className="badge-row classes-hero-badges">
-            <span className="meta-pill">
+            <Chip radius="full" variant="flat" className="meta-pill">
               {sessionResults.length} {badgeCopy.matches}
-            </span>
-            <span className="meta-pill">
+            </Chip>
+            <Chip radius="full" variant="flat" className="meta-pill">
               {visibleVenues.length} {badgeCopy.venues}
-            </span>
-            <span className="meta-pill">
+            </Chip>
+            <Chip radius="full" variant="flat" className="meta-pill">
               {metrics.styles} {badgeCopy.styles}
-            </span>
+            </Chip>
           </div>
           <div className="site-actions classes-hero-actions">
-            <Link href={`/${locale}/${citySlug}`} className="button button-ghost">
+            <Button as={Link} href={`/${locale}/${citySlug}`} variant="ghost" radius="full" className="button button-ghost">
               {badgeCopy.back}
-            </Link>
-            <Link href={`/${locale}/${citySlug}/collections/today-nearby`} className="button button-secondary">
+            </Button>
+            <Button
+              as={Link}
+              href={`/${locale}/${citySlug}/collections/today-nearby`}
+              variant="flat"
+              radius="full"
+              className="button button-secondary"
+            >
               {dict.todayNearby}
-            </Link>
+            </Button>
           </div>
         </div>
         <div className="panel classes-hero-side">
@@ -264,13 +271,17 @@ export default async function ClassesPage({
       <section className="panel view-switcher-panel">
         <div className="view-switcher">
           {viewTabs.map((tab) => (
-            <Link
+            <Button
+              as={Link}
               key={tab.slug}
               href={hrefWith({ view: tab.slug, page: undefined })}
+              variant={view === tab.slug ? 'solid' : 'bordered'}
+              color={view === tab.slug ? 'primary' : 'default'}
+              radius="full"
               className={`chip-option ${view === tab.slug ? 'chip-option-active' : ''}`}
             >
               {tab.label}
-            </Link>
+            </Button>
           ))}
         </div>
       </section>
@@ -382,14 +393,14 @@ export default async function ClassesPage({
           </span>
           <div className="site-actions">
             {currentPage > 1 ? (
-              <Link href={hrefWith({ page: String(currentPage - 1) })} className="button button-ghost">
+              <Button as={Link} href={hrefWith({ page: String(currentPage - 1) })} variant="ghost" radius="full" className="button button-ghost">
                 {locale === 'it' ? 'Precedente' : 'Previous'}
-              </Link>
+              </Button>
             ) : null}
             {currentPage < totalPages ? (
-              <Link href={hrefWith({ page: String(currentPage + 1) })} className="button button-primary">
+              <Button as={Link} href={hrefWith({ page: String(currentPage + 1) })} color="primary" radius="full" className="button button-primary">
                 {locale === 'it' ? 'Successiva' : 'Next'}
-              </Link>
+              </Button>
             ) : null}
           </div>
         </section>

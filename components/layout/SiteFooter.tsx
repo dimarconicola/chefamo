@@ -1,4 +1,5 @@
-import Link from 'next/link';
+import NextLink from 'next/link';
+import { Link } from '@heroui/react';
 
 import type { Locale } from '@/lib/catalog/types';
 
@@ -18,10 +19,18 @@ export function SiteFooter({ locale }: { locale: Locale }) {
           <p className="footer-meta">{meta}</p>
         </div>
         <div className="footer-links">
-          <Link href={`/${locale}/palermo`}>Palermo</Link>
-          <Link href={`/${locale}/palermo/classes`}>{locale === 'it' ? 'Classi' : 'Classes'}</Link>
-          <Link href={`/${locale}/who-we-are`}>{locale === 'it' ? 'Chi siamo' : 'Who we are'}</Link>
-          <Link href={`/${locale}/suggest-calendar`}>{locale === 'it' ? 'Segnala calendario' : 'Suggest calendar'}</Link>
+          <Link as={NextLink} href={`/${locale}/palermo`}>
+            Palermo
+          </Link>
+          <Link as={NextLink} href={`/${locale}/palermo/classes`}>
+            {locale === 'it' ? 'Classi' : 'Classes'}
+          </Link>
+          <Link as={NextLink} href={`/${locale}/who-we-are`}>
+            {locale === 'it' ? 'Chi siamo' : 'Who we are'}
+          </Link>
+          <Link as={NextLink} href={`/${locale}/suggest-calendar`}>
+            {locale === 'it' ? 'Segnala calendario' : 'Suggest calendar'}
+          </Link>
         </div>
       </div>
     </footer>
