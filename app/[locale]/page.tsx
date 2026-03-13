@@ -83,7 +83,7 @@ export default async function LocaleHome({ params }: { params: Promise<{ locale:
           ctaPrimary: 'Esplora le classi',
           ctaSecondary: 'Palermo hub',
           featuresEyebrow: 'Perche e diverso',
-          featuresTitle: 'Utility cittadino selezionato al millimetro.',
+          featuresTitle: 'Guida cittadini selezionata e curata con amore.',
           featuresBody:
             'Trovare la pratica perfetta deve essere semplice e piacevole quanto praticarla. Su mappa.',
           cityTitle: 'Palermo Hub',
