@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
+import { Button } from '@heroui/react';
 
 interface FavoriteButtonProps {
   entitySlug: string;
@@ -63,8 +64,8 @@ export function FavoriteButton({ entitySlug, entityType, locale, signedInEmail, 
   };
 
   return (
-    <button className="button button-ghost" onClick={toggle} type="button" disabled={pending}>
+    <Button className="button button-ghost" variant="ghost" radius="full" onPress={toggle} type="button" isDisabled={pending}>
       {saved ? savedLabel : label}
-    </button>
+    </Button>
   );
 }

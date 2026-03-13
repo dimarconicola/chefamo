@@ -1,5 +1,6 @@
-import Link from 'next/link';
+import NextLink from 'next/link';
 import { DateTime } from 'luxon';
+import { Chip, Link } from '@heroui/react';
 
 import { FavoriteButton } from '@/components/state/FavoriteButton';
 import { ScheduleButton } from '@/components/state/ScheduleButton';
@@ -92,20 +93,20 @@ export function SessionCard({ session, locale, signedInEmail, saveLabel, savedLa
           </div>
           <p className="session-meta">{formatSessionTime(session.startAt, locale)}</p>
           <p className="muted">
-            <Link href={`/${locale}/${session.citySlug}/studios/${venue.slug}`} className="inline-link">
+            <Link as={NextLink} href={`/${locale}/${session.citySlug}/studios/${venue.slug}`} className="inline-link">
               {venue.name}
             </Link>{' '}
             ·{' '}
-            <Link href={`/${locale}/${session.citySlug}/teachers/${instructor.slug}`} className="inline-link">
+            <Link as={NextLink} href={`/${locale}/${session.citySlug}/teachers/${instructor.slug}`} className="inline-link">
               {instructor.name}
             </Link>
           </p>
           <p className="muted">{venue.address}</p>
           <div className="session-tags">
-            <span>{style.name[locale]}</span>
-            <span>{labels.level[session.level]}</span>
-            <span>{session.language}</span>
-            <span>{labels.format[session.format]}</span>
+            <Chip radius="full" size="sm">{style.name[locale]}</Chip>
+            <Chip radius="full" size="sm">{labels.level[session.level]}</Chip>
+            <Chip radius="full" size="sm">{session.language}</Chip>
+            <Chip radius="full" size="sm">{labels.format[session.format]}</Chip>
           </div>
           {session.priceNote ? (
             <p className="muted">
@@ -118,10 +119,10 @@ export function SessionCard({ session, locale, signedInEmail, saveLabel, savedLa
                 {labels.refreshed} {formatVerifiedAt(session.lastVerifiedAt, locale)}
               </p>
               <div className="session-card-links">
-                <Link href={`/${locale}/${session.citySlug}/studios/${venue.slug}`} className="inline-link">
+                <Link as={NextLink} href={`/${locale}/${session.citySlug}/studios/${venue.slug}`} className="inline-link">
                   {labels.studio}
                 </Link>
-                <Link href={`/${locale}/${session.citySlug}/teachers/${instructor.slug}`} className="inline-link">
+                <Link as={NextLink} href={`/${locale}/${session.citySlug}/teachers/${instructor.slug}`} className="inline-link">
                   {labels.teacher}
                 </Link>
               </div>

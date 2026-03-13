@@ -46,7 +46,7 @@ const copy = {
   it: {
     eyebrow: 'Affina la settimana',
     results: 'classi visibili',
-    summary: 'Scegli giorno, stile, quartiere e lingua per trovare la classe giusta piu in fretta.',
+    summary: 'Scegli giorno, stile, quartiere e lingua per trovare la classe giusta più in fretta.',
     reset: 'Azzera',
     apply: 'Applica filtri',
     noFilters: 'Nessun filtro attivo. Parti da giorno, stile o quartiere.',
@@ -186,7 +186,7 @@ export function FilterBar({
             <option value="">{labels.any}</option>
             <option value="early">{locale === 'it' ? 'Presto' : 'Early'}</option>
             <option value="morning">{locale === 'it' ? 'Mattina' : 'Morning'}</option>
-            <option value="midday">{locale === 'it' ? 'Meta giornata' : 'Midday'}</option>
+            <option value="midday">{locale === 'it' ? 'Metà giornata' : 'Midday'}</option>
             <option value="evening">{locale === 'it' ? 'Sera' : 'Evening'}</option>
           </select>
         </label>

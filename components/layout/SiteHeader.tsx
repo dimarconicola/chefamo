@@ -4,7 +4,7 @@ import NextLink from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useState } from 'react';
 
-import { Button, Link, Navbar, NavbarBrand, NavbarContent, NavbarItem, NavbarMenu, NavbarMenuItem, NavbarMenuToggle } from '@heroui/react';
+import { Button, Link } from '@heroui/react';
 
 import { switchLocalePath } from '@/lib/i18n/routing';
 import type { Locale } from '@/lib/catalog/types';
@@ -19,6 +19,7 @@ export function SiteHeader({ locale, dict, signedInEmail }: SiteHeaderProps) {
   const pathname = usePathname();
   const alternate = locale === 'en' ? 'it' : 'en';
   const [menuOpen, setMenuOpen] = useState(false);
+  const menuCopy = locale === 'it' ? { open: 'Menu', close: 'Chiudi' } : { open: 'Menu', close: 'Close' };
 
   const navItems = [
     { href: `/${locale}/palermo/classes`, label: dict.classes },
@@ -29,80 +30,63 @@ export function SiteHeader({ locale, dict, signedInEmail }: SiteHeaderProps) {
 
   return (
     <div className="site-header-wrap">
-      <Navbar
-        isBordered={false}
-        maxWidth="2xl"
-        className="site-header heroui-header"
-        isMenuOpen={menuOpen}
-        onMenuOpenChange={setMenuOpen}
-      >
-        <NavbarContent className="sm:hidden" justify="start">
-          <NavbarMenuToggle aria-label={menuOpen ? 'Close menu' : 'Open menu'} />
-        </NavbarContent>
+      <div className="site-shell site-header">
+        <Link as={NextLink} href={`/${locale}`} className="brand-mark" onPress={() => setMenuOpen(false)}>
+          <span className="brand-orbit" />
+          <span className="brand-word">{dict.brand}</span>
+        </Link>
 
-        <NavbarContent justify="start">
-          <NavbarBrand>
-            <Link as={NextLink} href={`/${locale}`} className="brand-mark">
-              <span className="brand-orbit" />
-              <span className="brand-word">{dict.brand}</span>
+        <nav className="site-nav site-nav-primary">
+          {navItems.map((item) => (
+            <Link key={item.href} as={NextLink} href={item.href} color="foreground">
+              {item.label}
             </Link>
-          </NavbarBrand>
-        </NavbarContent>
-
-        <NavbarContent className="hidden sm:flex gap-1 site-nav-primary" justify="center">
-          {navItems.map((item) => (
-            <NavbarItem key={item.href}>
-              <Link as={NextLink} href={item.href} color="foreground">
-                {item.label}
-              </Link>
-            </NavbarItem>
           ))}
-        </NavbarContent>
+        </nav>
 
-        <NavbarContent justify="end" className="site-actions-primary">
-          <NavbarItem>
-            <Button
-              as={NextLink}
-              href={switchLocalePath(pathname, alternate)}
-              variant="light"
-              radius="full"
-              className="locale-toggle"
-            >
-              {alternate.toUpperCase()}
-            </Button>
-          </NavbarItem>
-          <NavbarItem>
-            {signedInEmail ? (
-              <form action="/api/auth/signout" method="post">
-                <input type="hidden" name="locale" value={locale} />
-                <Button type="submit" variant="flat" radius="full" className="button-account">
-                  {signedInEmail}
-                </Button>
-              </form>
-            ) : (
-              <Button
-                as={NextLink}
-                href={`/${locale}/sign-in`}
-                color="primary"
-                radius="full"
-                className="button-signin"
-              >
-                {dict.signIn}
+        <div className="site-actions site-actions-primary">
+          <Button
+            as={NextLink}
+            href={switchLocalePath(pathname, alternate)}
+            variant="light"
+            radius="full"
+            className="locale-toggle"
+          >
+            {alternate.toUpperCase()}
+          </Button>
+          {signedInEmail ? (
+            <form action="/api/auth/signout" method="post">
+              <input type="hidden" name="locale" value={locale} />
+              <Button type="submit" variant="flat" radius="full" className="button-account">
+                {signedInEmail}
               </Button>
-            )}
-          </NavbarItem>
-        </NavbarContent>
+            </form>
+          ) : (
+            <Button as={NextLink} href={`/${locale}/sign-in`} color="primary" radius="full" className="button-signin">
+              {dict.signIn}
+            </Button>
+          )}
+          <Button
+            type="button"
+            variant="ghost"
+            radius="full"
+            className="mobile-menu-toggle"
+            onPress={() => setMenuOpen((current) => !current)}
+          >
+            {menuOpen ? menuCopy.close : menuCopy.open}
+          </Button>
+        </div>
+      </div>
 
-        <NavbarMenu>
+      {menuOpen ? (
+        <div className="site-shell mobile-nav-panel">
           {navItems.map((item) => (
-            <NavbarMenuItem key={item.href}>
-              <Link as={NextLink} href={item.href} color="foreground" onPress={() => setMenuOpen(false)}>
-                {item.label}
-              </Link>
-            </NavbarMenuItem>
+            <Link key={item.href} as={NextLink} href={item.href} color="foreground" onPress={() => setMenuOpen(false)}>
+              {item.label}
+            </Link>
           ))}
-        </NavbarMenu>
-      </Navbar>
+        </div>
+      ) : null}
     </div>
   );
 }

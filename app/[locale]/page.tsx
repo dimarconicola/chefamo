@@ -78,17 +78,17 @@ export default async function LocaleHome({ params }: { params: Promise<{ locale:
     locale === 'it'
       ? {
           heroBadge: 'Discovery locale Palermo-first',
-          heroTitle: 'Scopri la lezione ideale nella tua citta.',
+          heroTitle: 'Scopri la lezione ideale nella tua città.',
           heroBody:
-            'kinelo.fit e un utility cittadino: mappa, calendario verificato e percorsi diretti verso prenotazione o contatto.',
+            'kinelo.fit è un utility cittadino: mappa, calendario verificato e percorsi diretti verso prenotazione o contatto.',
           ctaPrimary: 'Esplora le classi',
           ctaSecondary: 'Palermo hub',
-          featuresEyebrow: 'Perche e diverso',
+          featuresEyebrow: 'Perché è diverso',
           featuresTitle: 'Guida cittadini selezionata e curata con amore.',
           featuresBody:
             'Trovare la pratica perfetta deve essere semplice e piacevole quanto praticarla. Su mappa.',
           cityTitle: 'Palermo Hub',
-          cityBody: 'Il calendario cittadino per yoga, mind-body e attivita benessere affidabili.',
+          cityBody: 'Il calendario cittadino per yoga, mind-body e attività benessere affidabili.',
           classes: 'Classi',
           venues: 'Studi',
           neighborhoods: 'Quartieri',
@@ -101,9 +101,9 @@ export default async function LocaleHome({ params }: { params: Promise<{ locale:
           newsletterOne: 'Aggiornamenti utili, zero rumore',
           newsletterTwo: 'Niente spam',
           weeklyArticles: 'Aggiornamenti settimanali',
-          weeklyArticlesBody: 'Novita, nuove attivita e variazioni di calendario in un unico digest.',
+          weeklyArticlesBody: 'Novità, nuove attività e variazioni di calendario in un unico digest.',
           noSpam: 'Solo contenuti rilevanti',
-          noSpamBody: 'Ti scriviamo solo quando c e qualcosa di davvero utile da sapere.'
+          noSpamBody: 'Ti scriviamo solo quando c’è qualcosa di davvero utile da sapere.'
         }
       : {
           heroBadge: 'Palermo-seeded discovery',
@@ -141,7 +141,7 @@ export default async function LocaleHome({ params }: { params: Promise<{ locale:
       title: locale === 'it' ? 'Per quartiere, non per scroll' : 'Map-led Discovery',
       description:
         locale === 'it'
-          ? 'Trova classi vicino a te. Mappa e prossimita al centro.'
+          ? 'Trova classi vicino a te. Mappa e prossimità al centro.'
           : 'Find classes in your neighborhood. We prioritize location and proximity over endless scrolling.'
     },
     {
@@ -173,7 +173,7 @@ export default async function LocaleHome({ params }: { params: Promise<{ locale:
       title: locale === 'it' ? 'Catalogo selezionato' : 'Mind-Body Focus',
       description:
         locale === 'it'
-          ? 'Cresce solo quando qualita e copertura locale sono solide.'
+          ? 'Cresce solo quando qualità e copertura locale sono solide.'
           : 'Specialized in yoga, pilates, meditation, and holistic wellness practices.'
     },
     {
@@ -181,7 +181,7 @@ export default async function LocaleHome({ params }: { params: Promise<{ locale:
       title: locale === 'it' ? 'Strumento pubblico' : 'Public City Utility',
       description:
         locale === 'it'
-          ? 'Gratuito, accessibile, pensato per la comunita di Palermo.'
+          ? 'Gratuito, accessibile, pensato per la comunità di Palermo.'
           : 'Built as a public good for the community, making wellness accessible and transparent.'
     }
   ];

@@ -1,6 +1,7 @@
-import Link from 'next/link';
+import NextLink from 'next/link';
 import { notFound } from 'next/navigation';
 import { DateTime } from 'luxon';
+import { Button, Chip, Link } from '@heroui/react';
 
 import { ClaimForm } from '@/components/forms/ClaimForm';
 import { SessionCard } from '@/components/discovery/SessionCard';
@@ -72,20 +73,22 @@ export default async function StudioPage({ params }: { params: Promise<{ locale:
           <p className="lead">{venue.description[locale]}</p>
           <div className="badge-row">
             {venue.amenities.map((amenity) => (
-              <span key={amenity} className="meta-pill">{amenity}</span>
+              <Chip key={amenity} className="meta-pill" radius="full" variant="flat">
+                {amenity}
+              </Chip>
             ))}
           </div>
           <p className="muted">{venue.address} · {neighborhood?.name[locale]}</p>
           <p className="muted">{venue.freshnessNote[locale]} · {formatVerifiedAt(venue.lastVerifiedAt, locale)}</p>
           <div className="site-actions profile-links">
             <FavoriteButton entitySlug={venue.slug} entityType="venue" locale={locale} signedInEmail={user?.email} label={dict.save} savedLabel={dict.unsave} />
-            <Link href={`/${locale}/claim/${venue.slug}`} className="button button-ghost">
+            <Button as={NextLink} href={`/${locale}/claim/${venue.slug}`} variant="ghost" radius="full" className="button button-ghost">
               {profileCopy.claim}
-            </Link>
+            </Button>
             {hasWebsite ? (
-              <a href={venue.sourceUrl} className="button button-secondary" target="_blank" rel="noreferrer">
+              <Button as="a" href={venue.sourceUrl} className="button button-secondary" variant="flat" radius="full" target="_blank" rel="noreferrer">
                 {profileCopy.website}
-              </a>
+              </Button>
             ) : null}
           </div>
         </div>
@@ -93,7 +96,10 @@ export default async function StudioPage({ params }: { params: Promise<{ locale:
           <p className="eyebrow">{profileCopy.trust}</p>
           <h2>{profileCopy.schedule}</h2>
           <p className="muted">
-            {profileCopy.source}: <a href={venue.sourceUrl} target="_blank" rel="noreferrer" className="inline-link">{venue.sourceUrl}</a>
+            {profileCopy.source}:{' '}
+            <Link as="a" href={venue.sourceUrl} target="_blank" rel="noreferrer" className="inline-link">
+              {venue.sourceUrl}
+            </Link>
           </p>
           <div className="classes-stat-grid profile-metrics">
             <div className="classes-stat-card">
@@ -131,7 +137,9 @@ export default async function StudioPage({ params }: { params: Promise<{ locale:
                     <h2>{day.toFormat(locale === 'it' ? 'd LLLL' : 'd LLLL')}</h2>
                   </div>
                   <div className="day-group-meta">
-                    <span className="meta-pill">{daySessions.length}</span>
+                    <Chip radius="full" variant="flat" className="meta-pill">
+                      {daySessions.length}
+                    </Chip>
                   </div>
                 </div>
                 <div className="session-day-stack">

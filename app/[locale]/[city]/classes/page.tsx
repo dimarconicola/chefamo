@@ -85,7 +85,7 @@ export default async function ClassesPage({
     time_bucket: {
       early: locale === 'it' ? 'Presto' : 'Early',
       morning: locale === 'it' ? 'Mattina' : 'Morning',
-      midday: locale === 'it' ? 'Meta giornata' : 'Midday',
+      midday: locale === 'it' ? 'Metà giornata' : 'Midday',
       evening: locale === 'it' ? 'Sera' : 'Evening'
     },
     level: {
@@ -150,7 +150,7 @@ export default async function ClassesPage({
 
   const badgeCopy =
     locale === 'it'
-      ? { matches: 'corrispondenze', venues: 'studi', styles: 'stili attivi', sessions: 'sessioni', back: 'Torna alla citta' }
+      ? { matches: 'corrispondenze', venues: 'studi', styles: 'stili attivi', sessions: 'sessioni', back: 'Torna alla città' }
       : { matches: 'matches', venues: 'venues', styles: 'live styles', sessions: 'sessions', back: 'Back to city' };
 
   const weekStart = today.startOf('week');

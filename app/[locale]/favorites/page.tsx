@@ -1,4 +1,5 @@
-import Link from 'next/link';
+import NextLink from 'next/link';
+import { Button, Link } from '@heroui/react';
 
 import { getSessionUser } from '@/lib/auth/session';
 import { getInstructor, getVenue } from '@/lib/catalog/data';
@@ -43,9 +44,9 @@ export default async function FavoritesPage({ params }: { params: Promise<{ loca
     return (
       <div className="empty-state">
         <p>{copy.signInNeeded}</p>
-        <Link href={`/${locale}/sign-in`} className="button button-primary">
+        <Button as={NextLink} href={`/${locale}/sign-in`} color="primary" radius="full" className="button button-primary">
           {copy.signIn}
-        </Link>
+        </Button>
       </div>
     );
   }
@@ -117,7 +118,7 @@ export default async function FavoritesPage({ params }: { params: Promise<{ loca
           {venueFavorites.length > 0 ? (
             <div className="stack-list">
               {venueFavorites.map((item) => (
-                <Link href={item.href} key={item.key} className="list-link">
+                <Link as={NextLink} href={item.href} key={item.key} className="list-link">
                   <strong>{item.title}</strong>
                   <span>{item.meta}</span>
                 </Link>
@@ -133,7 +134,7 @@ export default async function FavoritesPage({ params }: { params: Promise<{ loca
           {instructorFavorites.length > 0 ? (
             <div className="stack-list">
               {instructorFavorites.map((item) => (
-                <Link href={item.href} key={item.key} className="list-link">
+                <Link as={NextLink} href={item.href} key={item.key} className="list-link">
                   <strong>{item.title}</strong>
                   <span>{item.meta}</span>
                 </Link>
@@ -149,7 +150,7 @@ export default async function FavoritesPage({ params }: { params: Promise<{ loca
           {sessionFavorites.length > 0 ? (
             <div className="stack-list">
               {sessionFavorites.map((item) => (
-                <Link href={item.href} key={item.key} className="list-link">
+                <Link as={NextLink} href={item.href} key={item.key} className="list-link">
                   <strong>{item.title}</strong>
                   <span>{item.meta}</span>
                 </Link>
@@ -165,7 +166,7 @@ export default async function FavoritesPage({ params }: { params: Promise<{ loca
           {scheduleItems.length > 0 ? (
             <div className="stack-list">
               {scheduleItems.map((item) => (
-                <Link href={item.href} key={item.key} className="list-link">
+                <Link as={NextLink} href={item.href} key={item.key} className="list-link">
                   <strong>{item.title}</strong>
                   <span>{item.meta}</span>
                 </Link>

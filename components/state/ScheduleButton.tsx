@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
+import { Button } from '@heroui/react';
 
 interface ScheduleButtonProps {
   sessionId: string;
@@ -61,8 +62,8 @@ export function ScheduleButton({ sessionId, locale, signedInEmail, label }: Sche
   };
 
   return (
-    <button className="button button-secondary" type="button" onClick={toggle} disabled={pending}>
-      {saved ? 'Saved' : label}
-    </button>
+    <Button className="button button-secondary" variant="flat" radius="full" type="button" onPress={toggle} isDisabled={pending}>
+      {saved ? (locale === 'it' ? 'Salvata' : 'Saved') : label}
+    </Button>
   );
 }

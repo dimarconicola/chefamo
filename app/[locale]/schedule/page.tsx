@@ -1,4 +1,5 @@
-import Link from 'next/link';
+import NextLink from 'next/link';
+import { Button, Link } from '@heroui/react';
 
 import { getSessionUser } from '@/lib/auth/session';
 import { sessions } from '@/lib/catalog/seed';
@@ -32,9 +33,9 @@ export default async function SchedulePage({ params }: { params: Promise<{ local
     return (
       <div className="empty-state">
         <p>{copy.signInNeeded}</p>
-        <Link href={`/${locale}/sign-in`} className="button button-primary">
+        <Button as={NextLink} href={`/${locale}/sign-in`} color="primary" radius="full" className="button button-primary">
           {copy.signIn}
-        </Link>
+        </Button>
       </div>
     );
   }
@@ -62,7 +63,7 @@ export default async function SchedulePage({ params }: { params: Promise<{ local
         {scheduleItems.length > 0 ? (
           <div className="stack-list">
             {scheduleItems.map((item) => (
-              <Link href={item.href} key={item.key} className="list-link">
+              <Link as={NextLink} href={item.href} key={item.key} className="list-link">
                 <strong>{item.title}</strong>
                 <span>{item.meta}</span>
               </Link>
