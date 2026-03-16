@@ -1,7 +1,7 @@
-import { describe, it, expect, beforeEach, vi } from 'vitest';
+import { describe, it, expect, beforeEach } from 'vitest';
 import { render, screen } from '@testing-library/react';
 import { SessionCard } from '@/components/discovery/SessionCard';
-import type { Session, Locale } from '@/lib/catalog/types';
+import type { Session } from '@/lib/catalog/types';
 import { HeroUIProvider } from '@heroui/react';
 
 // Wrapper component to provide HeroUIProvider

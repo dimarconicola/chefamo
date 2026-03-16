@@ -24,7 +24,7 @@ export function AppProviders({ children }: { children: React.ReactNode }) {
         } else {
           clearUser();
         }
-      } catch (error) {
+      } catch {
         // Silently fail if user session check fails
       }
     };

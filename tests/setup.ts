@@ -1,6 +1,6 @@
 import '@testing-library/jest-dom';
 import React from 'react';
-import { expect, afterEach, vi, beforeAll, afterAll } from 'vitest';
+import { afterEach, vi, beforeAll, afterAll } from 'vitest';
 import { cleanup } from '@testing-library/react';
 
 // Cleanup after each test
@@ -10,7 +10,8 @@ afterEach(() => {
 
 // Mock Next.js Image component
 vi.mock('next/image', () => ({
-  default: ({ src, alt, ...props }: any) => React.createElement('img', { src, alt, ...props })
+  default: ({ src, alt, ...props }: { src: string; alt: string; [key: string]: unknown }) =>
+    React.createElement('img', { src, alt, ...props })
 }));
 
 // Mock mapbox-gl (heavy dependency, not needed for component tests)
