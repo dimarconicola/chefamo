@@ -317,6 +317,22 @@ main.site-main {
   color: var(--muted);
 }
 
+.filter-multi-group {
+  display: grid;
+  gap: 0.55rem;
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  color: var(--muted);
+}
+
+.filter-multi-group legend {
+  padding: 0;
+  margin-bottom: 0.1rem;
+  font-size: 0.95rem;
+}
+
 .filter-grid select,
 .form-stack select,
 .form-stack input,

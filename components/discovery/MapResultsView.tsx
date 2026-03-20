@@ -2,7 +2,6 @@
 
 import NextLink from 'next/link';
 import dynamic from 'next/dynamic';
-import { Chip } from '@heroui/react';
 
 import { SessionCard } from '@/components/discovery/SessionCard';
 import type { ResolvedSessionCardData } from '@/lib/catalog/session-card-data';
@@ -65,9 +64,9 @@ export function MapResultsView({
             <p className="eyebrow">{labels.studios}</p>
             <h2>{labels.studiosOverview}</h2>
           </div>
-          <Chip radius="full" variant="flat" className="meta-pill">
+          <span className="meta-pill">
             {orderedVenues.length}
-          </Chip>
+          </span>
         </div>
         <div className="map-venues-grid">
           {orderedVenues.map((venue) => (

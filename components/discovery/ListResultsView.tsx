@@ -1,7 +1,6 @@
 'use client';
 
 import NextLink from 'next/link';
-import { Button } from '@heroui/react';
 
 import { SessionCard } from '@/components/discovery/SessionCard';
 import type { ResolvedSessionCardData } from '@/lib/catalog/session-card-data';
@@ -65,14 +64,14 @@ export function ListResultsView({
           </span>
           <div className="site-actions">
             {prevHref ? (
-              <Button as={NextLink} href={prevHref} variant="ghost" radius="full" className="button button-ghost">
+              <NextLink href={prevHref} className="button button-ghost">
                 {labels.previous}
-              </Button>
+              </NextLink>
             ) : null}
             {nextHref ? (
-              <Button as={NextLink} href={nextHref} color="primary" radius="full" className="button button-primary">
+              <NextLink href={nextHref} className="button button-primary">
                 {labels.next}
-              </Button>
+              </NextLink>
             ) : null}
           </div>
         </section>

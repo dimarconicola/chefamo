@@ -3,7 +3,6 @@
 import dynamic from 'next/dynamic';
 import { useEffect, useState } from 'react';
 import { usePathname } from 'next/navigation';
-import { Button, Chip } from '@heroui/react';
 
 import type { ResolvedSessionCardData } from '@/lib/catalog/session-card-data';
 import type { ClassView, Locale, Session, Venue } from '@/lib/catalog/types';
@@ -119,27 +118,22 @@ export function ClassesResultsClient({
     <div className="stack-list">
       <section className="panel view-switcher-panel">
         <div className="view-switcher">
-          <Button radius="full" color={view === 'list' ? 'primary' : 'default'} variant={view === 'list' ? 'solid' : 'bordered'} onPress={() => setView('list')}>
+          <button type="button" className={`button ${view === 'list' ? 'button-primary' : 'button-ghost'}`} onClick={() => setView('list')}>
             {labels.list}
-          </Button>
-          <Button radius="full" color={view === 'map' ? 'primary' : 'default'} variant={view === 'map' ? 'solid' : 'bordered'} onPress={() => setView('map')}>
+          </button>
+          <button type="button" className={`button ${view === 'map' ? 'button-primary' : 'button-ghost'}`} onClick={() => setView('map')}>
             {labels.map}
-          </Button>
-          <Button
-            radius="full"
-            color={view === 'calendar' ? 'primary' : 'default'}
-            variant={view === 'calendar' ? 'solid' : 'bordered'}
-            onPress={() => setView('calendar')}
-          >
+          </button>
+          <button type="button" className={`button ${view === 'calendar' ? 'button-primary' : 'button-ghost'}`} onClick={() => setView('calendar')}>
             {labels.calendar}
-          </Button>
+          </button>
         </div>
       </section>
 
       <section className="panel classes-visible-summary">
-        <Chip radius="full" variant="flat" className="meta-pill">
+        <span className="meta-pill">
           {visibleCount} {labels.visible}
-        </Chip>
+        </span>
       </section>
 
       {view === 'map' ? (

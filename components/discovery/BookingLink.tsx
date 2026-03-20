@@ -1,6 +1,5 @@
 'use client';
 
-import { Button } from '@heroui/react';
 import type { BookingTarget, Locale } from '@/lib/catalog/types';
 
 interface BookingLinkProps {
@@ -29,8 +28,8 @@ export function BookingLink({ citySlug, categorySlug, venueSlug, sessionId, targ
   };
 
   return (
-    <Button as="a" href={target.href} className="button button-primary" color="primary" radius="full" onPress={track} target="_blank" rel="noreferrer">
+    <a href={target.href} className="button button-primary" onClick={track} target="_blank" rel="noreferrer">
       {label}
-    </Button>
+    </a>
   );
 }

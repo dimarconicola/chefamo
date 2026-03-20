@@ -3,7 +3,6 @@
 import NextLink from 'next/link';
 import { useMemo } from 'react';
 import { DateTime } from 'luxon';
-import { Button } from '@heroui/react';
 
 import type { Locale } from '@/lib/catalog/types';
 import type { CalendarEntry } from '@/components/discovery/classes-results.types';
@@ -79,18 +78,17 @@ export function CalendarResultsView({ locale, citySlug, weekOffset, setWeekOffse
           <h2>{calendarRangeLabel}</h2>
         </div>
         <div className="site-actions">
-          <Button
-            variant="ghost"
-            radius="full"
+          <button
+            type="button"
             className="button button-ghost"
-            onPress={() => setWeekOffset((value) => Math.max(0, value - 1))}
-            isDisabled={weekOffset === 0}
+            onClick={() => setWeekOffset((value) => Math.max(0, value - 1))}
+            disabled={weekOffset === 0}
           >
             {labels.previousWeek}
-          </Button>
-          <Button variant="flat" radius="full" className="button button-secondary" onPress={() => setWeekOffset((value) => value + 1)}>
+          </button>
+          <button type="button" className="button button-secondary" onClick={() => setWeekOffset((value) => value + 1)}>
             {labels.nextWeek}
-          </Button>
+          </button>
         </div>
       </div>
       {hasAnyCalendarSessions ? (

@@ -1,7 +1,6 @@
 'use client';
 
 import { useEffect } from 'react';
-import { HeroUIProvider } from '@heroui/react';
 import { ErrorBoundary } from '@/lib/errors/boundary';
 import { setupGlobalErrorHandlers } from '@/lib/errors/global-handlers';
 
@@ -20,7 +19,7 @@ export function AppProviders({ children }: { children: React.ReactNode }) {
 
   return (
     <ErrorBoundary>
-      <HeroUIProvider>{children}</HeroUIProvider>
+      {children}
     </ErrorBoundary>
   );
 }

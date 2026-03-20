@@ -3,7 +3,6 @@
 import dynamic from 'next/dynamic';
 import { useMemo, useState } from 'react';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
-import { Button, Chip } from '@heroui/react';
 
 import type { DiscoveryFilters, Locale } from '@/lib/catalog/types';
 
@@ -198,17 +197,17 @@ export function FilterBar({
           <p className="eyebrow">{labels.title}</p>
           <p className="muted">{labels.subtitle}</p>
         </div>
-        <Button variant="ghost" radius="full" className="button button-ghost" onPress={() => setExpanded((value) => !value)}>
+        <button type="button" className="button button-ghost" onClick={() => setExpanded((value) => !value)}>
           {expanded ? labels.hide : labels.show}
-        </Button>
+        </button>
       </div>
 
       {activeFilters.length > 0 ? (
         <div className="active-filter-strip">
           {activeFilters.map((filter) => (
-            <Chip key={filter} size="sm" radius="full" variant="flat" className="filter-chip">
+            <span key={filter} className="filter-chip">
               {filter}
-            </Chip>
+            </span>
           ))}
         </div>
       ) : null}

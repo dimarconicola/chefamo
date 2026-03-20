@@ -1,7 +1,5 @@
 'use client';
 
-import { Button, Select, SelectItem, type Selection } from '@heroui/react';
-
 import type { Locale, TimeBucket } from '@/lib/catalog/types';
 
 interface FilterBarControlsProps {
@@ -36,6 +34,7 @@ interface FilterBarControlsProps {
     inPerson: string;
     openNow: string;
     dropIn: string;
+    any: string;
   };
   categories: Array<{ slug: string; name: string }>;
   neighborhoods: Array<{ slug: string; name: string }>;
@@ -62,18 +61,17 @@ interface FilterBarControlsProps {
   resetFilters: () => void;
 }
 
-const selectionToList = (selection: Selection): string[] => {
-  if (selection === 'all') return [];
-  return Array.from(selection).map((item) => String(item));
-};
-
-const listToSelection = (value: string | string[] | undefined): Set<string> => {
-  if (!value) return new Set();
-  if (Array.isArray(value)) return new Set(value);
-  return new Set([value]);
-};
-
 const timeOptions: TimeBucket[] = ['early', 'morning', 'midday', 'evening'];
+
+const toggleSetValue = (source: Set<string>, value: string) => {
+  const next = new Set(source);
+  if (next.has(value)) {
+    next.delete(value);
+  } else {
+    next.add(value);
+  }
+  return next;
+};
 
 export function FilterBarControls({
   locale,
@@ -105,131 +103,136 @@ export function FilterBarControls({
   return (
     <>
       <div className="filter-grid filter-grid-expanded filter-grid-ui">
-        <Select
-          label={labels.date}
-          aria-label={labels.date}
-          selectedKeys={listToSelection(dayFilter)}
-          onSelectionChange={(selection) => setDayFilter(selectionToList(selection)[0] ?? '')}
-          className="filter-select"
-        >
-          <SelectItem key="today">{labels.today}</SelectItem>
-          <SelectItem key="tomorrow">{labels.tomorrow}</SelectItem>
-          <SelectItem key="weekend">{labels.weekend}</SelectItem>
-          <SelectItem key="week">{labels.nextWeek}</SelectItem>
-          <SelectItem key="mon">{labels.mon}</SelectItem>
-          <SelectItem key="tue">{labels.tue}</SelectItem>
-          <SelectItem key="wed">{labels.wed}</SelectItem>
-          <SelectItem key="thu">{labels.thu}</SelectItem>
-          <SelectItem key="fri">{labels.fri}</SelectItem>
-          <SelectItem key="sat">{labels.sat}</SelectItem>
-          <SelectItem key="sun">{labels.sun}</SelectItem>
-        </Select>
+        <label>
+          <span>{labels.date}</span>
+          <select value={dayFilter} onChange={(event) => setDayFilter(event.currentTarget.value)}>
+            <option value="">{labels.any}</option>
+            <option value="today">{labels.today}</option>
+            <option value="tomorrow">{labels.tomorrow}</option>
+            <option value="weekend">{labels.weekend}</option>
+            <option value="week">{labels.nextWeek}</option>
+            <option value="mon">{labels.mon}</option>
+            <option value="tue">{labels.tue}</option>
+            <option value="wed">{labels.wed}</option>
+            <option value="thu">{labels.thu}</option>
+            <option value="fri">{labels.fri}</option>
+            <option value="sat">{labels.sat}</option>
+            <option value="sun">{labels.sun}</option>
+          </select>
+        </label>
 
-        <Select
-          label={labels.time}
-          aria-label={labels.time}
-          selectionMode="multiple"
-          selectedKeys={timeBuckets}
-          onSelectionChange={(selection) => setTimeBuckets(new Set(selectionToList(selection)))}
-          className="filter-select"
-        >
-          {timeOptions.map((option) => (
-            <SelectItem key={option}>{labels[option]}</SelectItem>
-          ))}
-        </Select>
+        <fieldset className="filter-multi-group">
+          <legend>{labels.time}</legend>
+          <div className="chip-row">
+            {timeOptions.map((option) => (
+              <label key={option} className="chip-option">
+                <input
+                  type="checkbox"
+                  checked={timeBuckets.has(option)}
+                  onChange={() => setTimeBuckets(toggleSetValue(timeBuckets, option))}
+                />
+                <span>{labels[option]}</span>
+              </label>
+            ))}
+          </div>
+        </fieldset>
 
-        <Select
-          label={labels.category}
-          aria-label={labels.category}
-          selectedKeys={listToSelection(category)}
-          onSelectionChange={(selection) => setCategory(selectionToList(selection)[0] ?? '')}
-          className="filter-select"
-        >
-          {categories.map((item) => (
-            <SelectItem key={item.slug}>{item.name}</SelectItem>
-          ))}
-        </Select>
+        <label>
+          <span>{labels.category}</span>
+          <select value={category} onChange={(event) => setCategory(event.currentTarget.value)}>
+            <option value="">{labels.any}</option>
+            {categories.map((item) => (
+              <option key={item.slug} value={item.slug}>
+                {item.name}
+              </option>
+            ))}
+          </select>
+        </label>
 
-        <Select
-          label={labels.style}
-          aria-label={labels.style}
-          selectedKeys={listToSelection(style)}
-          onSelectionChange={(selection) => setStyle(selectionToList(selection)[0] ?? '')}
-          className="filter-select"
-        >
-          {styles.map((item) => (
-            <SelectItem key={item.slug}>{item.name}</SelectItem>
-          ))}
-        </Select>
+        <label>
+          <span>{labels.style}</span>
+          <select value={style} onChange={(event) => setStyle(event.currentTarget.value)}>
+            <option value="">{labels.any}</option>
+            {styles.map((item) => (
+              <option key={item.slug} value={item.slug}>
+                {item.name}
+              </option>
+            ))}
+          </select>
+        </label>
 
-        <Select
-          label={labels.neighborhood}
-          aria-label={labels.neighborhood}
-          selectedKeys={listToSelection(neighborhood)}
-          onSelectionChange={(selection) => setNeighborhood(selectionToList(selection)[0] ?? '')}
-          className="filter-select"
-        >
-          {neighborhoods.map((item) => (
-            <SelectItem key={item.slug}>{item.name}</SelectItem>
-          ))}
-        </Select>
+        <label>
+          <span>{labels.neighborhood}</span>
+          <select value={neighborhood} onChange={(event) => setNeighborhood(event.currentTarget.value)}>
+            <option value="">{labels.any}</option>
+            {neighborhoods.map((item) => (
+              <option key={item.slug} value={item.slug}>
+                {item.name}
+              </option>
+            ))}
+          </select>
+        </label>
 
-        <Select
-          label={labels.language}
-          aria-label={labels.language}
-          selectedKeys={listToSelection(language)}
-          onSelectionChange={(selection) => setLanguage(selectionToList(selection)[0] ?? '')}
-          className="filter-select"
-        >
-          <SelectItem key="Italian">Italian</SelectItem>
-          <SelectItem key="English">English</SelectItem>
-        </Select>
+        <label>
+          <span>{labels.language}</span>
+          <select value={language} onChange={(event) => setLanguage(event.currentTarget.value)}>
+            <option value="">{labels.any}</option>
+            <option value="Italian">Italian</option>
+            <option value="English">English</option>
+          </select>
+        </label>
 
-        <Select
-          label={labels.level}
-          aria-label={labels.level}
-          selectedKeys={listToSelection(level)}
-          onSelectionChange={(selection) => setLevel(selectionToList(selection)[0] ?? '')}
-          className="filter-select"
-        >
-          <SelectItem key="beginner">{locale === 'it' ? 'Principianti' : 'Beginner'}</SelectItem>
-          <SelectItem key="open">{locale === 'it' ? 'Aperti a tutti' : 'Open'}</SelectItem>
-          <SelectItem key="intermediate">{locale === 'it' ? 'Intermedio' : 'Intermediate'}</SelectItem>
-          <SelectItem key="advanced">{locale === 'it' ? 'Avanzato' : 'Advanced'}</SelectItem>
-        </Select>
+        <label>
+          <span>{labels.level}</span>
+          <select value={level} onChange={(event) => setLevel(event.currentTarget.value)}>
+            <option value="">{labels.any}</option>
+            <option value="beginner">{locale === 'it' ? 'Principianti' : 'Beginner'}</option>
+            <option value="open">{locale === 'it' ? 'Aperti a tutti' : 'Open'}</option>
+            <option value="intermediate">{locale === 'it' ? 'Intermedio' : 'Intermediate'}</option>
+            <option value="advanced">{locale === 'it' ? 'Avanzato' : 'Advanced'}</option>
+          </select>
+        </label>
 
-        <Select
-          label={labels.format}
-          aria-label={labels.format}
-          selectedKeys={listToSelection(format)}
-          onSelectionChange={(selection) => setFormat(selectionToList(selection)[0] ?? '')}
-          className="filter-select"
-        >
-          <SelectItem key="in_person">{labels.inPerson}</SelectItem>
-          <SelectItem key="hybrid">Hybrid</SelectItem>
-          <SelectItem key="online">Online</SelectItem>
-        </Select>
+        <label>
+          <span>{labels.format}</span>
+          <select value={format} onChange={(event) => setFormat(event.currentTarget.value)}>
+            <option value="">{labels.any}</option>
+            <option value="in_person">{labels.inPerson}</option>
+            <option value="hybrid">Hybrid</option>
+            <option value="online">Online</option>
+          </select>
+        </label>
 
-        <Select
-          label={labels.availability}
-          aria-label={labels.availability}
-          selectionMode="multiple"
-          selectedKeys={availability}
-          onSelectionChange={(selection) => setAvailability(new Set(selectionToList(selection)))}
-          className="filter-select"
-        >
-          <SelectItem key="open_now">{labels.openNow}</SelectItem>
-          <SelectItem key="drop_in">{labels.dropIn}</SelectItem>
-        </Select>
+        <fieldset className="filter-multi-group">
+          <legend>{labels.availability}</legend>
+          <div className="chip-row">
+            <label className="chip-option">
+              <input
+                type="checkbox"
+                checked={availability.has('open_now')}
+                onChange={() => setAvailability(toggleSetValue(availability, 'open_now'))}
+              />
+              <span>{labels.openNow}</span>
+            </label>
+            <label className="chip-option">
+              <input
+                type="checkbox"
+                checked={availability.has('drop_in')}
+                onChange={() => setAvailability(toggleSetValue(availability, 'drop_in'))}
+              />
+              <span>{labels.dropIn}</span>
+            </label>
+          </div>
+        </fieldset>
       </div>
 
       <div className="filter-panel-actions filter-panel-actions-bottom">
-        <Button variant="ghost" radius="full" className="button button-ghost" onPress={resetFilters}>
+        <button type="button" className="button button-ghost" onClick={resetFilters}>
           {labels.reset}
-        </Button>
-        <Button color="primary" radius="full" className="button button-primary" onPress={applyFilters}>
+        </button>
+        <button type="button" className="button button-primary" onClick={applyFilters}>
           {labels.apply}
-        </Button>
+        </button>
       </div>
     </>
   );
