@@ -674,6 +674,43 @@ main.site-main {
   line-height: 1.6;
 }
 
+.dialog-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 70;
+  display: grid;
+  place-items: center;
+  padding: 1rem;
+  background: rgba(30, 24, 18, 0.42);
+  backdrop-filter: blur(10px);
+}
+
+.dialog-panel {
+  width: min(100%, 42rem);
+  max-height: min(88vh, 54rem);
+  overflow: auto;
+}
+
+.dialog-head {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  align-items: flex-start;
+}
+
+.dialog-close {
+  border: 0;
+  background: transparent;
+  color: var(--muted);
+  font: inherit;
+  cursor: pointer;
+  padding: 0.15rem 0;
+}
+
+.dialog-body {
+  margin-top: 0.8rem;
+}
+
 .session-card-shell {
   display: grid;
   gap: 1rem;
@@ -2253,6 +2290,22 @@ h4 {
 
 .newsletter-inline-digest [data-slot='base'] {
   grid-column: 1 / -1;
+}
+
+.newsletter-inline-digest label {
+  grid-column: 1 / -1;
+}
+
+.newsletter-inline-digest input {
+  color: #ffffff;
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.2);
+  border-radius: 999px;
+  min-height: 3rem;
+}
+
+.newsletter-inline-digest input::placeholder {
+  color: rgba(232, 240, 233, 0.72);
 }
 
 .newsletter-inline-digest [data-slot='input-wrapper'] {
