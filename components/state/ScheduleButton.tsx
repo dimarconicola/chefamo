@@ -2,7 +2,6 @@
 
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { Button } from '@heroui/react';
 
 import { readStoredSchedule, syncStoredSchedule, toggleStoredSchedule } from '@/components/state/storage';
 
@@ -69,8 +68,8 @@ export function ScheduleButton({ sessionId, locale, signedInEmail, label }: Sche
   };
 
   return (
-    <Button className="button button-secondary" variant="flat" radius="full" type="button" onPress={toggle} isDisabled={pending}>
+    <button className="button button-secondary" type="button" onClick={toggle} disabled={pending}>
       {saved ? (locale === 'it' ? 'Salvata' : 'Saved') : label}
-    </Button>
+    </button>
   );
 }

@@ -2,7 +2,6 @@
 
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { Button } from '@heroui/react';
 
 import { readStoredFavorites, syncStoredFavorite, toFavoriteKey, toggleStoredFavorite } from '@/components/state/storage';
 
@@ -72,8 +71,8 @@ export function FavoriteButton({ entitySlug, entityType, locale, signedInEmail, 
   };
 
   return (
-    <Button className="button button-ghost" variant="ghost" radius="full" onPress={toggle} type="button" isDisabled={pending}>
+    <button className="button button-ghost" onClick={toggle} type="button" disabled={pending}>
       {saved ? savedLabel : label}
-    </Button>
+    </button>
   );
 }

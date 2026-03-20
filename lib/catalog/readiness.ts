@@ -1,5 +1,6 @@
 import { DateTime } from 'luxon';
 
+import type { CatalogSnapshot } from '@/lib/catalog/repository';
 import { getCatalogSnapshot } from '@/lib/catalog/repository';
 import { sessions, styles, venues } from '@/lib/catalog/seed';
 import type { CityReadiness } from '@/lib/catalog/types';
@@ -28,7 +29,10 @@ export const getCityReadiness = (citySlug: string): CityReadiness => {
 };
 
 export const getCityReadinessServer = async (citySlug: string): Promise<CityReadiness> => {
-  const catalog = await getCatalogSnapshot();
+  return getCityReadinessFromSnapshot(await getCatalogSnapshot(), citySlug);
+};
+
+export const getCityReadinessFromSnapshot = (catalog: CatalogSnapshot, citySlug: string): CityReadiness => {
   const now = DateTime.now().setZone('Europe/Rome');
   const limit = now.plus({ days: 7 }).endOf('day');
   const visibleCategories = new Set(

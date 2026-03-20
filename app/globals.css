@@ -317,7 +317,24 @@ main.site-main {
   color: var(--muted);
 }
 
+.filter-multi-group {
+  display: grid;
+  gap: 0.55rem;
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  color: var(--muted);
+}
+
+.filter-multi-group legend {
+  padding: 0;
+  margin-bottom: 0.1rem;
+  font-size: 0.95rem;
+}
+
 .filter-grid select,
+.form-stack select,
 .form-stack input,
 .form-stack textarea,
 .digest-form input {
@@ -671,6 +688,43 @@ main.site-main {
   color: var(--muted);
   font-size: 0.96rem;
   line-height: 1.6;
+}
+
+.dialog-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 70;
+  display: grid;
+  place-items: center;
+  padding: 1rem;
+  background: rgba(30, 24, 18, 0.42);
+  backdrop-filter: blur(10px);
+}
+
+.dialog-panel {
+  width: min(100%, 42rem);
+  max-height: min(88vh, 54rem);
+  overflow: auto;
+}
+
+.dialog-head {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  align-items: flex-start;
+}
+
+.dialog-close {
+  border: 0;
+  background: transparent;
+  color: var(--muted);
+  font: inherit;
+  cursor: pointer;
+  padding: 0.15rem 0;
+}
+
+.dialog-body {
+  margin-top: 0.8rem;
 }
 
 .session-card-shell {
@@ -1306,10 +1360,28 @@ body {
 }
 
 .filter-grid select,
+.form-stack select,
 .form-stack input,
 .form-stack textarea,
 .digest-form input {
   background: rgba(255, 255, 255, 0.9);
+}
+
+.checkbox-field {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  padding: 0.85rem 1rem;
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.78);
+  color: var(--muted);
+  line-height: 1.45;
+}
+
+.checkbox-field input {
+  margin-top: 0.18rem;
+  accent-color: var(--brand);
 }
 
 .filter-checkbox {
@@ -2234,6 +2306,22 @@ h4 {
 
 .newsletter-inline-digest [data-slot='base'] {
   grid-column: 1 / -1;
+}
+
+.newsletter-inline-digest label {
+  grid-column: 1 / -1;
+}
+
+.newsletter-inline-digest input {
+  color: #ffffff;
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.2);
+  border-radius: 999px;
+  min-height: 3rem;
+}
+
+.newsletter-inline-digest input::placeholder {
+  color: rgba(232, 240, 233, 0.72);
 }
 
 .newsletter-inline-digest [data-slot='input-wrapper'] {

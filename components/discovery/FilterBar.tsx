@@ -1,10 +1,12 @@
 'use client';
 
+import dynamic from 'next/dynamic';
 import { useMemo, useState } from 'react';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
-import { Button, Chip, Select, SelectItem, type Selection } from '@heroui/react';
 
-import type { DiscoveryFilters, Locale, TimeBucket } from '@/lib/catalog/types';
+import type { DiscoveryFilters, Locale } from '@/lib/catalog/types';
+
+const FilterBarControls = dynamic(() => import('@/components/discovery/FilterBarControls').then((module) => module.FilterBarControls));
 
 interface FilterBarProps {
   locale: Locale;
@@ -90,19 +92,6 @@ const copy = {
     dropIn: 'Solo drop-in'
   }
 } as const;
-
-const selectionToList = (selection: Selection): string[] => {
-  if (selection === 'all') return [];
-  return Array.from(selection).map((item) => String(item));
-};
-
-const listToSelection = (value: string | string[] | undefined): Set<string> => {
-  if (!value) return new Set();
-  if (Array.isArray(value)) return new Set(value);
-  return new Set([value]);
-};
-
-const timeOptions: TimeBucket[] = ['early', 'morning', 'midday', 'evening'];
 
 export function FilterBar({
   locale,
@@ -208,151 +197,49 @@ export function FilterBar({
           <p className="eyebrow">{labels.title}</p>
           <p className="muted">{labels.subtitle}</p>
         </div>
-        <Button variant="ghost" radius="full" className="button button-ghost" onPress={() => setExpanded((value) => !value)}>
+        <button type="button" className="button button-ghost" onClick={() => setExpanded((value) => !value)}>
           {expanded ? labels.hide : labels.show}
-        </Button>
+        </button>
       </div>
 
       {activeFilters.length > 0 ? (
         <div className="active-filter-strip">
           {activeFilters.map((filter) => (
-            <Chip key={filter} size="sm" radius="full" variant="flat" className="filter-chip">
+            <span key={filter} className="filter-chip">
               {filter}
-            </Chip>
+            </span>
           ))}
         </div>
       ) : null}
 
       {expanded ? (
-        <>
-          <div className="filter-grid filter-grid-expanded filter-grid-ui">
-            <Select
-              label={labels.date}
-              aria-label={labels.date}
-              selectedKeys={listToSelection(dayFilter)}
-              onSelectionChange={(selection) => setDayFilter(selectionToList(selection)[0] ?? '')}
-              className="filter-select"
-            >
-              <SelectItem key="today">{labels.today}</SelectItem>
-              <SelectItem key="tomorrow">{labels.tomorrow}</SelectItem>
-              <SelectItem key="weekend">{labels.weekend}</SelectItem>
-              <SelectItem key="week">{labels.nextWeek}</SelectItem>
-              <SelectItem key="mon">{labels.mon}</SelectItem>
-              <SelectItem key="tue">{labels.tue}</SelectItem>
-              <SelectItem key="wed">{labels.wed}</SelectItem>
-              <SelectItem key="thu">{labels.thu}</SelectItem>
-              <SelectItem key="fri">{labels.fri}</SelectItem>
-              <SelectItem key="sat">{labels.sat}</SelectItem>
-              <SelectItem key="sun">{labels.sun}</SelectItem>
-            </Select>
-
-            <Select
-              label={labels.time}
-              aria-label={labels.time}
-              selectionMode="multiple"
-              selectedKeys={timeBuckets}
-              onSelectionChange={(selection) => setTimeBuckets(new Set(selectionToList(selection)))}
-              className="filter-select"
-            >
-              {timeOptions.map((option) => (
-                <SelectItem key={option}>{labels[option]}</SelectItem>
-              ))}
-            </Select>
-
-            <Select
-              label={labels.category}
-              aria-label={labels.category}
-              selectedKeys={listToSelection(category)}
-              onSelectionChange={(selection) => setCategory(selectionToList(selection)[0] ?? '')}
-              className="filter-select"
-            >
-              {categories.map((item) => (
-                <SelectItem key={item.slug}>{item.name}</SelectItem>
-              ))}
-            </Select>
-
-            <Select
-              label={labels.style}
-              aria-label={labels.style}
-              selectedKeys={listToSelection(style)}
-              onSelectionChange={(selection) => setStyle(selectionToList(selection)[0] ?? '')}
-              className="filter-select"
-            >
-              {styles.map((item) => (
-                <SelectItem key={item.slug}>{item.name}</SelectItem>
-              ))}
-            </Select>
-
-            <Select
-              label={labels.neighborhood}
-              aria-label={labels.neighborhood}
-              selectedKeys={listToSelection(neighborhood)}
-              onSelectionChange={(selection) => setNeighborhood(selectionToList(selection)[0] ?? '')}
-              className="filter-select"
-            >
-              {neighborhoods.map((item) => (
-                <SelectItem key={item.slug}>{item.name}</SelectItem>
-              ))}
-            </Select>
-
-            <Select
-              label={labels.language}
-              aria-label={labels.language}
-              selectedKeys={listToSelection(language)}
-              onSelectionChange={(selection) => setLanguage(selectionToList(selection)[0] ?? '')}
-              className="filter-select"
-            >
-              <SelectItem key="Italian">Italian</SelectItem>
-              <SelectItem key="English">English</SelectItem>
-            </Select>
-
-            <Select
-              label={labels.level}
-              aria-label={labels.level}
-              selectedKeys={listToSelection(level)}
-              onSelectionChange={(selection) => setLevel(selectionToList(selection)[0] ?? '')}
-              className="filter-select"
-            >
-              <SelectItem key="beginner">{locale === 'it' ? 'Principianti' : 'Beginner'}</SelectItem>
-              <SelectItem key="open">{locale === 'it' ? 'Aperti a tutti' : 'Open'}</SelectItem>
-              <SelectItem key="intermediate">{locale === 'it' ? 'Intermedio' : 'Intermediate'}</SelectItem>
-              <SelectItem key="advanced">{locale === 'it' ? 'Avanzato' : 'Advanced'}</SelectItem>
-            </Select>
-
-            <Select
-              label={labels.format}
-              aria-label={labels.format}
-              selectedKeys={listToSelection(format)}
-              onSelectionChange={(selection) => setFormat(selectionToList(selection)[0] ?? '')}
-              className="filter-select"
-            >
-              <SelectItem key="in_person">{labels.inPerson}</SelectItem>
-              <SelectItem key="hybrid">Hybrid</SelectItem>
-              <SelectItem key="online">Online</SelectItem>
-            </Select>
-
-            <Select
-              label={labels.availability}
-              aria-label={labels.availability}
-              selectionMode="multiple"
-              selectedKeys={availability}
-              onSelectionChange={(selection) => setAvailability(new Set(selectionToList(selection)))}
-              className="filter-select"
-            >
-              <SelectItem key="open_now">{labels.openNow}</SelectItem>
-              <SelectItem key="drop_in">{labels.dropIn}</SelectItem>
-            </Select>
-          </div>
-
-          <div className="filter-panel-actions filter-panel-actions-bottom">
-            <Button variant="ghost" radius="full" className="button button-ghost" onPress={resetFilters}>
-              {labels.reset}
-            </Button>
-            <Button color="primary" radius="full" className="button button-primary" onPress={applyFilters}>
-              {labels.apply}
-            </Button>
-          </div>
-        </>
+        <FilterBarControls
+          locale={locale}
+          labels={labels}
+          categories={categories}
+          neighborhoods={neighborhoods}
+          styles={styles}
+          dayFilter={dayFilter}
+          setDayFilter={setDayFilter}
+          timeBuckets={timeBuckets}
+          setTimeBuckets={setTimeBuckets}
+          category={category}
+          setCategory={setCategory}
+          style={style}
+          setStyle={setStyle}
+          level={level}
+          setLevel={setLevel}
+          language={language}
+          setLanguage={setLanguage}
+          neighborhood={neighborhood}
+          setNeighborhood={setNeighborhood}
+          format={format}
+          setFormat={setFormat}
+          availability={availability}
+          setAvailability={setAvailability}
+          applyFilters={applyFilters}
+          resetFilters={resetFilters}
+        />
       ) : null}
 
       {activePreview.length === 0 ? null : (

@@ -1,14 +1,14 @@
-import NextLink from 'next/link';
-import { Button, Chip } from '@heroui/react';
+import { notFound } from 'next/navigation';
 
 import { ClassesResultsClient } from '@/components/discovery/ClassesResultsClient';
+import type { CalendarEntry as ClassesCalendarEntry } from '@/components/discovery/classes-results.types';
 import { FilterBar } from '@/components/discovery/FilterBar';
+import { ServerButtonLink, ServerChip } from '@/components/ui/server';
 import { getSessionUser } from '@/lib/auth/session';
+import { applySessionFilters } from '@/lib/catalog/filters';
+import { getCatalogSnapshot } from '@/lib/catalog/repository';
 import { resolveSessionCardData } from '@/lib/catalog/session-card-data';
-import { getCityMetrics, getNeighborhoods, getPublicCategories, getSessions, getStyles, getVenue } from '@/lib/catalog/server-data';
 import { parseFilters } from '@/lib/catalog/filters';
-import { requirePublicCityServer } from '@/lib/catalog/guards';
-import { getCityReadinessServer } from '@/lib/catalog/readiness';
 import type { ClassView } from '@/lib/catalog/types';
 import { getDictionary } from '@/lib/i18n/dictionaries';
 import { resolveLocale } from '@/lib/i18n/routing';
@@ -42,11 +42,9 @@ export default async function ClassesPage({
   const { locale: rawLocale, city: citySlug } = await params;
   const locale = resolveLocale(rawLocale);
   const dict = getDictionary(locale);
-  const city = await requirePublicCityServer(citySlug);
   const rawSearch = await searchParams;
   const urlParams = flattenParams(rawSearch);
   const filters = parseFilters(rawSearch);
-  const user = await getSessionUser();
 
   const requestedView = urlParams.get('view');
   const view: ClassView = isClassView(requestedView) ? requestedView : 'list';
@@ -54,21 +52,52 @@ export default async function ClassesPage({
   const requestedWeekOffset = Number.parseInt(urlParams.get('week_offset') ?? '0', 10);
   const weekOffset = Number.isFinite(requestedWeekOffset) ? Math.max(0, requestedWeekOffset) : 0;
 
-  const [metrics, readiness, categories, neighborhoods, allStyles, weekSessions, filteredSessions] = await Promise.all([
-    getCityMetrics(citySlug),
-    getCityReadinessServer(citySlug),
-    getPublicCategories(citySlug),
-    getNeighborhoods(citySlug),
-    getStyles(),
-    getSessions(citySlug, { date: 'week' }),
-    getSessions(citySlug, filters)
-  ]);
+  const [catalog, user] = await Promise.all([getCatalogSnapshot(), getSessionUser()]);
+  const city = catalog.cities.find((item) => item.slug === citySlug && item.status === 'public');
+  if (!city) notFound();
+
+  const categories = catalog.categories.filter((item) => item.citySlug === citySlug && item.visibility !== 'hidden');
+  const neighborhoods = catalog.neighborhoods.filter((item) => item.citySlug === citySlug);
+  const allStyles = catalog.styles;
+  const cityVenues = catalog.venues.filter((venue) => venue.citySlug === citySlug);
+  const venueBySlug = new Map(cityVenues.map((venue) => [venue.slug, venue]));
+  const visibleCategorySlugs = new Set(categories.map((category) => category.slug));
+  const baseSessions = catalog.sessions.filter(
+    (session) =>
+      session.citySlug === citySlug &&
+      session.verificationStatus !== 'hidden' &&
+      visibleCategorySlugs.has(session.categorySlug)
+  );
+  const filterByNeighborhood = <T extends { venueSlug: string }>(sessions: T[]) =>
+    sessions.filter((session) => {
+      if (!filters.neighborhood) return true;
+      return venueBySlug.get(session.venueSlug)?.neighborhoodSlug === filters.neighborhood;
+    });
+
+  const weekSessions = filterByNeighborhood(applySessionFilters(baseSessions, { date: 'week' }));
+  const filteredSessions = filterByNeighborhood(applySessionFilters(baseSessions, filters));
   const cityStyleSlugs = new Set(weekSessions.map((session) => session.styleSlug));
+  const metrics = {
+    venues: cityVenues.length,
+    sessions: weekSessions.length,
+    neighborhoods: new Set(cityVenues.map((venue) => venue.neighborhoodSlug)).size,
+    styles: new Set(weekSessions.map((session) => session.styleSlug)).size
+  };
+  const readiness = {
+    ctaCoverage:
+      weekSessions.length === 0 ? 0 : weekSessions.filter((session) => Boolean(session.bookingTargetSlug)).length / weekSessions.length,
+    passesGate:
+      cityVenues.length >= 12 &&
+      weekSessions.length >= 75 &&
+      new Set(cityVenues.map((venue) => venue.neighborhoodSlug)).size >= 4 &&
+      new Set(weekSessions.map((session) => session.styleSlug)).size >= 4 &&
+      (weekSessions.length === 0 ? 0 : weekSessions.filter((session) => Boolean(session.bookingTargetSlug)).length / weekSessions.length) >= 0.8
+  };
 
   const sessionResults = filteredSessions.sort((left, right) => left.startAt.localeCompare(right.startAt));
-  const visibleVenueRows = await Promise.all([...new Set(sessionResults.map((session) => session.venueSlug))].map((slug) => getVenue(slug)));
-  const visibleVenues = visibleVenueRows.filter((venue): venue is NonNullable<typeof venue> => Boolean(venue));
-  const resolvedSessionCards = Object.fromEntries(await resolveSessionCardData(sessionResults));
+  const visibleVenues = [...new Set(sessionResults.map((session) => session.venueSlug))]
+    .map((slug) => venueBySlug.get(slug))
+    .filter((venue): venue is NonNullable<typeof venue> => Boolean(venue));
   const styleLabelBySlug = new Map(allStyles.map((style) => [style.slug, style.name[locale]]));
 
   const selectedTimeBuckets = filters.time_buckets?.length
@@ -148,6 +177,23 @@ export default async function ClassesPage({
   const currentPage = Math.min(Math.max(Number.isFinite(requestedPage) ? requestedPage : 1, 1), totalPages);
   const pageSliceStart = (currentPage - 1) * pageSize;
   const pagedSessions = sessionResults.slice(pageSliceStart, pageSliceStart + pageSize);
+  const resolvedSessionCards = Object.fromEntries(await resolveSessionCardData(pagedSessions));
+  const visibleVenueNameBySlug = new Map(visibleVenues.map((venue) => [venue.slug, venue.name]));
+  const timeFormatter = new Intl.DateTimeFormat('en-GB', {
+    hour: '2-digit',
+    minute: '2-digit',
+    hour12: false,
+    timeZone: 'Europe/Rome'
+  });
+  const calendarEntries: ClassesCalendarEntry[] = sessionResults.map((session) => ({
+    sessionId: session.id,
+    venueSlug: session.venueSlug,
+    title: session.title[locale],
+    venueName: visibleVenueNameBySlug.get(session.venueSlug) ?? session.venueSlug,
+    startLabel: timeFormatter.format(new Date(session.startAt)),
+    endLabel: timeFormatter.format(new Date(session.endAt)),
+    startAt: session.startAt
+  }));
 
   const intro =
     locale === 'it'
@@ -171,29 +217,23 @@ export default async function ClassesPage({
           <h1>{dict.classes}</h1>
           <p className="lead">{intro}</p>
           <div className="badge-row classes-hero-badges">
-            <Chip radius="full" variant="flat" className="meta-pill">
+            <ServerChip tone="meta">
               {sessionResults.length} {badgeCopy.matches}
-            </Chip>
-            <Chip radius="full" variant="flat" className="meta-pill">
+            </ServerChip>
+            <ServerChip tone="meta">
               {visibleVenues.length} {badgeCopy.venues}
-            </Chip>
-            <Chip radius="full" variant="flat" className="meta-pill">
+            </ServerChip>
+            <ServerChip tone="meta">
               {metrics.styles} {badgeCopy.styles}
-            </Chip>
+            </ServerChip>
           </div>
           <div className="site-actions classes-hero-actions">
-            <Button as={NextLink} href={`/${locale}/${citySlug}`} variant="ghost" radius="full" className="button button-ghost">
+            <ServerButtonLink href={`/${locale}/${citySlug}`} className="button-ghost">
               {badgeCopy.back}
-            </Button>
-            <Button
-              as={NextLink}
-              href={`/${locale}/${citySlug}/collections/today-nearby`}
-              variant="flat"
-              radius="full"
-              className="button button-secondary"
-            >
+            </ServerButtonLink>
+            <ServerButtonLink href={`/${locale}/${citySlug}/collections/today-nearby`} className="button-secondary">
               {dict.todayNearby}
-            </Button>
+            </ServerButtonLink>
           </div>
         </div>
         <div className="panel classes-hero-side">
@@ -235,10 +275,11 @@ export default async function ClassesPage({
         cityName={city.name[locale]}
         bounds={city.bounds}
         initialView={view}
-        sessionResults={sessionResults}
+        visibleCount={sessionResults.length}
         pagedSessions={pagedSessions}
         resolvedSessionCards={resolvedSessionCards}
         visibleVenues={visibleVenues}
+        calendarEntries={calendarEntries}
         signedInEmail={user?.email}
         scheduleLabel={locale === 'it' ? 'Aggiungi in agenda' : 'Add to schedule'}
         noResultsLabel={dict.noResults}

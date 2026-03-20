@@ -1,7 +1,6 @@
 'use client';
 
 import { useState } from 'react';
-import { Button, Input, Textarea } from '@heroui/react';
 
 import type { Locale } from '@/lib/catalog/types';
 
@@ -57,14 +56,28 @@ export function ClaimForm({
         event.currentTarget.reset();
       }}
     >
-      <Input name="name" label={labels.name} required />
-      <Input name="email" type="email" label={labels.email} required />
-      <Input name="role" label={labels.role} placeholder={labels.rolePlaceholder} required />
-      <Textarea name="notes" label={labels.notes} minRows={4} placeholder={labels.notesPlaceholder} required />
-      <Button className="button button-primary" color="primary" radius="full" type="submit" isDisabled={status === 'loading'}>
+      <label>
+        <span>{labels.name}</span>
+        <input name="name" required />
+      </label>
+      <label>
+        <span>{labels.email}</span>
+        <input name="email" type="email" required />
+      </label>
+      <label>
+        <span>{labels.role}</span>
+        <input name="role" placeholder={labels.rolePlaceholder} required />
+      </label>
+      <label>
+        <span>{labels.notes}</span>
+        <textarea name="notes" rows={4} placeholder={labels.notesPlaceholder} required />
+      </label>
+      <button className="button button-primary" type="submit" disabled={status === 'loading'}>
         {status === 'loading' ? labels.submitting : labels.submit}
-      </Button>
-      {status === 'done' ? <p className="muted">{labels.done}</p> : null}
+      </button>
+      <div aria-live="polite">
+        {status === 'done' ? <p className="muted">{labels.done}</p> : null}
+      </div>
     </form>
   );
 }

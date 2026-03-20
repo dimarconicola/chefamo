@@ -1,14 +1,13 @@
 import { notFound } from 'next/navigation';
 import { DateTime } from 'luxon';
-import { Button, Chip, Link } from '@heroui/react';
 
 import { VenueCover } from '@/components/catalog/VenueCover';
 import { ClaimFormDialog } from '@/components/forms/ClaimFormDialog';
 import { SessionCard } from '@/components/discovery/SessionCard';
+import { ServerButtonLink, ServerChip, ServerLink } from '@/components/ui/server';
 import { getSessionUser } from '@/lib/auth/session';
-import { resolveSessionCardData } from '@/lib/catalog/session-card-data';
-import { getNeighborhoods, getVenue, getVenueSessions } from '@/lib/catalog/server-data';
-import { requirePublicCityServer } from '@/lib/catalog/guards';
+import { getCatalogSnapshot } from '@/lib/catalog/repository';
+import { resolveSessionCardDataFromSnapshot } from '@/lib/catalog/session-card-data';
 import { getDictionary } from '@/lib/i18n/dictionaries';
 import { resolveLocale } from '@/lib/i18n/routing';
 import { formatVerifiedAt } from '@/lib/ui/format';
@@ -17,16 +16,19 @@ export default async function StudioPage({ params }: { params: Promise<{ locale:
   const { locale: rawLocale, city: citySlug, slug } = await params;
   const locale = resolveLocale(rawLocale);
   const dict = getDictionary(locale);
-  await requirePublicCityServer(citySlug);
-  const venue = await getVenue(slug);
+  const catalog = await getCatalogSnapshot();
+  const city = catalog.cities.find((item) => item.slug === citySlug);
+  if (!city || city.status !== 'public') notFound();
+  const venue = catalog.venues.find((item) => item.slug === slug && item.citySlug === citySlug);
   if (!venue) notFound();
 
-  const [neighborhoods, venueSessions] = await Promise.all([getNeighborhoods(citySlug), getVenueSessions(slug)]);
+  const neighborhoods = catalog.neighborhoods.filter((item) => item.citySlug === citySlug);
+  const venueSessions = catalog.sessions.filter((session) => session.venueSlug === slug);
   const neighborhood = neighborhoods.find((item) => item.slug === venue.neighborhoodSlug);
   const sessions = venueSessions
     .sort((left, right) => left.startAt.localeCompare(right.startAt))
     .slice(0, 20);
-  const [user, resolvedSessions] = await Promise.all([getSessionUser(), resolveSessionCardData(sessions)]);
+  const [user, resolvedSessions] = await Promise.all([getSessionUser(), Promise.resolve(resolveSessionCardDataFromSnapshot(catalog, sessions))]);
   const groupedSessions = Object.values(
     sessions.reduce<Record<string, typeof sessions>>((groups, session) => {
       const key = DateTime.fromISO(session.startAt).setZone('Europe/Rome').toISODate();
@@ -74,9 +76,9 @@ export default async function StudioPage({ params }: { params: Promise<{ locale:
               <p className="lead">{venue.description[locale]}</p>
               <div className="profile-chip-row">
                 {venue.amenities.map((amenity) => (
-                  <Chip key={amenity} radius="sm" size="sm" variant="flat" color="default">
+                  <ServerChip key={amenity} tone="meta">
                     {amenity}
-                  </Chip>
+                  </ServerChip>
                 ))}
               </div>
               <div className="profile-meta">
@@ -85,9 +87,9 @@ export default async function StudioPage({ params }: { params: Promise<{ locale:
               </div>
               <div className="site-actions profile-links">
                 {hasWebsite ? (
-                  <Button as="a" href={venue.sourceUrl} className="button button-secondary" variant="flat" radius="full" target="_blank" rel="noreferrer">
+                  <ServerButtonLink href={venue.sourceUrl} className="button-secondary" target="_blank" rel="noreferrer">
                     {profileCopy.website}
-                  </Button>
+                  </ServerButtonLink>
                 ) : null}
               </div>
             </div>
@@ -100,9 +102,9 @@ export default async function StudioPage({ params }: { params: Promise<{ locale:
             <h2>{profileCopy.schedule}</h2>
             <p className="muted">
               {profileCopy.source}:{' '}
-              <Link as="a" href={venue.sourceUrl} target="_blank" rel="noreferrer" className="inline-link">
+              <ServerLink href={venue.sourceUrl} target="_blank" rel="noreferrer" className="inline-link">
                 {venue.sourceUrl}
-              </Link>
+              </ServerLink>
             </p>
             <div className="classes-stat-grid profile-metrics">
               <div className="classes-stat-card">
@@ -143,9 +145,9 @@ export default async function StudioPage({ params }: { params: Promise<{ locale:
                     <h2>{day.toFormat(locale === 'it' ? 'd LLLL' : 'd LLLL')}</h2>
                   </div>
                   <div className="day-group-meta">
-                    <Chip radius="full" variant="flat" className="meta-pill">
+                    <ServerChip tone="meta">
                       {daySessions.length}
-                    </Chip>
+                    </ServerChip>
                   </div>
                 </div>
                 <div className="session-day-stack">
