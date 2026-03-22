@@ -12,6 +12,7 @@ import { parseFilters } from '@/lib/catalog/filters';
 import type { ClassView } from '@/lib/catalog/types';
 import { getDictionary } from '@/lib/i18n/dictionaries';
 import { resolveLocale } from '@/lib/i18n/routing';
+import { getRuntimeCapabilities } from '@/lib/runtime/capabilities';
 
 const isClassView = (value: string | null): value is ClassView => value === 'list' || value === 'map' || value === 'calendar';
 
@@ -52,7 +53,7 @@ export default async function ClassesPage({
   const requestedWeekOffset = Number.parseInt(urlParams.get('week_offset') ?? '0', 10);
   const weekOffset = Number.isFinite(requestedWeekOffset) ? Math.max(0, requestedWeekOffset) : 0;
 
-  const [catalog, user] = await Promise.all([getCatalogSnapshot(), getSessionUser()]);
+  const [catalog, user, runtimeCapabilities] = await Promise.all([getCatalogSnapshot(), getSessionUser(), getRuntimeCapabilities()]);
   const city = catalog.cities.find((item) => item.slug === citySlug && item.status === 'public');
   if (!city) notFound();
 
@@ -83,17 +84,6 @@ export default async function ClassesPage({
     neighborhoods: new Set(cityVenues.map((venue) => venue.neighborhoodSlug)).size,
     styles: new Set(weekSessions.map((session) => session.styleSlug)).size
   };
-  const readiness = {
-    ctaCoverage:
-      weekSessions.length === 0 ? 0 : weekSessions.filter((session) => Boolean(session.bookingTargetSlug)).length / weekSessions.length,
-    passesGate:
-      cityVenues.length >= 12 &&
-      weekSessions.length >= 75 &&
-      new Set(cityVenues.map((venue) => venue.neighborhoodSlug)).size >= 4 &&
-      new Set(weekSessions.map((session) => session.styleSlug)).size >= 4 &&
-      (weekSessions.length === 0 ? 0 : weekSessions.filter((session) => Boolean(session.bookingTargetSlug)).length / weekSessions.length) >= 0.8
-  };
-
   const sessionResults = filteredSessions.sort((left, right) => left.startAt.localeCompare(right.startAt));
   const visibleVenues = [...new Set(sessionResults.map((session) => session.venueSlug))]
     .map((slug) => venueBySlug.get(slug))
@@ -199,11 +189,6 @@ export default async function ClassesPage({
     locale === 'it'
       ? 'Classi verificate, filtri coerenti e azioni dirette su prenotazione o contatto.'
       : 'Verified classes with consistent filters and direct booking/contact actions.';
-  const trustCopy =
-    locale === 'it'
-      ? 'La soglia resta visibile per mantenere trasparenza su copertura e affidabilità locale.'
-      : 'The supply gate stays visible so coverage and trust remain transparent.';
-
   const badgeCopy =
     locale === 'it'
       ? { matches: 'corrispondenze', venues: 'studi', styles: 'stili attivi', back: 'Torna alla città' }
@@ -211,7 +196,7 @@ export default async function ClassesPage({
 
   return (
     <div className="stack-list classes-page classes-page-refresh">
-      <section className="classes-hero">
+      <section className="classes-hero classes-hero-single">
         <div className="hero-copy classes-hero-main">
           <p className="eyebrow">{city.name[locale]}</p>
           <h1>{dict.classes}</h1>
@@ -234,25 +219,6 @@ export default async function ClassesPage({
             <ServerButtonLink href={`/${locale}/${citySlug}/collections/today-nearby`} className="button-secondary">
               {dict.todayNearby}
             </ServerButtonLink>
-          </div>
-        </div>
-        <div className="panel classes-hero-side">
-          <p className="eyebrow">{locale === 'it' ? 'Copertura' : 'Coverage'}</p>
-          <h2>{readiness.passesGate ? (locale === 'it' ? 'Soglia superata' : 'Gate passed') : locale === 'it' ? 'Soglia non superata' : 'Gate blocked'}</h2>
-          <p className="muted">{trustCopy}</p>
-          <div className="classes-stat-grid">
-            <div className="classes-stat-card">
-              <strong>{metrics.sessions}</strong>
-              <span>{locale === 'it' ? 'Sessioni nei prossimi 7 giorni' : 'Sessions in next 7 days'}</span>
-            </div>
-            <div className="classes-stat-card">
-              <strong>{metrics.neighborhoods}</strong>
-              <span>{locale === 'it' ? 'Quartieri coperti' : 'Neighborhoods covered'}</span>
-            </div>
-            <div className="classes-stat-card">
-              <strong>{Math.round(readiness.ctaCoverage * 100)}%</strong>
-              <span>{locale === 'it' ? 'Copertura CTA' : 'CTA coverage'}</span>
-            </div>
           </div>
         </div>
       </section>
@@ -282,6 +248,7 @@ export default async function ClassesPage({
         calendarEntries={calendarEntries}
         signedInEmail={user?.email}
         scheduleLabel={locale === 'it' ? 'Aggiungi in agenda' : 'Add to schedule'}
+        runtimeCapabilities={runtimeCapabilities}
         noResultsLabel={dict.noResults}
         initialWeekOffset={weekOffset}
         totalPages={totalPages}

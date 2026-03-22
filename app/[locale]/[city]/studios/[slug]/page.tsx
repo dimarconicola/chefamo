@@ -10,6 +10,7 @@ import { getCatalogSnapshot } from '@/lib/catalog/repository';
 import { resolveSessionCardDataFromSnapshot } from '@/lib/catalog/session-card-data';
 import { getDictionary } from '@/lib/i18n/dictionaries';
 import { resolveLocale } from '@/lib/i18n/routing';
+import { getRuntimeCapabilities } from '@/lib/runtime/capabilities';
 import { formatVerifiedAt } from '@/lib/ui/format';
 
 export default async function StudioPage({ params }: { params: Promise<{ locale: string; city: string; slug: string }> }) {
@@ -28,7 +29,11 @@ export default async function StudioPage({ params }: { params: Promise<{ locale:
   const sessions = venueSessions
     .sort((left, right) => left.startAt.localeCompare(right.startAt))
     .slice(0, 20);
-  const [user, resolvedSessions] = await Promise.all([getSessionUser(), Promise.resolve(resolveSessionCardDataFromSnapshot(catalog, sessions))]);
+  const [user, resolvedSessions, runtimeCapabilities] = await Promise.all([
+    getSessionUser(),
+    Promise.resolve(resolveSessionCardDataFromSnapshot(catalog, sessions)),
+    getRuntimeCapabilities()
+  ]);
   const groupedSessions = Object.values(
     sessions.reduce<Record<string, typeof sessions>>((groups, session) => {
       const key = DateTime.fromISO(session.startAt).setZone('Europe/Rome').toISODate();
@@ -159,6 +164,7 @@ export default async function StudioPage({ params }: { params: Promise<{ locale:
                       resolved={resolvedSessions.get(session.id)!}
                       signedInEmail={user?.email}
                       scheduleLabel={dict.saveSchedule}
+                      runtimeCapabilities={runtimeCapabilities}
                     />
                   ))}
                 </div>

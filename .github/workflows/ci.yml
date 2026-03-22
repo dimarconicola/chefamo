@@ -54,9 +54,17 @@ jobs:
       - name: Smoke routes
         run: npm run smoke:routes
 
-      - name: Stop app
+      - name: Stop smoke app
         if: always()
         run: |
           if [ -f /tmp/kinelo-start.pid ]; then
             kill $(cat /tmp/kinelo-start.pid) || true
           fi
+
+      - name: Install Playwright browser
+        run: npx playwright install --with-deps chromium
+
+      - name: Critical E2E
+        env:
+          PW_SKIP_BUILD: 1
+        run: npm run test:e2e

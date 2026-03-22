@@ -16,11 +16,11 @@ export default async function CookiesPage({ params }: { params: Promise<{ locale
             },
             {
               title: 'Preferenze locali',
-              body: 'Preferiti e agenda salvata possono essere memorizzati anche nel browser per garantire continuita di utilizzo, specialmente in ambienti preview o con persistenza server limitata.'
+              body: 'Preferiti e agenda salvata possono essere memorizzati anche nel browser per mantenere l’esperienza coerente tra una visita e l’altra.'
             },
             {
               title: 'Analitiche tecniche',
-              body: 'Possono essere raccolti eventi tecnici e click outbound per misurare copertura, qualita del catalogo e affidabilita delle call to action.'
+              body: 'Possiamo raccogliere eventi tecnici essenziali e click outbound per capire se il servizio funziona correttamente e quali link sono piu utili.'
             }
           ]
         }
@@ -36,11 +36,11 @@ export default async function CookiesPage({ params }: { params: Promise<{ locale
             },
             {
               title: 'Local preferences',
-              body: 'Favorites and saved schedule may also be stored in the browser so the experience remains usable, especially in preview environments or where server persistence is limited.'
+              body: 'Favorites and saved schedule may also be stored in the browser so the experience stays consistent from one visit to the next.'
             },
             {
               title: 'Technical analytics',
-              body: 'Technical events and outbound clicks may be collected to measure coverage, catalog quality, and call-to-action reliability.'
+              body: 'We may collect essential technical events and outbound clicks to understand whether the service works correctly and which links are most useful.'
             }
           ]
         };

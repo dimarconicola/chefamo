@@ -5,7 +5,7 @@ import { sessionCookieName } from '@/lib/auth/session';
 
 export async function POST(request: Request) {
   const formData = await request.formData();
-  const locale = String(formData.get('locale') ?? 'en');
+  const locale = String(formData.get('locale') ?? 'it');
 
   if (isSupabaseConfigured) {
     const supabase = await getSupabaseServerClient();

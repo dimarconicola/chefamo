@@ -9,6 +9,7 @@ import { requirePublicCityServer } from '@/lib/catalog/guards';
 import { getEditorialComponent } from '@/lib/content/registry';
 import { getDictionary } from '@/lib/i18n/dictionaries';
 import { resolveLocale } from '@/lib/i18n/routing';
+import { getRuntimeCapabilities } from '@/lib/runtime/capabilities';
 
 const toCoordinate = (value?: string) => {
   if (!value) return undefined;
@@ -68,7 +69,11 @@ export default async function CollectionPage({
           .map((item) => item.session)
       : collectionSessions;
   const Component = getEditorialComponent(citySlug, slug, locale);
-  const [user, resolvedSessions] = await Promise.all([getSessionUser(), resolveSessionCardData(sessions)]);
+  const [user, resolvedSessions, runtimeCapabilities] = await Promise.all([
+    getSessionUser(),
+    resolveSessionCardData(sessions),
+    getRuntimeCapabilities()
+  ]);
   const statusCopy =
     locale === 'it'
       ? {
@@ -123,6 +128,7 @@ export default async function CollectionPage({
               resolved={resolvedSessions.get(session.id)!}
               signedInEmail={user?.email}
               scheduleLabel={dict.saveSchedule}
+              runtimeCapabilities={runtimeCapabilities}
             />
           ))}
         </div>

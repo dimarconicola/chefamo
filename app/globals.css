@@ -1291,8 +1291,84 @@ body {
   padding-inline: 1.1rem;
 }
 
+.account-cluster {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  min-width: 0;
+  max-width: min(100%, 34rem);
+  flex: 0 1 min(34rem, 42vw);
+}
+
+.button-account-label {
+  display: inline-flex;
+  align-items: center;
+  min-width: 0;
+  flex: 1 1 auto;
+  max-width: none;
+  padding-inline: 1rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  cursor: default;
+}
+
+.button-signout {
+  padding-inline: 0.95rem;
+}
+
+.account-cluster form {
+  flex: 0 0 auto;
+}
+
+.mobile-account-panel {
+  display: grid;
+  gap: 0.45rem;
+}
+
+.mobile-account-label {
+  width: 100%;
+  justify-content: flex-start;
+  max-width: none;
+}
+
+.action-control {
+  display: grid;
+  gap: 0.4rem;
+  justify-items: end;
+}
+
+.action-feedback {
+  max-width: 16rem;
+  font-size: 0.82rem;
+  line-height: 1.45;
+  text-align: right;
+  color: #7f5140;
+}
+
+.stat-card-detail-subtle {
+  font-size: 0.8rem;
+  letter-spacing: 0.01em;
+}
+
+.empty-state-inline {
+  display: grid;
+  gap: 0.35rem;
+  padding: 1rem 1.05rem;
+  border-radius: 1rem;
+  border: 1px solid rgba(44, 48, 46, 0.1);
+  background: rgba(250, 247, 242, 0.8);
+}
+
+.classes-hero-single {
+  grid-template-columns: minmax(0, 1fr);
+}
+
+.classes-hero-single .classes-hero-main {
+  max-width: 100%;
+}
+
 .button-account {
-  max-width: 13rem;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -2201,15 +2277,15 @@ h4 {
 .newsletter-inline-digest input {
   width: 100%;
   border-radius: 999px;
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(56, 68, 60, 0.12);
+  background: rgba(255, 255, 255, 0.96);
   min-height: 3rem;
   padding: 0 1.1rem;
-  color: #fff;
+  color: #213227;
 }
 
 .newsletter-inline-digest input::placeholder {
-  color: rgba(232, 240, 233, 0.72);
+  color: rgba(69, 88, 74, 0.66);
 }
 
 .newsletter-inline-digest button {
@@ -2226,7 +2302,7 @@ h4 {
 .newsletter-inline-digest > p {
   grid-column: 1 / -1;
   margin: 0.75rem 0 0;
-  color: #d4dfd0;
+  color: #eff6ef;
   font-size: 0.86rem;
 }
 
@@ -2329,6 +2405,9 @@ h4 {
   display: flex;
   align-items: center;
   gap: 0.55rem;
+  min-width: 0;
+  justify-content: flex-end;
+  flex-wrap: nowrap;
 }
 
 .mobile-menu-toggle {
@@ -2363,15 +2442,15 @@ h4 {
 }
 
 .newsletter-inline-digest input {
-  color: #ffffff;
-  background: rgba(255, 255, 255, 0.1);
-  border-color: rgba(255, 255, 255, 0.2);
+  color: #213227;
+  background: rgba(255, 255, 255, 0.96);
+  border-color: rgba(56, 68, 60, 0.12);
   border-radius: 999px;
   min-height: 3rem;
 }
 
 .newsletter-inline-digest input::placeholder {
-  color: rgba(232, 240, 233, 0.72);
+  color: rgba(69, 88, 74, 0.66);
 }
 
 .newsletter-inline-digest [data-slot='input-wrapper'] {
@@ -2399,6 +2478,20 @@ h4 {
 
 .newsletter-inline-digest .digest-submit:hover {
   background: #f4f7f5 !important;
+}
+
+.digest-feedback {
+  margin: 0.75rem 0 0;
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+
+.digest-feedback-success {
+  color: #eff6ef;
+}
+
+.digest-feedback-error {
+  color: #fff3ed;
 }
 
 .home-v2-feature-item [data-slot='base'],
@@ -2436,6 +2529,10 @@ h4 {
     display: none;
   }
 
+  .site-actions-primary .account-cluster {
+    display: none;
+  }
+
   .site-actions-primary .button-signin {
     display: none;
   }
@@ -2457,7 +2554,7 @@ h4 {
     display: block;
   }
 
-  .mobile-nav-form .button-account,
+  .mobile-nav-form .button-signout,
   .mobile-nav-action {
     width: 100%;
     justify-content: center;
@@ -2467,12 +2564,13 @@ h4 {
 /* Classes + header refinements */
 .site-header {
   display: grid;
-  grid-template-columns: auto 1fr auto;
+  grid-template-columns: auto minmax(0, 1fr) auto;
   align-items: center;
 }
 
 .site-nav-primary {
   justify-content: center;
+  min-width: 0;
 }
 
 .site-nav-primary a {

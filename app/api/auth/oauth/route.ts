@@ -5,7 +5,7 @@ import { env } from '@/lib/env';
 
 export async function POST(request: Request) {
   const formData = await request.formData();
-  const locale = String(formData.get('locale') ?? 'en');
+  const locale = String(formData.get('locale') ?? 'it');
   const provider = String(formData.get('provider') ?? 'google');
 
   if (!isSupabaseConfigured) {
@@ -18,15 +18,21 @@ export async function POST(request: Request) {
   }
 
   const next = encodeURIComponent(`/${locale}/favorites`);
-  const { data } = await supabase.auth.signInWithOAuth({
-    provider: provider === 'google' ? 'google' : 'google',
-    options: {
-      redirectTo: `${env.siteUrl}/auth/callback?next=${next}`
-    }
-  });
+  let data: { url?: string | null } = {};
+  try {
+    const result = await supabase.auth.signInWithOAuth({
+      provider: provider === 'google' ? 'google' : 'google',
+      options: {
+        redirectTo: `${env.siteUrl}/auth/callback?next=${next}`
+      }
+    });
+    data = result.data;
+  } catch {
+    return NextResponse.redirect(new URL(`/${locale}/sign-in?error=1`, request.url));
+  }
 
   if (!data.url) {
-    return NextResponse.redirect(new URL(`/${locale}/sign-in`, request.url));
+    return NextResponse.redirect(new URL(`/${locale}/sign-in?error=1`, request.url));
   }
 
   return NextResponse.redirect(data.url);

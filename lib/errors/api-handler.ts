@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
 import { ZodError } from 'zod';
 import { logger } from '@/lib/observability/logger';
-import type { ErrorResponse, SuccessResponse } from './handler';
+import { AppError, type ErrorResponse, type SuccessResponse } from './handler';
 
 /**
  * Helper to wrap API route handlers with error handling and logging
@@ -64,20 +64,24 @@ function handleApiError(error: unknown, req: Request) {
   }
 
   // Handle typed errors with status codes
-  if (error instanceof Error && 'statusCode' in error) {
-    const appError = error as Error & { statusCode: number };
-    logger.warn(error.message, context);
+  if (error instanceof AppError) {
+    logger.warn(error.message, {
+      ...context,
+      code: error.code,
+      details: error.details
+    });
 
     return NextResponse.json(
       {
         success: false,
         error: {
           message: error.message,
-          code: error.name || 'API_ERROR',
-          statusCode: appError.statusCode
+          code: error.code,
+          statusCode: error.statusCode,
+          details: error.details
         }
       } as ErrorResponse,
-      { status: appError.statusCode }
+      { status: error.statusCode }
     );
   }
 

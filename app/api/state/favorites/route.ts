@@ -1,8 +1,10 @@
 import { z } from 'zod';
 import { apiHandler } from '@/lib/errors/api-handler';
+import { AppError } from '@/lib/errors/handler';
 import { logger } from '@/lib/observability/logger';
 import { getSessionUser } from '@/lib/auth/session';
 import { isUserFavorite, toggleUserFavorite } from '@/lib/runtime/store';
+import { getRuntimeCapabilities } from '@/lib/runtime/capabilities';
 
 const querySchema = z.object({
   entityType: z.enum(['venue', 'session', 'instructor'], { message: 'Invalid entity type' }),
@@ -10,12 +12,15 @@ const querySchema = z.object({
 });
 
 export const GET = apiHandler(async (request) => {
+  const capabilities = await getRuntimeCapabilities();
+  if (capabilities.authMode === 'unavailable' || capabilities.storeMode !== 'database') {
+    throw new AppError('Salvataggio temporaneamente non disponibile.', 503, 'STORE_UNAVAILABLE');
+  }
+
   const user = await getSessionUser();
   if (!user) {
     logger.info('Unauthorized favorites check - no session');
-    const error = new Error('Authentication required') as Error & { statusCode: number };
-    error.statusCode = 401;
-    throw error;
+    throw new AppError('Accesso richiesto.', 401, 'AUTH_REQUIRED');
   }
 
   const url = new URL(request.url);
@@ -37,12 +42,15 @@ export const GET = apiHandler(async (request) => {
 });
 
 export const POST = apiHandler(async (request) => {
+  const capabilities = await getRuntimeCapabilities();
+  if (capabilities.authMode === 'unavailable' || capabilities.storeMode !== 'database') {
+    throw new AppError('Salvataggio temporaneamente non disponibile.', 503, 'STORE_UNAVAILABLE');
+  }
+
   const user = await getSessionUser();
   if (!user) {
     logger.info('Unauthorized favorite toggle - no session');
-    const error = new Error('Authentication required') as Error & { statusCode: number };
-    error.statusCode = 401;
-    throw error;
+    throw new AppError('Accesso richiesto.', 401, 'AUTH_REQUIRED');
   }
 
   const parsed = querySchema.parse(await request.json());

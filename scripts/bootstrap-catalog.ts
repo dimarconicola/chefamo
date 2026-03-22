@@ -23,6 +23,9 @@ import {
   venues
 } from '@/lib/data/schema';
 import { getSeedSourceRegistry } from '@/lib/freshness/source-registry';
+import { sql } from 'drizzle-orm';
+
+const excluded = <T extends { name: string }>(column: T) => sql.raw(`excluded.${column.name}`);
 
 const upsertCatalog = async () => {
   if (!isDatabaseConfigured) {
@@ -53,12 +56,12 @@ const upsertCatalog = async () => {
       .onConflictDoUpdate({
         target: cities.slug,
         set: {
-          countryCode: cities.countryCode,
-          timezone: cities.timezone,
-          status: cities.status,
-          bounds: cities.bounds,
-          name: cities.name,
-          hero: cities.hero,
+          countryCode: excluded(cities.countryCode),
+          timezone: excluded(cities.timezone),
+          status: excluded(cities.status),
+          bounds: excluded(cities.bounds),
+          name: excluded(cities.name),
+          hero: excluded(cities.hero),
           updatedAt: new Date()
         }
       });
@@ -78,11 +81,11 @@ const upsertCatalog = async () => {
       .onConflictDoUpdate({
         target: neighborhoods.slug,
         set: {
-          citySlug: neighborhoods.citySlug,
-          name: neighborhoods.name,
-          description: neighborhoods.description,
-          centerLat: neighborhoods.centerLat,
-          centerLng: neighborhoods.centerLng
+          citySlug: excluded(neighborhoods.citySlug),
+          name: excluded(neighborhoods.name),
+          description: excluded(neighborhoods.description),
+          centerLat: excluded(neighborhoods.centerLat),
+          centerLng: excluded(neighborhoods.centerLng)
         }
       });
 
@@ -101,11 +104,11 @@ const upsertCatalog = async () => {
       .onConflictDoUpdate({
         target: activityCategories.slug,
         set: {
-          citySlug: activityCategories.citySlug,
-          visibility: activityCategories.visibility,
-          name: activityCategories.name,
-          description: activityCategories.description,
-          heroMetric: activityCategories.heroMetric
+          citySlug: excluded(activityCategories.citySlug),
+          visibility: excluded(activityCategories.visibility),
+          name: excluded(activityCategories.name),
+          description: excluded(activityCategories.description),
+          heroMetric: excluded(activityCategories.heroMetric)
         }
       });
 
@@ -122,9 +125,9 @@ const upsertCatalog = async () => {
       .onConflictDoUpdate({
         target: styles.slug,
         set: {
-          categorySlug: styles.categorySlug,
-          name: styles.name,
-          description: styles.description
+          categorySlug: excluded(styles.categorySlug),
+          name: excluded(styles.name),
+          description: excluded(styles.description)
         }
       });
 
@@ -143,11 +146,11 @@ const upsertCatalog = async () => {
       .onConflictDoUpdate({
         target: instructors.slug,
         set: {
-          citySlug: instructors.citySlug,
-          name: instructors.name,
-          shortBio: instructors.shortBio,
-          specialties: instructors.specialties,
-          languages: instructors.languages
+          citySlug: excluded(instructors.citySlug),
+          name: excluded(instructors.name),
+          shortBio: excluded(instructors.shortBio),
+          specialties: excluded(instructors.specialties),
+          languages: excluded(instructors.languages)
         }
       });
 
@@ -164,9 +167,9 @@ const upsertCatalog = async () => {
       .onConflictDoUpdate({
         target: bookingTargets.slug,
         set: {
-          type: bookingTargets.type,
-          label: bookingTargets.label,
-          href: bookingTargets.href
+          type: excluded(bookingTargets.type),
+          label: excluded(bookingTargets.label),
+          href: excluded(bookingTargets.href)
         }
       });
 
@@ -196,22 +199,22 @@ const upsertCatalog = async () => {
       .onConflictDoUpdate({
         target: venues.slug,
         set: {
-          citySlug: venues.citySlug,
-          neighborhoodSlug: venues.neighborhoodSlug,
-          name: venues.name,
-          tagline: venues.tagline,
-          description: venues.description,
-          address: venues.address,
-          lat: venues.lat,
-          lng: venues.lng,
-          amenities: venues.amenities,
-          languages: venues.languages,
-          styleSlugs: venues.styleSlugs,
-          categorySlugs: venues.categorySlugs,
-          bookingTargetOrder: venues.bookingTargetOrder,
-          freshnessNote: venues.freshnessNote,
-          sourceUrl: venues.sourceUrl,
-          lastVerifiedAt: venues.lastVerifiedAt
+          citySlug: excluded(venues.citySlug),
+          neighborhoodSlug: excluded(venues.neighborhoodSlug),
+          name: excluded(venues.name),
+          tagline: excluded(venues.tagline),
+          description: excluded(venues.description),
+          address: excluded(venues.address),
+          lat: excluded(venues.lat),
+          lng: excluded(venues.lng),
+          amenities: excluded(venues.amenities),
+          languages: excluded(venues.languages),
+          styleSlugs: excluded(venues.styleSlugs),
+          categorySlugs: excluded(venues.categorySlugs),
+          bookingTargetOrder: excluded(venues.bookingTargetOrder),
+          freshnessNote: excluded(venues.freshnessNote),
+          sourceUrl: excluded(venues.sourceUrl),
+          lastVerifiedAt: excluded(venues.lastVerifiedAt)
         }
       });
 
@@ -247,28 +250,28 @@ const upsertCatalog = async () => {
       .onConflictDoUpdate({
         target: sessions.id,
         set: {
-          citySlug: sessions.citySlug,
-          venueSlug: sessions.venueSlug,
-          instructorSlug: sessions.instructorSlug,
-          categorySlug: sessions.categorySlug,
-          styleSlug: sessions.styleSlug,
-          title: sessions.title,
-          startAt: sessions.startAt,
-          endAt: sessions.endAt,
-          level: sessions.level,
-          language: sessions.language,
-          format: sessions.format,
-          bookingTargetSlug: sessions.bookingTargetSlug,
-          sourceUrl: sessions.sourceUrl,
-          lastVerifiedAt: sessions.lastVerifiedAt,
-          verificationStatus: sessions.verificationStatus,
-          audience: sessions.audience,
-          attendanceModel: sessions.attendanceModel,
-          ageMin: sessions.ageMin,
-          ageMax: sessions.ageMax,
-          ageBand: sessions.ageBand,
-          guardianRequired: sessions.guardianRequired,
-          priceNote: sessions.priceNote
+          citySlug: excluded(sessions.citySlug),
+          venueSlug: excluded(sessions.venueSlug),
+          instructorSlug: excluded(sessions.instructorSlug),
+          categorySlug: excluded(sessions.categorySlug),
+          styleSlug: excluded(sessions.styleSlug),
+          title: excluded(sessions.title),
+          startAt: excluded(sessions.startAt),
+          endAt: excluded(sessions.endAt),
+          level: excluded(sessions.level),
+          language: excluded(sessions.language),
+          format: excluded(sessions.format),
+          bookingTargetSlug: excluded(sessions.bookingTargetSlug),
+          sourceUrl: excluded(sessions.sourceUrl),
+          lastVerifiedAt: excluded(sessions.lastVerifiedAt),
+          verificationStatus: excluded(sessions.verificationStatus),
+          audience: excluded(sessions.audience),
+          attendanceModel: excluded(sessions.attendanceModel),
+          ageMin: excluded(sessions.ageMin),
+          ageMax: excluded(sessions.ageMax),
+          ageBand: excluded(sessions.ageBand),
+          guardianRequired: excluded(sessions.guardianRequired),
+          priceNote: excluded(sessions.priceNote)
         }
       });
 
@@ -287,11 +290,11 @@ const upsertCatalog = async () => {
       .onConflictDoUpdate({
         target: editorialCollections.slug,
         set: {
-          citySlug: editorialCollections.citySlug,
-          title: editorialCollections.title,
-          description: editorialCollections.description,
-          cta: editorialCollections.cta,
-          kind: editorialCollections.kind
+          citySlug: excluded(editorialCollections.citySlug),
+          title: excluded(editorialCollections.title),
+          description: excluded(editorialCollections.description),
+          cta: excluded(editorialCollections.cta),
+          kind: excluded(editorialCollections.kind)
         }
       });
 
@@ -317,16 +320,16 @@ const upsertCatalog = async () => {
         .onConflictDoUpdate({
           target: [sourceRegistry.citySlug, sourceRegistry.sourceUrl],
           set: {
-            sourceType: sourceRegistry.sourceType,
-            cadence: sourceRegistry.cadence,
-            trustTier: sourceRegistry.trustTier,
-            purpose: sourceRegistry.purpose,
-            parserAdapter: sourceRegistry.parserAdapter,
-            tags: sourceRegistry.tags,
-            active: sourceRegistry.active,
-            notes: sourceRegistry.notes,
-            lastCheckedAt: sourceRegistry.lastCheckedAt,
-            nextCheckAt: sourceRegistry.nextCheckAt,
+            sourceType: excluded(sourceRegistry.sourceType),
+            cadence: excluded(sourceRegistry.cadence),
+            trustTier: excluded(sourceRegistry.trustTier),
+            purpose: excluded(sourceRegistry.purpose),
+            parserAdapter: excluded(sourceRegistry.parserAdapter),
+            tags: excluded(sourceRegistry.tags),
+            active: excluded(sourceRegistry.active),
+            notes: excluded(sourceRegistry.notes),
+            lastCheckedAt: excluded(sourceRegistry.lastCheckedAt),
+            nextCheckAt: excluded(sourceRegistry.nextCheckAt),
             updatedAt: new Date()
           }
         });

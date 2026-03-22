@@ -4,18 +4,32 @@ import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 
 import { readStoredSchedule, syncStoredSchedule, toggleStoredSchedule } from '@/components/state/storage';
+import { readApiErrorCode } from '@/lib/errors/api-client';
+import type { RuntimeCapabilities } from '@/lib/runtime/capabilities';
 
 interface ScheduleButtonProps {
   sessionId: string;
   locale: string;
   signedInEmail?: string;
   label: string;
+  runtimeCapabilities?: RuntimeCapabilities;
 }
 
-export function ScheduleButton({ sessionId, locale, signedInEmail, label }: ScheduleButtonProps) {
+export function ScheduleButton({ sessionId, locale, signedInEmail, label, runtimeCapabilities }: ScheduleButtonProps) {
   const router = useRouter();
   const [saved, setSaved] = useState(false);
   const [pending, setPending] = useState(false);
+  const [notice, setNotice] = useState<string | null>(null);
+  const copy =
+    locale === 'it'
+      ? {
+          unavailable: 'Agenda temporaneamente non disponibile.',
+          authRequired: 'Accedi per salvare in agenda.'
+        }
+      : {
+          unavailable: 'Schedule is temporarily unavailable.',
+          authRequired: 'Sign in to save to schedule.'
+        };
 
   useEffect(() => {
     if (!signedInEmail) return;
@@ -40,8 +54,19 @@ export function ScheduleButton({ sessionId, locale, signedInEmail, label }: Sche
   }, [sessionId, signedInEmail]);
 
   const toggle = async () => {
+    setNotice(null);
+
+    if (runtimeCapabilities?.storeMode === 'unavailable' || runtimeCapabilities?.authMode === 'unavailable') {
+      setNotice(copy.unavailable);
+      return;
+    }
+
     if (!signedInEmail) {
-      router.push(`/${locale}/sign-in`);
+      if (runtimeCapabilities?.authMode === 'dev-local' || runtimeCapabilities?.authMode === 'supabase' || !runtimeCapabilities) {
+        router.push(`/${locale}/sign-in`);
+      } else {
+        setNotice(copy.authRequired);
+      }
       return;
     }
 
@@ -56,7 +81,12 @@ export function ScheduleButton({ sessionId, locale, signedInEmail, label }: Sche
         body: JSON.stringify({ sessionId })
       });
       if (!response.ok) {
-        if (response.status === 401) router.push(`/${locale}/sign-in`);
+        const code = await readApiErrorCode(response);
+        if (response.status === 401 || code === 'AUTH_REQUIRED') {
+          router.push(`/${locale}/sign-in`);
+        } else {
+          setNotice(copy.unavailable);
+        }
         setSaved(previousSaved);
         syncStoredSchedule(signedInEmail, sessionId, previousSaved);
         return;
@@ -68,14 +98,22 @@ export function ScheduleButton({ sessionId, locale, signedInEmail, label }: Sche
     } catch {
       setSaved(previousSaved);
       syncStoredSchedule(signedInEmail, sessionId, previousSaved);
+      setNotice(copy.unavailable);
     } finally {
       setPending(false);
     }
   };
 
   return (
-    <button className="button button-secondary" type="button" onClick={toggle} disabled={pending} aria-pressed={saved} aria-busy={pending}>
-      {saved ? (locale === 'it' ? 'Salvata' : 'Saved') : label}
-    </button>
+    <div className="action-control">
+      <button className="button button-secondary" type="button" onClick={toggle} disabled={pending} aria-pressed={saved} aria-busy={pending}>
+        {saved ? (locale === 'it' ? 'Salvata' : 'Saved') : label}
+      </button>
+      {notice ? (
+        <span className="action-feedback" aria-live="polite">
+          {notice}
+        </span>
+      ) : null}
+    </div>
   );
 }

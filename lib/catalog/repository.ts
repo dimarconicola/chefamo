@@ -12,6 +12,7 @@ import type {
   Style,
   Venue
 } from '@/lib/catalog/types';
+import { normalizePriceNote } from '@/lib/catalog/price-notes';
 import { getDb } from '@/lib/data/db';
 import {
   activityCategories,
@@ -197,7 +198,7 @@ const loadDatabaseSnapshot = async (): Promise<CatalogSnapshot | null> => {
         ageMax: row.ageMax ?? undefined,
         ageBand: isKidsAgeBand(row.ageBand) ? row.ageBand : undefined,
         guardianRequired: row.guardianRequired,
-        priceNote: row.priceNote ?? undefined
+        priceNote: normalizePriceNote(row.priceNote ?? undefined)
       })),
       collections: collectionRows.map((row) => ({
         slug: row.slug,

@@ -19,6 +19,7 @@ export type ReviewStatus = 'new' | 'reviewing' | 'approved' | 'rejected' | 'impo
 export type VenueProfile = 'studio' | 'association' | 'independent_teacher' | 'gym_with_classes' | 'event_series';
 
 export type LocalizedText = Record<Locale, string>;
+export type PartialLocalizedText = Partial<Record<Locale, string>>;
 
 export interface City {
   slug: string;
@@ -120,7 +121,7 @@ export interface Session {
   ageMax?: number;
   ageBand?: KidsAgeBand;
   guardianRequired?: boolean;
-  priceNote?: LocalizedText;
+  priceNote?: PartialLocalizedText;
 }
 
 export interface EditorialCollection {

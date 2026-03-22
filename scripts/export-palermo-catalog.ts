@@ -3,7 +3,10 @@ import { mkdir, writeFile } from 'node:fs/promises';
 import { join } from 'node:path';
 import { DateTime } from 'luxon';
 
+import { normalizeSinglePriceText } from '@/lib/catalog/price-notes';
+
 type Localized = { en: string; it: string };
+type PartialLocalized = Partial<Localized>;
 
 type ResearchVenue = {
   id: string;
@@ -140,7 +143,7 @@ type AppRecurringSession = {
   ageMax?: number;
   ageBand?: '0-2' | '3-5' | '6-10' | '11-14' | 'mixed-kids';
   guardianRequired?: boolean;
-  priceNote?: Localized;
+  priceNote?: PartialLocalized;
 };
 
 type AppCatalog = {
@@ -175,7 +178,7 @@ type AppSessionInstance = {
   ageMax?: number;
   ageBand?: '0-2' | '3-5' | '6-10' | '11-14' | 'mixed-kids';
   guardianRequired?: boolean;
-  priceNote?: Localized;
+  priceNote?: PartialLocalized;
 };
 
 const ROOT = process.cwd();
@@ -864,7 +867,7 @@ const appRecurringSessions: AppRecurringSession[] = scheduleRows.map((row) => {
   };
 
   if (row.pricing_text) {
-    session.priceNote = localized(row.pricing_text, row.pricing_text);
+    session.priceNote = normalizeSinglePriceText(row.pricing_text);
   }
   return session;
 });
@@ -893,24 +896,33 @@ const categories = [
     citySlug: 'palermo',
     visibility: 'live',
     name: localized('Yoga', 'Yoga'),
-    description: localized('The most complete verified category in Palermo right now.', 'La categoria verificata piu completa a Palermo in questo momento.'),
-    heroMetric: localized('Strongest verified class density in the city.', 'La densita di classi verificate piu forte in citta.')
+    description: localized(
+      'The clearest way to explore Palermo right now, from gentle practice to stronger flows.',
+      'Il modo piu chiaro per esplorare Palermo oggi, dalle pratiche dolci ai flow piu intensi.'
+    ),
+    heroMetric: localized('The broadest weekly selection in the city.', 'La selezione settimanale piu ampia in citta.')
   },
   {
     slug: 'pilates',
     citySlug: 'palermo',
     visibility: 'beta',
     name: localized('Pilates', 'Pilates'),
-    description: localized('Useful adjacent category, but still thinner than the yoga core.', 'Categoria adiacente utile, ma ancora piu sottile del nucleo yoga.'),
-    heroMetric: localized('Published selectively while coverage grows.', 'Pubblicata in modo selettivo mentre la copertura cresce.')
+    description: localized(
+      'Small-group matwork and complementary practice for balance, strength, and posture.',
+      'Matwork in piccoli gruppi e pratiche complementari per equilibrio, forza e postura.'
+    ),
+    heroMetric: localized('A curated mix of recurring classes.', 'Una selezione curata di lezioni ricorrenti.')
   },
   {
     slug: 'breathwork',
     citySlug: 'palermo',
     visibility: 'beta',
     name: localized('Breathwork', 'Breathwork'),
-    description: localized('Breath-led practice is present, but not yet citywide.', 'La pratica guidata dal respiro e presente, ma non ancora diffusa in tutta la citta.'),
-    heroMetric: localized('Visible where source-backed sessions exist.', 'Visibile dove esistono sessioni supportate da fonti.')
+    description: localized(
+      'Breath-led sessions, pranayama, and restorative formats that complement yoga practice.',
+      'Sessioni guidate dal respiro, pranayama e formati rigenerativi che completano la pratica yoga.'
+    ),
+    heroMetric: localized('Useful sessions for calmer, slower practice.', 'Sessioni utili per pratiche piu calme e lente.')
   },
   {
     slug: 'meditation',

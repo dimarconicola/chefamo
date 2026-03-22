@@ -5,6 +5,7 @@ import { cookies } from 'next/headers';
 
 import { getSupabaseServerClient, isSupabaseConfigured } from '@/lib/auth/supabase';
 import { env } from '@/lib/env';
+import { getAuthMode } from '@/lib/runtime/capabilities';
 
 const COOKIE_NAME = 'kinelo_session';
 
@@ -28,8 +29,16 @@ export const decodeSession = (token: string) => {
   const [payload, signature] = token.split('.');
   if (!payload || !signature) return null;
   const expected = sign(payload);
-  const valid = timingSafeEqual(Buffer.from(signature), Buffer.from(expected));
-  if (!valid) return null;
+
+  try {
+    const signatureBuffer = Buffer.from(signature);
+    const expectedBuffer = Buffer.from(expected);
+    if (signatureBuffer.length !== expectedBuffer.length) return null;
+    const valid = timingSafeEqual(signatureBuffer, expectedBuffer);
+    if (!valid) return null;
+  } catch {
+    return null;
+  }
 
   try {
     return JSON.parse(Buffer.from(payload, 'base64url').toString('utf8')) as { email: string; createdAt: string };
@@ -43,6 +52,7 @@ const hasSupabaseAuthCookie = (store: CookieStore) =>
 
 export const getSessionUser = cache(async () => {
   const store = await cookies();
+  const authMode = getAuthMode();
 
   if (isSupabaseConfigured && hasSupabaseAuthCookie(store)) {
     const supabase = await getSupabaseServerClient();
@@ -58,6 +68,8 @@ export const getSessionUser = cache(async () => {
       }
     }
   }
+
+  if (authMode !== 'dev-local') return null;
 
   const raw = store.get(COOKIE_NAME)?.value;
   const decoded = raw ? decodeSession(raw) : null;

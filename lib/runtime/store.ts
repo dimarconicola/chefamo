@@ -6,6 +6,7 @@ import { and, desc, eq, inArray } from 'drizzle-orm';
 import type { CalendarSubmission, ClaimSubmission, DigestSubscription, OutboundEvent, ReviewStatus } from '@/lib/catalog/types';
 import { getDb, isDatabaseConfigured } from '@/lib/data/db';
 import { env } from '@/lib/env';
+import { AppError } from '@/lib/errors/handler';
 import { calendarSubmissions, claims, digestSubscriptions, favorites, outboundClicks } from '@/lib/data/schema';
 
 type FavoriteEntityType = 'venue' | 'session' | 'instructor';
@@ -55,8 +56,10 @@ export const isPersistentStoreConfigured = () => isDatabaseConfigured;
 const assertPersistentStoreAvailable = () => {
   if (!env.requirePersistentStore) return;
   if (getDb()) return;
-  throw new Error('Persistent store is required in this environment, but DATABASE_URL is not configured.');
+  throw new AppError('Servizio temporaneamente non disponibile.', 503, 'STORE_UNAVAILABLE');
 };
+
+const canFallbackToLocalRuntimeStore = () => !env.requirePersistentStore;
 
 const normalizeReviewStatus = (value: string | null | undefined): ReviewStatus =>
   value === 'reviewing' || value === 'approved' || value === 'rejected' || value === 'imported' || value === 'resolved' ? value : 'new';
@@ -71,19 +74,26 @@ export const appendClaim = async (payload: ClaimSubmission) => {
     return;
   }
 
-  await db.insert(claims).values({
-    studioSlug: payload.studioSlug,
-    locale: payload.locale,
-    name: payload.name,
-    email: payload.email,
-    role: payload.role,
-    notes: payload.notes,
-    reviewStatus: payload.reviewStatus ?? 'new',
-    assignedTo: payload.assignedTo ?? null,
-    reviewNotes: payload.reviewNotes ?? null,
-    reviewedAt: payload.reviewedAt ? new Date(payload.reviewedAt) : null,
-    createdAt: new Date(payload.createdAt)
-  });
+  try {
+    await db.insert(claims).values({
+      studioSlug: payload.studioSlug,
+      locale: payload.locale,
+      name: payload.name,
+      email: payload.email,
+      role: payload.role,
+      notes: payload.notes,
+      reviewStatus: payload.reviewStatus ?? 'new',
+      assignedTo: payload.assignedTo ?? null,
+      reviewNotes: payload.reviewNotes ?? null,
+      reviewedAt: payload.reviewedAt ? new Date(payload.reviewedAt) : null,
+      createdAt: new Date(payload.createdAt)
+    });
+  } catch (error) {
+    if (!canFallbackToLocalRuntimeStore()) throw error;
+    const items = await readCollection<ClaimSubmission>('claims');
+    items.unshift({ ...payload, reviewStatus: payload.reviewStatus ?? 'new' });
+    await writeCollection('claims', items);
+  }
 };
 
 export const listClaims = async (): Promise<ClaimSubmission[]> => {
@@ -145,23 +155,30 @@ export const appendCalendarSubmission = async (payload: CalendarSubmission) => {
     return;
   }
 
-  await db.insert(calendarSubmissions).values({
-    locale: payload.locale,
-    citySlug: payload.citySlug,
-    submitterType: payload.submitterType,
-    organizationName: payload.organizationName,
-    contactName: payload.contactName,
-    email: payload.email,
-    phone: payload.phone ?? null,
-    sourceUrls: payload.sourceUrls,
-    scheduleText: payload.scheduleText,
-    consent: payload.consent,
-    reviewStatus: payload.reviewStatus ?? 'new',
-    assignedTo: payload.assignedTo ?? null,
-    reviewNotes: payload.reviewNotes ?? null,
-    reviewedAt: payload.reviewedAt ? new Date(payload.reviewedAt) : null,
-    createdAt: new Date(payload.createdAt)
-  });
+  try {
+    await db.insert(calendarSubmissions).values({
+      locale: payload.locale,
+      citySlug: payload.citySlug,
+      submitterType: payload.submitterType,
+      organizationName: payload.organizationName,
+      contactName: payload.contactName,
+      email: payload.email,
+      phone: payload.phone ?? null,
+      sourceUrls: payload.sourceUrls,
+      scheduleText: payload.scheduleText,
+      consent: payload.consent,
+      reviewStatus: payload.reviewStatus ?? 'new',
+      assignedTo: payload.assignedTo ?? null,
+      reviewNotes: payload.reviewNotes ?? null,
+      reviewedAt: payload.reviewedAt ? new Date(payload.reviewedAt) : null,
+      createdAt: new Date(payload.createdAt)
+    });
+  } catch (error) {
+    if (!canFallbackToLocalRuntimeStore()) throw error;
+    const items = await readCollection<CalendarSubmission>('calendar-submissions');
+    items.unshift({ ...payload, reviewStatus: payload.reviewStatus ?? 'new' });
+    await writeCollection('calendar-submissions', items);
+  }
 };
 
 export const listCalendarSubmissions = async (): Promise<CalendarSubmission[]> => {
@@ -225,18 +242,42 @@ export const appendDigestSubscription = async (payload: DigestSubscription) => {
   if (!db) {
     assertPersistentStoreAvailable();
     const items = await readCollection<DigestSubscription>('digests');
+    const exists = items.some((item) => item.email === payload.email && item.citySlug === payload.citySlug);
+    if (exists) return { created: false };
     items.unshift(payload);
     await writeCollection('digests', items);
-    return;
+    return { created: true };
   }
 
-  await db.insert(digestSubscriptions).values({
-    email: payload.email,
-    locale: payload.locale,
-    citySlug: payload.citySlug,
-    preferences: payload.preferences,
-    createdAt: new Date(payload.createdAt)
-  });
+  try {
+    const existing = await db
+      .select({ id: digestSubscriptions.id })
+      .from(digestSubscriptions)
+      .where(and(eq(digestSubscriptions.email, payload.email), eq(digestSubscriptions.citySlug, payload.citySlug)))
+      .limit(1);
+
+    if (existing.length > 0) {
+      return { created: false };
+    }
+
+    await db.insert(digestSubscriptions).values({
+      email: payload.email,
+      locale: payload.locale,
+      citySlug: payload.citySlug,
+      preferences: payload.preferences,
+      createdAt: new Date(payload.createdAt)
+    });
+
+    return { created: true };
+  } catch (error) {
+    if (!canFallbackToLocalRuntimeStore()) throw error;
+    const items = await readCollection<DigestSubscription>('digests');
+    const exists = items.some((item) => item.email === payload.email && item.citySlug === payload.citySlug);
+    if (exists) return { created: false };
+    items.unshift(payload);
+    await writeCollection('digests', items);
+    return { created: true };
+  }
 };
 
 export const listDigestSubscriptions = async (): Promise<DigestSubscription[]> => {

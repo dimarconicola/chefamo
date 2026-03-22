@@ -8,16 +8,18 @@ import { requirePublicCityServer } from '@/lib/catalog/guards';
 import { getNeighborhoodSessions, getNeighborhoods, getVenue } from '@/lib/catalog/server-data';
 import { getDictionary } from '@/lib/i18n/dictionaries';
 import { resolveLocale } from '@/lib/i18n/routing';
+import { getRuntimeCapabilities } from '@/lib/runtime/capabilities';
 
 export default async function NeighborhoodPage({ params }: { params: Promise<{ locale: string; city: string; slug: string }> }) {
   const { locale: rawLocale, city: citySlug, slug } = await params;
   const locale = resolveLocale(rawLocale);
   const dict = getDictionary(locale);
-  const [city, neighborhoods, sessions, user] = await Promise.all([
+  const [city, neighborhoods, sessions, user, runtimeCapabilities] = await Promise.all([
     requirePublicCityServer(citySlug),
     getNeighborhoods(citySlug),
     getNeighborhoodSessions(citySlug, slug),
-    getSessionUser()
+    getSessionUser(),
+    getRuntimeCapabilities()
   ]);
   const neighborhood = neighborhoods.find((item) => item.slug === slug);
   if (!neighborhood) notFound();
@@ -49,6 +51,7 @@ export default async function NeighborhoodPage({ params }: { params: Promise<{ l
               resolved={resolvedSessions.get(session.id)!}
               signedInEmail={user?.email}
               scheduleLabel={dict.saveSchedule}
+              runtimeCapabilities={runtimeCapabilities}
             />
           ))}
         </div>

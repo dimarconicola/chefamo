@@ -16,6 +16,7 @@ import type {
   Venue,
   VenueImage
 } from '@/lib/catalog/types';
+import { normalizePriceNote } from '@/lib/catalog/price-notes';
 import { deriveKidsAgeBand, inferKidsAgeRangeFromStyle, inferSessionAudience, normalizeAttendanceModel } from '@/lib/catalog/policy';
 
 const buildLocalized = (en: string, it: string) => ({ en, it });
@@ -50,7 +51,7 @@ type RecurringSessionTemplate = {
   ageMax?: number;
   ageBand?: KidsAgeBand;
   guardianRequired?: boolean;
-  priceNote?: { en: string; it: string };
+  priceNote?: Partial<Record<'en' | 'it', string>>;
 };
 
 const generated = palermoCatalog as {
@@ -198,33 +199,33 @@ export const categories: ActivityCategory[] = [
     citySlug: 'palermo',
     name: buildLocalized('Yoga', 'Yoga'),
     description: buildLocalized(
-      'The strongest verified category in Palermo right now.',
-      'La categoria verificata piu forte a Palermo in questo momento.'
+      'The clearest way to explore Palermo right now, from gentle practice to stronger flows.',
+      'Il modo piu chiaro per esplorare Palermo oggi, dalle pratiche dolci ai flow piu intensi.'
     ),
     visibility: 'live',
-    heroMetric: buildLocalized('Most complete verified class density in the city.', 'La densita di classi verificate piu completa in citta.')
+    heroMetric: buildLocalized('The broadest weekly selection in the city.', 'La selezione settimanale piu ampia in citta.')
   },
   {
     slug: 'pilates',
     citySlug: 'palermo',
     name: buildLocalized('Pilates', 'Pilates'),
     description: buildLocalized(
-      'A useful adjacent category that is still thinner than the yoga core.',
-      'Una categoria adiacente utile ma ancora piu sottile del nucleo yoga.'
+      'Small-group matwork and complementary practice for balance, strength, and posture.',
+      'Matwork in piccoli gruppi e pratiche complementari per equilibrio, forza e postura.'
     ),
     visibility: 'beta',
-    heroMetric: buildLocalized('Published selectively while coverage grows.', 'Pubblicata in modo selettivo mentre la copertura cresce.')
+    heroMetric: buildLocalized('A curated mix of recurring classes.', 'Una selezione curata di lezioni ricorrenti.')
   },
   {
     slug: 'breathwork',
     citySlug: 'palermo',
     name: buildLocalized('Breathwork', 'Breathwork'),
     description: buildLocalized(
-      'Breath-led practice exists in the catalog, but not yet at full city depth.',
-      'La pratica guidata dal respiro esiste nel catalogo, ma non ancora con piena profondita cittadina.'
+      'Breath-led sessions, pranayama, and restorative formats that complement yoga practice.',
+      'Sessioni guidate dal respiro, pranayama e formati rigenerativi che completano la pratica yoga.'
     ),
     visibility: 'beta',
-    heroMetric: buildLocalized('Visible where source-backed sessions exist.', 'Visibile dove esistono sessioni supportate da fonti.')
+    heroMetric: buildLocalized('Useful sessions for calmer, slower practice.', 'Sessioni utili per pratiche piu calme e lente.')
   },
   {
     slug: 'kids-activities',
@@ -235,7 +236,7 @@ export const categories: ActivityCategory[] = [
       'Sessioni verificate dedicate ai bambini, tra yoga e laboratori di movimento.'
     ),
     visibility: 'live',
-    heroMetric: buildLocalized('Family-friendly slots with direct action paths.', 'Slot family-friendly con percorso diretto verso contatto o prenotazione.')
+    heroMetric: buildLocalized('For ages 0-14, with direct contact details when available.', 'Per eta 0-14, con contatti diretti quando disponibili.')
   },
   {
     slug: 'meditation',
@@ -1435,7 +1436,7 @@ const generateSessions = () => {
         ageMax: metadata.ageMax,
         ageBand: metadata.ageBand,
         guardianRequired: metadata.guardianRequired,
-        priceNote: template.priceNote ?? getFallbackPriceNote(template)
+        priceNote: normalizePriceNote(template.priceNote ?? getFallbackPriceNote(template))
       });
     }
   }

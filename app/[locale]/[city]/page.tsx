@@ -9,9 +9,9 @@ import { applySessionFilters } from '@/lib/catalog/filters';
 import { getCatalogSnapshot } from '@/lib/catalog/repository';
 import { resolveSessionCardDataFromSnapshot } from '@/lib/catalog/session-card-data';
 import { getLocaleLabel } from '@/lib/catalog/server-data';
-import { getCityReadinessFromSnapshot } from '@/lib/catalog/readiness';
 import { getDictionary } from '@/lib/i18n/dictionaries';
 import { resolveLocale } from '@/lib/i18n/routing';
+import { getRuntimeCapabilities } from '@/lib/runtime/capabilities';
 
 export default async function CityPage({ params }: { params: Promise<{ locale: string; city: string }> }) {
   const { locale: rawLocale, city: citySlug } = await params;
@@ -29,51 +29,49 @@ export default async function CityPage({ params }: { params: Promise<{ locale: s
   const visibleSessions = catalog.sessions.filter(
     (session) => session.citySlug === citySlug && session.verificationStatus !== 'hidden' && visibleCategorySlugs.has(session.categorySlug)
   );
-  const featuredSessions = applySessionFilters(visibleSessions, { date: 'week' }).slice(0, 8);
-  const featuredSessionPreview = featuredSessions.slice(0, 4);
+  const weekSessions = applySessionFilters(visibleSessions, { date: 'week' });
+  const featuredSessionPreview = weekSessions.slice(0, 4);
   const cityVenues = catalog.venues.filter((venue) => venue.citySlug === citySlug);
   const metrics = {
     venues: cityVenues.length,
-    sessions: featuredSessions.length,
+    sessions: weekSessions.length,
     neighborhoods: new Set(cityVenues.map((venue) => venue.neighborhoodSlug)).size,
-    styles: new Set(featuredSessions.map((session) => session.styleSlug)).size
+    styles: new Set(weekSessions.map((session) => session.styleSlug)).size
   };
-  const readiness = getCityReadinessFromSnapshot(catalog, citySlug);
-  const [user, resolvedFeaturedSessions] = await Promise.all([
+  const [user, resolvedFeaturedSessions, runtimeCapabilities] = await Promise.all([
     getSessionUser(),
-    Promise.resolve(resolveSessionCardDataFromSnapshot(catalog, featuredSessionPreview))
+    Promise.resolve(resolveSessionCardDataFromSnapshot(catalog, featuredSessionPreview)),
+    getRuntimeCapabilities()
   ]);
   const copy =
     locale === 'it'
       ? {
           weeklyClasses: 'Classi settimanali',
-          weeklyClassesDetail: 'Visibili nei prossimi sette giorni.',
+          weeklyClassesDetail: 'Nei prossimi 7 giorni',
           studios: 'Studi',
-          studiosDetail: 'Verificati per la copertura Palermo v1.',
-          gatePassed: 'Superata',
-          gateBlocked: 'Bloccata',
+          studiosDetail: 'Verificati per Palermo.',
+          neighborhoods: 'Quartieri coperti',
+          neighborhoodsDetail: 'Zone utili gia presenti in guida.',
           featured: 'Classi in evidenza',
           featuredTitle: 'Utili oggi, non in teoria.',
           fullCalendar: 'Apri calendario completo',
           categories: 'Categorie',
-          neighborhoods: 'Quartieri',
+          neighborhoodsSection: 'Quartieri',
           collections: 'Collezioni',
-          ctaCoverage: 'Copertura CTA'
         }
       : {
           weeklyClasses: 'Weekly classes',
-          weeklyClassesDetail: 'Visible across the next seven days.',
+          weeklyClassesDetail: 'Across the next 7 days',
           studios: 'Studios',
-          studiosDetail: 'Verified for Palermo v1 coverage.',
-          gatePassed: 'Passed',
-          gateBlocked: 'Blocked',
+          studiosDetail: 'Verified for Palermo.',
+          neighborhoods: 'Neighborhoods covered',
+          neighborhoodsDetail: 'Areas already useful in the guide.',
           featured: 'Featured classes',
           featuredTitle: 'Useful now, not someday.',
           fullCalendar: 'See full calendar',
           categories: 'Categories',
-          neighborhoods: 'Neighborhoods',
+          neighborhoodsSection: 'Neighborhoods',
           collections: 'Collections',
-          ctaCoverage: 'CTA coverage'
         };
 
   return (
@@ -94,13 +92,9 @@ export default async function CityPage({ params }: { params: Promise<{ locale: s
         </div>
         <div className="hero-copy city-hero-metrics">
           <div className="hero-metrics">
-            <StatCard label={copy.weeklyClasses} value={String(metrics.sessions)} detail={copy.weeklyClassesDetail} />
+            <StatCard label={copy.weeklyClasses} value={String(metrics.sessions)} detail={copy.weeklyClassesDetail} detailClassName="stat-card-detail-subtle" />
             <StatCard label={copy.studios} value={String(metrics.venues)} detail={copy.studiosDetail} />
-            <StatCard
-              label={dict.supplyGate}
-              value={readiness.passesGate ? copy.gatePassed : copy.gateBlocked}
-              detail={`${Math.round(readiness.ctaCoverage * 100)}% ${copy.ctaCoverage}`}
-            />
+            <StatCard label={copy.neighborhoods} value={String(metrics.neighborhoods)} detail={copy.neighborhoodsDetail} />
           </div>
         </div>
       </section>
@@ -125,6 +119,7 @@ export default async function CityPage({ params }: { params: Promise<{ locale: s
                 resolved={resolvedFeaturedSessions.get(session.id)!}
                 signedInEmail={user?.email}
                 scheduleLabel={dict.saveSchedule}
+                runtimeCapabilities={runtimeCapabilities}
               />
             ))}
           </div>
@@ -142,7 +137,7 @@ export default async function CityPage({ params }: { params: Promise<{ locale: s
             </div>
           </div>
           <div className="panel">
-            <p className="eyebrow">{copy.neighborhoods}</p>
+            <p className="eyebrow">{copy.neighborhoodsSection}</p>
             <div className="card-grid">
               {neighborhoods.map((item) => (
                 <ServerCardLink key={item.slug} href={`/${locale}/${citySlug}/neighborhoods/${item.slug}`} className="collection-card">
