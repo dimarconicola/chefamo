@@ -7,6 +7,7 @@ import { getCategory, getCategorySessions } from '@/lib/catalog/server-data';
 import { requirePublicCityServer } from '@/lib/catalog/guards';
 import { getDictionary } from '@/lib/i18n/dictionaries';
 import { resolveLocale } from '@/lib/i18n/routing';
+import { getRuntimeCapabilities } from '@/lib/runtime/capabilities';
 
 export default async function CategoryPage({ params }: { params: Promise<{ locale: string; city: string; slug: string }> }) {
   const { locale: rawLocale, city: citySlug, slug } = await params;
@@ -15,7 +16,7 @@ export default async function CategoryPage({ params }: { params: Promise<{ local
   await requirePublicCityServer(citySlug);
   const [category, sessions] = await Promise.all([getCategory(slug), getCategorySessions(citySlug, slug)]);
   if (!category || category.visibility === 'hidden') notFound();
-  const [user, resolvedSessions] = await Promise.all([getSessionUser(), resolveSessionCardData(sessions)]);
+  const [user, resolvedSessions, runtimeCapabilities] = await Promise.all([getSessionUser(), resolveSessionCardData(sessions), getRuntimeCapabilities()]);
   const labels = locale === 'it' ? { category: 'Categoria' } : { category: 'Category' };
 
   return (
@@ -41,6 +42,7 @@ export default async function CategoryPage({ params }: { params: Promise<{ local
               resolved={resolvedSessions.get(session.id)!}
               signedInEmail={user?.email}
               scheduleLabel={dict.saveSchedule}
+              runtimeCapabilities={runtimeCapabilities}
             />
           ))}
         </div>

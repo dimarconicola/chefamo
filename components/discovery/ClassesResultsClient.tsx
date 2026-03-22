@@ -7,6 +7,7 @@ import { usePathname } from 'next/navigation';
 import type { ResolvedSessionCardData } from '@/lib/catalog/session-card-data';
 import type { ClassView, Locale, Session, Venue } from '@/lib/catalog/types';
 import type { CalendarEntry } from '@/components/discovery/classes-results.types';
+import type { RuntimeCapabilities } from '@/lib/runtime/capabilities';
 
 const ListResultsView = dynamic(() => import('@/components/discovery/ListResultsView').then((module) => module.ListResultsView));
 const MapResultsView = dynamic(() => import('@/components/discovery/MapResultsView').then((module) => module.MapResultsView), {
@@ -31,6 +32,7 @@ interface ClassesResultsClientProps {
   calendarEntries: CalendarEntry[];
   signedInEmail?: string;
   scheduleLabel: string;
+  runtimeCapabilities: RuntimeCapabilities;
   noResultsLabel: string;
   totalPages: number;
   currentPage: number;
@@ -52,6 +54,7 @@ export function ClassesResultsClient({
   calendarEntries,
   signedInEmail,
   scheduleLabel,
+  runtimeCapabilities,
   noResultsLabel,
   totalPages,
   currentPage,
@@ -147,6 +150,7 @@ export function ClassesResultsClient({
           resolvedSessionCards={resolvedSessionCards}
           signedInEmail={signedInEmail}
           scheduleLabel={scheduleLabel}
+          runtimeCapabilities={runtimeCapabilities}
           noResultsLabel={noResultsLabel}
         />
       ) : null}
@@ -158,6 +162,7 @@ export function ClassesResultsClient({
           resolvedSessionCards={resolvedSessionCards}
           signedInEmail={signedInEmail}
           scheduleLabel={scheduleLabel}
+          runtimeCapabilities={runtimeCapabilities}
           noResultsLabel={noResultsLabel}
           totalPages={totalPages}
           currentPage={currentPage}

@@ -4,16 +4,19 @@ import { getSessionUser } from '@/lib/auth/session';
 import { getCatalogSnapshot } from '@/lib/catalog/repository';
 import { resolveLocale } from '@/lib/i18n/routing';
 import { listUserFavorites, listUserSchedule } from '@/lib/runtime/store';
+import { getRuntimeCapabilities } from '@/lib/runtime/capabilities';
 import { formatSessionTime } from '@/lib/ui/format';
 
 export default async function FavoritesPage({ params }: { params: Promise<{ locale: string }> }) {
   const locale = resolveLocale((await params).locale);
-  const user = await getSessionUser();
+  const [user, capabilities] = await Promise.all([getSessionUser(), getRuntimeCapabilities()]);
   const copy =
     locale === 'it'
       ? {
           signInNeeded: 'Accedi per salvare preferiti e agenda settimanale.',
           signIn: 'Accedi',
+          unavailable: 'Preferiti e agenda non sono disponibili in questo momento. Le pagine pubbliche restano consultabili.',
+          back: 'Torna a Palermo',
           eyebrow: 'Salvati',
           title: 'Preferiti e agenda',
           lead: 'Preferiti = luoghi e persone da seguire. Agenda salvata = lezioni con orario da tenere d’occhio.',
@@ -27,6 +30,8 @@ export default async function FavoritesPage({ params }: { params: Promise<{ loca
       : {
           signInNeeded: 'Sign in to save favorites and your weekly schedule.',
           signIn: 'Sign in',
+          unavailable: 'Favorites and saved schedule are temporarily unavailable. Public pages are still available.',
+          back: 'Back to Palermo',
           eyebrow: 'Saved',
           title: 'Favorites and schedule',
           lead: 'Favorites = places and teachers you follow. Saved schedule = time slots you plan to attend.',
@@ -37,6 +42,17 @@ export default async function FavoritesPage({ params }: { params: Promise<{ loca
           noFavorites: 'No saved items yet.',
           noSchedule: 'Add classes from the calendar to build your week.'
         };
+
+  if (capabilities.authMode === 'unavailable' || capabilities.storeMode !== 'database') {
+    return (
+      <div className="empty-state">
+        <p>{copy.unavailable}</p>
+        <ServerButtonLink href={`/${locale}/palermo`} className="button-primary">
+          {copy.back}
+        </ServerButtonLink>
+      </div>
+    );
+  }
 
   if (!user) {
     return (
@@ -49,8 +65,21 @@ export default async function FavoritesPage({ params }: { params: Promise<{ loca
     );
   }
 
-  const favoriteRows = await listUserFavorites(user.id);
-  const scheduleRows = await listUserSchedule(user.id);
+  let favoriteRows = [];
+  let scheduleRows: string[] = [];
+
+  try {
+    [favoriteRows, scheduleRows] = await Promise.all([listUserFavorites(user.id), listUserSchedule(user.id)]);
+  } catch {
+    return (
+      <div className="empty-state">
+        <p>{copy.unavailable}</p>
+        <ServerButtonLink href={`/${locale}/palermo`} className="button-primary">
+          {copy.back}
+        </ServerButtonLink>
+      </div>
+    );
+  }
   const catalog = await getCatalogSnapshot();
 
   const venueItems = catalog.venues

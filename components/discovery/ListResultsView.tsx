@@ -5,6 +5,7 @@ import NextLink from 'next/link';
 import { SessionCard } from '@/components/discovery/SessionCard';
 import type { ResolvedSessionCardData } from '@/lib/catalog/session-card-data';
 import type { Locale, Session } from '@/lib/catalog/types';
+import type { RuntimeCapabilities } from '@/lib/runtime/capabilities';
 
 interface ListResultsViewProps {
   locale: Locale;
@@ -12,6 +13,7 @@ interface ListResultsViewProps {
   resolvedSessionCards: Record<string, ResolvedSessionCardData>;
   signedInEmail?: string;
   scheduleLabel: string;
+  runtimeCapabilities: RuntimeCapabilities;
   noResultsLabel: string;
   totalPages: number;
   currentPage: number;
@@ -25,6 +27,7 @@ export function ListResultsView({
   resolvedSessionCards,
   signedInEmail,
   scheduleLabel,
+  runtimeCapabilities,
   noResultsLabel,
   totalPages,
   currentPage,
@@ -48,6 +51,7 @@ export function ListResultsView({
               resolved={resolvedSessionCards[session.id]}
               signedInEmail={signedInEmail}
               scheduleLabel={scheduleLabel}
+              runtimeCapabilities={runtimeCapabilities}
             />
           ))
         ) : (

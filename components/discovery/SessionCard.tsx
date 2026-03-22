@@ -1,9 +1,11 @@
 import { DateTime } from 'luxon';
 
 import { ScheduleButton } from '@/components/state/ScheduleButton';
+import { getPriceNoteForLocale } from '@/lib/catalog/price-notes';
 import { ServerChip, ServerLink } from '@/components/ui/server';
 import type { ResolvedSessionCardData } from '@/lib/catalog/session-card-data';
 import type { Locale, Session } from '@/lib/catalog/types';
+import type { RuntimeCapabilities } from '@/lib/runtime/capabilities';
 import { formatSessionTime } from '@/lib/ui/format';
 import { BookingLink } from './BookingLink';
 
@@ -13,9 +15,10 @@ interface SessionCardProps {
   resolved: ResolvedSessionCardData;
   signedInEmail?: string;
   scheduleLabel: string;
+  runtimeCapabilities?: RuntimeCapabilities;
 }
 
-export function SessionCard({ session, locale, resolved, signedInEmail, scheduleLabel }: SessionCardProps) {
+export function SessionCard({ session, locale, resolved, signedInEmail, scheduleLabel, runtimeCapabilities }: SessionCardProps) {
   const { venue, instructor, style, target } = resolved;
   const labels =
     locale === 'it'
@@ -61,6 +64,7 @@ export function SessionCard({ session, locale, resolved, signedInEmail, schedule
   const start = DateTime.fromISO(session.startAt).setZone('Europe/Rome');
   const end = DateTime.fromISO(session.endAt).setZone('Europe/Rome');
   const durationMinutes = Math.max(30, Math.round(end.diff(start, 'minutes').minutes));
+  const priceNote = getPriceNoteForLocale(session.priceNote, locale);
 
   return (
     <article className="session-card panel">
@@ -96,9 +100,9 @@ export function SessionCard({ session, locale, resolved, signedInEmail, schedule
             <ServerChip>{session.language}</ServerChip>
             <ServerChip>{labels.format[session.format]}</ServerChip>
           </div>
-          {session.priceNote ? (
+          {priceNote ? (
             <p className="muted">
-              <strong>{labels.price}:</strong> {session.priceNote[locale]}
+              <strong>{labels.price}:</strong> {priceNote}
             </p>
           ) : null}
           <div className="session-card-footer">
@@ -122,7 +126,13 @@ export function SessionCard({ session, locale, resolved, signedInEmail, schedule
                 target={target}
                 label={labels.bookNow}
               />
-              <ScheduleButton sessionId={session.id} locale={locale} signedInEmail={signedInEmail} label={scheduleLabel} />
+              <ScheduleButton
+                sessionId={session.id}
+                locale={locale}
+                signedInEmail={signedInEmail}
+                label={scheduleLabel}
+                runtimeCapabilities={runtimeCapabilities}
+              />
             </div>
           </div>
         </div>

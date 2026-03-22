@@ -126,7 +126,7 @@ export const sessions = pgTable('sessions', {
   ageMax: integer('age_max'),
   ageBand: varchar('age_band', { length: 16 }),
   guardianRequired: boolean('guardian_required').notNull().default(false),
-  priceNote: jsonb('price_note').$type<Record<'en' | 'it', string> | null>()
+  priceNote: jsonb('price_note').$type<Partial<Record<'en' | 'it', string>> | null>()
 }, (table) => ({
   cityIndex: index('sessions_city_idx').on(table.citySlug),
   venueIndex: index('sessions_venue_idx').on(table.venueSlug),

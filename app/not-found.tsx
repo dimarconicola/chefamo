@@ -4,10 +4,10 @@ export default function NotFound() {
   return (
     <main className="site-shell site-main">
       <section className="empty-state">
-        <h1>Page not found</h1>
-        <p>The route is missing or the city is not public yet.</p>
-        <Link href="/en" className="button button-primary">
-          Back to kinelo.fit
+        <h1>Pagina non trovata</h1>
+        <p>Questo percorso non esiste oppure la citta non e ancora pubblica.</p>
+        <Link href="/it" className="button button-primary">
+          Torna a kinelo.fit
         </Link>
       </section>
     </main>

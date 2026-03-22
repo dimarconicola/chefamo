@@ -10,13 +10,14 @@ import { requirePublicCityServer } from '@/lib/catalog/guards';
 import { getInstructor, getInstructorSessions, getVenue } from '@/lib/catalog/server-data';
 import { getDictionary } from '@/lib/i18n/dictionaries';
 import { resolveLocale } from '@/lib/i18n/routing';
+import { getRuntimeCapabilities } from '@/lib/runtime/capabilities';
 
 export default async function TeacherPage({ params }: { params: Promise<{ locale: string; city: string; slug: string }> }) {
   const { locale: rawLocale, city: citySlug, slug } = await params;
   const locale = resolveLocale(rawLocale);
   const dict = getDictionary(locale);
   await requirePublicCityServer(citySlug);
-  const [instructor, user] = await Promise.all([getInstructor(slug), getSessionUser()]);
+  const [instructor, user, runtimeCapabilities] = await Promise.all([getInstructor(slug), getSessionUser(), getRuntimeCapabilities()]);
   if (!instructor) notFound();
   const sessions = (await getInstructorSessions(slug))
     .sort((left, right) => left.startAt.localeCompare(right.startAt))
@@ -82,7 +83,15 @@ export default async function TeacherPage({ params }: { params: Promise<{ locale
               </ServerChip>
             ))}
           </div>
-          <FavoriteButton entitySlug={instructor.slug} entityType="instructor" locale={locale} signedInEmail={user?.email} label={dict.save} savedLabel={dict.unsave} />
+          <FavoriteButton
+            entitySlug={instructor.slug}
+            entityType="instructor"
+            locale={locale}
+            signedInEmail={user?.email}
+            label={dict.save}
+            savedLabel={dict.unsave}
+            runtimeCapabilities={runtimeCapabilities}
+          />
         </div>
         <div className="panel profile-side">
           <p className="eyebrow">{teacherCopy.trust}</p>
@@ -139,6 +148,7 @@ export default async function TeacherPage({ params }: { params: Promise<{ locale
                       resolved={resolvedSessions.get(session.id)!}
                       signedInEmail={user?.email}
                       scheduleLabel={dict.saveSchedule}
+                      runtimeCapabilities={runtimeCapabilities}
                     />
                   ))}
                 </div>

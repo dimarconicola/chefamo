@@ -48,12 +48,17 @@ export function SiteHeader({ locale, dict, signedInEmail }: SiteHeaderProps) {
             {alternate.toUpperCase()}
           </NextLink>
           {signedInEmail ? (
-            <form action="/api/auth/signout" method="post">
-              <input type="hidden" name="locale" value={locale} />
-              <button type="submit" className="button button-account">
+            <div className="account-cluster">
+              <span className="button button-account-label" title={signedInEmail}>
                 {signedInEmail}
-              </button>
-            </form>
+              </span>
+              <form action="/api/auth/signout" method="post">
+                <input type="hidden" name="locale" value={locale} />
+                <button type="submit" className="button button-ghost button-signout">
+                  {dict.signOut}
+                </button>
+              </form>
+            </div>
           ) : (
             <NextLink href={`/${locale}/sign-in`} className="button button-signin">
               {dict.signIn}
@@ -80,12 +85,17 @@ export function SiteHeader({ locale, dict, signedInEmail }: SiteHeaderProps) {
             </NextLink>
           ))}
           {signedInEmail ? (
-            <form action="/api/auth/signout" method="post" className="mobile-nav-form">
-              <input type="hidden" name="locale" value={locale} />
-              <button type="submit" className="button button-account">
+            <div className="mobile-account-panel">
+              <span className="button button-account-label mobile-account-label" title={signedInEmail}>
                 {signedInEmail}
-              </button>
-            </form>
+              </span>
+              <form action="/api/auth/signout" method="post" className="mobile-nav-form">
+                <input type="hidden" name="locale" value={locale} />
+                <button type="submit" className="button button-ghost button-signout">
+                  {dict.signOut}
+                </button>
+              </form>
+            </div>
           ) : (
             <NextLink href={`/${locale}/sign-in`} className="button button-signin mobile-nav-action" onClick={() => setMenuOpen(false)}>
               {dict.signIn}

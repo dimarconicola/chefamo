@@ -49,16 +49,30 @@ export class ErrorBoundary extends React.Component<ErrorBoundaryProps, ErrorBoun
 
   render() {
     if (this.state.hasError) {
+      const locale = typeof window !== 'undefined' && window.location.pathname.startsWith('/en') ? 'en' : 'it';
+      const copy =
+        locale === 'it'
+          ? {
+              eyebrow: 'Errore pagina',
+              title: 'Qualcosa si è interrotto.',
+              lead: 'Questa sezione non è stata caricata correttamente. Riprova o torna a Palermo.',
+              retry: 'Riprova',
+              back: 'Torna a Palermo'
+            }
+          : {
+              eyebrow: 'Page error',
+              title: 'Something went wrong.',
+              lead: 'This section did not load correctly. Try again or go back to Palermo.',
+              retry: 'Try again',
+              back: 'Back to Palermo'
+            };
+
       return (
         <main className="site-shell site-main error-shell">
           <section className="panel error-panel">
-            <p className="eyebrow">Application error</p>
-            <h1>Something went wrong.</h1>
-            <p className="lead">The page hit an unexpected error. Try again. If it keeps happening, use the error id below.</p>
-            <div className="metric-card">
-              <strong>Error ID</strong>
-              <span className="muted">{this.state.errorId}</span>
-            </div>
+            <p className="eyebrow">{copy.eyebrow}</p>
+            <h1>{copy.title}</h1>
+            <p className="lead">{copy.lead}</p>
             {process.env.NODE_ENV === 'development' ? (
               <details className="error-details">
                 <summary>Error details</summary>
@@ -67,10 +81,10 @@ export class ErrorBoundary extends React.Component<ErrorBoundaryProps, ErrorBoun
             ) : null}
             <div className="error-actions">
               <button type="button" className="button button-primary" onClick={this.handleReset}>
-                Try again
+                {copy.retry}
               </button>
-              <button type="button" className="button button-ghost" onClick={() => (window.location.href = '/en/palermo')}>
-                Go to Palermo
+              <button type="button" className="button button-ghost" onClick={() => (window.location.href = `/${locale}/palermo`)}>
+                {copy.back}
               </button>
             </div>
           </section>

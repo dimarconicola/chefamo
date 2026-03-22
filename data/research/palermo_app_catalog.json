@@ -1785,8 +1785,8 @@
       "audience": "adults",
       "attendanceModel": "drop_in",
       "priceNote": {
-        "en": "8 lessons 65 EUR; 16 lessons 110 EUR",
-        "it": "8 lessons 65 EUR; 16 lessons 110 EUR"
+        "en": "8-class pass EUR 65; 16-class pass EUR 110.",
+        "it": "Carnet 8 lezioni a 65 EUR; carnet 16 lezioni a 110 EUR."
       }
     },
     {
@@ -1813,8 +1813,8 @@
       "audience": "adults",
       "attendanceModel": "drop_in",
       "priceNote": {
-        "en": "8 lessons 65 EUR; 16 lessons 110 EUR",
-        "it": "8 lessons 65 EUR; 16 lessons 110 EUR"
+        "en": "8-class pass EUR 65; 16-class pass EUR 110.",
+        "it": "Carnet 8 lezioni a 65 EUR; carnet 16 lezioni a 110 EUR."
       }
     },
     {
@@ -1841,8 +1841,8 @@
       "audience": "adults",
       "attendanceModel": "drop_in",
       "priceNote": {
-        "en": "Included in studio lesson packs",
-        "it": "Included in studio lesson packs"
+        "it": "Included in studio lesson packs",
+        "en": "Included in studio lesson packs"
       }
     },
     {
@@ -1869,8 +1869,8 @@
       "audience": "adults",
       "attendanceModel": "drop_in",
       "priceNote": {
-        "en": "8 lessons 65 EUR; 16 lessons 110 EUR",
-        "it": "8 lessons 65 EUR; 16 lessons 110 EUR"
+        "en": "8-class pass EUR 65; 16-class pass EUR 110.",
+        "it": "Carnet 8 lezioni a 65 EUR; carnet 16 lezioni a 110 EUR."
       }
     },
     {
@@ -1897,8 +1897,8 @@
       "audience": "adults",
       "attendanceModel": "drop_in",
       "priceNote": {
-        "en": "8 lessons 65 EUR; 16 lessons 110 EUR",
-        "it": "8 lessons 65 EUR; 16 lessons 110 EUR"
+        "en": "8-class pass EUR 65; 16-class pass EUR 110.",
+        "it": "Carnet 8 lezioni a 65 EUR; carnet 16 lezioni a 110 EUR."
       }
     },
     {
@@ -1925,8 +1925,8 @@
       "audience": "adults",
       "attendanceModel": "drop_in",
       "priceNote": {
-        "en": "8 lessons 65 EUR; 16 lessons 110 EUR",
-        "it": "8 lessons 65 EUR; 16 lessons 110 EUR"
+        "en": "8-class pass EUR 65; 16-class pass EUR 110.",
+        "it": "Carnet 8 lezioni a 65 EUR; carnet 16 lezioni a 110 EUR."
       }
     },
     {
@@ -1953,8 +1953,8 @@
       "audience": "adults",
       "attendanceModel": "drop_in",
       "priceNote": {
-        "en": "Included in studio lesson packs",
-        "it": "Included in studio lesson packs"
+        "it": "Included in studio lesson packs",
+        "en": "Included in studio lesson packs"
       }
     },
     {
@@ -1981,8 +1981,8 @@
       "audience": "adults",
       "attendanceModel": "drop_in",
       "priceNote": {
-        "en": "8 lessons 65 EUR; 16 lessons 110 EUR",
-        "it": "8 lessons 65 EUR; 16 lessons 110 EUR"
+        "en": "8-class pass EUR 65; 16-class pass EUR 110.",
+        "it": "Carnet 8 lezioni a 65 EUR; carnet 16 lezioni a 110 EUR."
       }
     },
     {
@@ -2009,8 +2009,8 @@
       "audience": "adults",
       "attendanceModel": "drop_in",
       "priceNote": {
-        "en": "Not published on captured pages",
-        "it": "Not published on captured pages"
+        "en": "Price not published online.",
+        "it": "Prezzo non pubblicato online."
       }
     },
     {
@@ -2037,8 +2037,8 @@
       "audience": "adults",
       "attendanceModel": "drop_in",
       "priceNote": {
-        "en": "Not published on captured pages",
-        "it": "Not published on captured pages"
+        "en": "Price not published online.",
+        "it": "Prezzo non pubblicato online."
       }
     },
     {
@@ -2065,8 +2065,8 @@
       "audience": "adults",
       "attendanceModel": "drop_in",
       "priceNote": {
-        "en": "Not published on captured pages",
-        "it": "Not published on captured pages"
+        "en": "Price not published online.",
+        "it": "Prezzo non pubblicato online."
       }
     },
     {
@@ -2093,8 +2093,8 @@
       "audience": "adults",
       "attendanceModel": "drop_in",
       "priceNote": {
-        "en": "Not published on captured pages",
-        "it": "Not published on captured pages"
+        "en": "Price not published online.",
+        "it": "Prezzo non pubblicato online."
       }
     },
     {
@@ -2121,8 +2121,8 @@
       "audience": "adults",
       "attendanceModel": "drop_in",
       "priceNote": {
-        "en": "Not published on captured pages",
-        "it": "Not published on captured pages"
+        "en": "Price not published online.",
+        "it": "Prezzo non pubblicato online."
       }
     },
     {
@@ -2149,8 +2149,8 @@
       "audience": "adults",
       "attendanceModel": "drop_in",
       "priceNote": {
-        "en": "Not published on captured pages",
-        "it": "Not published on captured pages"
+        "en": "Price not published online.",
+        "it": "Prezzo non pubblicato online."
       }
     },
     {
@@ -2177,8 +2177,8 @@
       "audience": "adults",
       "attendanceModel": "drop_in",
       "priceNote": {
-        "en": "Not published on captured pages",
-        "it": "Not published on captured pages"
+        "en": "Price not published online.",
+        "it": "Prezzo non pubblicato online."
       }
     },
     {
@@ -2205,8 +2205,8 @@
       "audience": "adults",
       "attendanceModel": "drop_in",
       "priceNote": {
-        "en": "Not published on captured pages",
-        "it": "Not published on captured pages"
+        "en": "Price not published online.",
+        "it": "Prezzo non pubblicato online."
       }
     },
     {
@@ -2233,8 +2233,8 @@
       "audience": "adults",
       "attendanceModel": "drop_in",
       "priceNote": {
-        "en": "Not published on captured pages",
-        "it": "Not published on captured pages"
+        "en": "Price not published online.",
+        "it": "Prezzo non pubblicato online."
       }
     },
     {
@@ -2261,8 +2261,8 @@
       "audience": "adults",
       "attendanceModel": "drop_in",
       "priceNote": {
-        "en": "Not published on captured pages",
-        "it": "Not published on captured pages"
+        "en": "Price not published online.",
+        "it": "Prezzo non pubblicato online."
       }
     },
     {
@@ -2289,8 +2289,8 @@
       "audience": "adults",
       "attendanceModel": "drop_in",
       "priceNote": {
-        "en": "Not published on captured pages",
-        "it": "Not published on captured pages"
+        "en": "Price not published online.",
+        "it": "Prezzo non pubblicato online."
       }
     },
     {
@@ -2317,8 +2317,8 @@
       "audience": "adults",
       "attendanceModel": "drop_in",
       "priceNote": {
-        "en": "Not published on captured pages",
-        "it": "Not published on captured pages"
+        "en": "Price not published online.",
+        "it": "Prezzo non pubblicato online."
       }
     },
     {
@@ -2345,8 +2345,8 @@
       "audience": "adults",
       "attendanceModel": "drop_in",
       "priceNote": {
-        "en": "Not published on captured pages",
-        "it": "Not published on captured pages"
+        "en": "Price not published online.",
+        "it": "Prezzo non pubblicato online."
       }
     },
     {
@@ -2373,8 +2373,8 @@
       "audience": "adults",
       "attendanceModel": "drop_in",
       "priceNote": {
-        "en": "Not published on captured pages",
-        "it": "Not published on captured pages"
+        "en": "Price not published online.",
+        "it": "Prezzo non pubblicato online."
       }
     },
     {
@@ -2401,8 +2401,8 @@
       "audience": "adults",
       "attendanceModel": "drop_in",
       "priceNote": {
-        "en": "Not published on captured pages",
-        "it": "Not published on captured pages"
+        "en": "Price not published online.",
+        "it": "Prezzo non pubblicato online."
       }
     },
     {
@@ -2429,8 +2429,8 @@
       "audience": "adults",
       "attendanceModel": "drop_in",
       "priceNote": {
-        "en": "Not published on captured pages",
-        "it": "Not published on captured pages"
+        "en": "Price not published online.",
+        "it": "Prezzo non pubblicato online."
       }
     },
     {
@@ -2457,8 +2457,8 @@
       "audience": "adults",
       "attendanceModel": "drop_in",
       "priceNote": {
-        "en": "Not published on captured pages",
-        "it": "Not published on captured pages"
+        "en": "Price not published online.",
+        "it": "Prezzo non pubblicato online."
       }
     },
     {
@@ -2489,8 +2489,8 @@
       "ageBand": "mixed-kids",
       "guardianRequired": false,
       "priceNote": {
-        "en": "Not published on captured pages",
-        "it": "Not published on captured pages"
+        "en": "Price not published online.",
+        "it": "Prezzo non pubblicato online."
       }
     },
     {
@@ -2517,8 +2517,8 @@
       "audience": "adults",
       "attendanceModel": "drop_in",
       "priceNote": {
-        "en": "Not published on captured pages",
-        "it": "Not published on captured pages"
+        "en": "Price not published online.",
+        "it": "Prezzo non pubblicato online."
       }
     },
     {
@@ -2545,8 +2545,8 @@
       "audience": "adults",
       "attendanceModel": "drop_in",
       "priceNote": {
-        "en": "Not published on captured pages",
-        "it": "Not published on captured pages"
+        "en": "Price not published online.",
+        "it": "Prezzo non pubblicato online."
       }
     },
     {
@@ -2573,8 +2573,8 @@
       "audience": "adults",
       "attendanceModel": "drop_in",
       "priceNote": {
-        "en": "Not published on captured pages",
-        "it": "Not published on captured pages"
+        "en": "Price not published online.",
+        "it": "Prezzo non pubblicato online."
       }
     },
     {
@@ -2601,8 +2601,8 @@
       "audience": "adults",
       "attendanceModel": "drop_in",
       "priceNote": {
-        "en": "Not published on captured pages",
-        "it": "Not published on captured pages"
+        "en": "Price not published online.",
+        "it": "Prezzo non pubblicato online."
       }
     },
     {
@@ -2629,8 +2629,7 @@
       "audience": "adults",
       "attendanceModel": "drop_in",
       "priceNote": {
-        "en": "Contact venue for pricing",
-        "it": "Contact venue for pricing"
+        "en": "Contact venue for pricing"
       }
     },
     {
@@ -2657,8 +2656,7 @@
       "audience": "adults",
       "attendanceModel": "drop_in",
       "priceNote": {
-        "en": "Contact venue for pricing",
-        "it": "Contact venue for pricing"
+        "en": "Contact venue for pricing"
       }
     },
     {
@@ -2685,8 +2683,7 @@
       "audience": "adults",
       "attendanceModel": "drop_in",
       "priceNote": {
-        "en": "Contact venue for pricing",
-        "it": "Contact venue for pricing"
+        "en": "Contact venue for pricing"
       }
     },
     {
@@ -2713,8 +2710,7 @@
       "audience": "adults",
       "attendanceModel": "drop_in",
       "priceNote": {
-        "en": "Contact venue for pricing",
-        "it": "Contact venue for pricing"
+        "en": "Contact venue for pricing"
       }
     },
     {
@@ -2741,8 +2737,7 @@
       "audience": "adults",
       "attendanceModel": "drop_in",
       "priceNote": {
-        "en": "Contact venue for pricing",
-        "it": "Contact venue for pricing"
+        "en": "Contact venue for pricing"
       }
     },
     {
@@ -2769,8 +2764,7 @@
       "audience": "adults",
       "attendanceModel": "drop_in",
       "priceNote": {
-        "en": "Typically community-led; pricing not exposed on the captured page",
-        "it": "Typically community-led; pricing not exposed on the captured page"
+        "en": "Typically community-led; pricing not exposed on the captured page"
       }
     },
     {
@@ -2797,8 +2791,7 @@
       "audience": "adults",
       "attendanceModel": "drop_in",
       "priceNote": {
-        "en": "Contact studio for pricing",
-        "it": "Contact studio for pricing"
+        "en": "Contact studio for pricing"
       }
     },
     {
@@ -2825,8 +2818,7 @@
       "audience": "adults",
       "attendanceModel": "drop_in",
       "priceNote": {
-        "en": "Contact studio for pricing",
-        "it": "Contact studio for pricing"
+        "en": "Contact studio for pricing"
       }
     },
     {
@@ -2853,8 +2845,7 @@
       "audience": "adults",
       "attendanceModel": "drop_in",
       "priceNote": {
-        "en": "Contact studio for pricing",
-        "it": "Contact studio for pricing"
+        "en": "Contact studio for pricing"
       }
     },
     {
@@ -2881,8 +2872,7 @@
       "audience": "adults",
       "attendanceModel": "drop_in",
       "priceNote": {
-        "en": "Contact studio for pricing",
-        "it": "Contact studio for pricing"
+        "en": "Contact studio for pricing"
       }
     },
     {
@@ -2909,8 +2899,7 @@
       "audience": "adults",
       "attendanceModel": "drop_in",
       "priceNote": {
-        "en": "Contact studio for pricing",
-        "it": "Contact studio for pricing"
+        "en": "Contact studio for pricing"
       }
     },
     {
@@ -2937,8 +2926,7 @@
       "audience": "adults",
       "attendanceModel": "drop_in",
       "priceNote": {
-        "en": "Contact studio for pricing",
-        "it": "Contact studio for pricing"
+        "en": "Contact studio for pricing"
       }
     },
     {
@@ -2965,8 +2953,7 @@
       "audience": "adults",
       "attendanceModel": "drop_in",
       "priceNote": {
-        "en": "Contact studio for pricing",
-        "it": "Contact studio for pricing"
+        "en": "Contact studio for pricing"
       }
     },
     {
@@ -2993,8 +2980,7 @@
       "audience": "adults",
       "attendanceModel": "drop_in",
       "priceNote": {
-        "en": "Contact studio for pricing",
-        "it": "Contact studio for pricing"
+        "en": "Contact studio for pricing"
       }
     },
     {
@@ -3021,8 +3007,7 @@
       "audience": "adults",
       "attendanceModel": "drop_in",
       "priceNote": {
-        "en": "Contact studio for pricing",
-        "it": "Contact studio for pricing"
+        "en": "Contact studio for pricing"
       }
     },
     {
@@ -3049,8 +3034,7 @@
       "audience": "adults",
       "attendanceModel": "drop_in",
       "priceNote": {
-        "en": "Contact studio for pricing",
-        "it": "Contact studio for pricing"
+        "en": "Contact studio for pricing"
       }
     },
     {
@@ -3077,8 +3061,7 @@
       "audience": "adults",
       "attendanceModel": "drop_in",
       "priceNote": {
-        "en": "Contact studio for pricing",
-        "it": "Contact studio for pricing"
+        "en": "Contact studio for pricing"
       }
     },
     {
@@ -3105,8 +3088,8 @@
       "audience": "adults",
       "attendanceModel": "drop_in",
       "priceNote": {
-        "en": "Carnet from 12 EUR; monthly open 70 EUR",
-        "it": "Carnet from 12 EUR; monthly open 70 EUR"
+        "en": "Passes from EUR 12; monthly open plan EUR 70.",
+        "it": "Carnet da 12 EUR; mensile open a 70 EUR."
       }
     },
     {
@@ -3133,8 +3116,8 @@
       "audience": "adults",
       "attendanceModel": "drop_in",
       "priceNote": {
-        "en": "Carnet from 12 EUR; monthly open 70 EUR",
-        "it": "Carnet from 12 EUR; monthly open 70 EUR"
+        "en": "Passes from EUR 12; monthly open plan EUR 70.",
+        "it": "Carnet da 12 EUR; mensile open a 70 EUR."
       }
     },
     {
@@ -3161,8 +3144,8 @@
       "audience": "adults",
       "attendanceModel": "drop_in",
       "priceNote": {
-        "en": "Carnet from 12 EUR; monthly open 70 EUR",
-        "it": "Carnet from 12 EUR; monthly open 70 EUR"
+        "en": "Passes from EUR 12; monthly open plan EUR 70.",
+        "it": "Carnet da 12 EUR; mensile open a 70 EUR."
       }
     },
     {
@@ -3189,8 +3172,8 @@
       "audience": "adults",
       "attendanceModel": "drop_in",
       "priceNote": {
-        "en": "Carnet from 12 EUR; monthly open 70 EUR",
-        "it": "Carnet from 12 EUR; monthly open 70 EUR"
+        "en": "Passes from EUR 12; monthly open plan EUR 70.",
+        "it": "Carnet da 12 EUR; mensile open a 70 EUR."
       }
     },
     {
@@ -3217,8 +3200,8 @@
       "audience": "adults",
       "attendanceModel": "drop_in",
       "priceNote": {
-        "en": "Carnet from 12 EUR; monthly open 70 EUR",
-        "it": "Carnet from 12 EUR; monthly open 70 EUR"
+        "en": "Passes from EUR 12; monthly open plan EUR 70.",
+        "it": "Carnet da 12 EUR; mensile open a 70 EUR."
       }
     },
     {
@@ -3245,8 +3228,8 @@
       "audience": "adults",
       "attendanceModel": "drop_in",
       "priceNote": {
-        "en": "Carnet from 12 EUR; monthly open 70 EUR",
-        "it": "Carnet from 12 EUR; monthly open 70 EUR"
+        "en": "Passes from EUR 12; monthly open plan EUR 70.",
+        "it": "Carnet da 12 EUR; mensile open a 70 EUR."
       }
     },
     {
@@ -3273,8 +3256,8 @@
       "audience": "adults",
       "attendanceModel": "drop_in",
       "priceNote": {
-        "en": "Carnet from 12 EUR; monthly open 70 EUR",
-        "it": "Carnet from 12 EUR; monthly open 70 EUR"
+        "en": "Passes from EUR 12; monthly open plan EUR 70.",
+        "it": "Carnet da 12 EUR; mensile open a 70 EUR."
       }
     },
     {
@@ -3305,8 +3288,7 @@
       "ageBand": "mixed-kids",
       "guardianRequired": false,
       "priceNote": {
-        "en": "Included in studio memberships or passes",
-        "it": "Included in studio memberships or passes"
+        "en": "Included in studio memberships or passes"
       }
     },
     {
@@ -3333,8 +3315,8 @@
       "audience": "adults",
       "attendanceModel": "drop_in",
       "priceNote": {
-        "en": "Carnet from 12 EUR; monthly open 70 EUR",
-        "it": "Carnet from 12 EUR; monthly open 70 EUR"
+        "en": "Passes from EUR 12; monthly open plan EUR 70.",
+        "it": "Carnet da 12 EUR; mensile open a 70 EUR."
       }
     },
     {
@@ -3361,8 +3343,8 @@
       "audience": "adults",
       "attendanceModel": "drop_in",
       "priceNote": {
-        "en": "Carnet from 12 EUR; monthly open 70 EUR",
-        "it": "Carnet from 12 EUR; monthly open 70 EUR"
+        "en": "Passes from EUR 12; monthly open plan EUR 70.",
+        "it": "Carnet da 12 EUR; mensile open a 70 EUR."
       }
     },
     {
@@ -3393,8 +3375,7 @@
       "ageBand": "mixed-kids",
       "guardianRequired": false,
       "priceNote": {
-        "en": "Included in studio memberships or passes",
-        "it": "Included in studio memberships or passes"
+        "en": "Included in studio memberships or passes"
       }
     },
     {
@@ -3421,8 +3402,8 @@
       "audience": "adults",
       "attendanceModel": "drop_in",
       "priceNote": {
-        "en": "Carnet from 12 EUR; monthly open 70 EUR",
-        "it": "Carnet from 12 EUR; monthly open 70 EUR"
+        "en": "Passes from EUR 12; monthly open plan EUR 70.",
+        "it": "Carnet da 12 EUR; mensile open a 70 EUR."
       }
     },
     {
@@ -3449,8 +3430,8 @@
       "audience": "adults",
       "attendanceModel": "drop_in",
       "priceNote": {
-        "en": "Carnet from 12 EUR; monthly open 70 EUR",
-        "it": "Carnet from 12 EUR; monthly open 70 EUR"
+        "en": "Passes from EUR 12; monthly open plan EUR 70.",
+        "it": "Carnet da 12 EUR; mensile open a 70 EUR."
       }
     },
     {
@@ -3477,8 +3458,8 @@
       "audience": "adults",
       "attendanceModel": "drop_in",
       "priceNote": {
-        "en": "Carnet from 12 EUR; monthly open 70 EUR",
-        "it": "Carnet from 12 EUR; monthly open 70 EUR"
+        "en": "Passes from EUR 12; monthly open plan EUR 70.",
+        "it": "Carnet da 12 EUR; mensile open a 70 EUR."
       }
     },
     {
@@ -3505,8 +3486,8 @@
       "audience": "adults",
       "attendanceModel": "drop_in",
       "priceNote": {
-        "en": "Carnet from 12 EUR; monthly open 70 EUR",
-        "it": "Carnet from 12 EUR; monthly open 70 EUR"
+        "en": "Passes from EUR 12; monthly open plan EUR 70.",
+        "it": "Carnet da 12 EUR; mensile open a 70 EUR."
       }
     },
     {
@@ -3533,8 +3514,8 @@
       "audience": "adults",
       "attendanceModel": "drop_in",
       "priceNote": {
-        "en": "Carnet from 12 EUR; monthly open 70 EUR",
-        "it": "Carnet from 12 EUR; monthly open 70 EUR"
+        "en": "Passes from EUR 12; monthly open plan EUR 70.",
+        "it": "Carnet da 12 EUR; mensile open a 70 EUR."
       }
     },
     {
@@ -3561,8 +3542,8 @@
       "audience": "adults",
       "attendanceModel": "drop_in",
       "priceNote": {
-        "en": "Carnet from 12 EUR; monthly open 70 EUR",
-        "it": "Carnet from 12 EUR; monthly open 70 EUR"
+        "en": "Passes from EUR 12; monthly open plan EUR 70.",
+        "it": "Carnet da 12 EUR; mensile open a 70 EUR."
       }
     },
     {
@@ -3589,8 +3570,8 @@
       "audience": "adults",
       "attendanceModel": "drop_in",
       "priceNote": {
-        "en": "Carnet from 12 EUR; monthly open 70 EUR",
-        "it": "Carnet from 12 EUR; monthly open 70 EUR"
+        "en": "Passes from EUR 12; monthly open plan EUR 70.",
+        "it": "Carnet da 12 EUR; mensile open a 70 EUR."
       }
     },
     {
@@ -3617,8 +3598,8 @@
       "audience": "adults",
       "attendanceModel": "drop_in",
       "priceNote": {
-        "en": "Carnet from 12 EUR; monthly open 70 EUR",
-        "it": "Carnet from 12 EUR; monthly open 70 EUR"
+        "en": "Passes from EUR 12; monthly open plan EUR 70.",
+        "it": "Carnet da 12 EUR; mensile open a 70 EUR."
       }
     }
   ]

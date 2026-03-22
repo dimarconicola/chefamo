@@ -6,7 +6,7 @@ import { env } from '@/lib/env';
 export async function POST(request: Request) {
   const formData = await request.formData();
   const email = String(formData.get('email') ?? '').trim().toLowerCase();
-  const locale = String(formData.get('locale') ?? 'en');
+  const locale = String(formData.get('locale') ?? 'it');
 
   if (!email) {
     return NextResponse.redirect(new URL(`/${locale}/sign-in`, request.url));
@@ -22,12 +22,16 @@ export async function POST(request: Request) {
   }
 
   const next = encodeURIComponent(`/${locale}/favorites`);
-  await supabase.auth.signInWithOtp({
-    email,
-    options: {
-      emailRedirectTo: `${env.siteUrl}/auth/callback?next=${next}`
-    }
-  });
+  try {
+    await supabase.auth.signInWithOtp({
+      email,
+      options: {
+        emailRedirectTo: `${env.siteUrl}/auth/callback?next=${next}`
+      }
+    });
+  } catch {
+    return NextResponse.redirect(new URL(`/${locale}/sign-in?error=1`, request.url));
+  }
 
   return NextResponse.redirect(new URL(`/${locale}/sign-in?checkEmail=1`, request.url));
 }

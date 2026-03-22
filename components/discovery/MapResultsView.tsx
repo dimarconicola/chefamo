@@ -6,6 +6,7 @@ import dynamic from 'next/dynamic';
 import { SessionCard } from '@/components/discovery/SessionCard';
 import type { ResolvedSessionCardData } from '@/lib/catalog/session-card-data';
 import type { Locale, Session, Venue } from '@/lib/catalog/types';
+import type { RuntimeCapabilities } from '@/lib/runtime/capabilities';
 
 const MapPanel = dynamic(() => import('@/components/discovery/MapPanel').then((module) => module.MapPanel), {
   ssr: false
@@ -21,6 +22,7 @@ interface MapResultsViewProps {
   resolvedSessionCards: Record<string, ResolvedSessionCardData>;
   signedInEmail?: string;
   scheduleLabel: string;
+  runtimeCapabilities: RuntimeCapabilities;
   noResultsLabel: string;
 }
 
@@ -34,6 +36,7 @@ export function MapResultsView({
   resolvedSessionCards,
   signedInEmail,
   scheduleLabel,
+  runtimeCapabilities,
   noResultsLabel
 }: MapResultsViewProps) {
   const labels =
@@ -93,6 +96,7 @@ export function MapResultsView({
               resolved={resolvedSessionCards[session.id]}
               signedInEmail={signedInEmail}
               scheduleLabel={scheduleLabel}
+              runtimeCapabilities={runtimeCapabilities}
             />
           ))
         ) : (

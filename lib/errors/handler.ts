@@ -4,10 +4,11 @@ export class AppError extends Error {
   constructor(
     message: string,
     public statusCode: number = 500,
+    public code: string = 'APP_ERROR',
     public details?: Record<string, unknown>
   ) {
     super(message);
-    this.name = 'AppError';
+    this.name = code;
   }
 }
 
@@ -39,12 +40,12 @@ export function createResponse<T>(data: T): SuccessResponse<T> {
 export function createErrorResponse(error: unknown, defaultCode = 'INTERNAL_ERROR'): ErrorResponse {
   // Handle typed AppError
   if (error instanceof AppError) {
-    logger.error(error.message, error, { statusCode: error.statusCode, details: error.details });
+    logger.error(error.message, error, { statusCode: error.statusCode, code: error.code, details: error.details });
     return {
       success: false,
       error: {
         message: error.message,
-        code: error.name,
+        code: error.code,
         statusCode: error.statusCode,
         details: error.details
       }

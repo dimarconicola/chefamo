@@ -4,6 +4,8 @@ import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 
 import { readStoredFavorites, syncStoredFavorite, toFavoriteKey, toggleStoredFavorite } from '@/components/state/storage';
+import { readApiErrorCode } from '@/lib/errors/api-client';
+import type { RuntimeCapabilities } from '@/lib/runtime/capabilities';
 
 interface FavoriteButtonProps {
   entitySlug: string;
@@ -12,13 +14,25 @@ interface FavoriteButtonProps {
   signedInEmail?: string;
   label: string;
   savedLabel: string;
+  runtimeCapabilities?: RuntimeCapabilities;
 }
 
-export function FavoriteButton({ entitySlug, entityType, locale, signedInEmail, label, savedLabel }: FavoriteButtonProps) {
+export function FavoriteButton({ entitySlug, entityType, locale, signedInEmail, label, savedLabel, runtimeCapabilities }: FavoriteButtonProps) {
   const router = useRouter();
   const [saved, setSaved] = useState(false);
   const [pending, setPending] = useState(false);
+  const [notice, setNotice] = useState<string | null>(null);
   const storageKey = signedInEmail ? toFavoriteKey(entityType, entitySlug) : null;
+  const copy =
+    locale === 'it'
+      ? {
+          unavailable: 'Preferiti temporaneamente non disponibili.',
+          authRequired: 'Accedi per salvare tra i preferiti.'
+        }
+      : {
+          unavailable: 'Favorites are temporarily unavailable.',
+          authRequired: 'Sign in to save favorites.'
+        };
 
   useEffect(() => {
     if (!signedInEmail) return;
@@ -43,8 +57,19 @@ export function FavoriteButton({ entitySlug, entityType, locale, signedInEmail, 
   }, [entitySlug, entityType, signedInEmail]);
 
   const toggle = async () => {
+    setNotice(null);
+
+    if (runtimeCapabilities?.storeMode === 'unavailable' || runtimeCapabilities?.authMode === 'unavailable') {
+      setNotice(copy.unavailable);
+      return;
+    }
+
     if (!signedInEmail) {
-      router.push(`/${locale}/sign-in`);
+      if (runtimeCapabilities?.authMode === 'dev-local' || runtimeCapabilities?.authMode === 'supabase' || !runtimeCapabilities) {
+        router.push(`/${locale}/sign-in`);
+      } else {
+        setNotice(copy.authRequired);
+      }
       return;
     }
 
@@ -59,7 +84,12 @@ export function FavoriteButton({ entitySlug, entityType, locale, signedInEmail, 
         body: JSON.stringify({ entityType, entitySlug })
       });
       if (!response.ok) {
-        if (response.status === 401) router.push(`/${locale}/sign-in`);
+        const code = await readApiErrorCode(response);
+        if (response.status === 401 || code === 'AUTH_REQUIRED') {
+          router.push(`/${locale}/sign-in`);
+        } else {
+          setNotice(copy.unavailable);
+        }
         setSaved(previousSaved);
         if (storageKey) syncStoredFavorite(signedInEmail, storageKey, previousSaved);
         return;
@@ -71,14 +101,22 @@ export function FavoriteButton({ entitySlug, entityType, locale, signedInEmail, 
     } catch {
       setSaved(previousSaved);
       if (storageKey) syncStoredFavorite(signedInEmail, storageKey, previousSaved);
+      setNotice(copy.unavailable);
     } finally {
       setPending(false);
     }
   };
 
   return (
-    <button className="button button-ghost" onClick={toggle} type="button" disabled={pending} aria-pressed={saved} aria-busy={pending}>
-      {saved ? savedLabel : label}
-    </button>
+    <div className="action-control">
+      <button className="button button-ghost" onClick={toggle} type="button" disabled={pending} aria-pressed={saved} aria-busy={pending}>
+        {saved ? savedLabel : label}
+      </button>
+      {notice ? (
+        <span className="action-feedback" aria-live="polite">
+          {notice}
+        </span>
+      ) : null}
+    </div>
   );
 }
