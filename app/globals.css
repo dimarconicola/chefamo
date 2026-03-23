@@ -873,6 +873,29 @@ main.site-main {
   height: 100% !important;
 }
 
+.map-fallback-surface {
+  position: relative;
+  min-height: 100%;
+}
+
+.map-fallback-grid {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.map-fallback-grid rect {
+  fill: rgba(255, 255, 255, 0.4);
+}
+
+.map-fallback-marker {
+  fill: #ff704a;
+}
+
+.map-fallback-marker-ring {
+  fill: rgba(255, 112, 74, 0.14);
+}
+
 .map-setup-state {
   position: absolute;
   inset: 1rem;

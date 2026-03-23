@@ -13,10 +13,12 @@ export interface RuntimeCapabilities {
 }
 
 const isLocalDevelopment = () => env.nodeEnv === 'development' && !env.vercelEnv;
+const isPreviewDeployment = () => env.vercelEnv === 'preview';
 
 export const getAuthMode = (): AuthMode => {
   if (isSupabaseConfigured) return 'supabase';
   if (isLocalDevelopment()) return 'dev-local';
+  if (isPreviewDeployment()) return 'dev-local';
   return 'unavailable';
 };
 
