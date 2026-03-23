@@ -14,9 +14,8 @@ interface MapPanelProps {
 
 export function MapPanel({ locale, cityName, venues, bounds }: MapPanelProps) {
   const mapRef = useRef<HTMLDivElement | null>(null);
-  const [mapStatus, setMapStatus] = useState<'loading' | 'ready' | 'missing-token' | 'error'>(
-    env.mapboxToken ? 'loading' : 'missing-token'
-  );
+  const hasInteractiveMap = Boolean(env.mapboxToken);
+  const [mapStatus, setMapStatus] = useState<'loading' | 'ready' | 'error'>(hasInteractiveMap ? 'loading' : 'ready');
   const labels =
     locale === 'it'
       ? {
@@ -25,8 +24,8 @@ export function MapPanel({ locale, cityName, venues, bounds }: MapPanelProps) {
           copy: 'Mostriamo solo studi con percorsi di prenotazione o contatto attivi.',
           loadingTitle: 'Caricamento mappa',
           loadingBody: 'Recupero tile e marker in corso.',
-          missingTitle: 'Mappa non configurata',
-          missingBody: 'Questa installazione non ha NEXT_PUBLIC_MAPBOX_TOKEN configurato.',
+          staticTitle: 'Panoramica studi',
+          staticBody: 'La vista mappa resta consultabile con un tracciato locale semplificato delle sedi.',
           errorTitle: 'Mappa non disponibile',
           errorBody: 'Impossibile caricare la mappa in questo momento. Riprova tra poco.'
         }
@@ -36,16 +35,21 @@ export function MapPanel({ locale, cityName, venues, bounds }: MapPanelProps) {
           copy: 'Only venues with live booking or contact paths are shown.',
           loadingTitle: 'Loading map',
           loadingBody: 'Fetching map tiles and venue markers.',
-          missingTitle: 'Map not configured',
-          missingBody: 'This deployment is missing NEXT_PUBLIC_MAPBOX_TOKEN.',
+          staticTitle: 'Venue overview',
+          staticBody: 'The map stays browsable with a simplified local venue layout.',
           errorTitle: 'Map unavailable',
           errorBody: 'Could not load map tiles right now. Try again shortly.'
         };
 
+  const fallbackMarkers = venues.map((venue) => ({
+    venue,
+    x: ((venue.geo.lng - bounds[0]) / Math.max(bounds[2] - bounds[0], 0.0001)) * 100,
+    y: (1 - (venue.geo.lat - bounds[1]) / Math.max(bounds[3] - bounds[1], 0.0001)) * 100
+  }));
+
   useEffect(() => {
     if (!mapRef.current) return;
-    if (!env.mapboxToken) {
-      setMapStatus('missing-token');
+    if (!hasInteractiveMap) {
       return;
     }
 
@@ -97,7 +101,7 @@ export function MapPanel({ locale, cityName, venues, bounds }: MapPanelProps) {
       mounted = false;
       cleanup();
     };
-  }, [bounds, venues]);
+  }, [bounds, hasInteractiveMap, venues]);
   return (
     <aside className="map-shell panel">
       <div className="map-panel-copy">
@@ -105,22 +109,34 @@ export function MapPanel({ locale, cityName, venues, bounds }: MapPanelProps) {
         <h3>{labels.title}</h3>
         <p className="muted">{labels.copy}</p>
       </div>
-      <div ref={mapRef} className={`map-panel ${mapStatus === 'ready' ? 'map-panel-live' : 'map-panel-setup'}`}>
-        {mapStatus !== 'ready' ? (
+      <div ref={mapRef} className={`map-panel ${hasInteractiveMap && mapStatus === 'ready' ? 'map-panel-live' : 'map-panel-setup'}`}>
+        {!hasInteractiveMap ? (
+          <div className="map-fallback-surface" aria-label={labels.staticTitle}>
+            <svg viewBox="0 0 100 100" className="map-fallback-grid" role="img" aria-hidden="true">
+              <rect x="0" y="0" width="100" height="100" rx="8" />
+              {fallbackMarkers.map(({ venue, x, y }) => (
+                <g key={venue.slug} transform={`translate(${Math.min(Math.max(x, 6), 94)} ${Math.min(Math.max(y, 8), 92)})`}>
+                  <circle r="2.7" className="map-fallback-marker" />
+                  <circle r="5.5" className="map-fallback-marker-ring" />
+                </g>
+              ))}
+            </svg>
+            <div className="map-setup-state">
+              <strong>{labels.staticTitle}</strong>
+              <span>{labels.staticBody}</span>
+            </div>
+          </div>
+        ) : mapStatus !== 'ready' ? (
           <div className="map-setup-state" role="status">
             <strong>
               {mapStatus === 'loading'
                 ? labels.loadingTitle
-                : mapStatus === 'missing-token'
-                  ? labels.missingTitle
-                  : labels.errorTitle}
+                : labels.errorTitle}
             </strong>
             <span>
               {mapStatus === 'loading'
                 ? labels.loadingBody
-                : mapStatus === 'missing-token'
-                  ? labels.missingBody
-                  : labels.errorBody}
+                : labels.errorBody}
             </span>
           </div>
         ) : null}

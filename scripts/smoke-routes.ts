@@ -12,6 +12,11 @@ const checks = [
     markers: ['Filtri', 'Vista mappa', 'Calendario'],
     absent: ['Soglia di copertura', 'Copertura CTA', 'Not published on captured pages']
   },
+  {
+    path: '/it/palermo/classes?view=map',
+    markers: ['Vista mappa', 'classi visibili'],
+    absent: ['NEXT_PUBLIC_MAPBOX_TOKEN', 'Mappa non configurata', 'Map not configured']
+  },
   { path: '/it/palermo/studios/yoga-city', markers: ['Studio', 'Agenda verificata'] },
   {
     path: '/it/palermo/studios/ashtanga-shala-sicilia',
