@@ -38,9 +38,20 @@ test.describe('critical public exploration', () => {
 
     await expect(page.getByText('Carnet 8 lezioni a 65 EUR; carnet 16 lezioni a 110 EUR.').first()).toBeVisible();
     await expect(page.getByText('8 lessons 65 EUR; 16 lessons 110 EUR')).toHaveCount(0);
+    await expect(page.getByRole('button', { name: 'Salva studio' })).toBeVisible();
     await expectNoTechnicalCopy(page);
 
     const externalLinks = page.locator('a[href^="http"]');
     await expect(externalLinks.first()).toBeVisible();
+  });
+
+  test('teachers directory is public and alphabetical', async ({ page }) => {
+    await page.goto('/it/palermo/teachers');
+
+    await expect(page.getByRole('heading', { name: 'Chi guida le pratiche a Palermo' })).toBeVisible();
+    await expect(page.getByText('Valentina Lorito')).toBeVisible();
+    await expect(page.getByText('Marta Sto')).toBeVisible();
+    await expect(page.getByRole('link', { name: /Apri profilo/i }).first()).toBeVisible();
+    await expectNoTechnicalCopy(page);
   });
 });

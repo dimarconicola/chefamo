@@ -11,13 +11,15 @@ export function SiteFooter({ locale }: { locale: Locale }) {
     locale === 'it'
       ? {
           classes: 'Classi',
+          teachers: 'Insegnanti',
           whoWeAre: 'Chi siamo',
-          suggestCalendar: 'Segnala calendario',
+          suggestCalendar: 'Suggerisci calendario',
           privacy: 'Privacy Policy',
           cookies: 'Cookies'
         }
       : {
           classes: 'Classes',
+          teachers: 'Teachers',
           whoWeAre: 'Who we are',
           suggestCalendar: 'Suggest calendar',
           privacy: 'Privacy Policy',
@@ -35,10 +37,13 @@ export function SiteFooter({ locale }: { locale: Locale }) {
         <div className="footer-links">
           <ServerLink href={`/${locale}/palermo`}>Palermo</ServerLink>
           <ServerLink href={`/${locale}/palermo/classes`}>{labels.classes}</ServerLink>
+          <ServerLink href={`/${locale}/palermo/teachers`}>{labels.teachers}</ServerLink>
           <ServerLink href={`/${locale}/who-we-are`}>{labels.whoWeAre}</ServerLink>
-          <ServerLink href={`/${locale}/suggest-calendar`}>{labels.suggestCalendar}</ServerLink>
           <ServerLink href={`/${locale}/privacy-policy`}>{labels.privacy}</ServerLink>
           <ServerLink href={`/${locale}/cookies`}>{labels.cookies}</ServerLink>
+        </div>
+        <div className="footer-secondary-link">
+          <ServerLink href={`/${locale}/suggest-calendar`}>{labels.suggestCalendar}</ServerLink>
         </div>
       </div>
     </footer>

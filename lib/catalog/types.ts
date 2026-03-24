@@ -62,6 +62,23 @@ export interface Instructor {
   shortBio: LocalizedText;
   specialties: string[];
   languages: string[];
+  headshot?: InstructorImage;
+  socialLinks?: InstructorSocialLink[];
+}
+
+export interface InstructorImage {
+  url: string;
+  alt: LocalizedText;
+  sourceUrl: string;
+  lastVerifiedAt: string;
+}
+
+export interface InstructorSocialLink {
+  type: 'instagram' | 'facebook' | 'website';
+  label: LocalizedText;
+  href: string;
+  sourceUrl: string;
+  lastVerifiedAt: string;
 }
 
 export interface BookingTarget {

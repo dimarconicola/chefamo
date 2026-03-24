@@ -1,5 +1,6 @@
 import { DateTime } from 'luxon';
 
+import { FavoriteButton } from '@/components/state/FavoriteButton';
 import { ScheduleButton } from '@/components/state/ScheduleButton';
 import { getPriceNoteForLocale } from '@/lib/catalog/price-notes';
 import { ServerChip, ServerLink } from '@/components/ui/server';
@@ -39,7 +40,10 @@ export function SessionCard({ session, locale, resolved, signedInEmail, schedule
             hybrid: 'Hybrid',
             online: 'Online'
           },
-          price: 'Prezzo'
+          price: 'Prezzo',
+          saveClass: 'Salva classe',
+          savedClass: 'Classe salvata',
+          savedSchedule: 'In agenda'
         }
       : {
           verified: 'Verified',
@@ -58,7 +62,10 @@ export function SessionCard({ session, locale, resolved, signedInEmail, schedule
             hybrid: 'Hybrid',
             online: 'Online'
           },
-          price: 'Price'
+          price: 'Price',
+          saveClass: 'Save class',
+          savedClass: 'Class saved',
+          savedSchedule: 'In schedule'
         };
 
   const start = DateTime.fromISO(session.startAt).setZone('Europe/Rome');
@@ -117,6 +124,15 @@ export function SessionCard({ session, locale, resolved, signedInEmail, schedule
               </div>
             </div>
             <div className="session-actions">
+              <FavoriteButton
+                entitySlug={session.id}
+                entityType="session"
+                locale={locale}
+                signedInEmail={signedInEmail}
+                label={labels.saveClass}
+                savedLabel={labels.savedClass}
+                runtimeCapabilities={runtimeCapabilities}
+              />
               <BookingLink
                 locale={locale}
                 citySlug={session.citySlug}
@@ -131,6 +147,7 @@ export function SessionCard({ session, locale, resolved, signedInEmail, schedule
                 locale={locale}
                 signedInEmail={signedInEmail}
                 label={scheduleLabel}
+                savedLabel={labels.savedSchedule}
                 runtimeCapabilities={runtimeCapabilities}
               />
             </div>

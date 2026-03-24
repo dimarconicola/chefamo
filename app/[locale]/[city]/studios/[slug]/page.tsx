@@ -4,6 +4,7 @@ import { DateTime } from 'luxon';
 import { VenueCover } from '@/components/catalog/VenueCover';
 import { ClaimFormDialog } from '@/components/forms/ClaimFormDialog';
 import { SessionCard } from '@/components/discovery/SessionCard';
+import { FavoriteButton } from '@/components/state/FavoriteButton';
 import { ServerButtonLink, ServerChip, ServerLink } from '@/components/ui/server';
 import { getSessionUser } from '@/lib/auth/session';
 import { getCatalogSnapshot } from '@/lib/catalog/repository';
@@ -56,7 +57,9 @@ export default async function StudioPage({ params }: { params: Promise<{ locale:
           styles: 'stili',
           source: 'Fonte primaria',
           upcoming: 'Prossime sessioni',
-          website: 'Sito ufficiale'
+          website: 'Sito ufficiale',
+          saveStudio: 'Salva studio',
+          savedStudio: 'Studio salvato'
         }
       : {
           eyebrow: 'Studio',
@@ -67,7 +70,9 @@ export default async function StudioPage({ params }: { params: Promise<{ locale:
           styles: 'styles',
           source: 'Primary source',
           upcoming: 'Upcoming sessions',
-          website: 'Official website'
+          website: 'Official website',
+          saveStudio: 'Save studio',
+          savedStudio: 'Studio saved'
         };
 
   return (
@@ -91,6 +96,15 @@ export default async function StudioPage({ params }: { params: Promise<{ locale:
                 <p className="muted">{venue.freshnessNote[locale]} · {formatVerifiedAt(venue.lastVerifiedAt, locale)}</p>
               </div>
               <div className="site-actions profile-links">
+                <FavoriteButton
+                  entitySlug={venue.slug}
+                  entityType="venue"
+                  locale={locale}
+                  signedInEmail={user?.email}
+                  label={profileCopy.saveStudio}
+                  savedLabel={profileCopy.savedStudio}
+                  runtimeCapabilities={runtimeCapabilities}
+                />
                 {hasWebsite ? (
                   <ServerButtonLink href={venue.sourceUrl} className="button-secondary" target="_blank" rel="noreferrer">
                     {profileCopy.website}

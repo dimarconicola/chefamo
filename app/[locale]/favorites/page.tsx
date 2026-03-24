@@ -19,12 +19,11 @@ export default async function FavoritesPage({ params }: { params: Promise<{ loca
           unavailable: 'Preferiti e agenda non sono disponibili in questo momento. Le pagine pubbliche restano consultabili.',
           back: 'Torna a Palermo',
           eyebrow: 'Salvati',
-          title: 'Preferiti e agenda, senza confonderli',
-          lead: 'Preferiti = luoghi e persone da seguire. Agenda salvata = lezioni con orario da tenere d’occhio nella settimana.',
-          favoritesStudios: 'Studi preferiti',
-          favoritesTeachers: 'Insegnanti preferiti',
-          favoritesClasses: 'Classi preferite',
-          savedSchedule: 'Agenda salvata',
+          title: 'Preferiti per scegliere con calma',
+          lead: 'Qui tieni vicini studi, insegnanti e classi da confrontare. L’agenda salvata resta separata per gli orari che vuoi davvero fare.',
+          favoritesStudios: 'Studi da seguire',
+          favoritesTeachers: 'Insegnanti da seguire',
+          favoritesClasses: 'Classi da confrontare',
           noFavorites: 'Nessun elemento salvato per ora.',
           noSchedule: 'Aggiungi classi dal calendario per costruire la tua settimana.',
           gateEyebrow: 'Ritrova ciò che conta',
@@ -37,7 +36,11 @@ export default async function FavoritesPage({ params }: { params: Promise<{ loca
           ],
           gateChips: ['Segui luoghi', 'Segui insegnanti', 'Separa gli orari'],
           totalSaved: 'Elementi salvati',
-          scheduleCount: 'Slot in agenda'
+          scheduleCount: 'Slot in agenda',
+          schedulePanelEyebrow: 'Agenda',
+          schedulePanelTitle: 'L’orario resta dall’altra parte',
+          schedulePanelLead: 'Quando una classe passa da idea a intenzione, salvala in agenda. Lì restano solo slot con giorno e ora.',
+          openSchedule: 'Apri agenda salvata'
         }
       : {
           signInNeeded: 'Sign in to revisit the studios, teachers, and classes you decided to keep track of.',
@@ -45,12 +48,11 @@ export default async function FavoritesPage({ params }: { params: Promise<{ loca
           unavailable: 'Favorites and saved schedule are temporarily unavailable. Public pages are still available.',
           back: 'Back to Palermo',
           eyebrow: 'Saved',
-          title: 'Favorites and schedule, clearly separated',
-          lead: 'Favorites = places and people to follow. Saved schedule = class time slots you want to keep this week.',
-          favoritesStudios: 'Favorite studios',
-          favoritesTeachers: 'Favorite teachers',
-          favoritesClasses: 'Favorite classes',
-          savedSchedule: 'Saved schedule',
+          title: 'Favorites for calm comparison',
+          lead: 'Keep studios, teachers, and classes you want to compare here. Saved schedule stays separate for the time slots you actually plan to attend.',
+          favoritesStudios: 'Studios to follow',
+          favoritesTeachers: 'Teachers to follow',
+          favoritesClasses: 'Classes to compare',
           noFavorites: 'No saved items yet.',
           noSchedule: 'Add classes from the calendar to build your week.',
           gateEyebrow: 'Keep the right things close',
@@ -63,7 +65,11 @@ export default async function FavoritesPage({ params }: { params: Promise<{ loca
           ],
           gateChips: ['Follow places', 'Follow teachers', 'Keep time slots separate'],
           totalSaved: 'Saved items',
-          scheduleCount: 'Scheduled slots'
+          scheduleCount: 'Scheduled slots',
+          schedulePanelEyebrow: 'Schedule',
+          schedulePanelTitle: 'Time stays on the other side',
+          schedulePanelLead: 'When a class moves from idea to intent, save it to schedule. That page keeps only dated time slots.',
+          openSchedule: 'Open saved schedule'
         };
 
   if (capabilities.authMode === 'unavailable' || capabilities.storeMode !== 'database') {
@@ -188,12 +194,26 @@ export default async function FavoritesPage({ params }: { params: Promise<{ loca
       <FavoritesCollectionsClient
         signedInEmail={user.email}
         initialFavoriteKeys={favoriteRows.map((row) => `${row.entityType}:${row.entitySlug}`)}
-        initialScheduleIds={scheduleRows}
         venues={venueItems}
         instructors={instructorItems}
         sessions={sessionItems}
         copy={copy}
       />
+      <section className="panel saved-separation-panel">
+        <p className="eyebrow">{copy.schedulePanelEyebrow}</p>
+        <h2>{copy.schedulePanelTitle}</h2>
+        <p className="lead">{copy.schedulePanelLead}</p>
+        <div className="auth-shell-chips">
+          <ServerChip tone="meta">
+            {copy.scheduleCount}: {scheduleRows.length}
+          </ServerChip>
+        </div>
+        <div className="site-actions">
+          <ServerButtonLink href={`/${locale}/schedule`} className="button-primary">
+            {copy.openSchedule}
+          </ServerButtonLink>
+        </div>
+      </section>
     </div>
   );
 }

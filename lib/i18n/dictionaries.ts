@@ -67,7 +67,7 @@ export const dictionaries = {
     viewList: 'Lista',
     viewCalendar: 'Calendario',
     claimStudio: 'Rivendica lo studio',
-    suggestCalendar: 'Segnala calendario',
+    suggestCalendar: 'Suggerisci calendario',
     whoWeAre: 'Chi siamo',
     kidsActivities: 'Attività bambini',
     weeklyDigest: 'Digest settimanale',

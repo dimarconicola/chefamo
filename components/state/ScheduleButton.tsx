@@ -12,10 +12,11 @@ interface ScheduleButtonProps {
   locale: string;
   signedInEmail?: string;
   label: string;
+  savedLabel?: string;
   runtimeCapabilities?: RuntimeCapabilities;
 }
 
-export function ScheduleButton({ sessionId, locale, signedInEmail, label, runtimeCapabilities }: ScheduleButtonProps) {
+export function ScheduleButton({ sessionId, locale, signedInEmail, label, savedLabel, runtimeCapabilities }: ScheduleButtonProps) {
   const router = useRouter();
   const [saved, setSaved] = useState(false);
   const [pending, setPending] = useState(false);
@@ -107,7 +108,7 @@ export function ScheduleButton({ sessionId, locale, signedInEmail, label, runtim
   return (
     <div className="action-control">
       <button className="button button-secondary" type="button" onClick={toggle} disabled={pending} aria-pressed={saved} aria-busy={pending}>
-        {saved ? (locale === 'it' ? 'Salvata' : 'Saved') : label}
+        {saved ? (savedLabel ?? (locale === 'it' ? 'In agenda' : 'In schedule')) : label}
       </button>
       {notice ? (
         <span className="action-feedback" aria-live="polite">
