@@ -1,9 +1,10 @@
+import Image from 'next/image';
 import { notFound } from 'next/navigation';
 import { DateTime } from 'luxon';
 
 import { SessionCard } from '@/components/discovery/SessionCard';
 import { FavoriteButton } from '@/components/state/FavoriteButton';
-import { ServerChip } from '@/components/ui/server';
+import { ServerChip, ServerLink } from '@/components/ui/server';
 import { getSessionUser } from '@/lib/auth/session';
 import { resolveSessionCardData } from '@/lib/catalog/session-card-data';
 import { requirePublicCityServer } from '@/lib/catalog/guards';
@@ -52,7 +53,11 @@ export default async function TeacherPage({ params }: { params: Promise<{ locale
           why: 'Perché conta',
           sessions: 'sessioni',
           venues: 'studi',
-          languages: 'lingue'
+          languages: 'lingue',
+          saveTeacher: 'Salva insegnante',
+          savedTeacher: 'Insegnante salvato',
+          social: 'Link esterni',
+          openExternal: 'Apri link verificato'
         }
       : {
           eyebrow: 'Teacher',
@@ -61,7 +66,11 @@ export default async function TeacherPage({ params }: { params: Promise<{ locale
           why: 'Why they matter',
           sessions: 'sessions',
           venues: 'venues',
-          languages: 'languages'
+          languages: 'languages',
+          saveTeacher: 'Save teacher',
+          savedTeacher: 'Teacher saved',
+          social: 'External links',
+          openExternal: 'Open verified link'
         };
 
   return (
@@ -69,29 +78,51 @@ export default async function TeacherPage({ params }: { params: Promise<{ locale
       <section className="detail-hero profile-hero">
         <div className="panel profile-main">
           <p className="eyebrow">{teacherCopy.eyebrow}</p>
-          <h1>{instructor.name}</h1>
-          <p className="lead">{instructor.shortBio[locale]}</p>
-          <div className="badge-row">
-            {instructor.languages.map((language) => (
-              <ServerChip key={language} className="meta-pill" tone="meta">
-                {language}
-              </ServerChip>
-            ))}
-            {instructor.specialties.map((specialty) => (
-              <ServerChip key={specialty} className="meta-pill" tone="meta">
-                {specialty}
-              </ServerChip>
-            ))}
+          <div className="teacher-profile-layout">
+            {instructor.headshot ? (
+              <div className="teacher-profile-media">
+                <Image
+                  src={instructor.headshot.url}
+                  alt={instructor.headshot.alt[locale]}
+                  width={176}
+                  height={176}
+                  className="teacher-profile-image"
+                />
+              </div>
+            ) : null}
+            <div className="teacher-profile-copy">
+              <h1>{instructor.name}</h1>
+              <p className="lead">{instructor.shortBio[locale]}</p>
+              <div className="badge-row">
+                {instructor.languages.map((language) => (
+                  <ServerChip key={language} className="meta-pill" tone="meta">
+                    {language}
+                  </ServerChip>
+                ))}
+                {instructor.specialties.map((specialty) => (
+                  <ServerChip key={specialty} className="meta-pill" tone="meta">
+                    {specialty}
+                  </ServerChip>
+                ))}
+              </div>
+              <div className="site-actions profile-links">
+                <FavoriteButton
+                  entitySlug={instructor.slug}
+                  entityType="instructor"
+                  locale={locale}
+                  signedInEmail={user?.email}
+                  label={teacherCopy.saveTeacher}
+                  savedLabel={teacherCopy.savedTeacher}
+                  runtimeCapabilities={runtimeCapabilities}
+                />
+                {instructor.socialLinks?.map((link) => (
+                  <ServerLink key={link.href} href={link.href} target="_blank" rel="noreferrer" className="button button-ghost">
+                    {link.label[locale]}
+                  </ServerLink>
+                ))}
+              </div>
+            </div>
           </div>
-          <FavoriteButton
-            entitySlug={instructor.slug}
-            entityType="instructor"
-            locale={locale}
-            signedInEmail={user?.email}
-            label={dict.save}
-            savedLabel={dict.unsave}
-            runtimeCapabilities={runtimeCapabilities}
-          />
         </div>
         <div className="panel profile-side">
           <p className="eyebrow">{teacherCopy.trust}</p>
@@ -101,7 +132,7 @@ export default async function TeacherPage({ params }: { params: Promise<{ locale
               ? 'La fiducia locale nasce dalle persone: didattica, linguaggi, continuita e relazione con gli studi.'
               : 'Local trust is person-led: teaching style, language access, consistency, and venue relationships.'}
           </p>
-          <div className="classes-stat-grid profile-metrics">
+            <div className="classes-stat-grid profile-metrics">
             <div className="classes-stat-card">
               <strong>{sessions.length}</strong>
               <span>{teacherCopy.sessions}</span>
@@ -114,7 +145,19 @@ export default async function TeacherPage({ params }: { params: Promise<{ locale
               <strong>{instructor.languages.length}</strong>
               <span>{teacherCopy.languages}</span>
             </div>
-          </div>
+            </div>
+            {instructor.socialLinks?.length ? (
+              <div className="teacher-social-block">
+                <p className="eyebrow">{teacherCopy.social}</p>
+                <div className="teacher-social-links">
+                  {instructor.socialLinks.map((link) => (
+                    <ServerLink key={`${instructor.slug}-${link.href}`} href={link.href} target="_blank" rel="noreferrer" className="inline-link">
+                      {teacherCopy.openExternal}: {link.label[locale]}
+                    </ServerLink>
+                  ))}
+                </div>
+              </div>
+            ) : null}
         </div>
       </section>
       <section className="panel">

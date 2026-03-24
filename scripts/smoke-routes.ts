@@ -4,7 +4,7 @@ const checks = [
   { path: '/it', markers: ['kinelo.fit', 'Palermo'] },
   {
     path: '/it/palermo',
-    markers: ['Palermo', 'Classi in evidenza', 'Classi settimanali', 'Quartieri coperti'],
+    markers: ['Palermo', 'Classi in evidenza', 'Classi settimanali', 'Quartieri coperti', 'Persone, non solo slot.'],
     absent: ['Soglia di copertura', 'Copertura CTA', 'Quando Supabase non è configurato']
   },
   {
@@ -34,9 +34,10 @@ const checks = [
     absent: ['Pubblicata in modo selettivo mentre la copertura cresce.']
   },
   { path: '/it/palermo/teachers/valentina-lorito', markers: ['Valentina Lorito'] },
-  { path: '/it/suggest-calendar', markers: ['Segnala il tuo calendario', 'Invio rapido'] },
+  { path: '/it/palermo/teachers', markers: ['Chi guida le pratiche a Palermo', 'Valentina Lorito'] },
+  { path: '/it/suggest-calendar', markers: ['Suggerisci il tuo calendario', 'Invio rapido'] },
   { path: '/it/account', markers: ['Account'] },
-  { path: '/it/favorites', markers: ['Preferiti e agenda, senza confonderli'] },
+  { path: '/it/favorites', markers: ['Preferiti per scegliere con calma', 'Qui tornano le scelte che vuoi seguire con calma'] },
   { path: '/it/schedule', markers: ['La tua settimana, già filtrata'] },
   {
     path: '/it/sign-in',

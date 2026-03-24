@@ -8,7 +8,7 @@ export default async function SuggestCalendarPage({ params }: { params: Promise<
     locale === 'it'
         ? {
           eyebrow: 'Per studi e insegnanti',
-          title: 'Segnala il tuo calendario',
+          title: 'Suggerisci il tuo calendario',
           lead:
             'Se gestisci classi a Palermo, inviaci fonti pubbliche e orari. Verifichiamo prima di pubblicare nel catalogo.',
           cta: 'Scrivici via email',

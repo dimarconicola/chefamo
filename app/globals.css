@@ -1174,11 +1174,16 @@ main.site-main {
 }
 
 .saved-summary-panel,
-.saved-section-panel {
+.saved-section-panel,
+.saved-separation-panel {
   display: grid;
   gap: 0.95rem;
   background:
     linear-gradient(180deg, rgba(255, 255, 255, 0.9), rgba(250, 245, 236, 0.82));
+}
+
+.saved-separation-panel {
+  align-items: start;
 }
 
 .saved-empty-copy {
@@ -1737,6 +1742,8 @@ body {
 
 .site-footer {
   padding: 1.45rem 0 1.8rem;
+  display: grid;
+  gap: 1rem;
 }
 
 .footer-title {
@@ -1751,6 +1758,16 @@ body {
   padding: 0.3rem 0.7rem;
   border-radius: 999px;
   border: 0;
+}
+
+.footer-secondary-link {
+  padding-top: 0.35rem;
+  border-top: 1px solid rgba(24, 20, 18, 0.08);
+}
+
+.footer-secondary-link a {
+  color: var(--brand-deep);
+  font-weight: 600;
 }
 
 .footer-links a:hover {
@@ -2913,6 +2930,98 @@ h4 {
   background: rgba(231, 235, 241, 0.82);
 }
 
+.teacher-profile-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 176px) minmax(0, 1fr);
+  gap: 1.1rem;
+  align-items: start;
+}
+
+.teacher-profile-media {
+  overflow: hidden;
+  border-radius: 24px;
+  background: rgba(255, 255, 255, 0.7);
+}
+
+.teacher-profile-image {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
+}
+
+.teacher-profile-copy {
+  display: grid;
+  gap: 0.85rem;
+}
+
+.teacher-social-block,
+.teacher-social-links {
+  display: grid;
+  gap: 0.55rem;
+}
+
+.teachers-directory-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+.teacher-directory-card,
+.teacher-directory-copy,
+.teacher-directory-meta,
+.teacher-directory-tags {
+  display: grid;
+  gap: 0.8rem;
+}
+
+.teacher-directory-top {
+  display: grid;
+  grid-template-columns: 112px minmax(0, 1fr);
+  gap: 0.95rem;
+  align-items: start;
+}
+
+.teacher-directory-media,
+.teacher-directory-placeholder {
+  width: 112px;
+  height: 112px;
+  border-radius: 22px;
+  overflow: hidden;
+  background: linear-gradient(160deg, rgba(74, 93, 78, 0.94), rgba(84, 111, 88, 0.86));
+}
+
+.teacher-directory-image {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.teacher-directory-placeholder {
+  display: grid;
+  place-items: center;
+  color: #fff8f1;
+  font-family: var(--display);
+  font-size: 2rem;
+}
+
+.teacher-directory-copy .eyebrow,
+.teacher-directory-copy .lead,
+.teacher-directory-meta .muted {
+  margin: 0;
+}
+
+.teacher-directory-tags {
+  grid-template-columns: repeat(auto-fit, minmax(120px, max-content));
+}
+
+.teacher-directory-link-card {
+  display: grid;
+  gap: 0.3rem;
+}
+
 @media (max-width: 960px) {
   .site-header {
     grid-template-columns: auto auto;
@@ -2933,5 +3042,23 @@ h4 {
 
   .calendar-board-head {
     grid-template-columns: 1fr;
+  }
+
+  .teachers-directory-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .teacher-profile-layout,
+  .teacher-directory-top {
+    grid-template-columns: 1fr;
+  }
+
+  .teacher-profile-media,
+  .teacher-directory-media,
+  .teacher-directory-placeholder {
+    width: 100%;
+    max-width: 176px;
+    height: auto;
+    aspect-ratio: 1 / 1;
   }
 }

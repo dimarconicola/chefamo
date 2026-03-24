@@ -8,6 +8,8 @@ import type {
   City,
   EditorialCollection,
   Instructor,
+  InstructorImage,
+  InstructorSocialLink,
   KidsAgeBand,
   Neighborhood,
   Session,
@@ -25,6 +27,31 @@ const buildVenueImage = (name: string, url: string, sourceUrl: string, lastVerif
   sourceUrl,
   lastVerifiedAt,
   alt: buildLocalized(`${name} practice photo`, `Foto dello spazio di pratica di ${name}`)
+});
+
+const buildInstructorImage = (name: string, url: string, sourceUrl: string, lastVerifiedAt: string): InstructorImage => ({
+  url,
+  sourceUrl,
+  lastVerifiedAt,
+  alt: buildLocalized(`Portrait of ${name}`, `Ritratto di ${name}`)
+});
+
+const buildInstructorSocialLink = (
+  type: InstructorSocialLink['type'],
+  href: string,
+  sourceUrl: string,
+  lastVerifiedAt: string
+): InstructorSocialLink => ({
+  type,
+  href,
+  sourceUrl,
+  lastVerifiedAt,
+  label:
+    type === 'instagram'
+      ? buildLocalized('Instagram', 'Instagram')
+      : type === 'facebook'
+        ? buildLocalized('Facebook', 'Facebook')
+        : buildLocalized('Official website', 'Sito ufficiale')
 });
 
 type RecurringSessionTemplate = {
@@ -162,6 +189,116 @@ const venueCoverImages: Partial<Record<string, VenueImage>> = {
 const withVenueCoverImage = (venue: Venue): Venue => {
   const coverImage = venueCoverImages[venue.slug];
   return coverImage ? { ...venue, coverImage } : venue;
+};
+
+const instructorMediaVerifiedAt = '2026-03-24T12:00:00+01:00';
+
+const instructorMedia: Partial<Record<string, Pick<Instructor, 'headshot' | 'socialLinks'>>> = {
+  'valentina-lorito': {
+    headshot: buildInstructorImage(
+      'Valentina Lorito',
+      'https://primary.jwwb.nl/public/u/z/f/temp-pobtovotejufytvsfita/whatsapp-image-2020-05-26-at-11-20-37-1-high.jpg?enable-io=true&enable=upscale&fit=bounds&width=1200',
+      'https://www.yogastudiolab.it/la-mia-esperienza',
+      instructorMediaVerifiedAt
+    ),
+    socialLinks: [
+      buildInstructorSocialLink(
+        'instagram',
+        'https://instagram.com/vale.yoga.benessere',
+        'https://www.yogastudiolab.it/la-mia-esperienza',
+        instructorMediaVerifiedAt
+      )
+    ]
+  },
+  'desiree-burgio': {
+    headshot: buildInstructorImage(
+      'Desiree Burgio',
+      'https://www.desireeburgio.it/wp-content/uploads/2025/01/desiree.jpg',
+      'https://www.desireeburgio.it/desiree/',
+      instructorMediaVerifiedAt
+    ),
+    socialLinks: [
+      buildInstructorSocialLink(
+        'instagram',
+        'https://instagram.com/desiree_burgio_',
+        'https://www.desireeburgio.it/desiree/',
+        instructorMediaVerifiedAt
+      ),
+      buildInstructorSocialLink(
+        'facebook',
+        'https://www.facebook.com/DesireeBurgioFit',
+        'https://www.desireeburgio.it/desiree/',
+        instructorMediaVerifiedAt
+      )
+    ]
+  },
+  'marta-sto': {
+    headshot: buildInstructorImage(
+      'Marta Sto',
+      'https://youareyoga.it/wp-content/uploads/2021/06/Marta_Yoga_Sole.jpg',
+      'https://youareyoga.it/',
+      instructorMediaVerifiedAt
+    ),
+    socialLinks: [
+      buildInstructorSocialLink(
+        'instagram',
+        'https://www.instagram.com/martasto.youareyoga/',
+        'https://youareyoga.it/',
+        instructorMediaVerifiedAt
+      ),
+      buildInstructorSocialLink(
+        'facebook',
+        'https://www.facebook.com/youareyogamartasto',
+        'https://youareyoga.it/',
+        instructorMediaVerifiedAt
+      )
+    ]
+  },
+  'lesley-bell': {
+    headshot: buildInstructorImage(
+      'Lesley Bell',
+      'https://www.palermopilates.it/wp-content/uploads/2023/05/TEAM-Leslie.png',
+      'https://www.palermopilates.it/team/',
+      instructorMediaVerifiedAt
+    ),
+    socialLinks: [
+      buildInstructorSocialLink(
+        'instagram',
+        'https://www.instagram.com/palermo_pilates/',
+        'https://www.palermopilates.it/team/',
+        instructorMediaVerifiedAt
+      )
+    ]
+  },
+  'silvia-riccobono': {
+    headshot: buildInstructorImage(
+      'Silvia Riccobono',
+      'https://www.palermopilates.it/wp-content/uploads/2024/04/TEAM-Silvia-414x414.png',
+      'https://www.palermopilates.it/team/',
+      instructorMediaVerifiedAt
+    )
+  },
+  'ekaterina-kaptur': {
+    headshot: buildInstructorImage(
+      'Ekaterina Katie Kaptur',
+      'https://www.palermopilates.it/wp-content/uploads/2024/09/TEAM-Katie-1-414x414.png',
+      'https://www.palermopilates.it/team/',
+      instructorMediaVerifiedAt
+    )
+  },
+  'aldo-pace': {
+    headshot: buildInstructorImage(
+      'Aldo Pace',
+      'https://www.palermopilates.it/wp-content/uploads/2025/10/TEAM-Aldo-414x414.png',
+      'https://www.palermopilates.it/team/',
+      instructorMediaVerifiedAt
+    )
+  }
+};
+
+const withInstructorMedia = (instructor: Instructor): Instructor => {
+  const media = instructorMedia[instructor.slug];
+  return media ? { ...instructor, ...media } : instructor;
 };
 
 export const cities: City[] = [
@@ -1287,7 +1424,7 @@ const generatedVenuesWithKidsCategory = generated.venues.map((venue) => {
 });
 
 export const styles: Style[] = [...generated.styles, ...extraStyles];
-export const instructors: Instructor[] = [...generated.instructors, ...extraInstructors];
+export const instructors: Instructor[] = [...generated.instructors, ...extraInstructors].map(withInstructorMedia);
 export const bookingTargets: BookingTarget[] = [...generated.bookingTargets, ...extraBookingTargets];
 export const venues: Venue[] = [...generatedVenuesWithKidsCategory, ...extraVenues.map(withVenueCoverImage)];
 

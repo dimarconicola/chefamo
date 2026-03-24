@@ -42,6 +42,11 @@ export interface CatalogSnapshot {
 const getSeedResources = cache(async () => {
   const seed = await import('@/lib/catalog/seed');
   const seedVenueImages = new Map(seed.venues.filter((venue) => venue.coverImage).map((venue) => [venue.slug, venue.coverImage]));
+  const seedInstructorMedia = new Map(
+    seed.instructors
+      .filter((instructor) => instructor.headshot || instructor.socialLinks?.length)
+      .map((instructor) => [instructor.slug, { headshot: instructor.headshot, socialLinks: instructor.socialLinks }])
+  );
   const seedSnapshot: CatalogSnapshot = {
     sourceMode: 'seed',
     cities: seed.cities,
@@ -57,7 +62,8 @@ const getSeedResources = cache(async () => {
 
   return {
     seedSnapshot,
-    seedVenueImages
+    seedVenueImages,
+    seedInstructorMedia
   };
 });
 
@@ -90,7 +96,7 @@ const loadDatabaseSnapshot = async (): Promise<CatalogSnapshot | null> => {
       bookingTargetRows,
       sessionRows,
       collectionRows,
-      { seedVenueImages }
+      { seedVenueImages, seedInstructorMedia }
     ] = await Promise.all([
       db.select().from(cities),
       db.select().from(neighborhoods),
@@ -140,6 +146,7 @@ const loadDatabaseSnapshot = async (): Promise<CatalogSnapshot | null> => {
         description: row.description
       })),
       instructors: instructorRows.map((row) => ({
+        ...(seedInstructorMedia.get(row.slug) ?? {}),
         slug: row.slug,
         citySlug: row.citySlug,
         name: row.name,

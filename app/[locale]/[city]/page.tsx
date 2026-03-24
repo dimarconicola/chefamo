@@ -25,6 +25,9 @@ export default async function CityPage({ params }: { params: Promise<{ locale: s
   const categories = catalog.categories.filter((item) => item.citySlug === citySlug && item.visibility !== 'hidden');
   const neighborhoods = catalog.neighborhoods.filter((item) => item.citySlug === citySlug);
   const collections = catalog.collections.filter((item) => item.citySlug === citySlug);
+  const instructors = catalog.instructors
+    .filter((item) => item.citySlug === citySlug)
+    .sort((left, right) => left.name.localeCompare(right.name, 'it', { sensitivity: 'base' }));
   const visibleCategorySlugs = new Set(categories.map((item) => item.slug));
   const visibleSessions = catalog.sessions.filter(
     (session) => session.citySlug === citySlug && session.verificationStatus !== 'hidden' && visibleCategorySlugs.has(session.categorySlug)
@@ -58,6 +61,10 @@ export default async function CityPage({ params }: { params: Promise<{ locale: s
           categories: 'Categorie',
           neighborhoodsSection: 'Quartieri',
           collections: 'Collezioni',
+          teachers: 'Insegnanti',
+          teachersTitle: 'Persone, non solo slot.',
+          teachersLead: 'Profili alfabetici per capire chi guida le pratiche prima di scegliere una lezione.',
+          openTeachers: 'Apri elenco completo'
         }
       : {
           weeklyClasses: 'Weekly classes',
@@ -72,6 +79,10 @@ export default async function CityPage({ params }: { params: Promise<{ locale: s
           categories: 'Categories',
           neighborhoodsSection: 'Neighborhoods',
           collections: 'Collections',
+          teachers: 'Teachers',
+          teachersTitle: 'People, not just slots.',
+          teachersLead: 'Alphabetical profiles to understand who leads each practice before choosing a class.',
+          openTeachers: 'Open full directory'
         };
 
   return (
@@ -143,6 +154,26 @@ export default async function CityPage({ params }: { params: Promise<{ locale: s
                 <ServerCardLink key={item.slug} href={`/${locale}/${citySlug}/neighborhoods/${item.slug}`} className="collection-card">
                   <strong>{getLocaleLabel(locale, item.name)}</strong>
                   <span className="muted">{getLocaleLabel(locale, item.description)}</span>
+                </ServerCardLink>
+              ))}
+            </div>
+          </div>
+          <div className="panel">
+            <div className="detail-header">
+              <div>
+                <p className="eyebrow">{copy.teachers}</p>
+                <h2>{copy.teachersTitle}</h2>
+                <p className="muted">{copy.teachersLead}</p>
+              </div>
+              <ServerLink href={`/${locale}/${citySlug}/teachers`} className="inline-link">
+                {copy.openTeachers}
+              </ServerLink>
+            </div>
+            <div className="card-grid">
+              {instructors.slice(0, 4).map((instructor) => (
+                <ServerCardLink key={instructor.slug} href={`/${locale}/${citySlug}/teachers/${instructor.slug}`} className="collection-card">
+                  <strong>{instructor.name}</strong>
+                  <span className="muted">{instructor.shortBio[locale]}</span>
                 </ServerCardLink>
               ))}
             </div>

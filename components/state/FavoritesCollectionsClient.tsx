@@ -3,12 +3,11 @@
 import NextLink from 'next/link';
 import { useEffect, useMemo, useState } from 'react';
 
-import { readStoredFavorites, readStoredSchedule } from '@/components/state/storage';
+import { readStoredFavorites } from '@/components/state/storage';
 
 interface FavoritesCollectionsClientProps {
   signedInEmail: string;
   initialFavoriteKeys: string[];
-  initialScheduleIds: string[];
   venues: Array<{ slug: string; title: string; href: string; meta: string }>;
   instructors: Array<{ slug: string; title: string; href: string; meta: string }>;
   sessions: Array<{ id: string; title: string; href: string; meta: string }>;
@@ -16,31 +15,25 @@ interface FavoritesCollectionsClientProps {
     favoritesStudios: string;
     favoritesTeachers: string;
     favoritesClasses: string;
-    savedSchedule: string;
     noFavorites: string;
-    noSchedule: string;
   };
 }
 
 export function FavoritesCollectionsClient({
   signedInEmail,
   initialFavoriteKeys,
-  initialScheduleIds,
   venues,
   instructors,
   sessions,
   copy
 }: FavoritesCollectionsClientProps) {
   const [favoriteKeys, setFavoriteKeys] = useState(initialFavoriteKeys);
-  const [scheduleIds, setScheduleIds] = useState(initialScheduleIds);
 
   useEffect(() => {
     const localFavoriteKeys = readStoredFavorites(signedInEmail);
-    const localScheduleIds = readStoredSchedule(signedInEmail);
 
     setFavoriteKeys([...new Set([...initialFavoriteKeys, ...localFavoriteKeys])]);
-    setScheduleIds([...new Set([...initialScheduleIds, ...localScheduleIds])]);
-  }, [initialFavoriteKeys, initialScheduleIds, signedInEmail]);
+  }, [initialFavoriteKeys, signedInEmail]);
 
   const venueFavorites = useMemo(
     () =>
@@ -66,11 +59,6 @@ export function FavoritesCollectionsClient({
         .filter((item): item is (typeof sessions)[number] => Boolean(item)),
     [favoriteKeys, sessions]
   );
-  const scheduleItems = useMemo(
-    () => scheduleIds.map((id) => sessions.find((session) => session.id === id)).filter(Boolean) as typeof sessions,
-    [scheduleIds, sessions]
-  );
-
   return (
     <section className="saved-grid">
       <section className="panel saved-section-panel">
@@ -124,24 +112,6 @@ export function FavoritesCollectionsClient({
           </div>
         ) : (
           <p className="muted saved-empty-copy">{copy.noFavorites}</p>
-        )}
-      </section>
-
-      <section className="panel saved-section-panel">
-        <div className="saved-section-header">
-          <p className="eyebrow">{copy.savedSchedule}</p>
-        </div>
-        {scheduleItems.length > 0 ? (
-          <div className="stack-list">
-            {scheduleItems.map((item) => (
-              <NextLink href={item.href} key={item.id} className="list-link">
-                <strong>{item.title}</strong>
-                <span>{item.meta}</span>
-              </NextLink>
-            ))}
-          </div>
-        ) : (
-          <p className="muted saved-empty-copy">{copy.noSchedule}</p>
         )}
       </section>
     </section>

@@ -52,6 +52,10 @@ export const getPublicCategories = async (citySlug: string) => (await getCategor
 export const getCollections = async (citySlug: string) => getCollectionsFromSnapshot(await getCatalogSnapshot(), citySlug);
 export const getVenue = async (slug: string) => getVenueFromSnapshot(await getCatalogSnapshot(), slug);
 export const getInstructor = async (slug: string) => getInstructorFromSnapshot(await getCatalogSnapshot(), slug);
+export const getCityInstructors = async (citySlug: string) =>
+  (await getCatalogSnapshot()).instructors
+    .filter((instructor) => instructor.citySlug === citySlug)
+    .sort((left, right) => left.name.localeCompare(right.name, 'it', { sensitivity: 'base' }));
 export const getStyle = async (slug: string) => getStyleFromSnapshot(await getCatalogSnapshot(), slug);
 export const getStyles = async () => (await getCatalogSnapshot()).styles;
 export const getCategory = async (slug: string) => getCategoryFromSnapshot(await getCatalogSnapshot(), slug);
