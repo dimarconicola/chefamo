@@ -20,10 +20,10 @@ export default async function SchedulePage({ params }: { params: Promise<{ local
           back: 'Torna alle classi',
           eyebrow: 'Agenda',
           title: 'La tua settimana, già filtrata',
-          lead: 'Qui trovi solo le lezioni con orario che hai salvato per pianificare la settimana senza rumore.',
+          lead: 'Qui trovi solo le lezioni che hai salvato per pianificare tua la settimana.',
           empty: 'Nessuna lezione salvata in agenda. Aggiungila dalle card delle classi.',
           gateEyebrow: 'Blocca gli orari giusti',
-          gateTitle: 'L’agenda serve per i tempi, non per i preferiti generici',
+          gateTitle: 'L’agenda serve a pianificare il tuo calendario.',
           gateLead: 'È il posto dove tieni insieme gli slot che vuoi davvero fare, separati da studi e insegnanti che segui.',
           gateItems: [
             'Solo classi con giorno e orario, nessuna lista confusa di luoghi.',

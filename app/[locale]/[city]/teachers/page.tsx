@@ -30,9 +30,9 @@ export default async function TeachersIndexPage({ params }: { params: Promise<{ 
     locale === 'it'
       ? {
           eyebrow: 'Insegnanti',
-          title: 'Chi guida le pratiche a Palermo',
+          title: 'Le tue guide a Palermo',
           lead:
-            'Elenco alfabetico degli insegnanti oggi presenti nella guida, con profili essenziali, prossime lezioni e link esterni quando verificati.',
+            'Elenco alfabetico degli insegnanti oggi presenti nella lista, con profili, prossime lezioni e link esterni se disponibili.',
           sessions: 'sessioni in calendario',
           next: 'Prossima lezione',
           open: 'Apri profilo',

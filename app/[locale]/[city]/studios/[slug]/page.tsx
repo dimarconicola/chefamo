@@ -51,11 +51,11 @@ export default async function StudioPage({ params }: { params: Promise<{ locale:
       ? {
           eyebrow: 'Studio',
           schedule: 'Agenda verificata',
-          trust: 'Strato di fiducia',
+          trust: 'Fiducia',
           weekdaySessions: 'sessioni a calendario',
           languages: 'lingue',
           styles: 'stili',
-          source: 'Fonte primaria',
+          source: 'Info verificate da:',
           upcoming: 'Prossime sessioni',
           website: 'Sito ufficiale',
           saveStudio: 'Salva studio',

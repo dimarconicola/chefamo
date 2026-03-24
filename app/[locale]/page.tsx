@@ -76,19 +76,19 @@ export default async function LocaleHome({ params }: { params: Promise<{ locale:
   const copy =
     locale === 'it'
       ? {
-          heroBadge: 'Discovery locale Palermo-first',
+          heroBadge: 'Palermo',
           heroTitle: 'Scopri la lezione ideale nella tua città.',
           heroBody:
-            'kinelo.fit è un utility cittadino: mappa, calendario verificato e percorsi diretti verso prenotazione o contatto.',
-          ctaPrimary: 'Esplora le classi',
+            'kinelo.fit è un utility cittadino: mappa, calendario verificato e profili studio con prenotazione o contatto.',
+          ctaPrimary: 'Esplora le lezioni',
           ctaSecondary: 'Palermo hub',
           featuresEyebrow: 'Perché è diverso',
-          featuresTitle: 'Guida cittadini selezionata e curata con amore.',
+          featuresTitle: 'Guida cittadina selezionata e curata con amore.',
           featuresBody:
             'Calendario selezionato delle lezioni di yoga e altre attività di benessere, nella tua città.',
           cityTitle: 'Palermo Hub',
           cityBody: 'Il calendario cittadino per yoga, mind-body e attività benessere affidabili.',
-          classes: 'Classi',
+          classes: 'Lezioni',
           venues: 'Studi',
           neighborhoods: 'Quartieri',
           styles: 'Stili',
@@ -140,7 +140,7 @@ export default async function LocaleHome({ params }: { params: Promise<{ locale:
       title: locale === 'it' ? 'Per quartiere, non per scroll' : 'Map-led Discovery',
       description:
         locale === 'it'
-          ? 'Trova classi vicino a te. Mappa e prossimità al centro.'
+          ? 'Trova lezioni vicino a te. Mappa e prossimità al centro.'
           : 'Find classes in your neighborhood. We prioritize location and proximity over endless scrolling.'
     },
     {

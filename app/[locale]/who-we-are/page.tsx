@@ -10,7 +10,7 @@ export default async function WhoWeArePage({ params }: { params: Promise<{ local
           title: 'Un progetto locale, pensato per Palermo.',
           lead:
             'kinelo.fit nasce per rendere la discovery di yoga e mind-body più affidabile: orari verificati, mappe utili e azioni dirette.',
-          cta: 'Esplora le classi'
+          cta: 'Esplora le lezioni'
         }
       : {
           eyebrow: 'Who we are',

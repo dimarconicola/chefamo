@@ -77,9 +77,9 @@ export default async function CollectionPage({
   const statusCopy =
     locale === 'it'
       ? {
-          collection: 'Collezione',
+          collection: 'Lista',
           eyebrow: 'Ordine risultati',
-          title: slug === 'today-nearby' ? 'Vicino a te oggi' : 'Collezione aggiornata',
+          title: slug === 'today-nearby' ? 'Vicino a te oggi' : 'Lista aggiornata',
           body:
             slug === 'today-nearby'
               ? 'Se la geolocalizzazione non è disponibile, ordiniamo dal centro città.'

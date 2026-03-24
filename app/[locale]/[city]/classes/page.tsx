@@ -187,7 +187,7 @@ export default async function ClassesPage({
 
   const intro =
     locale === 'it'
-      ? 'Classi verificate, filtri coerenti e azioni dirette su prenotazione o contatto.'
+      ? 'Classi verificate, con filtri e funzioni per prenotazione o contatto.'
       : 'Verified classes with consistent filters and direct booking/contact actions.';
   const badgeCopy =
     locale === 'it'

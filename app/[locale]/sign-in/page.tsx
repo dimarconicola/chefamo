@@ -38,12 +38,12 @@ export default async function SignInPage({
           unavailableTitle: 'Accesso temporaneamente non disponibile',
           unavailableLead: 'Le pagine pubbliche restano consultabili. Riprova tra poco per salvare preferiti e agenda.',
           savedTitle: 'Cosa ritrovi dopo l’accesso',
-          savedLead: 'Preferiti per seguire studi, insegnanti e una shortlist di classi. Agenda per bloccare solo gli orari che vuoi davvero fare.',
+          savedLead: 'Preferiti per seguire studi, insegnanti e una shortlist di lezioni. Agenda per bloccare solo gli orari che vuoi davvero fare.',
           stepsEyebrow: 'Cosa ritrovi',
           stepsTitle: 'Uno spazio personale leggero e utile',
           stepsLead: 'Non stiamo costruendo l’ennesima area account ingombrante. Solo ciò che serve per tornare sulle scelte giuste.',
           steps: [
-            'Preferiti per seguire studi, insegnanti e le classi che vuoi confrontare con calma.',
+            'Preferiti per seguire studi, insegnanti e le lezioni che vuoi confrontare con calma.',
             'Agenda salvata per raccogliere solo gli slot con orario che vuoi davvero fare questa settimana.',
             'Accesso con magic link: niente password da ricordare, niente attrito inutile.'
           ],

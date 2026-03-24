@@ -14,24 +14,24 @@ export default async function FavoritesPage({ params }: { params: Promise<{ loca
   const copy =
     locale === 'it'
       ? {
-          signInNeeded: 'Accedi per ritrovare studi, insegnanti e classi che hai deciso di seguire.',
+          signInNeeded: 'Accedi per ritrovare studi, insegnanti e lezioni che hai deciso di seguire.',
           signIn: 'Accedi',
           unavailable: 'Preferiti e agenda non sono disponibili in questo momento. Le pagine pubbliche restano consultabili.',
           back: 'Torna a Palermo',
           eyebrow: 'Salvati',
           title: 'Preferiti per scegliere con calma',
-          lead: 'Qui tieni vicini studi, insegnanti e classi da confrontare. L’agenda salvata resta separata per gli orari che vuoi davvero fare.',
+          lead: 'I tuoi studi, insegnanti e lezioni preferite. L’agenda salvata resta separata per gli orari che vuoi davvero fare.',
           favoritesStudios: 'Studi da seguire',
           favoritesTeachers: 'Insegnanti da seguire',
-          favoritesClasses: 'Classi da confrontare',
+          favoritesClasses: 'Lezioni da confrontare',
           noFavorites: 'Nessun elemento salvato per ora.',
-          noSchedule: 'Aggiungi classi dal calendario per costruire la tua settimana.',
+          noSchedule: 'Aggiungi lezioni dal calendario per costruire la tua settimana.',
           gateEyebrow: 'Ritrova ciò che conta',
           gateTitle: 'Qui tornano le scelte che vuoi seguire con calma',
           gateLead: 'Questa pagina tiene separato ciò che vuoi monitorare da ciò che vuoi davvero fare.',
           gateItems: [
             'Studi e insegnanti da seguire nel tempo.',
-            'Classi salvate per confronto rapido quando riapri l’app.',
+            'Lezioni salvate per confronto rapido quando riapri l’app.',
             'Agenda settimanale separata, senza mischiare persone e orari.'
           ],
           gateChips: ['Segui luoghi', 'Segui insegnanti', 'Separa gli orari'],
@@ -39,7 +39,7 @@ export default async function FavoritesPage({ params }: { params: Promise<{ loca
           scheduleCount: 'Slot in agenda',
           schedulePanelEyebrow: 'Agenda',
           schedulePanelTitle: 'L’orario resta dall’altra parte',
-          schedulePanelLead: 'Quando una classe passa da idea a intenzione, salvala in agenda. Lì restano solo slot con giorno e ora.',
+          schedulePanelLead: 'Quando una lezione passa da idea a intenzione, salvala in agenda. Lì restano solo slot con giorno e ora.',
           openSchedule: 'Apri agenda salvata'
         }
       : {
