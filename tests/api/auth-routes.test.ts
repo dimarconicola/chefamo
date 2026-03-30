@@ -101,7 +101,7 @@ describe('auth route contracts', () => {
     );
 
     expect(response.headers.get('location')).toBe('http://localhost:3000/it');
-    expect(response.headers.get('set-cookie')).toContain('kinelo_session=');
+    expect(response.headers.get('set-cookie')).toContain('chefamo_session=');
     expect(response.headers.get('set-cookie')).toContain('Max-Age=0');
   });
 
@@ -122,6 +122,6 @@ describe('auth route contracts', () => {
 
     expect(response.headers.get('location')).toBe('http://localhost:3000/it/favorites');
     expect(encodeSession).toHaveBeenCalledWith('demo@example.com');
-    expect(response.headers.get('set-cookie')).toContain('kinelo_session=');
+    expect(response.headers.get('set-cookie')).toContain('chefamo_session=');
   });
 });

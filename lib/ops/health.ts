@@ -54,9 +54,9 @@ export const getRuntimeHealth = async (citySlug = 'palermo') => {
     },
     {
       label: 'Session secret',
-      status: env.sessionSecret !== 'kinelo-fit-dev-secret' ? 'ok' : env.nodeEnv === 'development' ? 'warn' : 'fail',
+      status: env.sessionSecret !== 'chefamo-dev-secret' ? 'ok' : env.nodeEnv === 'development' ? 'warn' : 'fail',
       detail:
-        env.sessionSecret !== 'kinelo-fit-dev-secret'
+        env.sessionSecret !== 'chefamo-dev-secret'
           ? 'APP_SESSION_SECRET configured.'
           : 'Using development session secret.'
     },

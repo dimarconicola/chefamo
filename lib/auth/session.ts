@@ -7,7 +7,7 @@ import { getSupabaseServerClient, isSupabaseConfigured } from '@/lib/auth/supaba
 import { env } from '@/lib/env';
 import { getAuthMode } from '@/lib/runtime/capabilities';
 
-const COOKIE_NAME = 'kinelo_session';
+const COOKIE_NAME = 'chefamo_session';
 
 const sign = (value: string) => createHmac('sha256', env.sessionSecret).update(value).digest('hex');
 

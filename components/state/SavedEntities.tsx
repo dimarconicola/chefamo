@@ -17,8 +17,8 @@ export function SavedEntities({ locale, signedInEmail, sessions, venues, instruc
 
   useEffect(() => {
     if (!signedInEmail) return;
-    setFavorites(JSON.parse(localStorage.getItem(`kinelo:${signedInEmail}:favorites`) ?? '[]'));
-    setSchedule(JSON.parse(localStorage.getItem(`kinelo:${signedInEmail}:schedule`) ?? '[]'));
+    setFavorites(JSON.parse(localStorage.getItem(`chefamo:${signedInEmail}:favorites`) ?? '[]'));
+    setSchedule(JSON.parse(localStorage.getItem(`chefamo:${signedInEmail}:schedule`) ?? '[]'));
   }, [signedInEmail]);
 
   const favoriteItems = useMemo(() => {

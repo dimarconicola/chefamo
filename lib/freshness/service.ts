@@ -16,7 +16,7 @@ import { cadenceIncludes, getSeedSourceRegistry, getSourceUrlsForCadence } from 
 const SOURCE_HEALTH_ENTITY = 'source_health';
 const SOURCE_PARSE_ENTITY = 'source_parse';
 const SOURCE_EVENT_CANDIDATE_ENTITY = 'source_event_candidate';
-const TMP_DIR = '/tmp/kinelo-fit-freshness';
+const TMP_DIR = '/tmp/chefamo-freshness';
 const TMP_FILE = join(TMP_DIR, 'source-health.json');
 const DEFAULT_TIMEOUT_MS = 8000;
 const DEFAULT_CONCURRENCY = 4;
@@ -545,7 +545,7 @@ const runQuarterlyDiscoverySweep = async (
             redirect: 'follow',
             cache: 'no-store',
             headers: {
-              'user-agent': 'kinelo.fit-discovery/1.0'
+              'user-agent': 'chefamo-discovery/1.0'
             }
           },
           timeoutMs

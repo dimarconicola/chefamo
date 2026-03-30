@@ -13,7 +13,7 @@ interface TodayNearbyLocationHintProps {
 
 type GeoState = 'idle' | 'locating' | 'granted' | 'denied' | 'unavailable';
 
-const STORAGE_KEY = 'kinelofit_today_nearby_geo_state';
+const STORAGE_KEY = 'chefamo_today_nearby_geo_state';
 
 export function TodayNearbyLocationHint({ locale, cityName, hasGeolocation }: TodayNearbyLocationHintProps) {
   const router = useRouter();

@@ -9,7 +9,9 @@ export const env = {
   supabaseUrl: process.env.NEXT_PUBLIC_SUPABASE_URL ?? process.env.SUPABASE_URL,
   supabaseAnonKey: process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY ?? process.env.SUPABASE_ANON_KEY,
   cronSecret: process.env.CRON_SECRET,
-  sessionSecret: process.env.APP_SESSION_SECRET ?? 'kinelo-fit-dev-secret',
+  sessionSecret: process.env.APP_SESSION_SECRET ?? 'chefamo-dev-secret',
   requirePersistentStore:
-    process.env.KINELO_REQUIRE_PERSISTENT_STORE === 'true' || process.env.VERCEL_ENV === 'production'
+    process.env.CHEFAMO_REQUIRE_PERSISTENT_STORE === 'true' ||
+    process.env.KINELO_REQUIRE_PERSISTENT_STORE === 'true' ||
+    process.env.VERCEL_ENV === 'production'
 };

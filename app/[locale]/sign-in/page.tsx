@@ -26,8 +26,8 @@ export default async function SignInPage({
     locale === 'it'
       ? {
           eyebrow: 'Accedi',
-          title: 'Ritrova i tuoi posti giusti, senza password',
-          lead: 'Ti basta la mail: apri il link, conferma e ritrovi preferiti e agenda personale dentro kinelo.fit.',
+          title: 'Ritrova i tuoi piani giusti, senza password',
+          lead: 'Ti basta la mail: apri il link, conferma e ritrovi preferiti e piano personale dentro chefamo.',
           email: 'Email',
           continue: 'Continua',
           magicLink: 'Invia magic link',
@@ -36,25 +36,25 @@ export default async function SignInPage({
           checkEmailEyebrow: 'Controlla la tua inbox',
           authError: 'Non siamo riusciti a completare l’accesso. Riprova tra poco.',
           unavailableTitle: 'Accesso temporaneamente non disponibile',
-          unavailableLead: 'Le pagine pubbliche restano consultabili. Riprova tra poco per salvare preferiti e agenda.',
+          unavailableLead: 'Le pagine pubbliche restano consultabili. Riprova tra poco per salvare preferiti e piano.',
           savedTitle: 'Cosa ritrovi dopo l’accesso',
-          savedLead: 'Preferiti per seguire studi, insegnanti e una shortlist di lezioni. Agenda per bloccare solo gli orari che vuoi davvero fare.',
+          savedLead: 'Preferiti per seguire luoghi, organizzatori e programmi. Piano per bloccare solo gli orari che vuoi davvero fare.',
           stepsEyebrow: 'Cosa ritrovi',
           stepsTitle: 'Uno spazio personale leggero e utile',
           stepsLead: 'Non stiamo costruendo l’ennesima area account ingombrante. Solo ciò che serve per tornare sulle scelte giuste.',
           steps: [
-            'Preferiti per seguire studi, insegnanti e le lezioni che vuoi confrontare con calma.',
-            'Agenda salvata per raccogliere solo gli slot con orario che vuoi davvero fare questa settimana.',
+            'Preferiti per seguire luoghi, organizzatori e programmi che vuoi confrontare con calma.',
+            'Piano salvato per raccogliere solo gli slot con orario che vuoi davvero fare questa settimana.',
             'Accesso con magic link: niente password da ricordare, niente attrito inutile.'
           ],
-          chips: ['Senza password', 'Preferiti + agenda', 'Palermo-first'],
+          chips: ['Senza password', 'Preferiti + piano', 'Palermo-first'],
           helpTitle: 'Hai già inviato il link?',
           helpLead: 'Se non lo vedi subito, controlla spam o la tab Promozioni. Il bottone nella mail ti riporta qui già autenticato.'
         }
       : {
           eyebrow: 'Sign in',
           title: 'Get back to the right places without a password',
-          lead: 'Use your email, open the link, and jump back into your saved favorites and schedule inside kinelo.fit.',
+          lead: 'Use your email, open the link, and jump back into your saved favorites and plan inside chefamo.',
           email: 'Email',
           continue: 'Continue',
           magicLink: 'Send magic link',
@@ -63,18 +63,18 @@ export default async function SignInPage({
           checkEmailEyebrow: 'Check your inbox',
           authError: 'We could not complete sign-in. Please try again shortly.',
           unavailableTitle: 'Sign-in is temporarily unavailable',
-          unavailableLead: 'Public pages remain available. Try again later to save favorites and schedule items.',
+          unavailableLead: 'Public pages remain available. Try again later to save favorites and plan items.',
           savedTitle: 'What you get after sign-in',
-          savedLead: 'Favorites help you follow studios, teachers, and a shortlist of classes. Saved schedule keeps only the time slots you plan to attend.',
+          savedLead: 'Favorites help you follow places, organizers, and programs. Saved plan keeps only the time slots you plan to attend.',
           stepsEyebrow: 'What stays with you',
           stepsTitle: 'A light account, not a noisy dashboard',
-          stepsLead: 'The goal is simple: make it easy to come back to the right classes and the right people.',
+          stepsLead: 'The goal is simple: make it easy to come back to the right activities and the right people.',
           steps: [
-            'Favorites for studios, teachers, and classes you want to keep comparing.',
-            'A saved schedule with the actual time slots you plan to attend this week.',
+            'Favorites for places, organizers, and programs you want to keep comparing.',
+            'A saved plan with the actual time slots you plan to attend this week.',
             'Passwordless access through magic link, with less friction on mobile.'
           ],
-          chips: ['Passwordless', 'Favorites + schedule', 'Palermo-first'],
+          chips: ['Passwordless', 'Favorites + plan', 'Palermo-first'],
           helpTitle: 'Already sent the link?',
           helpLead: 'If it does not show up right away, check spam or Promotions. The email button brings you back already signed in.'
         };

@@ -21,16 +21,16 @@ export default async function AccountPage({ params }: { params: Promise<{ locale
           back: 'Torna a Palermo',
           eyebrow: 'Account',
           title: 'Il tuo profilo',
-          lead: 'Gestisci come ti presenti dentro kinelo.fit e tieni sotto controllo i tuoi salvataggi.',
+          lead: 'Gestisci come ti presenti dentro chefamo e tieni sotto controllo i tuoi salvataggi.',
           email: 'Email account',
           provider: 'Metodo di accesso',
           digest: 'Digest attivo',
           favorites: 'Preferiti',
-          schedule: 'Agenda salvata',
+          schedule: 'Piano salvato',
           homeCity: 'Città base',
           shortcuts: 'Accessi rapidi',
           viewFavorites: 'Apri preferiti',
-          viewSchedule: 'Apri agenda',
+          viewSchedule: 'Apri piano',
           providerSupabase: 'Supabase',
           providerDemo: 'Demo locale',
           digestOn: 'Attivo',
@@ -41,7 +41,7 @@ export default async function AccountPage({ params }: { params: Promise<{ locale
           gateItems: [
             'Nome visibile e città base da tenere sempre aggiornati.',
             'Digest personale per ricevere solo novità utili.',
-            'Accesso rapido a preferiti e agenda settimanale.'
+            'Accesso rapido a preferiti e piano settimanale.'
           ],
           gateChips: ['Profilo leggero', 'Digest personale', 'Ritorno veloce']
         }
@@ -52,16 +52,16 @@ export default async function AccountPage({ params }: { params: Promise<{ locale
           back: 'Back to Palermo',
           eyebrow: 'Account',
           title: 'Your profile',
-          lead: 'Manage how you appear inside kinelo.fit and keep an eye on what you saved.',
+          lead: 'Manage how you appear inside chefamo and keep an eye on what you saved.',
           email: 'Account email',
           provider: 'Access method',
           digest: 'Digest status',
           favorites: 'Favorites',
-          schedule: 'Saved schedule',
+          schedule: 'Saved plan',
           homeCity: 'Home city',
           shortcuts: 'Quick links',
           viewFavorites: 'Open favorites',
-          viewSchedule: 'Open schedule',
+          viewSchedule: 'Open plan',
           providerSupabase: 'Supabase',
           providerDemo: 'Local demo',
           digestOn: 'Active',
@@ -72,7 +72,7 @@ export default async function AccountPage({ params }: { params: Promise<{ locale
           gateItems: [
             'Keep your visible name and home city up to date.',
             'Set a personal digest with useful weekly updates.',
-            'Jump back into favorites and your saved schedule.'
+            'Jump back into favorites and your saved plan.'
           ],
           gateChips: ['Light profile', 'Personal digest', 'Fast return']
         };

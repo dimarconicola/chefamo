@@ -8,7 +8,7 @@ export default async function CookiesPage({ params }: { params: Promise<{ locale
           eyebrow: 'Cookies',
           title: 'Uso di cookie e storage locale',
           lead:
-            'kinelo.fit usa cookie e storage locale in modo limitato per sessione, autenticazione, preferenze e corretto funzionamento dell’esperienza.',
+            'chefamo usa cookie e storage locale in modo limitato per sessione, autenticazione, preferenze e corretto funzionamento dell esperienza.',
           sections: [
             {
               title: 'Cookie essenziali',
@@ -16,7 +16,7 @@ export default async function CookiesPage({ params }: { params: Promise<{ locale
             },
             {
               title: 'Preferenze locali',
-              body: 'Preferiti e agenda salvata possono essere memorizzati anche nel browser per mantenere l’esperienza coerente tra una visita e l’altra.'
+              body: 'Preferiti e piano salvato possono essere memorizzati anche nel browser per mantenere l esperienza coerente tra una visita e l altra.'
             },
             {
               title: 'Analitiche tecniche',
@@ -28,7 +28,7 @@ export default async function CookiesPage({ params }: { params: Promise<{ locale
           eyebrow: 'Cookies',
           title: 'Use of cookies and local storage',
           lead:
-            'kinelo.fit uses cookies and local storage in a limited way for session handling, authentication, preferences, and core product behavior.',
+            'chefamo uses cookies and local storage in a limited way for session handling, authentication, preferences, and core product behavior.',
           sections: [
             {
               title: 'Essential cookies',
@@ -36,7 +36,7 @@ export default async function CookiesPage({ params }: { params: Promise<{ locale
             },
             {
               title: 'Local preferences',
-              body: 'Favorites and saved schedule may also be stored in the browser so the experience stays consistent from one visit to the next.'
+              body: 'Favorites and saved plan may also be stored in the browser so the experience stays consistent from one visit to the next.'
             },
             {
               title: 'Technical analytics',

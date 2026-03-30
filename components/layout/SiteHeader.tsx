@@ -20,9 +20,9 @@ export function SiteHeader({ locale, dict, signedInEmail }: SiteHeaderProps) {
   const menuCopy = locale === 'it' ? { open: 'Menu', close: 'Chiudi' } : { open: 'Menu', close: 'Close' };
 
   const navItems = [
-    { href: `/${locale}/palermo/classes`, label: dict.classes },
-    { href: `/${locale}/palermo/studios`, label: dict.studios },
-    { href: `/${locale}/palermo/teachers`, label: dict.teachers },
+    { href: `/${locale}/palermo/activities`, label: dict.classes },
+    { href: `/${locale}/palermo/places`, label: dict.studios },
+    { href: `/${locale}/palermo/organizers`, label: dict.teachers },
     { href: `/${locale}/favorites`, label: dict.favorites },
     { href: `/${locale}/schedule`, label: dict.schedule }
   ];

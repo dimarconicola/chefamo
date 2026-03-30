@@ -1,65 +1,67 @@
-# kinelo.fit catalog policy
+# chefamo Catalog Policy
 
 ## Positioning
-kinelo.fit is a Palermo-first local discovery utility for yoga, mind-body practice, and kids activities. The catalog should stay narrow enough to feel trustworthy and broad enough to be useful every week.
+
+`chefamo` is a Palermo-first local discovery utility for family activities aimed at ages `0-14`.
+
+The catalog should stay:
+
+- narrow enough to feel trustworthy
+- broad enough to help families every week
+- strict about public source quality
 
 ## In scope
-- Yoga and yoga-adjacent mind-body classes
-- Pilates
-- Meditation, breathwork, somatic movement, mobility, gentle movement classes
-- Kids activities for ages 0-14 when they are course-based, recurring, and locally relevant
-- Martial arts only when the offer is class-led, recurring, and compatible with the mind-body / guided-practice profile
-- Gyms only if they expose a clear recurring class calendar with direct CTAs and discovery value
+
+- museums and guided family culture
+- puppet theater and family shows
+- libraries, storytime, and reading-led spaces
+- STEM labs, coding, science, and planetarium formats
+- movement formats for children when clearly age-targeted
+- outdoor hubs and good-anytime family places
 
 ## Out of scope
-- Field or team sports such as tennis, rugby, football, basketball, volleyball
-- Generic gym memberships with no clear class schedule
-- One-off events without a recurring or upcoming calendar signal
-- Offers with no verifiable booking/contact path
-- Kids offers above age 14 for the current Palermo cycle
 
-## Venue profiles
-Supported venue profiles:
-- studio
-- association
-- independent_teacher
-- gym_with_classes
-- event_series
+- team sports and generic training supply such as tennis, rugby, football, basketball, volleyball
+- offers above age `14`
+- listings with no verifiable source URL
+- listings with no usable booking or contact path
+- fake schedule rows created only to force a calendar presence
 
-Unsupported profiles should not enter the canonical catalog.
+## Required public data
 
-## Attendance model
-Every recurring session should carry one of:
-- drop_in
-- trial
-- cycle
-- term
+Every imported or published listing should have:
 
-Defaulting to `drop_in` is allowed during import, but it should be treated as a warning until manually verified.
-
-## Kids policy
-- Kids coverage is limited to 0-14
-- Every kids item should include age range when possible
-- Family/mixed activities can be included if they are clearly labeled and have a valid CTA
-- Term-based offers are allowed for kids only; non-kids term-only offers stay out of scope for v1
-
-## Data quality gates
-Each imported or manually created row should have:
-- valid source URL
-- valid booking target URL or verified contact method
+- source URL
 - freshness timestamp
-- city/category/style mapping
-- coordinates and address
+- city and category mapping
 - verification status
+- usable CTA or contact path
 
-Palermo ops targets:
-- pricing note on at least venue or session level for most visible supply
-- attendance model on every recurring session
-- CTA coverage above 95%
-- stale sessions suppressed after policy thresholds
+## Dated activity rules
 
-## Operational workflow
-- new claims, calendar submissions, and discovery leads enter moderation first
-- low-confidence freshness diffs do not auto-publish
-- quarterly discovery sweeps feed leads, not auto-imports
-- secondary cities stay hidden until they pass the same density and trust rules as Palermo
+Occurrences should:
+
+- use a real start and end time
+- stay inside the current scope rules
+- avoid out-of-scope sports signals in title or source context
+
+## Program rules
+
+Programs can be:
+
+- recurring
+- seasonal
+- variable
+- evergreen
+
+Programs may exist without occurrences when the listing is still useful as a place-first discovery object.
+
+## Age policy
+
+- coverage is limited to `0-14`
+- age ranges should be present whenever possible
+- family listings are allowed when clearly labeled and still relevant to children
+
+## Operational rule
+
+Low-confidence source parsing should create review candidates, not automatic public truth.

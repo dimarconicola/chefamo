@@ -16,37 +16,37 @@ export function CalendarSubmissionForm({ locale, citySlug }: CalendarSubmissionF
     () =>
       locale === 'it'
         ? {
-            title: 'Segnala il tuo calendario',
+            title: 'Segnala la tua programmazione',
             type: 'Tipo profilo',
-            studio: 'Studio',
-            teacher: 'Insegnante privato',
-            org: 'Nome studio o progetto',
+            studio: 'Luogo',
+            teacher: 'Organizzatore',
+            org: 'Nome luogo o progetto',
             contact: 'Nome referente',
             email: 'Email',
             phone: 'Telefono (opzionale)',
-            urls: 'URL fonti calendario (una per riga)',
-            schedule: 'Dettagli orari e note',
+            urls: 'URL fonti pubbliche (una per riga)',
+            schedule: 'Dettagli programma, orari e note',
             consent: 'Confermo che i dati inviati sono pubblici o autorizzati alla verifica.',
-            submit: 'Invia calendario',
+            submit: 'Invia programmazione',
             submitting: 'Invio in corso...',
-            done: 'Ricevuto. Il team verifica e inserisce il calendario nella coda editoriale.',
+            done: 'Ricevuto. Il team verifica e inserisce la programmazione nella coda editoriale.',
             error: 'Invio non riuscito. Controlla i campi e riprova.'
           }
         : {
-            title: 'Suggest your calendar',
+            title: 'Suggest your program',
             type: 'Profile type',
-            studio: 'Studio',
-            teacher: 'Private teacher',
-            org: 'Studio or project name',
+            studio: 'Place',
+            teacher: 'Organizer',
+            org: 'Place or project name',
             contact: 'Contact person',
             email: 'Email',
             phone: 'Phone (optional)',
-            urls: 'Calendar source URLs (one per line)',
-            schedule: 'Schedule details and notes',
+            urls: 'Public source URLs (one per line)',
+            schedule: 'Program details, schedules, and notes',
             consent: 'I confirm the submitted data is public or authorized for verification.',
-            submit: 'Submit calendar',
+            submit: 'Submit program',
             submitting: 'Submitting...',
-            done: 'Received. The team will verify and queue your calendar.',
+            done: 'Received. The team will verify and queue your program.',
             error: 'Submission failed. Check fields and try again.'
           },
     [locale]
@@ -97,9 +97,9 @@ export function CalendarSubmissionForm({ locale, citySlug }: CalendarSubmissionF
 
       <label>
         <span>{labels.type}</span>
-        <select name="submitterType" defaultValue="studio" required>
-          <option value="studio">{labels.studio}</option>
-          <option value="teacher">{labels.teacher}</option>
+        <select name="submitterType" defaultValue="place" required>
+          <option value="place">{labels.studio}</option>
+          <option value="organizer">{labels.teacher}</option>
         </select>
       </label>
 
@@ -125,7 +125,7 @@ export function CalendarSubmissionForm({ locale, citySlug }: CalendarSubmissionF
 
       <label>
         <span>{labels.urls}</span>
-        <textarea name="sourceUrls" rows={4} required placeholder="https://example.com/schedule" />
+        <textarea name="sourceUrls" rows={4} required placeholder="https://example.com/program" />
       </label>
 
       <label>

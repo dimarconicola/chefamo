@@ -9,13 +9,13 @@ import { env } from '@/lib/env';
 export const metadata: Metadata = {
   metadataBase: new URL(env.siteUrl),
   title: {
-    default: 'kinelo.fit',
-    template: '%s · kinelo.fit'
+    default: 'chefamo',
+    template: '%s · chefamo'
   },
-  description: 'Palermo-seeded local discovery for yoga-led mind-body routines.',
+  description: 'Palermo-first discovery for 0-14 activities, family culture, STEM, movement, and outdoor time.',
   openGraph: {
-    title: 'kinelo.fit',
-    description: 'Find the right yoga and mind-body class in your city.',
+    title: 'chefamo',
+    description: 'Find the right Palermo activity, place, or weekend plan for ages 0-14.',
     type: 'website'
   },
   icons: {

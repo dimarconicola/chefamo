@@ -7,7 +7,7 @@ export default function NotFound() {
         <h1>Pagina non trovata</h1>
         <p>Questo percorso non esiste oppure la citta non e ancora pubblica.</p>
         <Link href="/it" className="button button-primary">
-          Torna a kinelo.fit
+          Torna a chefamo
         </Link>
       </section>
     </main>
