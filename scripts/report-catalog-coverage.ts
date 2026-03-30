@@ -6,42 +6,46 @@ const pct = (value: number, total: number) => (total === 0 ? '0.0%' : `${((value
 
 async function main() {
   const snapshot = await getCatalogSnapshot();
-  const sessions = snapshot.sessions.filter((session) => session.citySlug === citySlug);
-  const venues = snapshot.venues.filter((venue) => venue.citySlug === citySlug);
-  const kids = sessions.filter((session) => session.categorySlug === 'kids-activities');
-  const priced = sessions.filter((session) => Boolean(session.priceNote?.it || session.priceNote?.en));
-  const attendanceTagged = sessions.filter((session) => Boolean(session.attendanceModel));
-  const venueLevelSources = new Set(venues.map((venue) => venue.sourceUrl));
+  const occurrences = snapshot.occurrences.filter((occurrence) => occurrence.citySlug === citySlug);
+  const places = snapshot.places.filter((place) => place.citySlug === citySlug);
+  const programs = snapshot.programs.filter((program) => program.citySlug === citySlug);
+  const organizers = snapshot.organizers.filter((organizer) => organizer.citySlug === citySlug);
+  const pricedOccurrences = occurrences.filter((occurrence) => Boolean(occurrence.priceNote?.it || occurrence.priceNote?.en));
+  const ageTaggedOccurrences = occurrences.filter((occurrence) => typeof occurrence.ageMin === 'number' && typeof occurrence.ageMax === 'number');
+  const guardianTaggedOccurrences = occurrences.filter((occurrence) => occurrence.guardianRequired);
+  const placeLevelSources = new Set(places.map((place) => place.sourceUrl));
 
-  const byAttendance = Object.fromEntries(
-    ['drop_in', 'trial', 'cycle', 'term'].map((model) => [model, sessions.filter((session) => session.attendanceModel === model).length])
+  const byCategory = Object.fromEntries(
+    [...new Set(occurrences.map((occurrence) => occurrence.categorySlug))]
+      .sort()
+      .map((slug) => [slug, occurrences.filter((occurrence) => occurrence.categorySlug === slug).length])
   );
-
-  const kidsAgeTagged = kids.filter((session) => typeof session.ageMin === 'number' && typeof session.ageMax === 'number');
 
   console.log(JSON.stringify({
     citySlug,
     sourceMode: snapshot.sourceMode,
     totals: {
-      venues: venues.length,
-      sessions: sessions.length,
-      kidsSessions: kids.length,
-      venueSources: venueLevelSources.size
+      places: places.length,
+      organizers: organizers.length,
+      programs: programs.length,
+      occurrences: occurrences.length,
+      goodAnytimePlaces: places.filter((place) => place.goodAnytime).length,
+      placeSources: placeLevelSources.size
     },
     coverage: {
-      pricing: {
-        sessions: priced.length,
-        percent: pct(priced.length, sessions.length)
+      pricingNotes: {
+        occurrences: pricedOccurrences.length,
+        percent: pct(pricedOccurrences.length, occurrences.length)
       },
-      attendanceModel: {
-        sessions: attendanceTagged.length,
-        percent: pct(attendanceTagged.length, sessions.length),
-        byAttendance
+      ageRanges: {
+        occurrences: ageTaggedOccurrences.length,
+        percent: pct(ageTaggedOccurrences.length, occurrences.length)
       },
-      kidsAgeRanges: {
-        sessions: kidsAgeTagged.length,
-        percent: pct(kidsAgeTagged.length, kids.length)
-      }
+      guardianRequired: {
+        occurrences: guardianTaggedOccurrences.length,
+        percent: pct(guardianTaggedOccurrences.length, occurrences.length)
+      },
+      byCategory
     }
   }, null, 2));
 }

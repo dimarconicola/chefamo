@@ -55,7 +55,8 @@ npm run validate:import
 
 - Browsing is public.
 - Favorites and saved plan require sign-in.
-- If `DATABASE_URL` is unset, runtime state falls back to `/tmp/chefamo-runtime`.
+- Catalog data defaults to the built-in Chefamo family seed unless `CHEFAMO_ENABLE_DATABASE_CATALOG=true`.
+- Persistent account state is only enabled when the Chefamo store/auth env flags are explicitly turned on.
 - Supply/readiness is computed from the active Palermo catalog.
 - Freshness checks and source-registry workflows are available through the admin and cron surfaces.
 

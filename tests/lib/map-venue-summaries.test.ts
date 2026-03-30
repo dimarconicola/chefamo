@@ -9,32 +9,32 @@ describe('buildMapVenueSummaries', () => {
       createMockSession({
         id: 'session-a',
         venueSlug: 'venue-1',
-        instructorSlug: 'teacher-1',
-        styleSlug: 'hatha',
+        instructorSlug: 'organizer-1',
+        styleSlug: 'guided-visit',
         bookingTargetSlug: 'direct-booking',
         startAt: '2026-03-25T08:00:00.000Z',
         endAt: '2026-03-25T09:00:00.000Z',
-        title: { it: 'Yoga del mattino', en: 'Morning yoga' }
+        title: { it: 'Visita famiglia del mattino', en: 'Morning family tour' }
       }),
       createMockSession({
         id: 'session-b',
         venueSlug: 'venue-1',
-        instructorSlug: 'teacher-1',
-        styleSlug: 'hatha',
+        instructorSlug: 'organizer-1',
+        styleSlug: 'guided-visit',
         bookingTargetSlug: 'direct-booking',
         startAt: '2026-03-26T08:00:00.000Z',
         endAt: '2026-03-26T09:00:00.000Z',
-        title: { it: 'Flow serale', en: 'Evening flow' }
+        title: { it: 'Tour serale famiglie', en: 'Evening family tour' }
       }),
       createMockSession({
         id: 'session-c',
         venueSlug: 'venue-2',
-        instructorSlug: 'teacher-2',
-        styleSlug: 'vinyasa',
+        instructorSlug: 'organizer-2',
+        styleSlug: 'hands-on-lab',
         bookingTargetSlug: 'website',
         startAt: '2026-03-25T10:00:00.000Z',
         endAt: '2026-03-25T11:00:00.000Z',
-        title: { it: 'Pilates forte', en: 'Strong pilates' }
+        title: { it: 'Laboratorio creativo', en: 'Creative lab' }
       })
     ];
 
@@ -45,12 +45,12 @@ describe('buildMapVenueSummaries', () => {
       venues: [
         createMockVenue({
           slug: 'venue-1',
-          name: 'Studio Uno',
+          name: 'Teatro Massimo',
           bookingTargetOrder: ['direct-booking']
         }),
         createMockVenue({
           slug: 'venue-2',
-          name: 'Studio Due',
+          name: 'MiniMuPa',
           neighborhoodSlug: 'centre',
           geo: { lat: 38.118, lng: 13.37 },
           bookingTargetOrder: ['website']
@@ -78,17 +78,17 @@ describe('buildMapVenueSummaries', () => {
       ],
       instructors: [
         {
-          slug: 'teacher-1',
+          slug: 'organizer-1',
           citySlug: 'palermo',
-          name: 'Anna',
+          name: 'Fondazione Teatro Massimo',
           shortBio: { it: 'Bio', en: 'Bio' },
           specialties: [],
           languages: ['it']
         },
         {
-          slug: 'teacher-2',
+          slug: 'organizer-2',
           citySlug: 'palermo',
-          name: 'Luca',
+          name: 'MiniMuPa',
           shortBio: { it: 'Bio', en: 'Bio' },
           specialties: [],
           languages: ['it']
@@ -96,16 +96,16 @@ describe('buildMapVenueSummaries', () => {
       ],
       styles: [
         {
-          slug: 'hatha',
-          categorySlug: 'yoga',
-          name: { it: 'Hatha', en: 'Hatha' },
-          description: { it: 'Hatha', en: 'Hatha' }
+          slug: 'guided-visit',
+          categorySlug: 'culture',
+          name: { it: 'Visita guidata', en: 'Guided visit' },
+          description: { it: 'Visita guidata', en: 'Guided visit' }
         },
         {
-          slug: 'vinyasa',
-          categorySlug: 'yoga',
-          name: { it: 'Vinyasa', en: 'Vinyasa' },
-          description: { it: 'Vinyasa', en: 'Vinyasa' }
+          slug: 'hands-on-lab',
+          categorySlug: 'stem',
+          name: { it: 'Laboratorio hands-on', en: 'Hands-on lab' },
+          description: { it: 'Laboratorio hands-on', en: 'Hands-on lab' }
         }
       ],
       bookingTargets: [
@@ -117,7 +117,7 @@ describe('buildMapVenueSummaries', () => {
     expect(summaries).toHaveLength(2);
     expect(summaries[0].venueSlug).toBe('venue-1');
     expect(summaries[0].matchingSessionCount).toBe(2);
-    expect(summaries[0].nextSession?.title).toBe('Yoga del mattino');
+    expect(summaries[0].nextSession?.title).toBe('Visita famiglia del mattino');
     expect(summaries[0].sessionsPreview).toHaveLength(2);
     expect(summaries[0].primaryCtaHref).toBe('https://example.com/book');
     expect(summaries[1].neighborhoodName).toBe('Centro');

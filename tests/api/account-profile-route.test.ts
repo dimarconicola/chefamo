@@ -67,7 +67,7 @@ describe('account profile route contract', () => {
       createdAt: '2026-03-23T08:00:00.000Z',
       updatedAt: '2026-03-23T08:00:00.000Z'
     });
-    listUserFavorites.mockResolvedValue([{ entityType: 'venue', entitySlug: 'yoga-city', createdAt: '2026-03-23T08:00:00.000Z' }]);
+    listUserFavorites.mockResolvedValue([{ entityType: 'place', entitySlug: 'minimupa-palermo', createdAt: '2026-03-23T08:00:00.000Z' }]);
     listUserSchedule.mockResolvedValue(['session-1', 'session-2']);
 
     const { GET } = await import('@/app/api/account/profile/route');

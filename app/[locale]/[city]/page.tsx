@@ -2,7 +2,6 @@ import { notFound } from 'next/navigation';
 
 import { DigestForm } from '@/components/forms/DigestForm';
 import { SessionCard } from '@/components/discovery/SessionCard';
-import { LoopVideo } from '@/components/media/LoopVideo';
 import { StatCard } from '@/components/admin/StatCard';
 import { ServerButtonLink, ServerCardLink, ServerLink } from '@/components/ui/server';
 import { getSessionUser } from '@/lib/auth/session';
@@ -12,7 +11,6 @@ import { resolveOccurrenceCardDataFromSnapshot } from '@/lib/catalog/session-car
 import { getLocaleLabel } from '@/lib/catalog/server-data';
 import { getDictionary } from '@/lib/i18n/dictionaries';
 import { resolveLocale } from '@/lib/i18n/routing';
-import { pexelsVideos } from '@/lib/media/pexels-videos';
 import { getRuntimeCapabilities } from '@/lib/runtime/capabilities';
 
 export default async function CityPage({ params }: { params: Promise<{ locale: string; city: string }> }) {
@@ -162,11 +160,15 @@ export default async function CityPage({ params }: { params: Promise<{ locale: s
               </ServerLink>
             </div>
             <div className="city-motion-grid" aria-hidden="true">
-              <div className="city-motion-media city-motion-media-tall">
-                <LoopVideo src={pexelsVideos.stretching} label="Family movement" poster="/home-hero.jpg" className="city-motion-video" />
+              <div className="city-motion-media city-motion-illustration city-motion-illustration-active">
+                <div className="city-motion-mark">0-14</div>
+                <strong>{locale === 'it' ? 'Scegli per energia, età e quartiere' : 'Choose by energy, age, and neighborhood'}</strong>
+                <span>{locale === 'it' ? 'Non solo un elenco: il contesto conta.' : 'Not just a list: context matters.'}</span>
               </div>
-              <div className="city-motion-media">
-                <LoopVideo src={pexelsVideos.meditation} label="Quiet reading space" poster="/home-hero.jpg" className="city-motion-video" />
+              <div className="city-motion-media city-motion-illustration city-motion-illustration-calm">
+                <div className="city-motion-mark">{locale === 'it' ? 'Piano B' : 'Backup'}</div>
+                <strong>{locale === 'it' ? 'Pioggia, doposcuola, weekend lenti' : 'Rainy days, after school, slow weekends'}</strong>
+                <span>{locale === 'it' ? 'Musei, biblioteche e luoghi calmi restano nel flusso.' : 'Museums, libraries, and calm places stay in the flow.'}</span>
               </div>
             </div>
           </div>

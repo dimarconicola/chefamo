@@ -3,45 +3,35 @@ import assert from 'node:assert/strict';
 
 import { evaluateAdapterAutoReverify, parseSourceWithAdapter } from '@/lib/freshness/adapters';
 
-test('Rishi adapter parses weekday slots from timetable table HTML', () => {
+test('planetario adapter parses weekday slots from simple program HTML', () => {
   const html = `
-    <table>
-      <tr><td>CORSO</td><td>LUN</td><td>MAR</td><td>MER</td><td>GIO</td><td>VEN</td></tr>
-      <tr>
-        <td><strong>Soft Yoga</strong></td>
-        <td>18.15</td><td>-</td><td>18.15</td><td>-</td><td>-</td>
-      </tr>
-      <tr>
-        <td><strong>Canto Sacro</strong></td>
-        <td>-</td><td>20.15-21.15</td><td>-</td><td>-</td><td>-</td>
-      </tr>
-    </table>
+    <ul>
+      <li>Sabato 17:00 Weekend Planetarium Show</li>
+      <li>Domenica 12:00 Weekend Planetarium Show</li>
+    </ul>
   `;
 
-  const parsed = parseSourceWithAdapter('https://www.centroculturarishi.it/corsi/', html);
-  assert.equal(parsed.adapterId, 'rishi-corsi');
-  assert.ok(parsed.sessions.some((item) => item.title === 'Soft Yoga' && item.weekday === 'Monday' && item.startTime === '18:15'));
-  assert.ok(parsed.sessions.some((item) => item.title === 'Soft Yoga' && item.weekday === 'Wednesday' && item.startTime === '18:15'));
-  assert.ok(parsed.sessions.some((item) => item.title === 'Canto Sacro' && item.weekday === 'Tuesday' && item.startTime === '20:15' && item.endTime === '21:15'));
+  const parsed = parseSourceWithAdapter('https://www.planetariopalermo.it/', html);
+  assert.equal(parsed.adapterId, 'planetario-program');
+  assert.ok(parsed.sessions.some((item) => item.title === 'Weekend Planetarium Show' && item.weekday === 'Saturday' && item.startTime === '17:00'));
+  assert.ok(parsed.sessions.some((item) => item.title === 'Weekend Planetarium Show' && item.weekday === 'Sunday' && item.startTime === '12:00'));
 });
 
-test('Taiji adapter parses known recurring timetable lines', () => {
+test('marionette adapter parses heading-plus-line schedules', () => {
   const html = `
-    <p>Taiji Studio - via Selinunte 11 - lunedi, mercoledi e venerdi h8,30 e 19,00 oppure lunedi e venerdi h10,00</p>
-    <p>Qi Gong</p>
-    <p>Villa Trabia - sabato h10,00</p>
-    <p>Taiji Studio - via Selinunte 11 - lunedi e venerdi 18,00</p>
+    <h3>Sabato</h3>
+    <p>16:30 Weekend Puppet Theater</p>
+    <h3>Domenica</h3>
+    <p>12:00 Weekend Puppet Theater</p>
   `;
 
-  const parsed = parseSourceWithAdapter('https://www.taijistudiopalermo.it/', html);
-  assert.equal(parsed.adapterId, 'taiji-home');
-  assert.ok(parsed.sessions.some((item) => item.title === 'Taijiquan' && item.weekday === 'Monday' && item.startTime === '08:30'));
-  assert.ok(parsed.sessions.some((item) => item.title === 'Taijiquan' && item.weekday === 'Friday' && item.startTime === '19:00'));
-  assert.ok(parsed.sessions.some((item) => item.title === 'Qi Gong' && item.weekday === 'Saturday' && item.startTime === '10:00'));
-  assert.ok(parsed.sessions.some((item) => item.title === 'Qi Gong' && item.weekday === 'Monday' && item.startTime === '18:00'));
+  const parsed = parseSourceWithAdapter('https://www.museomarionettepalermo.it/', html);
+  assert.equal(parsed.adapterId, 'museo-marionette-program');
+  assert.ok(parsed.sessions.some((item) => item.title === 'Weekend Puppet Theater' && item.weekday === 'Saturday' && item.startTime === '16:30'));
+  assert.ok(parsed.sessions.some((item) => item.title === 'Weekend Puppet Theater' && item.weekday === 'Sunday' && item.startTime === '12:00'));
 });
 
-test('Barbara Wix adapter parses schedule blocks and strips instructor suffix', () => {
+test('teatro massimo adapter parses entity-heavy family visit schedule blocks', () => {
   const html = `
     <html>
       <head>
@@ -49,23 +39,19 @@ test('Barbara Wix adapter parses schedule blocks and strips instructor suffix', 
         <script>window.debug = true;</script>
       </head>
       <body>
-        <p>Luned&igrave;</p>
-        <p>09:00 Hatha Yoga con Barbara</p>
-        <p>19:30 Vinyasa Yoga con Domenico</p>
-        <p>Marted&igrave;</p>
-        <p>11.00 Vinyasa con Veronica</p>
-        <p>19:30 Vinyasa Yoga con Claudia</p>
-        <h2>Lo staff</h2>
-        <p>Barbara Faludi</p>
+        <p>Sabato</p>
+        <p>10:30 Family Theater Tour</p>
+        <p>Domenica</p>
+        <p>11.20 Family Theater Tour</p>
       </body>
     </html>
   `;
 
-  const parsed = parseSourceWithAdapter('https://www.barbarafaludiyoga.com/corsi-in-studio', html);
-  assert.equal(parsed.adapterId, 'barbara-wix');
-  assert.equal(parsed.sessions.length, 4);
-  assert.ok(parsed.sessions.some((item) => item.weekday === 'Monday' && item.startTime === '09:00' && item.title === 'Hatha Yoga'));
-  assert.ok(parsed.sessions.some((item) => item.weekday === 'Tuesday' && item.startTime === '11:00' && item.title === 'Vinyasa'));
+  const parsed = parseSourceWithAdapter('https://www.teatromassimo.it/', html);
+  assert.equal(parsed.adapterId, 'teatro-massimo-family-tour');
+  assert.equal(parsed.sessions.length, 2);
+  assert.ok(parsed.sessions.some((item) => item.weekday === 'Saturday' && item.startTime === '10:30' && item.title === 'Family Theater Tour'));
+  assert.ok(parsed.sessions.some((item) => item.weekday === 'Sunday' && item.startTime === '11:20' && item.title === 'Family Theater Tour'));
 });
 
 test('adapter confidence threshold rejects low signal coverage', () => {

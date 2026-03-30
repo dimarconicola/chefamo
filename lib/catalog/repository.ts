@@ -15,7 +15,9 @@ import type {
 import {
   chefamoBookingTargets,
   chefamoCategories,
+  chefamoCities,
   chefamoCollections,
+  chefamoNeighborhoods,
   chefamoOccurrences,
   chefamoOrganizers,
   chefamoPlaces,
@@ -24,17 +26,12 @@ import {
 } from '@/lib/catalog/chefamo-seed';
 import { normalizePriceNote } from '@/lib/catalog/price-notes';
 import { mapSourceEventCandidateToSession, type SourceEventCandidatePayload } from '@/lib/freshness/social-events';
-import { getDb } from '@/lib/data/db';
+import { getCatalogDb } from '@/lib/data/db';
 import {
-  activityCategories,
   bookingTargets,
-  cities,
-  editorialCollections,
   instructors,
-  neighborhoods,
   sessions,
   sourceRecords,
-  styles,
   venues
 } from '@/lib/data/schema';
 import { and, eq, gt } from 'drizzle-orm';
@@ -56,100 +53,59 @@ export interface CatalogSnapshot {
   collections: EditorialCollection[];
 }
 
-const getSeedResources = cache(async () => {
-  const seed = await import('@/lib/catalog/seed');
-  const seedPlaceImages = new Map(seed.venues.filter((place) => place.coverImage).map((place) => [place.slug, place.coverImage]));
-  const seedOrganizerMedia = new Map(
-    seed.instructors
-      .filter((organizer) => organizer.headshot || organizer.socialLinks?.length)
-      .map((organizer) => [organizer.slug, { headshot: organizer.headshot, socialLinks: organizer.socialLinks }])
-  );
-  const legacyOccurrences = seed.sessions
-    .map((occurrence) => normalizeChefamoOccurrence(toOccurrence(occurrence)))
-    .filter(isChefamoOccurrence);
-  const activeLegacyPlaceSlugs = new Set(legacyOccurrences.map((occurrence) => occurrence.placeSlug));
-  const activeLegacyOrganizerSlugs = new Set(legacyOccurrences.map((occurrence) => occurrence.organizerSlug));
-  const legacyPlaces = seed.venues
-    .filter((place) => activeLegacyPlaceSlugs.has(place.slug) || place.categorySlugs.includes('kids-activities'))
-    .map((place) =>
-      normalizeChefamoPlace({
-        ...place,
-        coverImage: seedPlaceImages.get(place.slug) ?? place.coverImage,
-        profile: place.profile ?? derivePlaceProfile(place.name, place.categorySlugs, place.styleSlugs),
-        environment: place.environment ?? deriveEnvironment(place.name, place.categorySlugs)
-      })
-    );
-  const legacyOrganizers = seed.instructors
-    .filter((organizer) => activeLegacyOrganizerSlugs.has(organizer.slug))
-    .map((organizer) => ({
-      ...organizer,
-      ...(seedOrganizerMedia.get(organizer.slug) ?? {})
-    }));
-  const legacyPrograms = buildPrograms(legacyOccurrences);
-  const legacyStyleSlugs = new Set(legacyOccurrences.map((occurrence) => occurrence.styleSlug));
-  const styles = mergeBySlug(
-    seed.styles.filter((style) => legacyStyleSlugs.has(style.slug)).map(normalizeChefamoStyle),
-    chefamoStyles
-  );
-  const bookingTargets = mergeBySlug(
-    seed.bookingTargets.filter(
-      (target) =>
-        legacyOccurrences.some((occurrence) => occurrence.bookingTargetSlug === target.slug) ||
-        legacyPlaces.some((place) => place.bookingTargetOrder.includes(target.slug))
-    ),
-    chefamoBookingTargets
-  );
-  const organizers = mergeBySlug(legacyOrganizers, chefamoOrganizers);
-  const places = mergeBySlug(legacyPlaces, chefamoPlaces);
-  const programs = mergeBySlug(legacyPrograms, chefamoPrograms);
-  const occurrences = [...legacyOccurrences, ...chefamoOccurrences].sort((left, right) => left.startAt.localeCompare(right.startAt));
-  const seedSnapshot: CatalogSnapshot = {
+const getSeedSnapshot = cache(
+  async (): Promise<CatalogSnapshot> => ({
     sourceMode: 'seed',
-    cities: seed.cities,
-    neighborhoods: seed.neighborhoods,
+    cities: chefamoCities,
+    neighborhoods: chefamoNeighborhoods,
     categories: chefamoCategories,
-    styles,
-    organizers,
-    instructors: organizers,
-    places,
-    venues: places,
-    bookingTargets,
-    programs,
-    occurrences,
-    sessions: occurrences,
-    collections: mergeBySlug(
-      seed.collections
-        .filter((collection) => collection.slug === 'today-nearby' || collection.slug === 'new-this-week')
-        .map((collection) =>
-          collection.slug === 'today-nearby'
-            ? collection
-            : collection.slug === 'new-this-week'
-              ? collection
-              : collection
-        ),
-      [
-        {
-          slug: 'english-friendly',
-          citySlug: 'palermo',
-          title: { en: 'English-friendly picks', it: 'Picks in inglese' },
-          description: {
-            en: 'Programs that clearly support English-speaking families.',
-            it: 'Programmi che supportano chiaramente famiglie anglofone.'
-          },
-          cta: { en: 'Browse English-friendly plans', it: 'Esplora i piani in inglese' },
-          kind: 'editorial'
-        }
-      ],
-      chefamoCollections
-    )
-  };
-
-  return {
-    seedSnapshot,
-    seedPlaceImages,
-    seedOrganizerMedia
-  };
-});
+    styles: chefamoStyles,
+    organizers: chefamoOrganizers,
+    instructors: chefamoOrganizers,
+    places: chefamoPlaces,
+    venues: chefamoPlaces,
+    bookingTargets: chefamoBookingTargets,
+    programs: chefamoPrograms,
+    occurrences: chefamoOccurrences,
+    sessions: chefamoOccurrences,
+    collections: [
+      ...chefamoCollections,
+      {
+        slug: 'today-nearby',
+        citySlug: 'palermo',
+        title: { en: 'Today nearby', it: 'Vicino a te oggi' },
+        description: {
+          en: 'Fast family-friendly ideas that still fit today.',
+          it: 'Idee family-friendly veloci che stanno ancora dentro la giornata di oggi.'
+        },
+        cta: { en: 'Open today nearby', it: 'Apri le idee di oggi' },
+        kind: 'rule'
+      },
+      {
+        slug: 'new-this-week',
+        citySlug: 'palermo',
+        title: { en: 'New this week', it: 'Nuovo questa settimana' },
+        description: {
+          en: 'Freshly verified Palermo picks for the next few days.',
+          it: 'Picks palermitani appena verificati per i prossimi giorni.'
+        },
+        cta: { en: 'See new this week', it: 'Vedi il nuovo della settimana' },
+        kind: 'rule'
+      },
+      {
+        slug: 'english-friendly',
+        citySlug: 'palermo',
+        title: { en: 'English-friendly picks', it: 'Picks in inglese' },
+        description: {
+          en: 'Programs that clearly support English-speaking families.',
+          it: 'Programmi che supportano chiaramente famiglie anglofone.'
+        },
+        cta: { en: 'Browse English-friendly plans', it: 'Esplora i piani in inglese' },
+        kind: 'editorial'
+      }
+    ]
+  })
+);
 
 const toNumber = (value: string | number | null | undefined) => {
   if (typeof value === 'number') return value;
@@ -228,15 +184,8 @@ const toOccurrence = (
 
 const remapChefamoCategory = (categorySlug: string) => {
   if (categorySlug === 'kids-activities') return 'movement';
-  if (categorySlug === 'yoga' || categorySlug === 'pilates' || categorySlug === 'movement') return 'movement';
-  if (categorySlug === 'breathwork' || categorySlug === 'meditation') return 'reading';
   return categorySlug;
 };
-
-const normalizeChefamoStyle = (style: Style): Style => ({
-  ...style,
-  categorySlug: remapChefamoCategory(style.categorySlug)
-});
 
 const normalizeChefamoPlace = (place: Place): Place => ({
   ...place,
@@ -255,18 +204,6 @@ const isChefamoOccurrence = (occurrence: Occurrence) =>
   occurrence.audience === 'families' ||
   occurrence.categorySlug === 'kids-activities' ||
   (typeof occurrence.ageMax === 'number' && occurrence.ageMax <= 14);
-
-const mergeBySlug = <T extends { slug: string }>(...groups: T[][]) => {
-  const merged = new Map<string, T>();
-
-  for (const group of groups) {
-    for (const item of group) {
-      merged.set(item.slug, item);
-    }
-  }
-
-  return [...merged.values()];
-};
 
 const buildPrograms = (occurrences: Occurrence[]): Program[] => {
   const grouped = new Map<string, Occurrence[]>();
@@ -323,27 +260,18 @@ const buildPrograms = (occurrences: Occurrence[]): Program[] => {
 };
 
 const loadDatabaseSnapshot = async (): Promise<CatalogSnapshot | null> => {
-  const db = getDb();
+  const db = getCatalogDb();
   if (!db) return null;
 
   try {
     const [
-      cityRows,
-      neighborhoodRows,
-      categoryRows,
-      styleRows,
       organizerRows,
       placeRows,
       bookingTargetRows,
       occurrenceRows,
       sourceEventRows,
-      collectionRows,
-      { seedPlaceImages, seedOrganizerMedia }
+      seedSnapshot
     ] = await Promise.all([
-      db.select().from(cities),
-      db.select().from(neighborhoods),
-      db.select().from(activityCategories),
-      db.select().from(styles),
       db.select().from(instructors),
       db.select().from(venues),
       db.select().from(bookingTargets),
@@ -357,37 +285,40 @@ const loadDatabaseSnapshot = async (): Promise<CatalogSnapshot | null> => {
             gt(sourceRecords.lastVerifiedAt, new Date(Date.now() - 1000 * 60 * 60 * 24 * 21))
           )
         ),
-      db.select().from(editorialCollections),
-      getSeedResources()
+      getSeedSnapshot()
     ]);
 
-    const baseOccurrences = occurrenceRows.map((row) =>
-      toOccurrence({
-        id: row.id,
-        citySlug: row.citySlug,
-        venueSlug: row.venueSlug,
-        instructorSlug: row.instructorSlug,
-        categorySlug: row.categorySlug,
-        styleSlug: row.styleSlug,
-        title: row.title,
-        startAt: toIso(row.startAt),
-        endAt: toIso(row.endAt),
-        level: row.level,
-        language: row.language,
-        format: row.format,
-        bookingTargetSlug: row.bookingTargetSlug,
-        sourceUrl: row.sourceUrl,
-        lastVerifiedAt: toIso(row.lastVerifiedAt),
-        verificationStatus: row.verificationStatus,
-        audience: row.audience,
-        attendanceModel: row.attendanceModel,
-        ageMin: row.ageMin ?? undefined,
-        ageMax: row.ageMax ?? undefined,
-        ageBand: isKidsAgeBand(row.ageBand) ? row.ageBand : undefined,
-        guardianRequired: row.guardianRequired,
-        priceNote: normalizePriceNote(row.priceNote ?? undefined)
-      })
-    );
+    const baseOccurrences = occurrenceRows
+      .map((row) =>
+        normalizeChefamoOccurrence(
+          toOccurrence({
+            id: row.id,
+            citySlug: row.citySlug,
+            venueSlug: row.venueSlug,
+            instructorSlug: row.instructorSlug,
+            categorySlug: row.categorySlug,
+            styleSlug: row.styleSlug,
+            title: row.title,
+            startAt: toIso(row.startAt),
+            endAt: toIso(row.endAt),
+            level: row.level,
+            language: row.language,
+            format: row.format,
+            bookingTargetSlug: row.bookingTargetSlug,
+            sourceUrl: row.sourceUrl,
+            lastVerifiedAt: toIso(row.lastVerifiedAt),
+            verificationStatus: row.verificationStatus,
+            audience: row.audience,
+            attendanceModel: row.attendanceModel,
+            ageMin: row.ageMin ?? undefined,
+            ageMax: row.ageMax ?? undefined,
+            ageBand: isKidsAgeBand(row.ageBand) ? row.ageBand : undefined,
+            guardianRequired: row.guardianRequired,
+            priceNote: normalizePriceNote(row.priceNote ?? undefined)
+          })
+        )
+      )
+      .filter(isChefamoOccurrence);
 
     const existingOccurrenceIdentities = new Set(baseOccurrences.map(buildSessionIdentity));
 
@@ -395,103 +326,83 @@ const loadDatabaseSnapshot = async (): Promise<CatalogSnapshot | null> => {
       .map((row) => row.sourcePayload as SourceEventCandidatePayload | null)
       .filter((payload): payload is SourceEventCandidatePayload => Boolean(payload?.id && payload.citySlug))
       .map(mapSourceEventCandidateToSession)
-      .map((occurrence) => toOccurrence(occurrence))
+      .map((occurrence) => normalizeChefamoOccurrence(toOccurrence(occurrence)))
       .filter((occurrence) => Date.parse(occurrence.endAt) >= Date.now() - 1000 * 60 * 60 * 12)
+      .filter(isChefamoOccurrence)
       .filter((occurrence) => !existingOccurrenceIdentities.has(buildSessionIdentity(occurrence)));
 
-    const organizers: Organizer[] = organizerRows.map((row) => ({
-      ...(seedOrganizerMedia.get(row.slug) ?? {}),
-      slug: row.slug,
-      citySlug: row.citySlug,
-      name: row.name,
-      shortBio: row.shortBio,
-      specialties: row.specialties,
-      languages: row.languages
-    }));
+    const occurrences = [...baseOccurrences, ...oneOffOccurrences].sort((left, right) => left.startAt.localeCompare(right.startAt));
+    const activePlaceSlugs = new Set([...seedSnapshot.places.map((place) => place.slug), ...occurrences.map((occurrence) => occurrence.placeSlug)]);
+    const activeOrganizerSlugs = new Set([
+      ...seedSnapshot.organizers.map((organizer) => organizer.slug),
+      ...occurrences.map((occurrence) => occurrence.organizerSlug)
+    ]);
+    const usedBookingTargetSlugs = new Set([
+      ...seedSnapshot.bookingTargets.map((target) => target.slug),
+      ...occurrences.map((occurrence) => occurrence.bookingTargetSlug)
+    ]);
 
-    const places: Place[] = placeRows.map((row) => ({
-      slug: row.slug,
-      citySlug: row.citySlug,
-      neighborhoodSlug: row.neighborhoodSlug,
-      name: row.name,
-      tagline: row.tagline,
-      description: row.description,
-      address: row.address,
-      geo: {
-        lat: toNumber(row.lat),
-        lng: toNumber(row.lng)
-      },
-      amenities: row.amenities,
-      languages: row.languages,
-      styleSlugs: row.styleSlugs,
-      categorySlugs: row.categorySlugs,
-      bookingTargetOrder: row.bookingTargetOrder,
-      freshnessNote: row.freshnessNote,
-      sourceUrl: row.sourceUrl,
-      lastVerifiedAt: toIso(row.lastVerifiedAt),
-      coverImage: seedPlaceImages.get(row.slug),
-      profile: derivePlaceProfile(row.name, row.categorySlugs, row.styleSlugs),
-      environment: deriveEnvironment(row.name, row.categorySlugs)
-    }));
+    const organizers: Organizer[] = organizerRows
+      .map((row) => ({
+        slug: row.slug,
+        citySlug: row.citySlug,
+        name: row.name,
+        shortBio: row.shortBio,
+        specialties: row.specialties,
+        languages: row.languages
+      }))
+      .filter((organizer) => activeOrganizerSlugs.has(organizer.slug));
 
-    const occurrences = [...baseOccurrences, ...oneOffOccurrences];
+    const places: Place[] = placeRows
+      .map((row) =>
+        normalizeChefamoPlace({
+          slug: row.slug,
+          citySlug: row.citySlug,
+          neighborhoodSlug: row.neighborhoodSlug,
+          name: row.name,
+          tagline: row.tagline,
+          description: row.description,
+          address: row.address,
+          geo: {
+            lat: toNumber(row.lat),
+            lng: toNumber(row.lng)
+          },
+          amenities: row.amenities,
+          languages: row.languages,
+          styleSlugs: row.styleSlugs,
+          categorySlugs: row.categorySlugs,
+          bookingTargetOrder: row.bookingTargetOrder,
+          freshnessNote: row.freshnessNote,
+          sourceUrl: row.sourceUrl,
+          lastVerifiedAt: toIso(row.lastVerifiedAt),
+          profile: derivePlaceProfile(row.name, row.categorySlugs, row.styleSlugs),
+          environment: deriveEnvironment(row.name, row.categorySlugs)
+        })
+      )
+      .filter((place) => activePlaceSlugs.has(place.slug));
 
     return {
       sourceMode: 'database',
-      cities: cityRows.map((row) => ({
-        slug: row.slug,
-        countryCode: row.countryCode,
-        timezone: row.timezone,
-        status: row.status,
-        bounds: row.bounds,
-        name: row.name,
-        hero: row.hero
-      })),
-      neighborhoods: neighborhoodRows.map((row) => ({
-        slug: row.slug,
-        citySlug: row.citySlug,
-        name: row.name,
-        description: row.description,
-        center: {
-          lat: toNumber(row.centerLat),
-          lng: toNumber(row.centerLng)
-        }
-      })),
-      categories: categoryRows.map((row) => ({
-        slug: row.slug,
-        citySlug: row.citySlug,
-        name: row.name,
-        description: row.description,
-        visibility: row.visibility,
-        heroMetric: row.heroMetric
-      })),
-      styles: styleRows.map((row) => ({
-        slug: row.slug,
-        categorySlug: row.categorySlug,
-        name: row.name,
-        description: row.description
-      })),
+      cities: seedSnapshot.cities,
+      neighborhoods: seedSnapshot.neighborhoods,
+      categories: seedSnapshot.categories,
+      styles: seedSnapshot.styles,
       organizers,
       instructors: organizers,
       places,
       venues: places,
-      bookingTargets: bookingTargetRows.map((row) => ({
-        slug: row.slug,
-        type: row.type,
-        label: row.label,
-        href: row.href
-      })),
+      bookingTargets: bookingTargetRows
+        .map((row) => ({
+          slug: row.slug,
+          type: row.type,
+          label: row.label,
+          href: row.href
+        }))
+        .filter((target) => usedBookingTargetSlugs.has(target.slug)),
       programs: buildPrograms(occurrences),
       occurrences,
       sessions: occurrences,
-      collections: collectionRows.map((row) => ({
-        slug: row.slug,
-        citySlug: row.citySlug,
-        title: row.title,
-        description: row.description,
-        cta: row.cta,
-        kind: row.kind as 'rule' | 'editorial'
-      }))
+      collections: seedSnapshot.collections
     };
   } catch {
     return null;
@@ -502,5 +413,5 @@ export const getCatalogSnapshot = cache(async (): Promise<CatalogSnapshot> => {
   const databaseSnapshot = await loadDatabaseSnapshot();
   if (databaseSnapshot) return databaseSnapshot;
 
-  return (await getSeedResources()).seedSnapshot;
+  return getSeedSnapshot();
 });

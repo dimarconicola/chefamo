@@ -1,12 +1,10 @@
 import { DateTime } from 'luxon';
 
 import { DigestForm } from '@/components/forms/DigestForm';
-import { LoopVideo } from '@/components/media/LoopVideo';
 import { ServerButtonLink, ServerCard, ServerCardLink, ServerChip, ServerLink } from '@/components/ui/server';
 import { getCatalogSnapshot } from '@/lib/catalog/repository';
 import { getCityMetrics, getFeaturedOccurrences, getPlace } from '@/lib/catalog/server-data';
 import { resolveLocale } from '@/lib/i18n/routing';
-import { pexelsVideos } from '@/lib/media/pexels-videos';
 
 type IconName = 'map' | 'calendar' | 'mail' | 'book' | 'spark' | 'sun';
 
@@ -190,7 +188,8 @@ export default async function LocaleHome({ params }: { params: Promise<{ locale:
         locale === 'it'
           ? 'Visite, spettacoli e luoghi con ingresso leggibile per il weekend.'
           : 'Visits, shows, and places with readable entry points for the weekend.',
-      src: pexelsVideos.aerial
+      icon: 'book' as const,
+      tone: 'culture' as const
     },
     {
       title: locale === 'it' ? 'Fallback calmo' : 'Calm fallback',
@@ -198,7 +197,8 @@ export default async function LocaleHome({ params }: { params: Promise<{ locale:
         locale === 'it'
           ? 'Biblioteche, musei e luoghi indoor da usare quando serve abbassare il ritmo.'
           : 'Libraries, museums, and indoor places to use when the day needs a gentler pace.',
-      src: pexelsVideos.meditation
+      icon: 'sun' as const,
+      tone: 'quiet' as const
     },
     {
       title: locale === 'it' ? 'Energia guidata' : 'Guided energy',
@@ -206,7 +206,8 @@ export default async function LocaleHome({ params }: { params: Promise<{ locale:
         locale === 'it'
           ? 'Laboratori, coding e attività motorie con struttura chiara.'
           : 'Labs, coding, and movement formats with a clear structure.',
-      src: pexelsVideos.advanced
+      icon: 'spark' as const,
+      tone: 'energy' as const
     }
   ];
 
@@ -320,7 +321,14 @@ export default async function LocaleHome({ params }: { params: Promise<{ locale:
         <div className="home-v2-motion-grid">
           {motionClips.map((clip) => (
             <ServerCard key={clip.title} className="home-v2-motion-card">
-              <LoopVideo src={clip.src} label={clip.title} poster="/home-hero.jpg" className="home-v2-motion-video" />
+              <div className={`home-v2-illustration home-v2-illustration-${clip.tone}`}>
+                <div className="home-v2-illustration-icon">
+                  <InlineIcon name={clip.icon} />
+                </div>
+                <div className="home-v2-illustration-orb home-v2-illustration-orb-a" aria-hidden="true" />
+                <div className="home-v2-illustration-orb home-v2-illustration-orb-b" aria-hidden="true" />
+                <div className="home-v2-illustration-strip" aria-hidden="true" />
+              </div>
               <strong>{clip.title}</strong>
               <p className="muted">{clip.body}</p>
             </ServerCard>

@@ -22,15 +22,15 @@ export function CalendarResultsView({ locale, citySlug, weekOffset, setWeekOffse
           calendar: 'Calendario',
           previousWeek: 'Settimana precedente',
           nextWeek: 'Settimana successiva',
-          noDaySessions: 'Nessuna classe in questo giorno.',
-          noWeekSessions: 'Nessuna classe disponibile questa settimana.'
+          noDaySessions: 'Nessuna attività in questo giorno.',
+          noWeekSessions: 'Nessuna attività disponibile questa settimana.'
         }
       : {
           calendar: 'Calendar',
           previousWeek: 'Previous week',
           nextWeek: 'Next week',
-          noDaySessions: 'No classes on this day.',
-          noWeekSessions: 'No classes available this week.'
+          noDaySessions: 'No activities on this day.',
+          noWeekSessions: 'No activities available this week.'
         };
 
   const weekStart = useMemo(
@@ -104,10 +104,10 @@ export function CalendarResultsView({ locale, citySlug, weekOffset, setWeekOffse
                 <div className="calendar-day-list">
                   {entries.length > 0 ? (
                     entries.map((entry) => (
-                      <NextLink key={entry.sessionId} href={`/${locale}/${citySlug}/studios/${entry.venueSlug}`} className="calendar-session-card">
+                      <NextLink key={entry.sessionId} href={`/${locale}/${citySlug}/places/${entry.placeSlug}`} className="calendar-session-card">
                         <span>{entry.startLabel} - {entry.endLabel}</span>
                         <strong>{entry.title}</strong>
-                        <small>{entry.venueName}</small>
+                        <small>{entry.placeName}</small>
                       </NextLink>
                     ))
                   ) : (

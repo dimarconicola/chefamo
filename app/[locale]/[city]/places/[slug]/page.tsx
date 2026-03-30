@@ -76,6 +76,44 @@ export default async function PlacePage({ params }: { params: Promise<{ locale: 
           savedPlace: 'Place followed',
           programs: 'programs'
         };
+  const profileLabels =
+    locale === 'it'
+      ? {
+          arts_center: 'Centro culturale',
+          museum: 'Museo',
+          library: 'Biblioteca',
+          school: 'Scuola',
+          club: 'Club',
+          sports_center: 'Centro sportivo',
+          association: 'Associazione',
+          event_series: 'Rassegna',
+          studio: 'Laboratorio',
+          park: 'Parco',
+          community_hub: 'Hub creativo',
+          indoor: 'Indoor',
+          outdoor: 'Outdoor',
+          mixed: 'Indoor + outdoor',
+          goodAnytime: 'Buono in ogni momento'
+        }
+      : {
+          arts_center: 'Arts center',
+          museum: 'Museum',
+          library: 'Library',
+          school: 'School',
+          club: 'Club',
+          sports_center: 'Sports center',
+          association: 'Association',
+          event_series: 'Series',
+          studio: 'Studio',
+          park: 'Park',
+          community_hub: 'Creative hub',
+          indoor: 'Indoor',
+          outdoor: 'Outdoor',
+          mixed: 'Indoor + outdoor',
+          goodAnytime: 'Good anytime'
+        };
+  const profileLabel = place.profile ? profileLabels[place.profile] : null;
+  const environmentLabel = place.environment ? profileLabels[place.environment] : null;
 
   return (
     <div className="stack-list">
@@ -87,9 +125,9 @@ export default async function PlacePage({ params }: { params: Promise<{ locale: 
               <h1>{place.name}</h1>
               <p className="lead">{place.description[locale]}</p>
               <div className="profile-chip-row">
-                <ServerChip tone="meta">{place.profile}</ServerChip>
-                <ServerChip tone="meta">{place.environment}</ServerChip>
-                {place.goodAnytime ? <ServerChip tone="meta">{locale === 'it' ? 'good anytime' : 'good anytime'}</ServerChip> : null}
+                {profileLabel ? <ServerChip tone="meta">{profileLabel}</ServerChip> : null}
+                {environmentLabel ? <ServerChip tone="meta">{environmentLabel}</ServerChip> : null}
+                {place.goodAnytime ? <ServerChip tone="meta">{profileLabels.goodAnytime}</ServerChip> : null}
                 {place.amenities.map((amenity) => (
                   <ServerChip key={amenity} tone="meta">
                     {amenity}
@@ -147,7 +185,7 @@ export default async function PlacePage({ params }: { params: Promise<{ locale: 
               </div>
             </div>
             <div className="profile-side-actions">
-              <ClaimFormDialog studioSlug={place.slug} locale={locale} />
+              <ClaimFormDialog placeSlug={place.slug} locale={locale} />
             </div>
           </div>
         </div>

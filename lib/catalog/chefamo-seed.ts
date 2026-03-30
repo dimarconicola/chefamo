@@ -3,7 +3,9 @@ import { DateTime } from 'luxon';
 import type {
   ActivityCategory,
   BookingTarget,
+  City,
   EditorialCollection,
+  Neighborhood,
   Occurrence,
   Organizer,
   Place,
@@ -61,6 +63,57 @@ const buildOccurrence = (
   venueSlug: program.placeSlug,
   instructorSlug: program.organizerSlug
 });
+
+export const chefamoCities: City[] = [
+  {
+    slug: 'palermo',
+    countryCode: 'IT',
+    timezone: 'Europe/Rome',
+    status: 'public',
+    bounds: [13.2805, 38.085, 13.405, 38.165],
+    name: localized('Palermo', 'Palermo'),
+    hero: localized('The citywide family activity guide for Palermo.', 'La guida cittadina alle attivita per famiglie a Palermo.')
+  },
+  {
+    slug: 'catania',
+    countryCode: 'IT',
+    timezone: 'Europe/Rome',
+    status: 'seed',
+    bounds: [15.02, 37.45, 15.18, 37.57],
+    name: localized('Catania', 'Catania'),
+    hero: localized('Next city in the chefamo pipeline.', 'La prossima citta nella pipeline chefamo.')
+  }
+];
+
+export const chefamoNeighborhoods: Neighborhood[] = [
+  {
+    citySlug: 'palermo',
+    slug: 'politeama',
+    name: localized('Politeama', 'Politeama'),
+    description: localized(
+      'Central Palermo with family-friendly cultural institutions and after-school options.',
+      'Palermo centrale con istituzioni culturali family-friendly e opzioni per il doposcuola.'
+    ),
+    center: { lat: 38.1244, lng: 13.3521 }
+  },
+  {
+    citySlug: 'palermo',
+    slug: 'kalsa',
+    name: localized('Kalsa', 'Kalsa'),
+    description: localized('Historic Palermo with museums and hands-on family culture.', 'Palermo storica con musei e cultura hands-on per famiglie.'),
+    center: { lat: 38.1175, lng: 13.3694 }
+  },
+  {
+    citySlug: 'palermo',
+    slug: 'capo',
+    name: localized('Capo', 'Capo'),
+    description: localized(
+      'Compact central district with useful weekday indoor options for younger families.',
+      'Quartiere centrale compatto con opzioni indoor feriali utili per le famiglie piu giovani.'
+    ),
+    center: { lat: 38.1191, lng: 13.3514 }
+  }
+];
 
 export const chefamoCategories: ActivityCategory[] = [
   {

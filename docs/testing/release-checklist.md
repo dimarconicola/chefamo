@@ -18,9 +18,9 @@ If the target environment is DB-backed and schema changed:
 Check these routes manually on desktop and mobile:
 1. `/it`
 2. `/it/palermo`
-3. `/it/palermo/classes`
-4. one studio page
-5. one teacher page
+3. `/it/palermo/activities`
+4. one place page
+5. one organizer page
 6. `/it/sign-in`
 7. `/it/favorites`
 8. `/it/schedule`
@@ -34,11 +34,11 @@ Check these routes manually on desktop and mobile:
 - digest feedback is readable
 - header account email stays inside its container
 - map/list/calendar switch works without losing filters
-- every visible class card has a valid action path
+- every visible activity card has a valid action path
 
 ## Data Quality Spot Check
-- Palermo weekly classes count looks plausible
-- studios count looks plausible
+- Palermo weekly activities count looks plausible
+- places count looks plausible
 - pricing strings are localized where available
 - kids activities remain visible only where intended
 - CTA coverage issues do not leak to public UI

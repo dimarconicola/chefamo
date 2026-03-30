@@ -1,4 +1,4 @@
-import { sessions as seedSessions, venues as seedVenues } from '@/lib/catalog/seed';
+import { chefamoOccurrences as seedOccurrences, chefamoPlaces as seedPlaces } from '@/lib/catalog/chefamo-seed';
 import type { SourceCadence, SourceRegistryEntry } from '@/lib/catalog/types';
 
 const cadenceRank: Record<SourceCadence, number> = {
@@ -25,24 +25,16 @@ const normalizeSourceUrl = (raw: string) => {
   }
 };
 
-const adapterForUrl = (sourceUrl: string) => {
-  const key = sourceUrl.toLowerCase();
-  if (key.includes('centroculturarishi.it/corsi')) return 'rishi-corsi';
-  if (key.includes('taijistudiopalermo.it')) return 'taiji-home';
-  if (key.includes('barbarafaludiyoga.com/corsi-in-studio')) return 'barbara-wix';
-  return undefined;
-};
-
 const classifySeedSource = (
   sourceUrl: string
 ): Pick<SourceRegistryEntry, 'sourceType' | 'cadence' | 'trustTier' | 'notes'> => {
   const key = sourceUrl.toLowerCase();
-  if (key.includes('facebook.com') || key.includes('instagram.com')) {
+  if (key.includes('instagram.com') || key.includes('facebook.com')) {
     return {
       sourceType: 'social',
       cadence: 'weekly',
       trustTier: 'tier_c',
-      notes: 'Weekly low-cost social check for one-off events and schedule changes.'
+      notes: 'Weekly social check for one-off events and schedule changes.'
     };
   }
 
@@ -57,17 +49,6 @@ const classifySeedSource = (
 const palermoDiscoverySources: SourceRegistryEntry[] = [
   {
     citySlug: 'palermo',
-    sourceUrl: 'https://www.orangogo.it/sport/palermo',
-    sourceType: 'directory',
-    cadence: 'quarterly',
-    trustTier: 'tier_b',
-    purpose: 'discovery',
-    tags: ['palermo', 'sports-directory'],
-    active: true,
-    notes: 'Quarterly benchmark sweep against broad activity directories.'
-  },
-  {
-    citySlug: 'palermo',
     sourceUrl: 'https://www.palermobimbi.it',
     sourceType: 'directory',
     cadence: 'quarterly',
@@ -75,80 +56,40 @@ const palermoDiscoverySources: SourceRegistryEntry[] = [
     purpose: 'discovery',
     tags: ['palermo', 'kids', 'families'],
     active: true,
-    notes: 'Quarterly lead source for kids-oriented activities.'
+    notes: 'Quarterly lead sweep for Palermo family activities and weekend programming.'
   },
   {
     citySlug: 'palermo',
-    sourceUrl: 'https://www.diariapalermo.org/',
-    sourceType: 'events_calendar',
-    cadence: 'weekly',
-    trustTier: 'tier_a',
-    purpose: 'catalog',
-    tags: ['palermo', 'calendar', 'kids'],
-    active: true,
-    notes: 'Weekly top-level check in addition to class timetable endpoints.'
-  },
-  {
-    citySlug: 'palermo',
-    sourceUrl: 'https://www.diariapalermo.org/corsi/costi-diaria/',
-    sourceType: 'official_site',
-    cadence: 'weekly',
-    trustTier: 'tier_a',
-    purpose: 'catalog',
-    tags: ['palermo', 'pricing', 'pilates', 'yoga'],
-    active: true,
-    notes: 'Weekly pricing check for Diaria to keep venue-level pricing notes current.'
-  },
-  {
-    citySlug: 'palermo',
-    sourceUrl: 'https://www.circopificio.it/circomotricita/',
-    sourceType: 'official_site',
-    cadence: 'weekly',
-    trustTier: 'tier_a',
-    purpose: 'catalog',
-    tags: ['palermo', 'kids', 'circo'],
-    active: true,
-    notes: 'Weekly kids activity check for Circo Pificio.'
-  },
-  {
-    citySlug: 'palermo',
-    sourceUrl: 'https://www.panteatro.it/',
+    sourceUrl: 'https://www.comune.palermo.it',
     sourceType: 'official_site',
     cadence: 'quarterly',
     trustTier: 'tier_b',
     purpose: 'discovery',
-    tags: ['palermo', 'kids', 'theater'],
-    active: true
+    tags: ['palermo', 'civic', 'families'],
+    active: true,
+    notes: 'Quarterly civic scan for municipal museums, libraries, and family-facing spaces.'
   },
   {
     citySlug: 'palermo',
-    sourceUrl: 'https://www.elibe.it/',
-    sourceType: 'official_site',
-    cadence: 'quarterly',
-    trustTier: 'tier_b',
-    purpose: 'discovery',
-    tags: ['palermo', 'kids', 'events'],
-    active: true
-  },
-  {
-    citySlug: 'palermo',
-    sourceUrl: 'https://www.artiinmovimento.it/',
-    sourceType: 'official_site',
-    cadence: 'quarterly',
-    trustTier: 'tier_b',
-    purpose: 'discovery',
-    tags: ['palermo', 'kids', 'movement'],
-    active: true
-  },
-  {
-    citySlug: 'palermo',
-    sourceUrl: 'https://www.facebook.com/spazioterrapalermo',
+    sourceUrl: 'https://www.instagram.com/minimupa/',
     sourceType: 'social',
     cadence: 'weekly',
     trustTier: 'tier_c',
     purpose: 'catalog',
-    tags: ['palermo', 'kids', 'yoga'],
-    active: true
+    tags: ['palermo', 'kids', 'stem', 'social'],
+    active: true,
+    notes: 'Weekly social check for one-off MiniMuPa labs and family events.'
+  },
+  {
+    citySlug: 'palermo',
+    sourceUrl: 'https://www.instagram.com/museomarionettepalermo/',
+    sourceType: 'social',
+    cadence: 'weekly',
+    trustTier: 'tier_c',
+    purpose: 'catalog',
+    tags: ['palermo', 'culture', 'families', 'social'],
+    active: true,
+    notes: 'Weekly social check for puppet theater announcements and family specials.'
   }
 ];
 
@@ -168,21 +109,21 @@ const buildSeedCatalogSources = (citySlug: string): SourceRegistryEntry[] => {
       cadence: profile.cadence,
       trustTier: profile.trustTier,
       purpose: 'catalog',
-      parserAdapter: adapterForUrl(sourceUrl),
+      parserAdapter: undefined,
       tags: ['catalog', citySlug],
       active: true,
       notes: profile.notes
     });
   };
 
-  for (const venue of seedVenues) {
-    if (venue.citySlug !== citySlug) continue;
-    push(venue.sourceUrl);
+  for (const place of seedPlaces) {
+    if (place.citySlug !== citySlug) continue;
+    push(place.sourceUrl);
   }
 
-  for (const session of seedSessions) {
-    if (session.citySlug !== citySlug) continue;
-    push(session.sourceUrl);
+  for (const occurrence of seedOccurrences) {
+    if (occurrence.citySlug !== citySlug) continue;
+    push(occurrence.sourceUrl);
   }
 
   return rows;

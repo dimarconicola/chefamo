@@ -56,7 +56,7 @@ export const inferKidsAgeRangeFromStyle = (styleSlug: string): { min?: number; m
   if (key === 'circomotricita') return { min: 3, max: 10, ageBand: 'mixed-kids' };
   if (key === 'kids-theater') return { min: 6, max: 10, ageBand: '6-10' };
   if (key === 'kids-contemporary-dance' || key === 'kids-dance-foundations') return { min: 6, max: 10, ageBand: '6-10' };
-  if (key === 'kids-capoeira' || key === 'aerial-kids-yoga' || key === 'kids-yoga') return { min: 6, max: 14, ageBand: 'mixed-kids' };
+  if (key === 'kids-capoeira' || key === 'aerial-kids-lab' || key === 'mindful-movement-kids') return { min: 6, max: 14, ageBand: 'mixed-kids' };
   return {};
 };
 

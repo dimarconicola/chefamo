@@ -27,13 +27,17 @@ export function SiteHeader({ locale, dict, signedInEmail }: SiteHeaderProps) {
     { href: `/${locale}/schedule`, label: dict.schedule }
   ];
   const mobileNavId = `mobile-nav-${locale}`;
+  const brandNote = locale === 'it' ? 'guida 0-14' : '0-14 guide';
 
   return (
     <div className="site-header-wrap">
       <div className="site-shell site-header">
         <NextLink href={`/${locale}`} className="brand-mark" onClick={() => setMenuOpen(false)}>
           <span className="brand-orbit" />
-          <span className="brand-word">{dict.brand}</span>
+          <span className="brand-lockup">
+            <span className="brand-word">{dict.brand}</span>
+            <span className="brand-note">{brandNote}</span>
+          </span>
         </NextLink>
 
         <nav className="site-nav site-nav-primary">

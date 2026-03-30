@@ -2,12 +2,13 @@ import { createHash } from 'node:crypto';
 
 import { DateTime } from 'luxon';
 
-import { sessions as seedSessions, venues as seedVenues } from '@/lib/catalog/seed';
+import { chefamoPlaces as seedPlaces, chefamoPrograms as seedPrograms } from '@/lib/catalog/chefamo-seed';
 import type {
   AttendanceModel,
   KidsAgeBand,
   Level,
   LocalizedText,
+  Program,
   Session,
   SessionAudience,
   SessionFormat
@@ -19,6 +20,7 @@ export type SourceEventCandidatePayload = Session & {
 };
 
 type SourceEventDefaults = {
+  programSlug: string;
   citySlug: string;
   venueSlug: string;
   instructorSlug: string;
@@ -39,7 +41,25 @@ type SourceEventDefaults = {
   keywords: string[];
 };
 
-type SourceEventOverride = Partial<Omit<SourceEventDefaults, 'citySlug' | 'venueSlug' | 'instructorSlug' | 'categorySlug' | 'styleSlug' | 'bookingTargetSlug' | 'level' | 'language' | 'format' | 'audience' | 'attendanceModel' | 'title'>> & {
+type SourceEventOverride = Partial<
+  Omit<
+    SourceEventDefaults,
+    | 'programSlug'
+    | 'citySlug'
+    | 'venueSlug'
+    | 'instructorSlug'
+    | 'categorySlug'
+    | 'styleSlug'
+    | 'bookingTargetSlug'
+    | 'level'
+    | 'language'
+    | 'format'
+    | 'audience'
+    | 'attendanceModel'
+    | 'title'
+  >
+> & {
+  programSlug: string;
   title?: LocalizedText;
   keywords?: string[];
   bookingTargetSlug?: string;
@@ -84,14 +104,25 @@ const monthMap: Record<string, number> = {
 };
 
 const sourceEventOverrides: Record<string, SourceEventOverride> = {
-  'https://www.facebook.com/spazioterrapalermo': {
-    bookingTargetSlug: 'spazio-terra-facebook',
+  'https://www.instagram.com/minimupa/': {
+    programSlug: 'minimupa-creative-lab',
+    bookingTargetSlug: 'minimupa-booking',
+    durationMinutes: 90,
+    title: {
+      it: 'Laboratorio creativo MiniMuPa',
+      en: 'MiniMuPa Creative Lab'
+    },
+    keywords: ['minimupa', 'laboratorio creativo', 'laboratorio', 'family lab', 'famiglie']
+  },
+  'https://www.instagram.com/museomarionettepalermo/': {
+    programSlug: 'marionette-weekend-show',
+    bookingTargetSlug: 'museo-marionette-contact',
     durationMinutes: 60,
     title: {
-      it: 'Yoga bimbi in volo',
-      en: 'Kids aerial yoga'
+      it: 'Teatro dei pupi del weekend',
+      en: 'Weekend Puppet Theater'
     },
-    keywords: ['yoga bimbi', 'bimbi', 'in volo', 'yoga in volo', 'bambini']
+    keywords: ['marionette', 'pupi', 'spettacolo', 'famiglie']
   }
 };
 
@@ -148,7 +179,9 @@ const normalizeTime = (raw: string) => {
 
 const parseDateFromChunk = (raw: string, reference: DateTime) => {
   const text = canonicalText(raw);
-  const monthMatch = text.match(/(\d{1,2})\s+(january|jan|gennaio|february|feb|febbraio|march|mar|marzo|april|apr|aprile|may|maggio|june|jun|giugno|july|jul|luglio|august|aug|agosto|september|sep|settembre|october|oct|ottobre|november|nov|novembre|december|dec|dicembre)(?:\s+(\d{4}))?/i);
+  const monthMatch = text.match(
+    /(\d{1,2})\s+(january|jan|gennaio|february|feb|febbraio|march|mar|marzo|april|apr|aprile|may|maggio|june|jun|giugno|july|jul|luglio|august|aug|agosto|september|sep|settembre|october|oct|ottobre|november|nov|novembre|december|dec|dicembre)(?:\s+(\d{4}))?/i
+  );
   if (monthMatch) {
     const day = Number(monthMatch[1]);
     const month = monthMap[monthMatch[2]];
@@ -178,7 +211,7 @@ const parseDateFromChunk = (raw: string, reference: DateTime) => {
 };
 
 const parseTimeRange = (raw: string, fallbackMinutes: number) => {
-  const match = raw.match(/([0-2]?\d\s*[:.,h]\s*[0-5]\d)(?:\s*(?:-|–|a|to)\s*([0-2]?\d\s*[:.,h]\s*[0-5]\d))?/i);
+  const match = raw.match(/([0-2]?\d\s*[:.,h]\s*[0-5]\d)(?:\s*(?:-|–|a|to|\/)\s*([0-2]?\d\s*[:.,h]\s*[0-5]\d))?/i);
   const start = match ? normalizeTime(match[1]) : null;
   if (!start) return null;
   const end = match?.[2] ? normalizeTime(match[2]) : null;
@@ -200,16 +233,17 @@ const hasKeyword = (text: string, keywords: string[]) => {
 
 const uniqueStrings = (items: string[]) => Array.from(new Set(items.map((item) => item.trim()).filter(Boolean)));
 
-const buildSeedKeywords = (title: LocalizedText, audience: SessionAudience, venueName: string) => {
-  const keywords = [title.it, title.en, venueName];
+const defaultDurationForProgram = (program: Program) => {
+  if (program.scheduleKind === 'evergreen') return 120;
+  if (program.attendanceModel === 'cycle') return 90;
+  return 60;
+};
 
-  if (audience === 'kids') {
-    keywords.push('bimbi', 'bambini', 'kids', 'laboratorio bambini');
-  }
+const buildSeedKeywords = (title: LocalizedText, audience: SessionAudience, placeName: string) => {
+  const keywords = [title.it, title.en, placeName];
 
-  const normalizedTitle = searchText(`${title.it} ${title.en}`);
-  if (normalizedTitle.includes('volo') || normalizedTitle.includes('aerial')) {
-    keywords.push('in volo', 'aerial');
+  if (audience === 'kids' || audience === 'families') {
+    keywords.push('bimbi', 'bambini', 'kids', 'famiglie', 'family');
   }
 
   return uniqueStrings(keywords);
@@ -221,35 +255,32 @@ for (const [rawSourceUrl, override] of Object.entries(sourceEventOverrides)) {
   const sourceUrl = normalizeSourceUrl(rawSourceUrl);
   if (!sourceUrl) continue;
 
-  const matchingSession = seedSessions.find((session) => normalizeSourceUrl(session.sourceUrl) === sourceUrl);
-  if (!matchingSession) continue;
+  const matchingProgram = seedPrograms.find((program) => program.slug === override.programSlug);
+  if (!matchingProgram) continue;
 
-  const venue = seedVenues.find((entry) => entry.slug === matchingSession.venueSlug);
-  const start = DateTime.fromISO(matchingSession.startAt, { zone: 'Europe/Rome' });
-  const end = DateTime.fromISO(matchingSession.endAt, { zone: 'Europe/Rome' });
-  const durationMinutes =
-    override.durationMinutes ??
-    (start.isValid && end.isValid ? Math.max(30, Math.round(end.diff(start, 'minutes').minutes)) : 60);
+  const place = seedPlaces.find((entry) => entry.slug === matchingProgram.placeSlug);
+  const title = override.title ?? matchingProgram.title;
 
   sourceEventDefaults.set(sourceUrl, {
-    citySlug: matchingSession.citySlug,
-    venueSlug: matchingSession.venueSlug,
-    instructorSlug: matchingSession.instructorSlug,
-    categorySlug: matchingSession.categorySlug,
-    styleSlug: matchingSession.styleSlug,
-    bookingTargetSlug: override.bookingTargetSlug ?? matchingSession.bookingTargetSlug,
-    level: matchingSession.level,
-    language: matchingSession.language,
-    format: matchingSession.format,
-    audience: matchingSession.audience,
-    attendanceModel: matchingSession.attendanceModel,
-    durationMinutes,
-    ageMin: override.ageMin ?? matchingSession.ageMin,
-    ageMax: override.ageMax ?? matchingSession.ageMax,
-    ageBand: override.ageBand ?? matchingSession.ageBand,
-    guardianRequired: override.guardianRequired ?? matchingSession.guardianRequired,
-    title: override.title ?? matchingSession.title,
-    keywords: uniqueStrings(override.keywords ?? buildSeedKeywords(override.title ?? matchingSession.title, matchingSession.audience, venue?.name ?? ''))
+    programSlug: matchingProgram.slug,
+    citySlug: matchingProgram.citySlug,
+    venueSlug: matchingProgram.placeSlug,
+    instructorSlug: matchingProgram.organizerSlug,
+    categorySlug: matchingProgram.categorySlug,
+    styleSlug: matchingProgram.styleSlug,
+    bookingTargetSlug: override.bookingTargetSlug ?? matchingProgram.bookingTargetSlug,
+    level: matchingProgram.level,
+    language: matchingProgram.language,
+    format: matchingProgram.format,
+    audience: matchingProgram.audience,
+    attendanceModel: matchingProgram.attendanceModel,
+    durationMinutes: override.durationMinutes ?? defaultDurationForProgram(matchingProgram),
+    ageMin: override.ageMin ?? matchingProgram.ageMin,
+    ageMax: override.ageMax ?? matchingProgram.ageMax,
+    ageBand: override.ageBand ?? matchingProgram.ageBand,
+    guardianRequired: override.guardianRequired ?? matchingProgram.guardianRequired,
+    title,
+    keywords: uniqueStrings(override.keywords ?? buildSeedKeywords(title, matchingProgram.audience, place?.name ?? ''))
   });
 }
 
@@ -283,12 +314,11 @@ export const extractSourceEventCandidates = (sourceUrl: string, html: string, re
       millisecond: 0
     });
 
-    const titleLine = /yoga bimbi|in volo/i.test(windowText) ? defaults.title : defaults.title;
-    const sessionId = buildCandidateId(sourceUrl, startAt.toISO() ?? startAt.toString(), titleLine);
+    const sessionId = buildCandidateId(sourceUrl, startAt.toISO() ?? startAt.toString(), defaults.title);
 
     candidates.set(sessionId, {
       id: sessionId,
-      programSlug: buildCandidateId(sourceUrl, defaults.venueSlug, defaults.title),
+      programSlug: defaults.programSlug,
       citySlug: defaults.citySlug,
       placeSlug: defaults.venueSlug,
       organizerSlug: defaults.instructorSlug,
@@ -296,7 +326,7 @@ export const extractSourceEventCandidates = (sourceUrl: string, html: string, re
       instructorSlug: defaults.instructorSlug,
       categorySlug: defaults.categorySlug,
       styleSlug: defaults.styleSlug,
-      title: titleLine,
+      title: defaults.title,
       startAt: startAt.toISO() ?? '',
       endAt: endAt.toISO() ?? '',
       level: defaults.level,

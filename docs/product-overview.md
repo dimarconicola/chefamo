@@ -14,7 +14,7 @@ The product is:
 ## Core discovery units
 
 - `activities`: upcoming dated occurrences with a real start and end time
-- `places`: museums, libraries, parks, labs, schools, studios, clubs, and family-friendly hubs
+- `places`: museums, libraries, parks, labs, schools, clubs, and family-friendly hubs
 - `organizers`: institutions or operators behind programs and places
 - `programs`: the canonical listing behind recurring, seasonal, variable, or evergreen offers
 

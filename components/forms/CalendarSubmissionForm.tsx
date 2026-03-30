@@ -16,7 +16,7 @@ export function CalendarSubmissionForm({ locale, citySlug }: CalendarSubmissionF
     () =>
       locale === 'it'
         ? {
-            title: 'Segnala la tua programmazione',
+            title: 'Segnala un programma 0-14',
             type: 'Tipo profilo',
             studio: 'Luogo',
             teacher: 'Organizzatore',
@@ -25,7 +25,7 @@ export function CalendarSubmissionForm({ locale, citySlug }: CalendarSubmissionF
             email: 'Email',
             phone: 'Telefono (opzionale)',
             urls: 'URL fonti pubbliche (una per riga)',
-            schedule: 'Dettagli programma, orari e note',
+            schedule: 'Dettagli attività, orari, età e note',
             consent: 'Confermo che i dati inviati sono pubblici o autorizzati alla verifica.',
             submit: 'Invia programmazione',
             submitting: 'Invio in corso...',
@@ -33,7 +33,7 @@ export function CalendarSubmissionForm({ locale, citySlug }: CalendarSubmissionF
             error: 'Invio non riuscito. Controlla i campi e riprova.'
           }
         : {
-            title: 'Suggest your program',
+            title: 'Suggest a 0-14 program',
             type: 'Profile type',
             studio: 'Place',
             teacher: 'Organizer',
@@ -42,7 +42,7 @@ export function CalendarSubmissionForm({ locale, citySlug }: CalendarSubmissionF
             email: 'Email',
             phone: 'Phone (optional)',
             urls: 'Public source URLs (one per line)',
-            schedule: 'Program details, schedules, and notes',
+            schedule: 'Activity details, ages, schedules, and notes',
             consent: 'I confirm the submitted data is public or authorized for verification.',
             submit: 'Submit program',
             submitting: 'Submitting...',
