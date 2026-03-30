@@ -1,22 +1,22 @@
 import type { MapVenueSessionPreview, MapVenueSummary } from '@/components/discovery/classes-results.types';
-import type { BookingTarget, Instructor, Locale, Neighborhood, Session, Style, Venue } from '@/lib/catalog/types';
+import type { BookingTarget, Locale, Neighborhood, Occurrence, Organizer, Place, Style } from '@/lib/catalog/types';
 
 interface BuildMapVenueSummariesArgs {
   locale: Locale;
   citySlug: string;
-  sessions: Session[];
-  venues: Venue[];
+  sessions: Occurrence[];
+  venues: Place[];
   neighborhoods: Neighborhood[];
-  instructors: Instructor[];
+  instructors: Organizer[];
   styles: Style[];
   bookingTargets: BookingTarget[];
 }
 
-const isValidGeo = (venue: Venue) =>
-  Number.isFinite(venue.geo.lat) &&
-  Number.isFinite(venue.geo.lng) &&
-  Math.abs(venue.geo.lat) <= 90 &&
-  Math.abs(venue.geo.lng) <= 180;
+const isValidGeo = (place: Place) =>
+  Number.isFinite(place.geo.lat) &&
+  Number.isFinite(place.geo.lng) &&
+  Math.abs(place.geo.lat) <= 90 &&
+  Math.abs(place.geo.lng) <= 180;
 
 const buildTimeFormatter = (locale: Locale) =>
   new Intl.DateTimeFormat(locale === 'it' ? 'it-IT' : 'en-GB', {
@@ -27,10 +27,10 @@ const buildTimeFormatter = (locale: Locale) =>
   });
 
 const buildPreview = (
-  session: Session,
+  session: Occurrence,
   locale: Locale,
   timeFormatter: Intl.DateTimeFormat,
-  instructorBySlug: Map<string, Instructor>,
+  instructorBySlug: Map<string, Organizer>,
   styleBySlug: Map<string, Style>,
   targetBySlug: Map<string, BookingTarget>
 ): MapVenueSessionPreview => {
@@ -64,7 +64,7 @@ export function buildMapVenueSummaries({
   const instructorBySlug = new Map(instructors.map((item) => [item.slug, item] as const));
   const styleBySlug = new Map(styles.map((item) => [item.slug, item] as const));
   const targetBySlug = new Map(bookingTargets.map((item) => [item.slug, item] as const));
-  const sessionsByVenue = new Map<string, Session[]>();
+  const sessionsByVenue = new Map<string, Occurrence[]>();
   const timeFormatter = buildTimeFormatter(locale);
 
   for (const session of sessions) {
@@ -89,6 +89,7 @@ export function buildMapVenueSummaries({
 
       return {
         venueSlug: venue.slug,
+        placeSlug: venue.slug,
         name: venue.name,
         address: venue.address,
         neighborhoodName: neighborhood?.name[locale] ?? venue.address,
@@ -96,7 +97,8 @@ export function buildMapVenueSummaries({
         matchingSessionCount: orderedSessions.length,
         nextSession,
         sessionsPreview,
-        studioHref: `/${locale}/${citySlug}/studios/${venue.slug}`,
+        studioHref: `/${locale}/${citySlug}/places/${venue.slug}`,
+        placeHref: `/${locale}/${citySlug}/places/${venue.slug}`,
         primaryCtaHref: primaryTarget?.href,
         primaryCtaLabel: primaryTarget?.label
       } satisfies MapVenueSummary;
@@ -110,3 +112,5 @@ export function buildMapVenueSummaries({
         left.name.localeCompare(right.name, locale)
     );
 }
+
+export const buildMapPlaceSummaries = buildMapVenueSummaries;

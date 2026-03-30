@@ -1836,7 +1836,10 @@ const generateSessions = () => {
 
       sessions.push({
         id: `${template.templateId}-${day.toFormat('yyyyLLdd')}`,
+        programSlug: template.templateId,
         citySlug: template.citySlug,
+        placeSlug: template.venueSlug,
+        organizerSlug: template.instructorSlug,
         venueSlug: template.venueSlug,
         instructorSlug: template.instructorSlug,
         categorySlug: metadata.categorySlug,

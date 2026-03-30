@@ -288,7 +288,10 @@ export const extractSourceEventCandidates = (sourceUrl: string, html: string, re
 
     candidates.set(sessionId, {
       id: sessionId,
+      programSlug: buildCandidateId(sourceUrl, defaults.venueSlug, defaults.title),
       citySlug: defaults.citySlug,
+      placeSlug: defaults.venueSlug,
+      organizerSlug: defaults.instructorSlug,
       venueSlug: defaults.venueSlug,
       instructorSlug: defaults.instructorSlug,
       categorySlug: defaults.categorySlug,
@@ -319,7 +322,10 @@ export const extractSourceEventCandidates = (sourceUrl: string, html: string, re
 
 export const mapSourceEventCandidateToSession = (payload: SourceEventCandidatePayload): Session => ({
   id: payload.id,
+  programSlug: payload.programSlug,
   citySlug: payload.citySlug,
+  placeSlug: payload.placeSlug,
+  organizerSlug: payload.organizerSlug,
   venueSlug: payload.venueSlug,
   instructorSlug: payload.instructorSlug,
   categorySlug: payload.categorySlug,

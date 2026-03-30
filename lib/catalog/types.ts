@@ -2,21 +2,38 @@ export type Locale = 'en' | 'it';
 export type CityStatus = 'seed' | 'private_preview' | 'public';
 export type CategoryVisibility = 'hidden' | 'beta' | 'live';
 export type VerificationStatus = 'verified' | 'stale' | 'hidden';
-export type SessionFormat = 'in_person' | 'online' | 'hybrid';
+export type ActivityFormat = 'in_person' | 'online' | 'hybrid';
+export type SessionFormat = ActivityFormat;
 export type Level = 'beginner' | 'open' | 'intermediate' | 'advanced';
-export type SessionAudience = 'adults' | 'kids' | 'families' | 'mixed';
+export type Audience = 'adults' | 'kids' | 'families' | 'mixed';
+export type SessionAudience = Audience;
 export type AttendanceModel = 'drop_in' | 'trial' | 'cycle' | 'term';
 export type KidsAgeBand = '0-2' | '3-5' | '6-10' | '11-14' | 'mixed-kids';
 export type TimeBucket = 'early' | 'morning' | 'midday' | 'evening';
 export type DatePreset = 'today' | 'tomorrow' | 'weekend' | 'week';
 export type WeekdayFilter = 'mon' | 'tue' | 'wed' | 'thu' | 'fri' | 'sat' | 'sun';
-export type ClassView = 'list' | 'map' | 'calendar';
+export type ActivityView = 'list' | 'map' | 'calendar';
+export type ClassView = ActivityView;
 export type SourceCadence = 'daily' | 'weekly' | 'quarterly';
 export type SourceTrustTier = 'tier_a' | 'tier_b' | 'tier_c';
 export type SourcePurpose = 'catalog' | 'discovery';
 export type DiscoveryLeadStatus = 'new' | 'reviewed' | 'imported' | 'rejected';
 export type ReviewStatus = 'new' | 'reviewing' | 'approved' | 'rejected' | 'imported' | 'resolved';
-export type VenueProfile = 'studio' | 'association' | 'independent_teacher' | 'gym_with_classes' | 'event_series';
+export type PlaceProfile =
+  | 'arts_center'
+  | 'association'
+  | 'club'
+  | 'community_hub'
+  | 'event_series'
+  | 'library'
+  | 'museum'
+  | 'park'
+  | 'school'
+  | 'sports_center'
+  | 'studio';
+export type VenueProfile = PlaceProfile;
+export type ProgramScheduleKind = 'recurring' | 'seasonal' | 'variable' | 'evergreen';
+export type EnvironmentFit = 'indoor' | 'outdoor' | 'mixed';
 
 export type LocalizedText = Record<Locale, string>;
 export type PartialLocalizedText = Partial<Record<Locale, string>>;
@@ -55,30 +72,30 @@ export interface Style {
   description: LocalizedText;
 }
 
-export interface Instructor {
-  slug: string;
-  citySlug: string;
-  name: string;
-  shortBio: LocalizedText;
-  specialties: string[];
-  languages: string[];
-  headshot?: InstructorImage;
-  socialLinks?: InstructorSocialLink[];
-}
-
-export interface InstructorImage {
+export interface OrganizerImage {
   url: string;
   alt: LocalizedText;
   sourceUrl: string;
   lastVerifiedAt: string;
 }
 
-export interface InstructorSocialLink {
+export interface OrganizerSocialLink {
   type: 'instagram' | 'facebook' | 'website';
   label: LocalizedText;
   href: string;
   sourceUrl: string;
   lastVerifiedAt: string;
+}
+
+export interface Organizer {
+  slug: string;
+  citySlug: string;
+  name: string;
+  shortBio: LocalizedText;
+  specialties: string[];
+  languages: string[];
+  headshot?: OrganizerImage;
+  socialLinks?: OrganizerSocialLink[];
 }
 
 export interface BookingTarget {
@@ -88,14 +105,14 @@ export interface BookingTarget {
   href: string;
 }
 
-export interface VenueImage {
+export interface PlaceImage {
   url: string;
   alt: LocalizedText;
   sourceUrl: string;
   lastVerifiedAt: string;
 }
 
-export interface Venue {
+export interface Place {
   slug: string;
   citySlug: string;
   neighborhoodSlug: string;
@@ -112,14 +129,48 @@ export interface Venue {
   freshnessNote: LocalizedText;
   sourceUrl: string;
   lastVerifiedAt: string;
-  coverImage?: VenueImage;
+  coverImage?: PlaceImage;
+  profile?: PlaceProfile;
+  environment?: EnvironmentFit;
+  goodAnytime?: boolean;
+  accessibilityNote?: PartialLocalizedText;
 }
 
-export interface Session {
-  id: string;
+export interface Program {
+  slug: string;
   citySlug: string;
+  placeSlug: string;
+  organizerSlug: string;
+  categorySlug: string;
+  styleSlug: string;
+  title: LocalizedText;
+  summary: LocalizedText;
+  level: Level;
+  language: string;
+  format: ActivityFormat;
+  bookingTargetSlug: string;
+  sourceUrl: string;
+  lastVerifiedAt: string;
+  verificationStatus: VerificationStatus;
+  audience: Audience;
+  attendanceModel: AttendanceModel;
+  ageMin?: number;
+  ageMax?: number;
+  ageBand?: KidsAgeBand;
+  guardianRequired?: boolean;
+  priceNote?: PartialLocalizedText;
+  scheduleKind: ProgramScheduleKind;
+  occurrenceCount?: number;
   venueSlug: string;
   instructorSlug: string;
+}
+
+export interface Occurrence {
+  id: string;
+  programSlug: string;
+  citySlug: string;
+  placeSlug: string;
+  organizerSlug: string;
   categorySlug: string;
   styleSlug: string;
   title: LocalizedText;
@@ -127,19 +178,28 @@ export interface Session {
   endAt: string;
   level: Level;
   language: string;
-  format: SessionFormat;
+  format: ActivityFormat;
   bookingTargetSlug: string;
   sourceUrl: string;
   lastVerifiedAt: string;
   verificationStatus: VerificationStatus;
-  audience: SessionAudience;
+  audience: Audience;
   attendanceModel: AttendanceModel;
   ageMin?: number;
   ageMax?: number;
   ageBand?: KidsAgeBand;
   guardianRequired?: boolean;
   priceNote?: PartialLocalizedText;
+  venueSlug: string;
+  instructorSlug: string;
 }
+
+export type Instructor = Organizer;
+export type InstructorImage = OrganizerImage;
+export type InstructorSocialLink = OrganizerSocialLink;
+export type Venue = Place;
+export type VenueImage = PlaceImage;
+export type Session = Occurrence;
 
 export interface EditorialCollection {
   slug: string;
@@ -152,7 +212,8 @@ export interface EditorialCollection {
 
 export interface ClaimSubmission {
   id?: string;
-  studioSlug: string;
+  placeSlug: string;
+  studioSlug?: string;
   locale: Locale;
   name: string;
   email: string;
@@ -183,8 +244,11 @@ export interface UserProfile {
 }
 
 export interface OutboundEvent {
+  occurrenceId?: string;
   sessionId?: string;
-  venueSlug: string;
+  programSlug?: string;
+  placeSlug: string;
+  venueSlug?: string;
   citySlug: string;
   categorySlug: string;
   targetType: BookingTarget['type'];
@@ -202,17 +266,19 @@ export interface DiscoveryFilters {
   level?: Level;
   language?: string;
   neighborhood?: string;
-  format?: SessionFormat;
+  format?: ActivityFormat;
   open_now?: 'true';
   drop_in?: 'true';
-  view?: ClassView;
+  age_band?: KidsAgeBand;
+  audience?: Audience;
+  view?: ActivityView;
 }
 
 export interface CalendarSubmission {
   id?: string;
   locale: Locale;
   citySlug: string;
-  submitterType: 'studio' | 'teacher';
+  submitterType: 'place' | 'organizer' | 'studio' | 'teacher';
   organizationName: string;
   contactName: string;
   email: string;
@@ -295,7 +361,10 @@ export interface FreshnessRunSourceCheck {
 
 export interface CityReadiness {
   citySlug: string;
+  places: number;
   venues: number;
+  programs: number;
+  upcomingOccurrences: number;
   upcomingSessions: number;
   neighborhoods: number;
   styles: number;

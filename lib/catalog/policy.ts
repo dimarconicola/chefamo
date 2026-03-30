@@ -1,14 +1,20 @@
-import type { AttendanceModel, KidsAgeBand, Session, SessionAudience, VenueProfile } from '@/lib/catalog/types';
+import type { AttendanceModel, Audience, KidsAgeBand, Occurrence, PlaceProfile } from '@/lib/catalog/types';
 
-export const PRIMARY_CATEGORY_SLUGS = ['yoga', 'kids-activities'] as const;
-export const ADJACENT_CATEGORY_SLUGS = ['pilates', 'breathwork', 'meditation', 'movement'] as const;
+export const PRIMARY_CATEGORY_SLUGS = ['culture', 'movement', 'stem', 'reading', 'outdoors'] as const;
+export const ADJACENT_CATEGORY_SLUGS = [] as const;
 export const EXCLUDED_SPORT_HINTS = ['tennis', 'rugby', 'football', 'basketball', 'volleyball', 'nuoto', 'swim'] as const;
 
-export const SUPPORTED_VENUE_PROFILES: VenueProfile[] = [
+export const SUPPORTED_PLACE_PROFILES: PlaceProfile[] = [
+  'arts_center',
+  'club',
+  'community_hub',
+  'library',
+  'museum',
+  'park',
+  'school',
+  'sports_center',
   'studio',
   'association',
-  'independent_teacher',
-  'gym_with_classes',
   'event_series'
 ];
 
@@ -20,7 +26,9 @@ export const KIDS_AGE_BANDS: Record<KidsAgeBand, { min: number; max: number }> =
   'mixed-kids': { min: 3, max: 14 }
 };
 
-export const isVenueProfileSupported = (profile: VenueProfile) => SUPPORTED_VENUE_PROFILES.includes(profile);
+export const SUPPORTED_VENUE_PROFILES = SUPPORTED_PLACE_PROFILES;
+export const isPlaceProfileSupported = (profile: PlaceProfile) => SUPPORTED_PLACE_PROFILES.includes(profile);
+export const isVenueProfileSupported = isPlaceProfileSupported;
 
 export const isCategoryInScope = (categorySlug: string) =>
   PRIMARY_CATEGORY_SLUGS.includes(categorySlug as (typeof PRIMARY_CATEGORY_SLUGS)[number]) ||
@@ -52,19 +60,25 @@ export const inferKidsAgeRangeFromStyle = (styleSlug: string): { min?: number; m
   return {};
 };
 
-export const inferSessionAudience = (session: Pick<Session, 'categorySlug' | 'styleSlug' | 'title'>): SessionAudience => {
-  if (session.categorySlug === 'kids-activities') return 'kids';
-  const style = session.styleSlug.toLowerCase();
+export const inferOccurrenceAudience = (occurrence: Pick<Occurrence, 'categorySlug' | 'styleSlug' | 'title'>): Audience => {
+  if (occurrence.categorySlug === 'movement' || occurrence.categorySlug === 'stem' || occurrence.categorySlug === 'reading') return 'kids';
+  const style = occurrence.styleSlug.toLowerCase();
   if (style.includes('kids') || style.includes('bimbi')) return 'kids';
-  const title = `${session.title.en} ${session.title.it}`.toLowerCase();
+  const title = `${occurrence.title.en} ${occurrence.title.it}`.toLowerCase();
   if (title.includes('kids') || title.includes('bimbi') || title.includes('bambin')) return 'kids';
-  return 'adults';
+  if (occurrence.categorySlug === 'culture' || occurrence.categorySlug === 'outdoors') return 'families';
+  return 'mixed';
 };
 
-export const isSessionInScope = (session: Pick<Session, 'categorySlug' | 'title' | 'attendanceModel'>) => {
-  if (!isCategoryInScope(session.categorySlug)) return false;
-  const title = `${session.title.en} ${session.title.it}`.toLowerCase();
+export const inferSessionAudience = inferOccurrenceAudience;
+
+export const isOccurrenceInScope = (occurrence: Pick<Occurrence, 'categorySlug' | 'title' | 'attendanceModel' | 'ageMax'>) => {
+  if (!isCategoryInScope(occurrence.categorySlug)) return false;
+  const title = `${occurrence.title.en} ${occurrence.title.it}`.toLowerCase();
   if (EXCLUDED_SPORT_HINTS.some((hint) => title.includes(hint))) return false;
-  if (session.attendanceModel === 'term' && session.categorySlug !== 'kids-activities') return false;
+  if (occurrence.attendanceModel === 'term' && typeof occurrence.ageMax === 'number' && occurrence.ageMax > 14) return false;
+  if (typeof occurrence.ageMax === 'number' && occurrence.ageMax > 14) return false;
   return true;
 };
+
+export const isSessionInScope = isOccurrenceInScope;

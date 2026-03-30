@@ -1,6 +1,6 @@
 import { DateTime } from 'luxon';
 
-import type { DiscoveryFilters, Session, TimeBucket, WeekdayFilter } from '@/lib/catalog/types';
+import type { DiscoveryFilters, Occurrence, TimeBucket, WeekdayFilter } from '@/lib/catalog/types';
 
 export const getTimeBucket = (iso: string): TimeBucket => {
   const hour = DateTime.fromISO(iso).hour;
@@ -10,11 +10,11 @@ export const getTimeBucket = (iso: string): TimeBucket => {
   return 'evening';
 };
 
-const datePresetMatches = (session: Session, preset: DiscoveryFilters['date']) => {
+const datePresetMatches = (occurrence: Occurrence, preset: DiscoveryFilters['date']) => {
   if (!preset) return true;
 
   const now = DateTime.now().setZone('Europe/Rome');
-  const start = DateTime.fromISO(session.startAt).setZone('Europe/Rome');
+  const start = DateTime.fromISO(occurrence.startAt).setZone('Europe/Rome');
 
   if (preset === 'today') return start.hasSame(now, 'day');
   if (preset === 'tomorrow') return start.hasSame(now.plus({ days: 1 }), 'day');
@@ -35,7 +35,7 @@ const weekdayMap: Record<WeekdayFilter, number> = {
   sun: 7
 };
 
-export const applySessionFilters = (sessions: Session[], filters: DiscoveryFilters) => {
+export const applyOccurrenceFilters = (occurrences: Occurrence[], filters: DiscoveryFilters) => {
   const now = DateTime.now().setZone('Europe/Rome');
   const selectedTimeBuckets = filters.time_buckets?.length
     ? filters.time_buckets
@@ -43,27 +43,31 @@ export const applySessionFilters = (sessions: Session[], filters: DiscoveryFilte
       ? [filters.time_bucket]
       : [];
 
-  return sessions.filter((session) => {
-    const start = DateTime.fromISO(session.startAt).setZone('Europe/Rome');
-    const end = DateTime.fromISO(session.endAt).setZone('Europe/Rome');
+  return occurrences.filter((occurrence) => {
+    const start = DateTime.fromISO(occurrence.startAt).setZone('Europe/Rome');
+    const end = DateTime.fromISO(occurrence.endAt).setZone('Europe/Rome');
 
-    if (!datePresetMatches(session, filters.date)) return false;
+    if (!datePresetMatches(occurrence, filters.date)) return false;
     if (filters.weekday && start.weekday !== weekdayMap[filters.weekday]) return false;
-    if (selectedTimeBuckets.length > 0 && !selectedTimeBuckets.includes(getTimeBucket(session.startAt))) return false;
-    if (filters.category && session.categorySlug !== filters.category) return false;
-    if (filters.style && session.styleSlug !== filters.style) return false;
-    if (filters.level && session.level !== filters.level) return false;
-    if (filters.language && session.language.toLowerCase() !== filters.language.toLowerCase()) return false;
+    if (selectedTimeBuckets.length > 0 && !selectedTimeBuckets.includes(getTimeBucket(occurrence.startAt))) return false;
+    if (filters.category && occurrence.categorySlug !== filters.category) return false;
+    if (filters.style && occurrence.styleSlug !== filters.style) return false;
+    if (filters.level && occurrence.level !== filters.level) return false;
+    if (filters.language && occurrence.language.toLowerCase() !== filters.language.toLowerCase()) return false;
     if (filters.neighborhood) {
-      // neighborhood filtering happens after session to venue join in catalog service
+      // neighborhood filtering happens after occurrence-to-place join in catalog service
     }
-    if (filters.format && session.format !== filters.format) return false;
+    if (filters.format && occurrence.format !== filters.format) return false;
+    if (filters.audience && occurrence.audience !== filters.audience) return false;
+    if (filters.age_band && occurrence.ageBand !== filters.age_band) return false;
     if (filters.open_now === 'true' && !(start <= now && end >= now)) return false;
-    if (filters.drop_in === 'true' && session.attendanceModel !== 'drop_in') return false;
+    if (filters.drop_in === 'true' && occurrence.attendanceModel !== 'drop_in') return false;
 
     return start >= now.minus({ hours: 2 });
   });
 };
+
+export const applySessionFilters = applyOccurrenceFilters;
 
 export const parseFilters = (searchParams: Record<string, string | string[] | undefined>): DiscoveryFilters => {
   const one = (value: string | string[] | undefined) => (Array.isArray(value) ? value[0] : value);
@@ -89,6 +93,8 @@ export const parseFilters = (searchParams: Record<string, string | string[] | un
     format: one(searchParams.format) as DiscoveryFilters['format'],
     open_now: one(searchParams.open_now) as DiscoveryFilters['open_now'],
     drop_in: one(searchParams.drop_in) as DiscoveryFilters['drop_in'],
+    age_band: one(searchParams.age_band) as DiscoveryFilters['age_band'],
+    audience: one(searchParams.audience) as DiscoveryFilters['audience'],
     view: one(searchParams.view) as DiscoveryFilters['view']
   };
 };
