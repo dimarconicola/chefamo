@@ -1,7 +1,9 @@
 export const env = {
   nodeEnv: process.env.NODE_ENV ?? 'development',
   vercelEnv: process.env.VERCEL_ENV,
-  siteUrl: process.env.NEXT_PUBLIC_SITE_URL ?? 'http://localhost:3000',
+  siteUrl:
+    process.env.NEXT_PUBLIC_SITE_URL ??
+    (process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : 'http://localhost:3000'),
   mapTileUrl: process.env.NEXT_PUBLIC_MAP_TILE_URL,
   mapTileAttribution: process.env.NEXT_PUBLIC_MAP_TILE_ATTRIBUTION,
   mapTileSubdomains: process.env.NEXT_PUBLIC_MAP_TILE_SUBDOMAINS,

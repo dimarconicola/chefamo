@@ -1,14 +1,12 @@
 import {
-  bookingTargets as seedBookingTargets,
-  categories as seedCategories,
-  cities as seedCities,
-  collections as seedCollections,
-  instructors as seedInstructors,
-  neighborhoods as seedNeighborhoods,
-  sessions as seedSessions,
-  styles as seedStyles,
-  venues as seedVenues
-} from '@/lib/catalog/seed';
+  chefamoBookingTargets,
+  chefamoCategories,
+  chefamoCollections,
+  chefamoOccurrences,
+  chefamoOrganizers,
+  chefamoPlaces,
+  chefamoStyles
+} from '@/lib/catalog/chefamo-seed';
 import { getDb, isDatabaseConfigured } from '@/lib/data/db';
 import {
   activityCategories,
@@ -22,10 +20,91 @@ import {
   styles,
   venues
 } from '@/lib/data/schema';
-import { getSeedSourceRegistry } from '@/lib/freshness/source-registry';
 import { sql } from 'drizzle-orm';
 
 const excluded = <T extends { name: string }>(column: T) => sql.raw(`excluded.${column.name}`);
+
+const bootstrapCities = [
+  {
+    slug: 'palermo',
+    countryCode: 'IT',
+    timezone: 'Europe/Rome',
+    status: 'public' as const,
+    bounds: [13.2805, 38.085, 13.405, 38.165] as [number, number, number, number],
+    name: { en: 'Palermo', it: 'Palermo' },
+    hero: {
+      en: 'The citywide family activity guide for Palermo.',
+      it: 'La guida cittadina alle attivita per famiglie a Palermo.'
+    }
+  },
+  {
+    slug: 'catania',
+    countryCode: 'IT',
+    timezone: 'Europe/Rome',
+    status: 'seed' as const,
+    bounds: [15.02, 37.45, 15.18, 37.57] as [number, number, number, number],
+    name: { en: 'Catania', it: 'Catania' },
+    hero: {
+      en: 'Next city in the chefamo pipeline.',
+      it: 'La prossima citta nella pipeline chefamo.'
+    }
+  }
+];
+
+const bootstrapNeighborhoods = [
+  {
+    citySlug: 'palermo',
+    slug: 'politeama',
+    name: { en: 'Politeama', it: 'Politeama' },
+    description: {
+      en: 'Central Palermo with family-friendly cultural institutions and after-school options.',
+      it: 'Palermo centrale con istituzioni culturali family-friendly e opzioni per il doposcuola.'
+    },
+    center: { lat: 38.1244, lng: 13.3521 }
+  },
+  {
+    citySlug: 'palermo',
+    slug: 'kalsa',
+    name: { en: 'Kalsa', it: 'Kalsa' },
+    description: {
+      en: 'Historic Palermo with museums and hands-on family culture.',
+      it: 'Palermo storica con musei e cultura hands-on per famiglie.'
+    },
+    center: { lat: 38.1175, lng: 13.3694 }
+  },
+  {
+    citySlug: 'palermo',
+    slug: 'capo',
+    name: { en: 'Capo', it: 'Capo' },
+    description: {
+      en: 'Compact central district with useful weekday indoor options for younger families.',
+      it: 'Quartiere centrale compatto con opzioni indoor feriali utili per le famiglie piu giovani.'
+    },
+    center: { lat: 38.1191, lng: 13.3514 }
+  }
+];
+
+const registryEntries = Array.from(
+  new Map(
+    [...chefamoPlaces, ...chefamoOccurrences].map((item) => [
+      item.sourceUrl,
+      {
+        citySlug: item.citySlug,
+        sourceUrl: item.sourceUrl,
+        sourceType: 'official_site' as const,
+        cadence: 'weekly' as const,
+        trustTier: 'tier_b' as const,
+        purpose: 'catalog' as const,
+        parserAdapter: null,
+        tags: ['chefamo', item.citySlug],
+        active: true,
+        notes: null,
+        lastCheckedAt: null,
+        nextCheckAt: null
+      }
+    ])
+  ).values()
+);
 
 const upsertCatalog = async () => {
   if (!isDatabaseConfigured) {
@@ -37,13 +116,11 @@ const upsertCatalog = async () => {
     throw new Error('Database client could not be created.');
   }
 
-  const registryEntries = seedCities.flatMap((city) => getSeedSourceRegistry(city.slug));
-
   await db.transaction(async (tx) => {
     await tx
       .insert(cities)
       .values(
-        seedCities.map((city) => ({
+        bootstrapCities.map((city) => ({
           slug: city.slug,
           countryCode: city.countryCode,
           timezone: city.timezone,
@@ -69,7 +146,7 @@ const upsertCatalog = async () => {
     await tx
       .insert(neighborhoods)
       .values(
-        seedNeighborhoods.map((neighborhood) => ({
+        bootstrapNeighborhoods.map((neighborhood) => ({
           citySlug: neighborhood.citySlug,
           slug: neighborhood.slug,
           name: neighborhood.name,
@@ -92,7 +169,7 @@ const upsertCatalog = async () => {
     await tx
       .insert(activityCategories)
       .values(
-        seedCategories.map((category) => ({
+        chefamoCategories.map((category) => ({
           citySlug: category.citySlug,
           slug: category.slug,
           visibility: category.visibility,
@@ -115,7 +192,7 @@ const upsertCatalog = async () => {
     await tx
       .insert(styles)
       .values(
-        seedStyles.map((style) => ({
+        chefamoStyles.map((style) => ({
           categorySlug: style.categorySlug,
           slug: style.slug,
           name: style.name,
@@ -134,13 +211,13 @@ const upsertCatalog = async () => {
     await tx
       .insert(instructors)
       .values(
-        seedInstructors.map((instructor) => ({
-          citySlug: instructor.citySlug,
-          slug: instructor.slug,
-          name: instructor.name,
-          shortBio: instructor.shortBio,
-          specialties: instructor.specialties,
-          languages: instructor.languages
+        chefamoOrganizers.map((organizer) => ({
+          citySlug: organizer.citySlug,
+          slug: organizer.slug,
+          name: organizer.name,
+          shortBio: organizer.shortBio,
+          specialties: organizer.specialties,
+          languages: organizer.languages
         }))
       )
       .onConflictDoUpdate({
@@ -157,7 +234,7 @@ const upsertCatalog = async () => {
     await tx
       .insert(bookingTargets)
       .values(
-        seedBookingTargets.map((target) => ({
+        chefamoBookingTargets.map((target) => ({
           slug: target.slug,
           type: target.type,
           label: target.label,
@@ -176,24 +253,24 @@ const upsertCatalog = async () => {
     await tx
       .insert(venues)
       .values(
-        seedVenues.map((venue) => ({
-          citySlug: venue.citySlug,
-          neighborhoodSlug: venue.neighborhoodSlug,
-          slug: venue.slug,
-          name: venue.name,
-          tagline: venue.tagline,
-          description: venue.description,
-          address: venue.address,
-          lat: venue.geo.lat.toString(),
-          lng: venue.geo.lng.toString(),
-          amenities: venue.amenities,
-          languages: venue.languages,
-          styleSlugs: venue.styleSlugs,
-          categorySlugs: venue.categorySlugs,
-          bookingTargetOrder: venue.bookingTargetOrder,
-          freshnessNote: venue.freshnessNote,
-          sourceUrl: venue.sourceUrl,
-          lastVerifiedAt: new Date(venue.lastVerifiedAt)
+        chefamoPlaces.map((place) => ({
+          citySlug: place.citySlug,
+          neighborhoodSlug: place.neighborhoodSlug,
+          slug: place.slug,
+          name: place.name,
+          tagline: place.tagline,
+          description: place.description,
+          address: place.address,
+          lat: place.geo.lat.toString(),
+          lng: place.geo.lng.toString(),
+          amenities: place.amenities,
+          languages: place.languages,
+          styleSlugs: place.styleSlugs,
+          categorySlugs: place.categorySlugs,
+          bookingTargetOrder: place.bookingTargetOrder,
+          freshnessNote: place.freshnessNote,
+          sourceUrl: place.sourceUrl,
+          lastVerifiedAt: new Date(place.lastVerifiedAt)
         }))
       )
       .onConflictDoUpdate({
@@ -221,30 +298,30 @@ const upsertCatalog = async () => {
     await tx
       .insert(sessions)
       .values(
-        seedSessions.map((session) => ({
-          id: session.id,
-          citySlug: session.citySlug,
-          venueSlug: session.venueSlug,
-          instructorSlug: session.instructorSlug,
-          categorySlug: session.categorySlug,
-          styleSlug: session.styleSlug,
-          title: session.title,
-          startAt: new Date(session.startAt),
-          endAt: new Date(session.endAt),
-          level: session.level,
-          language: session.language,
-          format: session.format,
-          bookingTargetSlug: session.bookingTargetSlug,
-          sourceUrl: session.sourceUrl,
-          lastVerifiedAt: new Date(session.lastVerifiedAt),
-          verificationStatus: session.verificationStatus,
-          audience: session.audience,
-          attendanceModel: session.attendanceModel,
-          ageMin: session.ageMin ?? null,
-          ageMax: session.ageMax ?? null,
-          ageBand: session.ageBand ?? null,
-          guardianRequired: session.guardianRequired ?? false,
-          priceNote: session.priceNote ?? null
+        chefamoOccurrences.map((occurrence) => ({
+          id: occurrence.id,
+          citySlug: occurrence.citySlug,
+          venueSlug: occurrence.placeSlug,
+          instructorSlug: occurrence.organizerSlug,
+          categorySlug: occurrence.categorySlug,
+          styleSlug: occurrence.styleSlug,
+          title: occurrence.title,
+          startAt: new Date(occurrence.startAt),
+          endAt: new Date(occurrence.endAt),
+          level: occurrence.level,
+          language: occurrence.language,
+          format: occurrence.format,
+          bookingTargetSlug: occurrence.bookingTargetSlug,
+          sourceUrl: occurrence.sourceUrl,
+          lastVerifiedAt: new Date(occurrence.lastVerifiedAt),
+          verificationStatus: occurrence.verificationStatus,
+          audience: occurrence.audience,
+          attendanceModel: occurrence.attendanceModel,
+          ageMin: occurrence.ageMin ?? null,
+          ageMax: occurrence.ageMax ?? null,
+          ageBand: occurrence.ageBand ?? null,
+          guardianRequired: occurrence.guardianRequired ?? false,
+          priceNote: occurrence.priceNote ?? null
         }))
       )
       .onConflictDoUpdate({
@@ -278,7 +355,7 @@ const upsertCatalog = async () => {
     await tx
       .insert(editorialCollections)
       .values(
-        seedCollections.map((collection) => ({
+        chefamoCollections.map((collection) => ({
           citySlug: collection.citySlug,
           slug: collection.slug,
           title: collection.title,
@@ -298,57 +375,55 @@ const upsertCatalog = async () => {
         }
       });
 
-    if (registryEntries.length > 0) {
-      await tx
-        .insert(sourceRegistry)
-        .values(
-          registryEntries.map((entry) => ({
-            citySlug: entry.citySlug,
-            sourceUrl: entry.sourceUrl,
-            sourceType: entry.sourceType,
-            cadence: entry.cadence,
-            trustTier: entry.trustTier,
-            purpose: entry.purpose,
-            parserAdapter: entry.parserAdapter ?? null,
-            tags: entry.tags,
-            active: entry.active,
-            notes: entry.notes ?? null,
-            lastCheckedAt: entry.lastCheckedAt ? new Date(entry.lastCheckedAt) : null,
-            nextCheckAt: entry.nextCheckAt ? new Date(entry.nextCheckAt) : null
-          }))
-        )
-        .onConflictDoUpdate({
-          target: [sourceRegistry.citySlug, sourceRegistry.sourceUrl],
-          set: {
-            sourceType: excluded(sourceRegistry.sourceType),
-            cadence: excluded(sourceRegistry.cadence),
-            trustTier: excluded(sourceRegistry.trustTier),
-            purpose: excluded(sourceRegistry.purpose),
-            parserAdapter: excluded(sourceRegistry.parserAdapter),
-            tags: excluded(sourceRegistry.tags),
-            active: excluded(sourceRegistry.active),
-            notes: excluded(sourceRegistry.notes),
-            lastCheckedAt: excluded(sourceRegistry.lastCheckedAt),
-            nextCheckAt: excluded(sourceRegistry.nextCheckAt),
-            updatedAt: new Date()
-          }
-        });
-    }
+    await tx
+      .insert(sourceRegistry)
+      .values(
+        registryEntries.map((entry) => ({
+          citySlug: entry.citySlug,
+          sourceUrl: entry.sourceUrl,
+          sourceType: entry.sourceType,
+          cadence: entry.cadence,
+          trustTier: entry.trustTier,
+          purpose: entry.purpose,
+          parserAdapter: entry.parserAdapter,
+          tags: entry.tags,
+          active: entry.active,
+          notes: entry.notes,
+          lastCheckedAt: entry.lastCheckedAt,
+          nextCheckAt: entry.nextCheckAt
+        }))
+      )
+      .onConflictDoUpdate({
+        target: [sourceRegistry.citySlug, sourceRegistry.sourceUrl],
+        set: {
+          sourceType: excluded(sourceRegistry.sourceType),
+          cadence: excluded(sourceRegistry.cadence),
+          trustTier: excluded(sourceRegistry.trustTier),
+          purpose: excluded(sourceRegistry.purpose),
+          parserAdapter: excluded(sourceRegistry.parserAdapter),
+          tags: excluded(sourceRegistry.tags),
+          active: excluded(sourceRegistry.active),
+          notes: excluded(sourceRegistry.notes),
+          lastCheckedAt: excluded(sourceRegistry.lastCheckedAt),
+          nextCheckAt: excluded(sourceRegistry.nextCheckAt),
+          updatedAt: new Date()
+        }
+      });
   });
 
   console.log(
     JSON.stringify(
       {
         ok: true,
-        cities: seedCities.length,
-        neighborhoods: seedNeighborhoods.length,
-        categories: seedCategories.length,
-        styles: seedStyles.length,
-        instructors: seedInstructors.length,
-        venues: seedVenues.length,
-        bookingTargets: seedBookingTargets.length,
-        sessions: seedSessions.length,
-        collections: seedCollections.length,
+        cities: bootstrapCities.length,
+        neighborhoods: bootstrapNeighborhoods.length,
+        categories: chefamoCategories.length,
+        styles: chefamoStyles.length,
+        instructors: chefamoOrganizers.length,
+        venues: chefamoPlaces.length,
+        bookingTargets: chefamoBookingTargets.length,
+        sessions: chefamoOccurrences.length,
+        collections: chefamoCollections.length,
         sourceRegistry: registryEntries.length
       },
       null,
