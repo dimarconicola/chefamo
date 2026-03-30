@@ -55,36 +55,36 @@ export function StudiosDirectoryClient({
       ? {
           list: 'Lista',
           map: 'Vista mappa',
-          studios: 'studi',
-          matchingSessions: 'lezioni nei prossimi 7 giorni',
+          studios: 'luoghi',
+          matchingSessions: 'attività nei prossimi 7 giorni',
           nextSession: 'Prossima',
-          browseTitle: 'Studi in ordine alfabetico',
-          mapTitle: 'Tutte le sedi sulla mappa',
-          mapLead: 'Seleziona una sede per vedere il ritmo della settimana e passare alla pagina studio.',
+          browseTitle: 'Luoghi in ordine alfabetico',
+          mapTitle: 'Tutti i luoghi sulla mappa',
+          mapLead: 'Seleziona un luogo per vedere il ritmo della settimana e passare alla pagina dedicata.',
           locate: 'Trova vicino a me',
           locating: 'Sto cercando la tua posizione',
-          locateGranted: 'Sedi riordinate per vicinanza',
+          locateGranted: 'Luoghi riordinati per vicinanza',
           locateDenied: 'Posizione non disponibile. Resto sui confini della città.',
           geolocationUnavailable: 'Questo dispositivo non espone la geolocalizzazione.',
-          openStudio: 'Apri studio',
-          noNext: 'Calendario pubblico non ancora visibile.'
+          openStudio: 'Apri luogo',
+          noNext: 'Nessuna prossima attività pubblica ancora visibile.'
         }
       : {
           list: 'List',
           map: 'Map view',
-          studios: 'studios',
-          matchingSessions: 'classes over the next 7 days',
+          studios: 'places',
+          matchingSessions: 'activities over the next 7 days',
           nextSession: 'Next',
-          browseTitle: 'Studios in alphabetical order',
-          mapTitle: 'All studios on the map',
-          mapLead: 'Select a venue to inspect the weekly rhythm and jump into the studio page.',
+          browseTitle: 'Places in alphabetical order',
+          mapTitle: 'All places on the map',
+          mapLead: 'Select a place to inspect the weekly rhythm and jump into the place page.',
           locate: 'Find near me',
           locating: 'Checking your location',
-          locateGranted: 'Venues sorted by proximity',
+          locateGranted: 'Places sorted by proximity',
           locateDenied: 'Location unavailable. Staying on city bounds.',
           geolocationUnavailable: 'This device does not expose geolocation.',
-          openStudio: 'Open studio',
-          noNext: 'No public next session visible yet.'
+          openStudio: 'Open place',
+          noNext: 'No public next activity visible yet.'
         };
 
   useEffect(() => {

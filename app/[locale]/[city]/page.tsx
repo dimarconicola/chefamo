@@ -6,9 +6,9 @@ import { LoopVideo } from '@/components/media/LoopVideo';
 import { StatCard } from '@/components/admin/StatCard';
 import { ServerButtonLink, ServerCardLink, ServerLink } from '@/components/ui/server';
 import { getSessionUser } from '@/lib/auth/session';
-import { applySessionFilters } from '@/lib/catalog/filters';
+import { applyOccurrenceFilters } from '@/lib/catalog/filters';
 import { getCatalogSnapshot } from '@/lib/catalog/repository';
-import { resolveSessionCardDataFromSnapshot } from '@/lib/catalog/session-card-data';
+import { resolveOccurrenceCardDataFromSnapshot } from '@/lib/catalog/session-card-data';
 import { getLocaleLabel } from '@/lib/catalog/server-data';
 import { getDictionary } from '@/lib/i18n/dictionaries';
 import { resolveLocale } from '@/lib/i18n/routing';
@@ -27,78 +27,78 @@ export default async function CityPage({ params }: { params: Promise<{ locale: s
   const categories = catalog.categories.filter((item) => item.citySlug === citySlug && item.visibility !== 'hidden');
   const neighborhoods = catalog.neighborhoods.filter((item) => item.citySlug === citySlug);
   const collections = catalog.collections.filter((item) => item.citySlug === citySlug);
-  const instructors = catalog.instructors
+  const organizers = catalog.organizers
     .filter((item) => item.citySlug === citySlug)
     .sort((left, right) => left.name.localeCompare(right.name, 'it', { sensitivity: 'base' }));
   const visibleCategorySlugs = new Set(categories.map((item) => item.slug));
-  const visibleSessions = catalog.sessions.filter(
-    (session) => session.citySlug === citySlug && session.verificationStatus !== 'hidden' && visibleCategorySlugs.has(session.categorySlug)
+  const visibleOccurrences = catalog.occurrences.filter(
+    (occurrence) => occurrence.citySlug === citySlug && occurrence.verificationStatus !== 'hidden' && visibleCategorySlugs.has(occurrence.categorySlug)
   );
-  const weekSessions = applySessionFilters(visibleSessions, { date: 'week' });
-  const featuredSessionPreview = weekSessions.slice(0, 4);
-  const cityVenues = catalog.venues.filter((venue) => venue.citySlug === citySlug);
+  const weekOccurrences = applyOccurrenceFilters(visibleOccurrences, { date: 'week' });
+  const featuredOccurrencePreview = weekOccurrences.slice(0, 4);
+  const cityPlaces = catalog.places.filter((place) => place.citySlug === citySlug);
   const metrics = {
-    venues: cityVenues.length,
-    sessions: weekSessions.length,
-    neighborhoods: new Set(cityVenues.map((venue) => venue.neighborhoodSlug)).size,
-    styles: new Set(weekSessions.map((session) => session.styleSlug)).size
+    places: cityPlaces.length,
+    occurrences: weekOccurrences.length,
+    neighborhoods: new Set(cityPlaces.map((place) => place.neighborhoodSlug)).size,
+    programs: new Set(weekOccurrences.map((occurrence) => occurrence.programSlug)).size
   };
-  const [user, resolvedFeaturedSessions, runtimeCapabilities] = await Promise.all([
+  const [user, resolvedFeaturedOccurrences, runtimeCapabilities] = await Promise.all([
     getSessionUser(),
-    Promise.resolve(resolveSessionCardDataFromSnapshot(catalog, featuredSessionPreview)),
+    Promise.resolve(resolveOccurrenceCardDataFromSnapshot(catalog, featuredOccurrencePreview)),
     getRuntimeCapabilities()
   ]);
   const copy =
     locale === 'it'
       ? {
-          weeklyClasses: 'Classi settimanali',
+          weeklyClasses: 'Attività in settimana',
           weeklyClassesDetail: 'Nei prossimi 7 giorni',
-          studios: 'Studi',
-          studiosDetail: 'Verificati a Palermo.',
+          studios: 'Luoghi',
+          studiosDetail: 'Verificati per Palermo.',
           neighborhoods: 'Quartieri coperti',
-          neighborhoodsDetail: 'Zone utili gia presenti in guida.',
-          featured: 'Classi in evidenza',
-          featuredTitle: 'Utili oggi.',
-          fullCalendar: 'Apri calendario completo',
+          neighborhoodsDetail: 'Zone già utili per famiglie.',
+          featured: 'Attività in evidenza',
+          featuredTitle: 'Utili questa settimana.',
+          fullCalendar: 'Apri tutte le attività',
           categories: 'Categorie',
           neighborhoodsSection: 'Quartieri',
           collections: 'Collezioni',
-          studiosSection: 'Studi',
-          studiosTitle: 'Luoghi da scegliere prima ancora dell’orario.',
-          studiosLead: 'Una directory studio-centrica con lista, mappa e ritmo settimanale per capire dove tornare davvero.',
-          openStudios: 'Apri elenco completo',
-          teachers: 'Insegnanti',
-          teachersTitle: 'Le Persone dietro lo studio.',
-          teachersLead: 'Profili alfabetici per capire chi guida le pratiche prima di scegliere una lezione.',
-          openTeachers: 'Apri elenco completo',
-          movementTitle: 'Una città che si muove in tanti registri',
-          movementBody: 'Stretching dolce, discipline aeree e pratiche che cambiano tono senza perdere chiarezza.',
-          movementCta: 'Apri tutte le classi'
+          studiosSection: 'Luoghi',
+          studiosTitle: 'Scegli prima il contesto, poi lo slot.',
+          studiosLead: 'Musei, biblioteche, parchi, laboratori e sedi che vale la pena tenere presenti anche oltre il singolo evento.',
+          openStudios: 'Apri tutti i luoghi',
+          teachers: 'Organizzatori',
+          teachersTitle: 'Chi rende leggibile il panorama 0-14.',
+          teachersLead: 'Istituzioni, piccoli operatori e luoghi che pubblicano abbastanza bene da essere davvero utili.',
+          openTeachers: 'Apri tutti gli organizzatori',
+          movementTitle: 'Una città family, non un elenco generico',
+          movementBody: 'Weekend culturali, laboratori, attività motorie e fallback tranquilli convivono dentro un unico flusso di discovery.',
+          movementCta: 'Apri tutte le attività'
         }
       : {
-          weeklyClasses: 'Weekly classes',
+          weeklyClasses: 'Activities this week',
           weeklyClassesDetail: 'Across the next 7 days',
-          studios: 'Studios',
+          studios: 'Places',
           studiosDetail: 'Verified for Palermo.',
           neighborhoods: 'Neighborhoods covered',
-          neighborhoodsDetail: 'Areas already useful in the guide.',
-          featured: 'Featured classes',
-          featuredTitle: 'Useful now, not someday.',
-          fullCalendar: 'See full calendar',
+          neighborhoodsDetail: 'Areas already useful for families.',
+          featured: 'Featured activities',
+          featuredTitle: 'Useful this week.',
+          fullCalendar: 'Open all activities',
           categories: 'Categories',
           neighborhoodsSection: 'Neighborhoods',
           collections: 'Collections',
-          studiosSection: 'Studios',
-          studiosTitle: 'Places worth choosing before the slot.',
-          studiosLead: 'A studio-first directory with list, map, and weekly rhythm so you can decide where you want to come back.',
-          openStudios: 'Open full directory',
-          teachers: 'Teachers',
-          teachersTitle: 'People, not just slots.',
-          teachersLead: 'Alphabetical profiles to understand who leads each practice before choosing a class.',
-          openTeachers: 'Open full directory',
-          movementTitle: 'One city, many tempos',
-          movementBody: 'Gentle stretching, aerial work, and sharper practices all live in the same clear discovery flow.',
-          movementCta: 'Open all classes'
+          studiosSection: 'Places',
+          studiosTitle: 'Choose the context before the slot.',
+          studiosLead: 'Museums, libraries, parks, labs, and venues worth keeping in mind even beyond a single event.',
+          openStudios: 'Open all places',
+          teachers: 'Organizers',
+          teachersTitle: 'Who makes the 0-14 layer readable.',
+          teachersLead: 'Institutions, small operators, and places that publish clearly enough to be genuinely useful.',
+          openTeachers: 'Open all organizers',
+          movementTitle: 'A family city guide, not a generic list',
+          movementBody: 'Culture weekends, labs, movement options, and calm fallback places sit inside one discovery flow.',
+          movementCta: 'Open all activities'
         };
 
   return (
@@ -109,18 +109,18 @@ export default async function CityPage({ params }: { params: Promise<{ locale: s
           <h1>{getLocaleLabel(locale, city.hero)}</h1>
           <p>{dict.browseWithoutSignup}</p>
           <div className="site-actions">
-            <ServerButtonLink href={`/${locale}/${citySlug}/classes`} className="button-primary">
+            <ServerButtonLink href={`/${locale}/${citySlug}/activities`} className="button-primary">
               {dict.exploreClasses}
             </ServerButtonLink>
-            <ServerButtonLink href={`/${locale}/${citySlug}/collections/today-nearby`} className="button-ghost">
-              {dict.todayNearby}
+            <ServerButtonLink href={`/${locale}/${citySlug}/collections/weekend-families`} className="button-ghost">
+              {locale === 'it' ? 'Weekend in famiglia' : 'Weekend families'}
             </ServerButtonLink>
           </div>
         </div>
         <div className="hero-copy city-hero-metrics">
           <div className="hero-metrics">
-            <StatCard label={copy.weeklyClasses} value={String(metrics.sessions)} detail={copy.weeklyClassesDetail} detailClassName="stat-card-detail-subtle" />
-            <StatCard label={copy.studios} value={String(metrics.venues)} detail={copy.studiosDetail} />
+            <StatCard label={copy.weeklyClasses} value={String(metrics.occurrences)} detail={copy.weeklyClassesDetail} detailClassName="stat-card-detail-subtle" />
+            <StatCard label={copy.studios} value={String(metrics.places)} detail={copy.studiosDetail} />
             <StatCard label={copy.neighborhoods} value={String(metrics.neighborhoods)} detail={copy.neighborhoodsDetail} />
           </div>
         </div>
@@ -133,17 +133,17 @@ export default async function CityPage({ params }: { params: Promise<{ locale: s
               <p className="eyebrow">{copy.featured}</p>
               <h2>{copy.featuredTitle}</h2>
             </div>
-            <ServerLink href={`/${locale}/${citySlug}/classes`} className="inline-link">
+            <ServerLink href={`/${locale}/${citySlug}/activities`} className="inline-link">
               {copy.fullCalendar}
             </ServerLink>
           </div>
           <div className="stack-list">
-            {featuredSessionPreview.map((session) => (
+            {featuredOccurrencePreview.map((occurrence) => (
               <SessionCard
-                key={session.id}
-                session={session}
+                key={occurrence.id}
+                session={occurrence}
                 locale={locale}
-                resolved={resolvedFeaturedSessions.get(session.id)!}
+                resolved={resolvedFeaturedOccurrences.get(occurrence.id)!}
                 signedInEmail={user?.email}
                 scheduleLabel={dict.saveSchedule}
                 runtimeCapabilities={runtimeCapabilities}
@@ -157,16 +157,16 @@ export default async function CityPage({ params }: { params: Promise<{ locale: s
               <p className="eyebrow">{getLocaleLabel(locale, city.name)}</p>
               <h2>{copy.movementTitle}</h2>
               <p className="muted">{copy.movementBody}</p>
-              <ServerLink href={`/${locale}/${citySlug}/classes`} className="inline-link">
+              <ServerLink href={`/${locale}/${citySlug}/activities`} className="inline-link">
                 {copy.movementCta}
               </ServerLink>
             </div>
             <div className="city-motion-grid" aria-hidden="true">
               <div className="city-motion-media city-motion-media-tall">
-                <LoopVideo src={pexelsVideos.stretching} label="Stretching class" poster="/home-hero.jpg" className="city-motion-video" />
+                <LoopVideo src={pexelsVideos.stretching} label="Family movement" poster="/home-hero.jpg" className="city-motion-video" />
               </div>
               <div className="city-motion-media">
-                <LoopVideo src={pexelsVideos.aerial} label="Aerial practice" poster="/home-hero.jpg" className="city-motion-video" />
+                <LoopVideo src={pexelsVideos.meditation} label="Quiet reading space" poster="/home-hero.jpg" className="city-motion-video" />
               </div>
             </div>
           </div>
@@ -199,15 +199,15 @@ export default async function CityPage({ params }: { params: Promise<{ locale: s
                 <h2>{copy.studiosTitle}</h2>
                 <p className="muted">{copy.studiosLead}</p>
               </div>
-              <ServerLink href={`/${locale}/${citySlug}/studios`} className="inline-link">
+              <ServerLink href={`/${locale}/${citySlug}/places`} className="inline-link">
                 {copy.openStudios}
               </ServerLink>
             </div>
             <div className="card-grid">
-              {cityVenues.slice(0, 4).map((venue) => (
-                <ServerCardLink key={venue.slug} href={`/${locale}/${citySlug}/studios/${venue.slug}`} className="collection-card">
-                  <strong>{venue.name}</strong>
-                  <span className="muted">{venue.tagline[locale]}</span>
+              {cityPlaces.slice(0, 4).map((place) => (
+                <ServerCardLink key={place.slug} href={`/${locale}/${citySlug}/places/${place.slug}`} className="collection-card">
+                  <strong>{place.name}</strong>
+                  <span className="muted">{place.tagline[locale]}</span>
                 </ServerCardLink>
               ))}
             </div>
@@ -219,15 +219,15 @@ export default async function CityPage({ params }: { params: Promise<{ locale: s
                 <h2>{copy.teachersTitle}</h2>
                 <p className="muted">{copy.teachersLead}</p>
               </div>
-              <ServerLink href={`/${locale}/${citySlug}/teachers`} className="inline-link">
+              <ServerLink href={`/${locale}/${citySlug}/organizers`} className="inline-link">
                 {copy.openTeachers}
               </ServerLink>
             </div>
             <div className="card-grid">
-              {instructors.slice(0, 4).map((instructor) => (
-                <ServerCardLink key={instructor.slug} href={`/${locale}/${citySlug}/teachers/${instructor.slug}`} className="collection-card">
-                  <strong>{instructor.name}</strong>
-                  <span className="muted">{instructor.shortBio[locale]}</span>
+              {organizers.slice(0, 4).map((organizer) => (
+                <ServerCardLink key={organizer.slug} href={`/${locale}/${citySlug}/organizers/${organizer.slug}`} className="collection-card">
+                  <strong>{organizer.name}</strong>
+                  <span className="muted">{organizer.shortBio[locale]}</span>
                 </ServerCardLink>
               ))}
             </div>

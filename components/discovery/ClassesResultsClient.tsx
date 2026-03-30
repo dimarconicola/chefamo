@@ -76,35 +76,35 @@ export function ClassesResultsClient({
           list: 'Lista',
           map: 'Vista mappa',
           calendar: 'Calendario',
-          studios: 'Studi',
-          studiosOverview: 'Tutti gli studi visibili',
-          visibleClasses: 'Classi visibili',
-          filteredClasses: 'Lezioni filtrate',
-          visible: 'classi visibili',
+          studios: 'Luoghi',
+          studiosOverview: 'Tutti i luoghi visibili',
+          visibleClasses: 'Attività visibili',
+          filteredClasses: 'Attività filtrate',
+          visible: 'attività visibili',
           page: 'Pagina',
           previous: 'Precedente',
           next: 'Successiva',
           previousWeek: 'Settimana precedente',
           nextWeek: 'Settimana successiva',
-          noDaySessions: 'Nessuna classe in questo giorno.',
-          noWeekSessions: 'Nessuna classe disponibile questa settimana.'
+          noDaySessions: 'Nessuna attività in questo giorno.',
+          noWeekSessions: 'Nessuna attività disponibile questa settimana.'
         }
       : {
           list: 'List',
           map: 'Map view',
           calendar: 'Calendar',
-          studios: 'Studios',
-          studiosOverview: 'All visible studios',
-          visibleClasses: 'Visible classes',
-          filteredClasses: 'Filtered classes',
-          visible: 'visible classes',
+          studios: 'Places',
+          studiosOverview: 'All visible places',
+          visibleClasses: 'Visible activities',
+          filteredClasses: 'Filtered activities',
+          visible: 'visible activities',
           page: 'Page',
           previous: 'Previous',
           next: 'Next',
           previousWeek: 'Previous week',
           nextWeek: 'Next week',
-          noDaySessions: 'No classes on this day.',
-          noWeekSessions: 'No classes available this week.'
+          noDaySessions: 'No activities on this day.',
+          noWeekSessions: 'No activities available this week.'
         };
 
   useEffect(() => {

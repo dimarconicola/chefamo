@@ -1,8 +1,10 @@
 export type CalendarEntry = {
   sessionId: string;
   venueSlug: string;
+  placeSlug: string;
   title: string;
   venueName: string;
+  placeName: string;
   startLabel: string;
   endLabel: string;
   startAt: string;
@@ -22,6 +24,7 @@ export type MapVenueSessionPreview = {
 
 export type MapVenueSummary = {
   venueSlug: string;
+  placeSlug: string;
   name: string;
   address: string;
   neighborhoodName: string;
@@ -30,6 +33,7 @@ export type MapVenueSummary = {
   nextSession?: MapVenueSessionPreview;
   sessionsPreview: MapVenueSessionPreview[];
   studioHref: string;
+  placeHref: string;
   primaryCtaHref?: string;
   primaryCtaLabel?: string;
 };

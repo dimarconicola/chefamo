@@ -33,6 +33,7 @@ export function MapPanel({ locale, cityName, venues, bounds, renderMode }: MapPa
       venues
         .filter((venue) => Number.isFinite(venue.geo.lat) && Number.isFinite(venue.geo.lng))
         .map((venue) => ({
+          placeSlug: venue.slug,
           venueSlug: venue.slug,
           name: venue.name,
           address: venue.address,
@@ -40,6 +41,7 @@ export function MapPanel({ locale, cityName, venues, bounds, renderMode }: MapPa
           geo: venue.geo,
           matchingSessionCount: 1,
           sessionsPreview: [],
+          placeHref: `/${locale}/${venue.citySlug}/places/${venue.slug}`,
           studioHref: `/${locale}/${venue.citySlug}/studios/${venue.slug}`,
           primaryCtaHref: undefined,
           primaryCtaLabel: undefined

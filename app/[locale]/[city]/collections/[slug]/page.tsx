@@ -103,7 +103,7 @@ export default async function CollectionPage({
           <h1>{collection.title[locale]}</h1>
           <p className="lead">{collection.description[locale]}</p>
           <div className="site-actions">
-            <ServerButtonLink href={`/${locale}/${citySlug}/classes`} className="button-primary">
+            <ServerButtonLink href={`/${locale}/${citySlug}/activities`} className="button-primary">
               {dict.exploreClasses}
             </ServerButtonLink>
           </div>

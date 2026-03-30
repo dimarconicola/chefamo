@@ -4,31 +4,31 @@ import { FavoriteButton } from '@/components/state/FavoriteButton';
 import { ScheduleButton } from '@/components/state/ScheduleButton';
 import { getPriceNoteForLocale } from '@/lib/catalog/price-notes';
 import { ServerChip, ServerLink } from '@/components/ui/server';
-import type { ResolvedSessionCardData } from '@/lib/catalog/session-card-data';
-import type { Locale, Session } from '@/lib/catalog/types';
+import type { ResolvedOccurrenceCardData } from '@/lib/catalog/session-card-data';
+import type { Locale, Occurrence } from '@/lib/catalog/types';
 import type { RuntimeCapabilities } from '@/lib/runtime/capabilities';
 import { formatSessionTime } from '@/lib/ui/format';
 import { BookingLink } from './BookingLink';
 
 interface SessionCardProps {
-  session: Session;
+  session: Occurrence;
   locale: Locale;
-  resolved: ResolvedSessionCardData;
+  resolved: ResolvedOccurrenceCardData;
   signedInEmail?: string;
   scheduleLabel: string;
   runtimeCapabilities?: RuntimeCapabilities;
 }
 
 export function SessionCard({ session, locale, resolved, signedInEmail, scheduleLabel, runtimeCapabilities }: SessionCardProps) {
-  const { venue, instructor, style, target } = resolved;
+  const { place, organizer, style, target } = resolved;
   const labels =
     locale === 'it'
       ? {
           verified: 'Verificato',
           stale: 'Da aggiornare',
-          bookNow: 'Prenota ora',
-          studio: 'Apri studio',
-          teacher: 'Apri insegnante',
+          bookNow: 'Apri dettagli',
+          place: 'Apri luogo',
+          organizer: 'Apri organizzatore',
           level: {
             beginner: 'Principianti',
             open: 'Aperti a tutti',
@@ -40,17 +40,17 @@ export function SessionCard({ session, locale, resolved, signedInEmail, schedule
             hybrid: 'Hybrid',
             online: 'Online'
           },
-          price: 'Prezzo',
-          saveClass: 'Salva classe',
-          savedClass: 'Classe salvata',
-          savedSchedule: 'In agenda'
+          price: 'Costo',
+          saveProgram: 'Segui programma',
+          savedProgram: 'Programma seguito',
+          savedSchedule: 'In piano'
         }
       : {
           verified: 'Verified',
           stale: 'Needs refresh',
-          bookNow: 'Book now',
-          studio: 'View studio',
-          teacher: 'View teacher',
+          bookNow: 'Open details',
+          place: 'View place',
+          organizer: 'View organizer',
           level: {
             beginner: 'Beginner',
             open: 'Open',
@@ -63,9 +63,9 @@ export function SessionCard({ session, locale, resolved, signedInEmail, schedule
             online: 'Online'
           },
           price: 'Price',
-          saveClass: 'Save class',
-          savedClass: 'Class saved',
-          savedSchedule: 'In schedule'
+          saveProgram: 'Follow program',
+          savedProgram: 'Program followed',
+          savedSchedule: 'In plan'
         };
 
   const start = DateTime.fromISO(session.startAt).setZone('Europe/Rome');
@@ -92,20 +92,21 @@ export function SessionCard({ session, locale, resolved, signedInEmail, schedule
           </div>
           <p className="session-meta">{formatSessionTime(session.startAt, locale)}</p>
           <p className="muted">
-            <ServerLink href={`/${locale}/${session.citySlug}/studios/${venue.slug}`} className="inline-link">
-              {venue.name}
+            <ServerLink href={`/${locale}/${session.citySlug}/places/${place.slug}`} className="inline-link">
+              {place.name}
             </ServerLink>{' '}
             ·{' '}
-            <ServerLink href={`/${locale}/${session.citySlug}/teachers/${instructor.slug}`} className="inline-link">
-              {instructor.name}
+            <ServerLink href={`/${locale}/${session.citySlug}/organizers/${organizer.slug}`} className="inline-link">
+              {organizer.name}
             </ServerLink>
           </p>
-          <p className="muted">{venue.address}</p>
+          <p className="muted">{place.address}</p>
           <div className="session-tags">
             <ServerChip>{style.name[locale]}</ServerChip>
             <ServerChip>{labels.level[session.level]}</ServerChip>
             <ServerChip>{session.language}</ServerChip>
             <ServerChip>{labels.format[session.format]}</ServerChip>
+            {session.ageBand ? <ServerChip>{session.ageBand}</ServerChip> : null}
           </div>
           {priceNote ? (
             <p className="muted">
@@ -115,35 +116,35 @@ export function SessionCard({ session, locale, resolved, signedInEmail, schedule
           <div className="session-card-footer">
             <div className="stack-list">
               <div className="session-card-links">
-                <ServerLink href={`/${locale}/${session.citySlug}/studios/${venue.slug}`} className="inline-link">
-                  {labels.studio}
+                <ServerLink href={`/${locale}/${session.citySlug}/places/${place.slug}`} className="inline-link">
+                  {labels.place}
                 </ServerLink>
-                <ServerLink href={`/${locale}/${session.citySlug}/teachers/${instructor.slug}`} className="inline-link">
-                  {labels.teacher}
+                <ServerLink href={`/${locale}/${session.citySlug}/organizers/${organizer.slug}`} className="inline-link">
+                  {labels.organizer}
                 </ServerLink>
               </div>
             </div>
             <div className="session-actions">
               <FavoriteButton
-                entitySlug={session.id}
-                entityType="session"
+                entitySlug={session.programSlug}
+                entityType="program"
                 locale={locale}
                 signedInEmail={signedInEmail}
-                label={labels.saveClass}
-                savedLabel={labels.savedClass}
+                label={labels.saveProgram}
+                savedLabel={labels.savedProgram}
                 runtimeCapabilities={runtimeCapabilities}
               />
               <BookingLink
                 locale={locale}
                 citySlug={session.citySlug}
                 categorySlug={session.categorySlug}
-                venueSlug={session.venueSlug}
+                venueSlug={session.placeSlug}
                 sessionId={session.id}
                 target={target}
                 label={labels.bookNow}
               />
               <ScheduleButton
-                sessionId={session.id}
+                occurrenceId={session.id}
                 locale={locale}
                 signedInEmail={signedInEmail}
                 label={scheduleLabel}

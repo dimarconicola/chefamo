@@ -21,7 +21,7 @@ interface FilterBarProps {
 const copy = {
   en: {
     title: 'Filters',
-    subtitle: 'Refine by date, time, neighborhood, and class profile.',
+    subtitle: 'Refine by date, time, neighborhood, and family activity profile.',
     show: 'Show filters',
     hide: 'Hide filters',
     apply: 'Apply',
@@ -57,7 +57,7 @@ const copy = {
   },
   it: {
     title: 'Filtri',
-    subtitle: 'Affina per data, fascia oraria, quartiere e tipo di classe.',
+    subtitle: 'Affina per data, fascia oraria, quartiere e profilo attività.',
     show: 'Mostra filtri',
     hide: 'Nascondi filtri',
     apply: 'Applica',
