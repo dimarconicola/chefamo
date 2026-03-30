@@ -6,9 +6,27 @@ import { getSessionUser } from '@/lib/auth/session';
 import { isUserScheduleSaved, toggleUserSchedule } from '@/lib/runtime/store';
 import { getRuntimeCapabilities } from '@/lib/runtime/capabilities';
 
-const querySchema = z.object({
-  sessionId: z.string().min(1, 'Session ID is required')
-});
+const querySchema = z
+  .object({
+    occurrenceId: z.string().min(1, 'Occurrence ID is required').optional(),
+    sessionId: z.string().min(1, 'Session ID is required').optional()
+  })
+  .transform((value, ctx) => {
+    const occurrenceId = value.occurrenceId ?? value.sessionId;
+    if (!occurrenceId) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        message: 'Occurrence ID is required',
+        path: ['occurrenceId']
+      });
+      return z.NEVER;
+    }
+
+    return {
+      occurrenceId,
+      sessionId: value.sessionId ?? occurrenceId
+    };
+  });
 
 export const GET = apiHandler(async (request) => {
   const capabilities = await getRuntimeCapabilities();
@@ -24,15 +42,17 @@ export const GET = apiHandler(async (request) => {
 
   const url = new URL(request.url);
   const parsed = querySchema.parse({
+    occurrenceId: url.searchParams.get('occurrenceId'),
     sessionId: url.searchParams.get('sessionId')
   });
 
-  const saved = await isUserScheduleSaved(user.id, parsed.sessionId);
+  const saved = await isUserScheduleSaved(user.id, parsed.occurrenceId);
 
   return {
     status: 200,
     data: {
       saved,
+      occurrenceId: parsed.occurrenceId,
       sessionId: parsed.sessionId
     }
   };
@@ -51,11 +71,11 @@ export const POST = apiHandler(async (request) => {
   }
 
   const parsed = querySchema.parse(await request.json());
-  const saved = await toggleUserSchedule(user.id, parsed.sessionId);
+  const saved = await toggleUserSchedule(user.id, parsed.occurrenceId);
 
   logger.info('User schedule toggled', {
     userId: user.id,
-    sessionId: parsed.sessionId,
+    occurrenceId: parsed.occurrenceId,
     saved
   });
 
@@ -63,8 +83,9 @@ export const POST = apiHandler(async (request) => {
     status: 200,
     data: {
       saved,
+      occurrenceId: parsed.occurrenceId,
       sessionId: parsed.sessionId,
-      message: saved ? 'Added to schedule' : 'Removed from schedule'
+      message: saved ? 'Added to plan' : 'Removed from plan'
     }
   };
 });

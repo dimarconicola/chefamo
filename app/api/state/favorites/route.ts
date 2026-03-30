@@ -6,10 +6,21 @@ import { getSessionUser } from '@/lib/auth/session';
 import { isUserFavorite, toggleUserFavorite } from '@/lib/runtime/store';
 import { getRuntimeCapabilities } from '@/lib/runtime/capabilities';
 
+const entityTypeSchema = z.enum(['place', 'program', 'organizer', 'venue', 'studio', 'teacher', 'class'], {
+  message: 'Invalid entity type'
+});
+
 const querySchema = z.object({
-  entityType: z.enum(['venue', 'session', 'instructor'], { message: 'Invalid entity type' }),
+  entityType: entityTypeSchema,
   entitySlug: z.string().min(1, 'Entity slug is required')
 });
+
+const normalizeEntityType = (entityType: z.infer<typeof entityTypeSchema>) => {
+  if (entityType === 'venue' || entityType === 'studio') return 'place' as const;
+  if (entityType === 'teacher') return 'organizer' as const;
+  if (entityType === 'class') return 'program' as const;
+  return entityType;
+};
 
 export const GET = apiHandler(async (request) => {
   const capabilities = await getRuntimeCapabilities();
@@ -28,14 +39,15 @@ export const GET = apiHandler(async (request) => {
     entityType: url.searchParams.get('entityType'),
     entitySlug: url.searchParams.get('entitySlug')
   });
+  const entityType = normalizeEntityType(parsed.entityType);
 
-  const saved = await isUserFavorite(user.id, parsed.entityType, parsed.entitySlug);
+  const saved = await isUserFavorite(user.id, entityType, parsed.entitySlug);
 
   return {
     status: 200,
     data: {
       saved,
-      entityType: parsed.entityType,
+      entityType,
       entitySlug: parsed.entitySlug
     }
   };
@@ -54,11 +66,12 @@ export const POST = apiHandler(async (request) => {
   }
 
   const parsed = querySchema.parse(await request.json());
-  const saved = await toggleUserFavorite(user.id, parsed.entityType, parsed.entitySlug);
+  const entityType = normalizeEntityType(parsed.entityType);
+  const saved = await toggleUserFavorite(user.id, entityType, parsed.entitySlug);
 
   logger.info('User favorite toggled', {
     userId: user.id,
-    entityType: parsed.entityType,
+    entityType,
     entitySlug: parsed.entitySlug,
     saved
   });
@@ -67,7 +80,7 @@ export const POST = apiHandler(async (request) => {
     status: 200,
     data: {
       saved,
-      entityType: parsed.entityType,
+      entityType,
       entitySlug: parsed.entitySlug,
       message: saved ? 'Added to favorites' : 'Removed from favorites'
     }

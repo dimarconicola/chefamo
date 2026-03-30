@@ -14,6 +14,10 @@ const schema = z.object({
 
 export async function POST(request: Request) {
   const parsed = schema.parse(await request.json());
-  await appendClaim({ ...parsed, createdAt: new Date().toISOString() });
+  await appendClaim({
+    ...parsed,
+    placeSlug: parsed.studioSlug,
+    createdAt: new Date().toISOString()
+  });
   return NextResponse.json({ ok: true });
 }

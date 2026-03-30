@@ -9,7 +9,7 @@ import type { RuntimeCapabilities } from '@/lib/runtime/capabilities';
 
 interface FavoriteButtonProps {
   entitySlug: string;
-  entityType: 'venue' | 'session' | 'instructor';
+  entityType: 'place' | 'program' | 'organizer';
   locale: string;
   signedInEmail?: string;
   label: string;
@@ -27,11 +27,11 @@ export function FavoriteButton({ entitySlug, entityType, locale, signedInEmail, 
     locale === 'it'
       ? {
           unavailable: 'Preferiti temporaneamente non disponibili.',
-          authRequired: 'Accedi per salvare tra i preferiti.'
+          authRequired: 'Accedi per seguire questo contenuto.'
         }
       : {
           unavailable: 'Favorites are temporarily unavailable.',
-          authRequired: 'Sign in to save favorites.'
+          authRequired: 'Sign in to follow this item.'
         };
 
   useEffect(() => {

@@ -8,9 +8,9 @@ import { readStoredFavorites } from '@/components/state/storage';
 interface FavoritesCollectionsClientProps {
   signedInEmail: string;
   initialFavoriteKeys: string[];
-  venues: Array<{ slug: string; title: string; href: string; meta: string }>;
-  instructors: Array<{ slug: string; title: string; href: string; meta: string }>;
-  sessions: Array<{ id: string; title: string; href: string; meta: string }>;
+  places: Array<{ slug: string; title: string; href: string; meta: string }>;
+  organizers: Array<{ slug: string; title: string; href: string; meta: string }>;
+  programs: Array<{ id: string; title: string; href: string; meta: string }>;
   copy: {
     favoritesStudios: string;
     favoritesTeachers: string;
@@ -22,9 +22,9 @@ interface FavoritesCollectionsClientProps {
 export function FavoritesCollectionsClient({
   signedInEmail,
   initialFavoriteKeys,
-  venues,
-  instructors,
-  sessions,
+  places,
+  organizers,
+  programs,
   copy
 }: FavoritesCollectionsClientProps) {
   const [favoriteKeys, setFavoriteKeys] = useState(initialFavoriteKeys);
@@ -35,29 +35,29 @@ export function FavoritesCollectionsClient({
     setFavoriteKeys([...new Set([...initialFavoriteKeys, ...localFavoriteKeys])]);
   }, [initialFavoriteKeys, signedInEmail]);
 
-  const venueFavorites = useMemo(
+  const placeFavorites = useMemo(
     () =>
       favoriteKeys
-        .filter((key) => key.startsWith('venue:'))
-        .map((key) => venues.find((venue) => venue.slug === key.replace('venue:', '')))
-        .filter((item): item is (typeof venues)[number] => Boolean(item)),
-    [favoriteKeys, venues]
+        .filter((key) => key.startsWith('place:'))
+        .map((key) => places.find((place) => place.slug === key.replace('place:', '')))
+        .filter((item): item is (typeof places)[number] => Boolean(item)),
+    [favoriteKeys, places]
   );
-  const instructorFavorites = useMemo(
+  const organizerFavorites = useMemo(
     () =>
       favoriteKeys
-        .filter((key) => key.startsWith('instructor:'))
-        .map((key) => instructors.find((instructor) => instructor.slug === key.replace('instructor:', '')))
-        .filter((item): item is (typeof instructors)[number] => Boolean(item)),
-    [favoriteKeys, instructors]
+        .filter((key) => key.startsWith('organizer:'))
+        .map((key) => organizers.find((organizer) => organizer.slug === key.replace('organizer:', '')))
+        .filter((item): item is (typeof organizers)[number] => Boolean(item)),
+    [favoriteKeys, organizers]
   );
-  const sessionFavorites = useMemo(
+  const programFavorites = useMemo(
     () =>
       favoriteKeys
-        .filter((key) => key.startsWith('session:'))
-        .map((key) => sessions.find((session) => session.id === key.replace('session:', '')))
-        .filter((item): item is (typeof sessions)[number] => Boolean(item)),
-    [favoriteKeys, sessions]
+        .filter((key) => key.startsWith('program:'))
+        .map((key) => programs.find((program) => program.id === key.replace('program:', '')))
+        .filter((item): item is (typeof programs)[number] => Boolean(item)),
+    [favoriteKeys, programs]
   );
   return (
     <section className="saved-grid">
@@ -65,10 +65,10 @@ export function FavoritesCollectionsClient({
         <div className="saved-section-header">
           <p className="eyebrow">{copy.favoritesStudios}</p>
         </div>
-        {venueFavorites.length > 0 ? (
+        {placeFavorites.length > 0 ? (
           <div className="stack-list">
-            {venueFavorites.map((item) => (
-              <NextLink href={item.href} key={`venue:${item.href}`} className="list-link">
+            {placeFavorites.map((item) => (
+              <NextLink href={item.href} key={`place:${item.href}`} className="list-link">
                 <strong>{item.title}</strong>
                 <span>{item.meta}</span>
               </NextLink>
@@ -83,10 +83,10 @@ export function FavoritesCollectionsClient({
         <div className="saved-section-header">
           <p className="eyebrow">{copy.favoritesTeachers}</p>
         </div>
-        {instructorFavorites.length > 0 ? (
+        {organizerFavorites.length > 0 ? (
           <div className="stack-list">
-            {instructorFavorites.map((item) => (
-              <NextLink href={item.href} key={`instructor:${item.href}`} className="list-link">
+            {organizerFavorites.map((item) => (
+              <NextLink href={item.href} key={`organizer:${item.href}`} className="list-link">
                 <strong>{item.title}</strong>
                 <span>{item.meta}</span>
               </NextLink>
@@ -101,10 +101,10 @@ export function FavoritesCollectionsClient({
         <div className="saved-section-header">
           <p className="eyebrow">{copy.favoritesClasses}</p>
         </div>
-        {sessionFavorites.length > 0 ? (
+        {programFavorites.length > 0 ? (
           <div className="stack-list">
-            {sessionFavorites.map((item) => (
-              <NextLink href={item.href} key={`session:${item.href}`} className="list-link">
+            {programFavorites.map((item) => (
+              <NextLink href={item.href} key={`program:${item.href}`} className="list-link">
                 <strong>{item.title}</strong>
                 <span>{item.meta}</span>
               </NextLink>

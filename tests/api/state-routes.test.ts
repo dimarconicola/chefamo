@@ -104,7 +104,7 @@ describe('favorites and schedule route contracts', () => {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          entityType: 'venue',
+          entityType: 'place',
           entitySlug: 'yoga-city'
         })
       })
@@ -115,7 +115,7 @@ describe('favorites and schedule route contracts', () => {
       success: true,
       data: {
         saved: true,
-        entityType: 'venue',
+        entityType: 'place',
         entitySlug: 'yoga-city'
       }
     });
@@ -179,7 +179,7 @@ describe('favorites and schedule route contracts', () => {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          sessionId: 'session-1'
+          occurrenceId: 'session-1'
         })
       })
     );

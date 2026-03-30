@@ -9,7 +9,7 @@ import { env } from '@/lib/env';
 import { AppError } from '@/lib/errors/handler';
 import { calendarSubmissions, claims, digestSubscriptions, favorites, outboundClicks, userProfiles } from '@/lib/data/schema';
 
-type FavoriteEntityType = 'venue' | 'session' | 'instructor';
+type FavoriteEntityType = 'place' | 'program' | 'organizer';
 type StoredEntityType = FavoriteEntityType | 'schedule';
 
 interface StoredEntityRow {
@@ -25,7 +25,7 @@ interface StoredFavorite {
   createdAt: string;
 }
 
-const baseDir = '/tmp/kinelo-fit-runtime';
+const baseDir = '/tmp/chefamo-runtime';
 
 const ensureStore = async () => {
   await mkdir(baseDir, { recursive: true });
@@ -76,7 +76,7 @@ export const appendClaim = async (payload: ClaimSubmission) => {
 
   try {
     await db.insert(claims).values({
-      studioSlug: payload.studioSlug,
+      studioSlug: payload.placeSlug ?? payload.studioSlug ?? '',
       locale: payload.locale,
       name: payload.name,
       email: payload.email,
@@ -106,6 +106,7 @@ export const listClaims = async (): Promise<ClaimSubmission[]> => {
   const rows = await db.select().from(claims).orderBy(desc(claims.createdAt)).limit(300);
   return rows.map((row) => ({
     id: row.id,
+    placeSlug: row.studioSlug,
     studioSlug: row.studioSlug,
     locale: row.locale as 'en' | 'it',
     name: row.name,
@@ -393,8 +394,8 @@ export const appendOutboundEvent = async (payload: OutboundEvent) => {
   }
 
   await db.insert(outboundClicks).values({
-    sessionId: payload.sessionId,
-    venueSlug: payload.venueSlug,
+    sessionId: payload.occurrenceId ?? payload.sessionId ?? null,
+    venueSlug: payload.placeSlug ?? payload.venueSlug ?? '',
     citySlug: payload.citySlug,
     categorySlug: payload.categorySlug,
     targetType: payload.targetType,
@@ -412,7 +413,9 @@ export const listOutboundEvents = async (): Promise<OutboundEvent[]> => {
 
   const rows = await db.select().from(outboundClicks).orderBy(desc(outboundClicks.createdAt)).limit(1000);
   return rows.map((row) => ({
+    occurrenceId: row.sessionId ?? undefined,
     sessionId: row.sessionId ?? undefined,
+    placeSlug: row.venueSlug,
     venueSlug: row.venueSlug,
     citySlug: row.citySlug,
     categorySlug: row.categorySlug,
@@ -448,7 +451,7 @@ export const listUserFavorites = async (userId: string): Promise<StoredFavorite[
       createdAt: favorites.createdAt
     })
     .from(favorites)
-    .where(and(eq(favorites.userId, userId), inArray(favorites.entityType, ['venue', 'session', 'instructor'])))
+    .where(and(eq(favorites.userId, userId), inArray(favorites.entityType, ['place', 'program', 'organizer'])))
     .orderBy(desc(favorites.createdAt));
 
   return rows.map((row) => ({
@@ -619,35 +622,35 @@ export const upsertUserProfile = async (payload: Pick<UserProfile, 'userId' | 'e
   return getUserProfile(payload.userId, payload.email);
 };
 
-export const isUserScheduleSaved = async (userId: string, sessionId: string) => {
+export const isUserScheduleSaved = async (userId: string, occurrenceId: string) => {
   const db = getDb();
   if (!db) {
     assertPersistentStoreAvailable();
     const rows = await listStoredEntities();
-    return rows.some((row) => row.userId === userId && row.entityType === 'schedule' && row.entitySlug === sessionId);
+    return rows.some((row) => row.userId === userId && row.entityType === 'schedule' && row.entitySlug === occurrenceId);
   }
 
   const rows = await db
     .select({ id: favorites.id })
     .from(favorites)
-    .where(and(eq(favorites.userId, userId), eq(favorites.entityType, 'schedule'), eq(favorites.entitySlug, sessionId)))
+    .where(and(eq(favorites.userId, userId), eq(favorites.entityType, 'schedule'), eq(favorites.entitySlug, occurrenceId)))
     .limit(1);
 
   return rows.length > 0;
 };
 
-export const toggleUserSchedule = async (userId: string, sessionId: string) => {
+export const toggleUserSchedule = async (userId: string, occurrenceId: string) => {
   const db = getDb();
   if (!db) {
     assertPersistentStoreAvailable();
     const rows = await listStoredEntities();
-    const index = rows.findIndex((row) => row.userId === userId && row.entityType === 'schedule' && row.entitySlug === sessionId);
+    const index = rows.findIndex((row) => row.userId === userId && row.entityType === 'schedule' && row.entitySlug === occurrenceId);
     if (index >= 0) {
       rows.splice(index, 1);
       await writeStoredEntities(rows);
       return false;
     }
-    rows.unshift({ userId, entityType: 'schedule', entitySlug: sessionId, createdAt: new Date().toISOString() });
+    rows.unshift({ userId, entityType: 'schedule', entitySlug: occurrenceId, createdAt: new Date().toISOString() });
     await writeStoredEntities(rows);
     return true;
   }
@@ -655,20 +658,20 @@ export const toggleUserSchedule = async (userId: string, sessionId: string) => {
   const existing = await db
     .select({ id: favorites.id })
     .from(favorites)
-    .where(and(eq(favorites.userId, userId), eq(favorites.entityType, 'schedule'), eq(favorites.entitySlug, sessionId)))
+    .where(and(eq(favorites.userId, userId), eq(favorites.entityType, 'schedule'), eq(favorites.entitySlug, occurrenceId)))
     .limit(1);
 
   if (existing.length > 0) {
     await db
       .delete(favorites)
-      .where(and(eq(favorites.userId, userId), eq(favorites.entityType, 'schedule'), eq(favorites.entitySlug, sessionId)));
+      .where(and(eq(favorites.userId, userId), eq(favorites.entityType, 'schedule'), eq(favorites.entitySlug, occurrenceId)));
     return false;
   }
 
   await db.insert(favorites).values({
     userId,
     entityType: 'schedule',
-    entitySlug: sessionId,
+    entitySlug: occurrenceId,
     createdAt: new Date()
   });
   return true;

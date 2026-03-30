@@ -8,11 +8,11 @@ import { readStoredSchedule } from '@/components/state/storage';
 interface SavedScheduleClientProps {
   signedInEmail: string;
   initialScheduleIds: string[];
-  sessions: Array<{ id: string; title: string; href: string; meta: string }>;
+  occurrences: Array<{ id: string; title: string; href: string; meta: string }>;
   emptyLabel: string;
 }
 
-export function SavedScheduleClient({ signedInEmail, initialScheduleIds, sessions, emptyLabel }: SavedScheduleClientProps) {
+export function SavedScheduleClient({ signedInEmail, initialScheduleIds, occurrences, emptyLabel }: SavedScheduleClientProps) {
   const [scheduleIds, setScheduleIds] = useState(initialScheduleIds);
 
   useEffect(() => {
@@ -21,8 +21,8 @@ export function SavedScheduleClient({ signedInEmail, initialScheduleIds, session
   }, [initialScheduleIds, signedInEmail]);
 
   const scheduleItems = useMemo(
-    () => scheduleIds.map((id) => sessions.find((session) => session.id === id)).filter(Boolean) as typeof sessions,
-    [scheduleIds, sessions]
+    () => scheduleIds.map((id) => occurrences.find((occurrence) => occurrence.id === id)).filter(Boolean) as typeof occurrences,
+    [scheduleIds, occurrences]
   );
 
   if (scheduleItems.length === 0) {

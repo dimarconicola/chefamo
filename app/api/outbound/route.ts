@@ -3,7 +3,9 @@ import { apiHandler } from '@/lib/errors/api-handler';
 import { appendOutboundEvent } from '@/lib/runtime/store';
 
 const schema = z.object({
+  occurrenceId: z.string().optional(),
   sessionId: z.string().optional(),
+  placeSlug: z.string().optional(),
   venueSlug: z.string().min(1, 'Venue slug is required'),
   citySlug: z.string().min(1, 'City slug is required'),
   categorySlug: z.string().min(1, 'Category slug is required'),
@@ -22,7 +24,15 @@ export const POST = apiHandler(async (request) => {
   const parsed = schema.parse(raw);
 
   await appendOutboundEvent({
-    ...parsed,
+    occurrenceId: parsed.occurrenceId ?? parsed.sessionId,
+    sessionId: parsed.sessionId,
+    programSlug: undefined,
+    placeSlug: parsed.placeSlug ?? parsed.venueSlug,
+    venueSlug: parsed.venueSlug,
+    citySlug: parsed.citySlug,
+    categorySlug: parsed.categorySlug,
+    targetType: parsed.targetType,
+    href: parsed.href,
     createdAt: new Date().toISOString()
   });
 
@@ -31,6 +41,7 @@ export const POST = apiHandler(async (request) => {
     data: {
       ok: true,
       message: 'Outbound click recorded',
+      placeSlug: parsed.placeSlug ?? parsed.venueSlug,
       venueSlug: parsed.venueSlug
     }
   };

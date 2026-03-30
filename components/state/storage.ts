@@ -11,9 +11,9 @@ const parseStoredList = (value: string | null) => {
 
 const unique = (items: string[]) => [...new Set(items)];
 
-export const favoriteStorageKey = (email: string) => `kinelo:${email}:favorites`;
-export const scheduleStorageKey = (email: string) => `kinelo:${email}:schedule`;
-export const toFavoriteKey = (entityType: 'venue' | 'session' | 'instructor', entitySlug: string) => `${entityType}:${entitySlug}`;
+export const favoriteStorageKey = (email: string) => `chefamo:${email}:favorites`;
+export const scheduleStorageKey = (email: string) => `chefamo:${email}:plan`;
+export const toFavoriteKey = (entityType: 'place' | 'program' | 'organizer', entitySlug: string) => `${entityType}:${entitySlug}`;
 
 export const readStoredFavorites = (email: string) => {
   if (typeof window === 'undefined') return [];
@@ -58,25 +58,25 @@ export const writeStoredSchedule = (email: string, values: string[]) => {
   window.localStorage.setItem(scheduleStorageKey(email), JSON.stringify(unique(values)));
 };
 
-export const syncStoredSchedule = (email: string, sessionId: string, saved: boolean) => {
+export const syncStoredSchedule = (email: string, occurrenceId: string, saved: boolean) => {
   const current = new Set(readStoredSchedule(email));
   if (saved) {
-    current.add(sessionId);
+    current.add(occurrenceId);
   } else {
-    current.delete(sessionId);
+    current.delete(occurrenceId);
   }
   writeStoredSchedule(email, Array.from(current));
 };
 
-export const toggleStoredSchedule = (email: string, sessionId: string) => {
+export const toggleStoredSchedule = (email: string, occurrenceId: string) => {
   const current = new Set(readStoredSchedule(email));
-  if (current.has(sessionId)) {
-    current.delete(sessionId);
+  if (current.has(occurrenceId)) {
+    current.delete(occurrenceId);
     writeStoredSchedule(email, Array.from(current));
     return false;
   }
 
-  current.add(sessionId);
+  current.add(occurrenceId);
   writeStoredSchedule(email, Array.from(current));
   return true;
 };

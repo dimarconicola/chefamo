@@ -8,7 +8,7 @@ import { readApiErrorCode } from '@/lib/errors/api-client';
 import type { RuntimeCapabilities } from '@/lib/runtime/capabilities';
 
 interface ScheduleButtonProps {
-  sessionId: string;
+  occurrenceId: string;
   locale: string;
   signedInEmail?: string;
   label: string;
@@ -16,7 +16,7 @@ interface ScheduleButtonProps {
   runtimeCapabilities?: RuntimeCapabilities;
 }
 
-export function ScheduleButton({ sessionId, locale, signedInEmail, label, savedLabel, runtimeCapabilities }: ScheduleButtonProps) {
+export function ScheduleButton({ occurrenceId, locale, signedInEmail, label, savedLabel, runtimeCapabilities }: ScheduleButtonProps) {
   const router = useRouter();
   const [saved, setSaved] = useState(false);
   const [pending, setPending] = useState(false);
@@ -24,20 +24,20 @@ export function ScheduleButton({ sessionId, locale, signedInEmail, label, savedL
   const copy =
     locale === 'it'
       ? {
-          unavailable: 'Agenda temporaneamente non disponibile.',
-          authRequired: 'Accedi per salvare in agenda.'
+          unavailable: 'Piano temporaneamente non disponibile.',
+          authRequired: 'Accedi per salvare nel piano.'
         }
       : {
-          unavailable: 'Schedule is temporarily unavailable.',
-          authRequired: 'Sign in to save to schedule.'
+          unavailable: 'Plan is temporarily unavailable.',
+          authRequired: 'Sign in to save to your plan.'
         };
 
   useEffect(() => {
     if (!signedInEmail) return;
-    setSaved(readStoredSchedule(signedInEmail).includes(sessionId));
+    setSaved(readStoredSchedule(signedInEmail).includes(occurrenceId));
 
     const controller = new AbortController();
-    void fetch(`/api/state/schedule?sessionId=${encodeURIComponent(sessionId)}`, {
+    void fetch(`/api/state/schedule?occurrenceId=${encodeURIComponent(occurrenceId)}`, {
       method: 'GET',
       signal: controller.signal
     })
@@ -45,14 +45,14 @@ export function ScheduleButton({ sessionId, locale, signedInEmail, label, savedL
         if (!response.ok) return;
         const payload = (await response.json()) as { saved: boolean };
         setSaved(Boolean(payload.saved));
-        syncStoredSchedule(signedInEmail, sessionId, Boolean(payload.saved));
+        syncStoredSchedule(signedInEmail, occurrenceId, Boolean(payload.saved));
       })
       .catch(() => {});
 
     return () => {
       controller.abort();
     };
-  }, [sessionId, signedInEmail]);
+  }, [occurrenceId, signedInEmail]);
 
   const toggle = async () => {
     setNotice(null);
@@ -72,14 +72,14 @@ export function ScheduleButton({ sessionId, locale, signedInEmail, label, savedL
     }
 
     setPending(true);
-    const optimisticSaved = toggleStoredSchedule(signedInEmail, sessionId);
+    const optimisticSaved = toggleStoredSchedule(signedInEmail, occurrenceId);
     const previousSaved = saved;
     setSaved(optimisticSaved);
     try {
       const response = await fetch('/api/state/schedule', {
         method: 'POST',
         headers: { 'content-type': 'application/json' },
-        body: JSON.stringify({ sessionId })
+        body: JSON.stringify({ occurrenceId })
       });
       if (!response.ok) {
         const code = await readApiErrorCode(response);
@@ -89,16 +89,16 @@ export function ScheduleButton({ sessionId, locale, signedInEmail, label, savedL
           setNotice(copy.unavailable);
         }
         setSaved(previousSaved);
-        syncStoredSchedule(signedInEmail, sessionId, previousSaved);
+        syncStoredSchedule(signedInEmail, occurrenceId, previousSaved);
         return;
       }
 
       const payload = (await response.json()) as { saved: boolean };
       setSaved(Boolean(payload.saved));
-      syncStoredSchedule(signedInEmail, sessionId, Boolean(payload.saved));
+      syncStoredSchedule(signedInEmail, occurrenceId, Boolean(payload.saved));
     } catch {
       setSaved(previousSaved);
-      syncStoredSchedule(signedInEmail, sessionId, previousSaved);
+      syncStoredSchedule(signedInEmail, occurrenceId, previousSaved);
       setNotice(copy.unavailable);
     } finally {
       setPending(false);
@@ -108,7 +108,7 @@ export function ScheduleButton({ sessionId, locale, signedInEmail, label, savedL
   return (
     <div className="action-control">
       <button className="button button-secondary" type="button" onClick={toggle} disabled={pending} aria-pressed={saved} aria-busy={pending}>
-        {saved ? (savedLabel ?? (locale === 'it' ? 'In agenda' : 'In schedule')) : label}
+        {saved ? (savedLabel ?? (locale === 'it' ? 'Nel piano' : 'In plan')) : label}
       </button>
       {notice ? (
         <span className="action-feedback" aria-live="polite">

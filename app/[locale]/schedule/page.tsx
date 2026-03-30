@@ -14,44 +14,44 @@ export default async function SchedulePage({ params }: { params: Promise<{ local
   const copy =
     locale === 'it'
       ? {
-          signInNeeded: 'Accedi per tenere insieme solo le lezioni con orario che vuoi davvero fare.',
+          signInNeeded: 'Accedi per tenere insieme solo le attivita con giorno e ora che vuoi davvero fare.',
           signIn: 'Accedi',
-          unavailable: 'L’agenda salvata non è disponibile in questo momento. Continua pure a esplorare il calendario pubblico.',
-          back: 'Torna alle classi',
-          eyebrow: 'Agenda',
-          title: 'La tua settimana, già filtrata',
-          lead: 'Qui trovi solo le lezioni che hai salvato per pianificare tua la settimana.',
-          empty: 'Nessuna lezione salvata in agenda. Aggiungila dalle card delle classi.',
+          unavailable: 'Il piano salvato non è disponibile in questo momento. Continua pure a esplorare le attivita pubbliche.',
+          back: 'Torna alle attivita',
+          eyebrow: 'Piano',
+          title: 'La tua settimana, gia filtrata',
+          lead: 'Qui trovi solo gli slot che hai salvato per pianificare la settimana senza rumore.',
+          empty: 'Nessuna attivita salvata nel piano. Aggiungila dalle card delle attivita.',
           gateEyebrow: 'Blocca gli orari giusti',
-          gateTitle: 'L’agenda serve a pianificare il tuo calendario.',
-          gateLead: 'È il posto dove tieni insieme gli slot che vuoi davvero fare, separati da studi e insegnanti che segui.',
+          gateTitle: 'Il piano serve a fissare il tempo, non i preferiti.',
+          gateLead: 'Qui restano solo gli slot che vuoi davvero fare, separati da luoghi, organizzatori e programmi che segui.',
           gateItems: [
-            'Solo classi con giorno e orario, nessuna lista confusa di luoghi.',
+            'Solo attivita con giorno e orario, nessuna lista confusa di luoghi.',
             'Una vista rapida della settimana da rivedere prima di decidere.',
-            'Stesso calendario pubblico, ma con un tuo livello personale sopra.'
+            'Lo stesso calendario pubblico, ma con un livello personale sopra.'
           ],
           gateChips: ['Solo orari', 'Settimana personale', 'Nessun rumore'],
-          scheduleCount: 'Lezioni in agenda'
+          scheduleCount: 'Slot nel piano'
         }
       : {
-          signInNeeded: 'Sign in to keep only the time slots you actually want to attend together.',
+          signInNeeded: 'Sign in to keep only the dated activities you actually want to do together.',
           signIn: 'Sign in',
-          unavailable: 'Saved schedule is temporarily unavailable. You can keep browsing the public calendar.',
-          back: 'Back to classes',
-          eyebrow: 'Schedule',
+          unavailable: 'Saved plan is temporarily unavailable. You can keep browsing public activities.',
+          back: 'Back to activities',
+          eyebrow: 'Plan',
           title: 'Your week, already filtered',
-          lead: 'This page only shows the class time slots you saved to plan your week without noise.',
-          empty: 'No classes saved in your schedule yet. Add them from class cards.',
+          lead: 'This page only shows the dated slots you saved so your week stays focused.',
+          empty: 'No activities saved to your plan yet. Add them from activity cards.',
           gateEyebrow: 'Hold on to the right time slots',
-          gateTitle: 'Schedule is for time, not generic favorites',
-          gateLead: 'Keep the sessions you actually want to attend separate from the places and teachers you follow.',
+          gateTitle: 'Plan is for time, not generic favorites',
+          gateLead: 'Keep the dated slots you actually want to do separate from the places, organizers, and programs you follow.',
           gateItems: [
-            'Only classes with day and time, not a mixed list of entities.',
+            'Only activities with day and time, not a mixed list of entities.',
             'A quick weekly view to revisit before you decide.',
             'The same public calendar, with a personal layer on top.'
           ],
           gateChips: ['Only time slots', 'Personal week', 'No noise'],
-          scheduleCount: 'Saved classes'
+          scheduleCount: 'Planned slots'
         };
 
   if (capabilities.authMode === 'unavailable' || capabilities.storeMode !== 'database') {
@@ -69,7 +69,7 @@ export default async function SchedulePage({ params }: { params: Promise<{ local
         <div className="auth-status-card">
           <p className="lead">{copy.unavailable}</p>
           <div className="site-actions">
-            <ServerButtonLink href={`/${locale}/palermo/classes`} className="button-primary">
+            <ServerButtonLink href={`/${locale}/palermo/activities`} className="button-primary">
               {copy.back}
             </ServerButtonLink>
           </div>
@@ -96,7 +96,7 @@ export default async function SchedulePage({ params }: { params: Promise<{ local
             <ServerButtonLink href={`/${locale}/sign-in`} className="button-primary">
               {copy.signIn}
             </ServerButtonLink>
-            <ServerButtonLink href={`/${locale}/palermo/classes`} className="button-ghost">
+            <ServerButtonLink href={`/${locale}/palermo/activities`} className="button-ghost">
               {copy.back}
             </ServerButtonLink>
           </div>
@@ -124,7 +124,7 @@ export default async function SchedulePage({ params }: { params: Promise<{ local
         <div className="auth-status-card">
           <p className="lead">{copy.unavailable}</p>
           <div className="site-actions">
-            <ServerButtonLink href={`/${locale}/palermo/classes`} className="button-primary">
+            <ServerButtonLink href={`/${locale}/palermo/activities`} className="button-primary">
               {copy.back}
             </ServerButtonLink>
           </div>
@@ -133,11 +133,11 @@ export default async function SchedulePage({ params }: { params: Promise<{ local
     );
   }
   const catalog = await getCatalogSnapshot();
-  const sessionItems = catalog.sessions.map((session) => ({
-    id: session.id,
-    href: `/${locale}/${session.citySlug}/studios/${session.venueSlug}`,
-    title: session.title[locale],
-    meta: formatSessionTime(session.startAt, locale)
+  const occurrenceItems = catalog.occurrences.map((occurrence) => ({
+    id: occurrence.id,
+    href: `/${locale}/${occurrence.citySlug}/places/${occurrence.placeSlug ?? occurrence.venueSlug}`,
+    title: occurrence.title[locale],
+    meta: formatSessionTime(occurrence.startAt, locale)
   }));
 
   return (
@@ -156,7 +156,7 @@ export default async function SchedulePage({ params }: { params: Promise<{ local
       </section>
 
       <section className="panel">
-        <SavedScheduleClient signedInEmail={user.email} initialScheduleIds={scheduleRows} sessions={sessionItems} emptyLabel={copy.empty} />
+        <SavedScheduleClient signedInEmail={user.email} initialScheduleIds={scheduleRows} occurrences={occurrenceItems} emptyLabel={copy.empty} />
       </section>
     </div>
   );

@@ -6,7 +6,6 @@ import { getCatalogSnapshot } from '@/lib/catalog/repository';
 import { resolveLocale } from '@/lib/i18n/routing';
 import { listUserFavorites, listUserSchedule } from '@/lib/runtime/store';
 import { getRuntimeCapabilities } from '@/lib/runtime/capabilities';
-import { formatSessionTime } from '@/lib/ui/format';
 
 export default async function FavoritesPage({ params }: { params: Promise<{ locale: string }> }) {
   const locale = resolveLocale((await params).locale);
@@ -14,62 +13,62 @@ export default async function FavoritesPage({ params }: { params: Promise<{ loca
   const copy =
     locale === 'it'
       ? {
-          signInNeeded: 'Accedi per ritrovare studi, insegnanti e lezioni che hai deciso di seguire.',
+          signInNeeded: 'Accedi per ritrovare luoghi, organizzatori e programmi che hai deciso di seguire.',
           signIn: 'Accedi',
-          unavailable: 'Preferiti e agenda non sono disponibili in questo momento. Le pagine pubbliche restano consultabili.',
+          unavailable: 'Preferiti e piano non sono disponibili in questo momento. Le pagine pubbliche restano consultabili.',
           back: 'Torna a Palermo',
           eyebrow: 'Salvati',
           title: 'Preferiti per scegliere con calma',
-          lead: 'I tuoi studi, insegnanti e lezioni preferite. L’agenda salvata resta separata per gli orari che vuoi davvero fare.',
-          favoritesStudios: 'Studi da seguire',
-          favoritesTeachers: 'Insegnanti da seguire',
-          favoritesClasses: 'Lezioni da confrontare',
+          lead: 'Tieni qui luoghi, organizzatori e programmi da confrontare. Il piano salvato resta separato per gli slot che vuoi davvero fare.',
+          favoritesStudios: 'Luoghi da seguire',
+          favoritesTeachers: 'Organizzatori da seguire',
+          favoritesClasses: 'Programmi da confrontare',
           noFavorites: 'Nessun elemento salvato per ora.',
-          noSchedule: 'Aggiungi lezioni dal calendario per costruire la tua settimana.',
+          noSchedule: 'Aggiungi attività dal calendario per costruire la tua settimana.',
           gateEyebrow: 'Ritrova ciò che conta',
           gateTitle: 'Qui tornano le scelte che vuoi seguire con calma',
           gateLead: 'Questa pagina tiene separato ciò che vuoi monitorare da ciò che vuoi davvero fare.',
           gateItems: [
-            'Studi e insegnanti da seguire nel tempo.',
-            'Lezioni salvate per confronto rapido quando riapri l’app.',
-            'Agenda settimanale separata, senza mischiare persone e orari.'
+            'Luoghi e organizzatori da seguire nel tempo.',
+            'Programmi salvati per confronto rapido quando riapri l’app.',
+            'Piano settimanale separato, senza mischiare contesti e orari.'
           ],
-          gateChips: ['Segui luoghi', 'Segui insegnanti', 'Separa gli orari'],
+          gateChips: ['Segui luoghi', 'Segui organizzatori', 'Separa gli orari'],
           totalSaved: 'Elementi salvati',
-          scheduleCount: 'Slot in agenda',
-          schedulePanelEyebrow: 'Agenda',
-          schedulePanelTitle: 'L’orario resta dall’altra parte',
-          schedulePanelLead: 'Quando una lezione passa da idea a intenzione, salvala in agenda. Lì restano solo slot con giorno e ora.',
-          openSchedule: 'Apri agenda salvata'
+          scheduleCount: 'Slot nel piano',
+          schedulePanelEyebrow: 'Piano',
+          schedulePanelTitle: 'Il tempo resta dall altra parte',
+          schedulePanelLead: 'Quando un attività passa da idea a intenzione, salvala nel piano. Lì restano solo slot con giorno e ora.',
+          openSchedule: 'Apri piano salvato'
         }
       : {
-          signInNeeded: 'Sign in to revisit the studios, teachers, and classes you decided to keep track of.',
+          signInNeeded: 'Sign in to revisit the places, organizers, and programs you decided to keep track of.',
           signIn: 'Sign in',
-          unavailable: 'Favorites and saved schedule are temporarily unavailable. Public pages are still available.',
+          unavailable: 'Favorites and saved plan are temporarily unavailable. Public pages are still available.',
           back: 'Back to Palermo',
           eyebrow: 'Saved',
           title: 'Favorites for calm comparison',
-          lead: 'Keep studios, teachers, and classes you want to compare here. Saved schedule stays separate for the time slots you actually plan to attend.',
-          favoritesStudios: 'Studios to follow',
-          favoritesTeachers: 'Teachers to follow',
-          favoritesClasses: 'Classes to compare',
+          lead: 'Keep places, organizers, and programs you want to compare here. Saved plan stays separate for the time slots you actually plan to attend.',
+          favoritesStudios: 'Places to follow',
+          favoritesTeachers: 'Organizers to follow',
+          favoritesClasses: 'Programs to compare',
           noFavorites: 'No saved items yet.',
-          noSchedule: 'Add classes from the calendar to build your week.',
+          noSchedule: 'Add activities from the calendar to build your week.',
           gateEyebrow: 'Keep the right things close',
           gateTitle: 'This page holds what you want to track, not just what you clicked',
           gateLead: 'Favorites and saved schedule solve two different jobs and stay separate here.',
           gateItems: [
-            'Studios and teachers you may want to revisit later.',
-            'Classes saved for quick comparison when you come back.',
-            'A weekly schedule kept apart from people and places.'
+            'Places and organizers you may want to revisit later.',
+            'Programs saved for quick comparison when you come back.',
+            'A weekly plan kept apart from people and places.'
           ],
-          gateChips: ['Follow places', 'Follow teachers', 'Keep time slots separate'],
+          gateChips: ['Follow places', 'Follow organizers', 'Keep time slots separate'],
           totalSaved: 'Saved items',
-          scheduleCount: 'Scheduled slots',
-          schedulePanelEyebrow: 'Schedule',
+          scheduleCount: 'Planned slots',
+          schedulePanelEyebrow: 'Plan',
           schedulePanelTitle: 'Time stays on the other side',
-          schedulePanelLead: 'When a class moves from idea to intent, save it to schedule. That page keeps only dated time slots.',
-          openSchedule: 'Open saved schedule'
+          schedulePanelLead: 'When an activity moves from idea to intent, save it to plan. That page keeps only dated time slots.',
+          openSchedule: 'Open saved plan'
         };
 
   if (capabilities.authMode === 'unavailable' || capabilities.storeMode !== 'database') {
@@ -153,25 +152,25 @@ export default async function FavoritesPage({ params }: { params: Promise<{ loca
   }
   const catalog = await getCatalogSnapshot();
 
-  const venueItems = catalog.venues
-    .map((venue) => ({
-      slug: venue.slug,
-      href: `/${locale}/${venue.citySlug}/studios/${venue.slug}`,
-      title: venue.name,
-      meta: venue.tagline[locale]
+  const placeItems = catalog.places
+    .map((place) => ({
+      slug: place.slug,
+      href: `/${locale}/${place.citySlug}/places/${place.slug}`,
+      title: place.name,
+      meta: place.tagline[locale]
     }));
-  const instructorItems = catalog.instructors
-    .map((instructor) => ({
-      slug: instructor.slug,
-      href: `/${locale}/${instructor.citySlug}/teachers/${instructor.slug}`,
-      title: instructor.name,
-      meta: instructor.shortBio[locale]
+  const organizerItems = catalog.organizers
+    .map((organizer) => ({
+      slug: organizer.slug,
+      href: `/${locale}/${organizer.citySlug}/organizers/${organizer.slug}`,
+      title: organizer.name,
+      meta: organizer.shortBio[locale]
     }));
-  const sessionItems = catalog.sessions.map((session) => ({
-    id: session.id,
-    href: `/${locale}/${session.citySlug}/studios/${session.venueSlug}`,
-    title: session.title[locale],
-    meta: formatSessionTime(session.startAt, locale)
+  const programItems = catalog.programs.map((program) => ({
+    id: program.slug,
+    href: `/${locale}/${program.citySlug}/places/${program.placeSlug}`,
+    title: program.title[locale],
+    meta: program.summary[locale]
   }));
 
   return (
@@ -194,9 +193,9 @@ export default async function FavoritesPage({ params }: { params: Promise<{ loca
       <FavoritesCollectionsClient
         signedInEmail={user.email}
         initialFavoriteKeys={favoriteRows.map((row) => `${row.entityType}:${row.entitySlug}`)}
-        venues={venueItems}
-        instructors={instructorItems}
-        sessions={sessionItems}
+        places={placeItems}
+        organizers={organizerItems}
+        programs={programItems}
         copy={copy}
       />
       <section className="panel saved-separation-panel">
