@@ -45,7 +45,10 @@ export function createMockSessionUser(overrides = {}) {
 export function createMockSession(overrides = {}) {
   return {
     id: 'session-1',
+    programSlug: 'program-1',
     citySlug: 'palermo',
+    placeSlug: 'venue-1',
+    organizerSlug: 'teacher-1',
     venueSlug: 'venue-1',
     instructorSlug: 'teacher-1',
     categorySlug: 'yoga',
@@ -84,6 +87,8 @@ export function createMockVenue(overrides = {}) {
     freshnessNote: { en: 'Updated today', it: 'Aggiornato oggi' },
     sourceUrl: 'https://example.com',
     lastVerifiedAt: '2024-03-16T00:00:00Z',
+    profile: 'studio' as const,
+    environment: 'indoor' as const,
     ...overrides
   };
 }

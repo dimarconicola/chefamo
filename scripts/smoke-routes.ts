@@ -4,45 +4,31 @@ import https from 'node:https';
 const baseUrl = process.env.SMOKE_BASE_URL ?? 'http://127.0.0.1:3000';
 
 const checks = [
-  { path: '/it', markers: ['kinelo.fit', 'Palermo'] },
+  { path: '/it', markers: ['chefamo', 'Palermo'] },
   {
     path: '/it/palermo',
-    markers: ['Palermo', 'Classi in evidenza', 'Classi settimanali', 'Quartieri coperti'],
+    markers: ['Palermo', 'Attivita in evidenza', 'Programmi attivi', 'Quartieri coperti'],
     absent: ['Soglia di copertura', 'Copertura CTA', 'Quando Supabase non è configurato']
   },
   {
-    path: '/it/palermo/classes',
+    path: '/it/palermo/activities',
     markers: ['Filtri', 'Vista mappa', 'Calendario'],
     absent: ['Soglia di copertura', 'Copertura CTA', 'Not published on captured pages']
   },
   {
-    path: '/it/palermo/classes?view=map',
+    path: '/it/palermo/activities?view=map',
     markers: ['Vista mappa'],
     absent: ['NEXT_PUBLIC_MAPBOX_TOKEN', 'Mappa non configurata', 'Map not configured']
   },
-  { path: '/it/palermo/studios/yoga-city', markers: ['Studio', 'Agenda verificata'] },
-  {
-    path: '/it/palermo/studios/ashtanga-shala-sicilia',
-    markers: ['Carnet 8 lezioni a 65 EUR; carnet 16 lezioni a 110 EUR.'],
-    absent: ['8 lessons 65 EUR; 16 lessons 110 EUR']
-  },
-  {
-    path: '/it/palermo/studios/yoga-your-life',
-    markers: ['Carnet da 12 EUR; mensile open a 70 EUR.'],
-    absent: ['Carnet from 12 EUR; monthly open 70 EUR']
-  },
-  {
-    path: '/it/palermo/categories/pilates',
-    markers: ['Una selezione curata di lezioni ricorrenti.'],
-    absent: ['Pubblicata in modo selettivo mentre la copertura cresce.']
-  },
-  { path: '/it/palermo/teachers/valentina-lorito', markers: ['Valentina Lorito'] },
-  { path: '/it/palermo/teachers', markers: ['Le tue guide a Palermo', 'Valentina Lorito'] },
-  { path: '/it/palermo/studios', markers: ['Dove praticare a Palermo', 'Studi in ordine alfabetico', 'Ashtanga Shala Sicilia'] },
-  { path: '/it/suggest-calendar', markers: ['Suggerisci il tuo calendario', 'Invio rapido'] },
+  { path: '/it/palermo/places/planetario-palermo-place', markers: ['Planetario di Palermo', 'museum'] },
+  { path: '/it/palermo/categories/stem', markers: ['Palermo', 'Programmi ricorrenti'] },
+  { path: '/it/palermo/organizers/planetario-palermo', markers: ['Planetario Palermo'] },
+  { path: '/it/palermo/organizers', markers: ['Organizzatori a Palermo', 'Planetario Palermo'] },
+  { path: '/it/palermo/places', markers: ['Luoghi a Palermo', 'Planetario di Palermo'] },
+  { path: '/it/suggest-calendar', markers: ['Suggerisci la tua programmazione', 'Invio rapido'] },
   { path: '/it/account', markers: ['Account'] },
   { path: '/it/favorites', markers: ['Preferiti per scegliere con calma', 'Qui tornano le scelte che vuoi seguire con calma'] },
-  { path: '/it/schedule', markers: ['La tua settimana, già filtrata'] },
+  { path: '/it/schedule', markers: ['La tua settimana, gia filtrata'] },
   {
     path: '/it/sign-in',
     markers: ['Accedi', 'Uno spazio personale leggero e utile'],

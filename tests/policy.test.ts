@@ -16,16 +16,16 @@ test('kids style mapping includes known Palermo styles', () => {
 });
 
 test('category scope keeps mind-body and excludes unrelated sports', () => {
-  assert.equal(isCategoryInScope('yoga'), true);
-  assert.equal(isCategoryInScope('kids-activities'), true);
+  assert.equal(isCategoryInScope('movement'), true);
+  assert.equal(isCategoryInScope('culture'), true);
   assert.equal(isCategoryInScope('tennis'), false);
 });
 
 test('session policy excludes out-of-scope sports keywords', () => {
   const allowed = isSessionInScope({
-    categorySlug: 'yoga',
+    categorySlug: 'movement',
     attendanceModel: 'drop_in',
-    title: { en: 'Morning Vinyasa', it: 'Vinyasa mattino' }
+    title: { en: 'Kids capoeira club', it: 'Capoeira bambini' }
   });
   const excluded = isSessionInScope({
     categorySlug: 'movement',

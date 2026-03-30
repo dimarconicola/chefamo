@@ -25,7 +25,10 @@ describe('SessionCard', () => {
   beforeEach(() => {
     mockSession = {
       id: 'session-1',
+      programSlug: 'program-1',
       citySlug: 'palermo',
+      placeSlug: 'venue-1',
+      organizerSlug: 'teacher-1',
       venueSlug: 'venue-1',
       instructorSlug: 'teacher-1',
       categorySlug: 'yoga',
@@ -44,6 +47,26 @@ describe('SessionCard', () => {
       attendanceModel: 'drop_in'
     };
     resolved = {
+      place: {
+        slug: 'venue-1',
+        citySlug: 'palermo',
+        neighborhoodSlug: 'politeama',
+        name: 'Test Studio',
+        tagline: { en: 'A great studio', it: 'Un bellissimo studio' },
+        description: { en: 'Description', it: 'Descrizione' },
+        address: '123 Main St, Palermo',
+        geo: { lat: 38.116, lng: 13.361 },
+        amenities: ['mats'],
+        languages: ['English', 'Italian'],
+        styleSlugs: ['hatha'],
+        categorySlugs: ['yoga'],
+        bookingTargetOrder: ['direct-booking'],
+        freshnessNote: { en: 'Updated today', it: 'Aggiornato oggi' },
+        sourceUrl: 'https://example.com/studio',
+        lastVerifiedAt: '2026-03-16T00:00:00Z',
+        profile: 'studio',
+        environment: 'indoor'
+      },
       venue: {
         slug: 'venue-1',
         citySlug: 'palermo',
@@ -60,7 +83,17 @@ describe('SessionCard', () => {
         bookingTargetOrder: ['direct-booking'],
         freshnessNote: { en: 'Updated today', it: 'Aggiornato oggi' },
         sourceUrl: 'https://example.com/studio',
-        lastVerifiedAt: '2026-03-16T00:00:00Z'
+        lastVerifiedAt: '2026-03-16T00:00:00Z',
+        profile: 'studio',
+        environment: 'indoor'
+      },
+      organizer: {
+        slug: 'teacher-1',
+        citySlug: 'palermo',
+        name: 'Test Teacher',
+        shortBio: { en: 'Bio', it: 'Bio' },
+        specialties: ['hatha'],
+        languages: ['English']
       },
       instructor: {
         slug: 'teacher-1',
