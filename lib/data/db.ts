@@ -10,6 +10,8 @@ let queryClient: ReturnType<typeof postgres> | null = null;
 let db: AppDb | null = null;
 
 export const isDatabaseConfigured = Boolean(env.databaseUrl);
+export const isCatalogDatabaseEnabled = env.catalogDatabaseEnabled && isDatabaseConfigured;
+export const isPersistentStoreEnabled = env.persistentStoreEnabled && isDatabaseConfigured;
 
 export const getDb = (): AppDb | null => {
   if (!env.databaseUrl) return null;
@@ -24,3 +26,7 @@ export const getDb = (): AppDb | null => {
 
   return db;
 };
+
+export const getCatalogDb = () => (isCatalogDatabaseEnabled ? getDb() : null);
+
+export const getPersistentStoreDb = () => (isPersistentStoreEnabled ? getDb() : null);

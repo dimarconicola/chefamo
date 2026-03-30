@@ -24,17 +24,17 @@ test.describe('auth surfaces and saved-state degradation', () => {
     await expectNoTechnicalCopy(page);
     await expect(page.getByText('Qualcosa si è interrotto')).toHaveCount(0);
     await expectOneOfTexts(page, [
-      'Preferiti e agenda non sono disponibili in questo momento. Le pagine pubbliche restano consultabili.',
-      'Accedi per ritrovare studi, insegnanti e classi che hai deciso di seguire.',
-      'Preferiti e agenda, senza confonderli'
+      'Preferiti e piano non sono disponibili in questo momento. Le pagine pubbliche restano consultabili.',
+      'Accedi per ritrovare luoghi, organizzatori e programmi che hai deciso di seguire.',
+      'Preferiti per scegliere con calma'
     ]);
 
     await page.goto('/it/schedule');
     await expectNoTechnicalCopy(page);
     await expect(page.getByText('Qualcosa si è interrotto')).toHaveCount(0);
     await expectOneOfTexts(page, [
-      'L’agenda salvata non è disponibile in questo momento. Continua pure a esplorare il calendario pubblico.',
-      'Accedi per tenere insieme solo le lezioni con orario che vuoi davvero fare.',
+      'Il piano salvato non è disponibile in questo momento. Continua pure a esplorare le attivita pubbliche.',
+      'Accedi per tenere insieme solo le attivita con giorno e ora che vuoi davvero fare.',
       'La tua settimana, già filtrata'
     ]);
 
@@ -49,9 +49,9 @@ test.describe('auth surfaces and saved-state degradation', () => {
   });
 
   test('anonymous save actions redirect to sign-in or show an inline unavailable state', async ({ page }) => {
-    await page.goto('/it/palermo/classes');
+    await page.goto('/it/palermo/activities');
 
-    const scheduleButton = page.getByRole('button', { name: 'Aggiungi in agenda' }).first();
+    const scheduleButton = page.getByRole('button', { name: 'Salva nel piano' }).first();
     await scheduleButton.click();
 
     const redirectedToSignIn = await page.waitForURL(/\/it\/sign-in/, { timeout: 3_000 }).then(

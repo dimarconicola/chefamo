@@ -48,12 +48,12 @@ test('cadence source lists expand from daily to quarterly', () => {
   const quarterly = getCitySourceUrlsForCadence('palermo', 'quarterly');
   assert.ok(daily.length > 0);
   assert.ok(quarterly.length >= daily.length);
-  assert.equal(quarterly.some((url) => url.includes('orangogo.it/sport/palermo')), true);
+  assert.equal(quarterly.some((url) => url.includes('palermobimbi.it')), true);
 });
 
 test('social catalog sources stay classified as weekly social checks', () => {
-  const spazioTerra = getSeedSourceRegistry('palermo').find((entry) => entry.sourceUrl === 'https://www.facebook.com/spazioterrapalermo');
-  assert.ok(spazioTerra);
-  assert.equal(spazioTerra?.sourceType, 'social');
-  assert.equal(spazioTerra?.cadence, 'weekly');
+  const miniMuPa = getSeedSourceRegistry('palermo').find((entry) => entry.sourceUrl === 'https://www.instagram.com/minimupa');
+  assert.ok(miniMuPa);
+  assert.equal(miniMuPa?.sourceType, 'social');
+  assert.equal(miniMuPa?.cadence, 'weekly');
 });

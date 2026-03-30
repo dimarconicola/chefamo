@@ -28,12 +28,12 @@ describe('SessionCard', () => {
       programSlug: 'program-1',
       citySlug: 'palermo',
       placeSlug: 'venue-1',
-      organizerSlug: 'teacher-1',
+      organizerSlug: 'organizer-1',
       venueSlug: 'venue-1',
-      instructorSlug: 'teacher-1',
-      categorySlug: 'yoga',
-      styleSlug: 'hatha',
-      title: { en: 'Morning Yoga', it: 'Yoga del Mattino' },
+      instructorSlug: 'organizer-1',
+      categorySlug: 'stem',
+      styleSlug: 'hands-on-lab',
+      title: { en: 'Morning Lab', it: 'Laboratorio del mattino' },
       startAt: '2024-03-20T08:00:00Z',
       endAt: '2024-03-20T09:00:00Z',
       level: 'beginner',
@@ -43,7 +43,7 @@ describe('SessionCard', () => {
       sourceUrl: 'https://example.com',
       lastVerifiedAt: '2024-03-16T00:00:00Z',
       verificationStatus: 'verified',
-      audience: 'adults',
+      audience: 'families',
       attendanceModel: 'drop_in'
     };
     resolved = {
@@ -51,62 +51,62 @@ describe('SessionCard', () => {
         slug: 'venue-1',
         citySlug: 'palermo',
         neighborhoodSlug: 'politeama',
-        name: 'Test Studio',
-        tagline: { en: 'A great studio', it: 'Un bellissimo studio' },
+        name: 'Test Place',
+        tagline: { en: 'A great family place', it: 'Un ottimo luogo per famiglie' },
         description: { en: 'Description', it: 'Descrizione' },
         address: '123 Main St, Palermo',
         geo: { lat: 38.116, lng: 13.361 },
         amenities: ['mats'],
         languages: ['English', 'Italian'],
-        styleSlugs: ['hatha'],
-        categorySlugs: ['yoga'],
+        styleSlugs: ['hands-on-lab'],
+        categorySlugs: ['stem'],
         bookingTargetOrder: ['direct-booking'],
         freshnessNote: { en: 'Updated today', it: 'Aggiornato oggi' },
-        sourceUrl: 'https://example.com/studio',
+        sourceUrl: 'https://example.com/place',
         lastVerifiedAt: '2026-03-16T00:00:00Z',
-        profile: 'studio',
+        profile: 'community_hub',
         environment: 'indoor'
       },
       venue: {
         slug: 'venue-1',
         citySlug: 'palermo',
         neighborhoodSlug: 'politeama',
-        name: 'Test Studio',
-        tagline: { en: 'A great studio', it: 'Un bellissimo studio' },
+        name: 'Test Place',
+        tagline: { en: 'A great family place', it: 'Un ottimo luogo per famiglie' },
         description: { en: 'Description', it: 'Descrizione' },
         address: '123 Main St, Palermo',
         geo: { lat: 38.116, lng: 13.361 },
         amenities: ['mats'],
         languages: ['English', 'Italian'],
-        styleSlugs: ['hatha'],
-        categorySlugs: ['yoga'],
+        styleSlugs: ['hands-on-lab'],
+        categorySlugs: ['stem'],
         bookingTargetOrder: ['direct-booking'],
         freshnessNote: { en: 'Updated today', it: 'Aggiornato oggi' },
-        sourceUrl: 'https://example.com/studio',
+        sourceUrl: 'https://example.com/place',
         lastVerifiedAt: '2026-03-16T00:00:00Z',
-        profile: 'studio',
+        profile: 'community_hub',
         environment: 'indoor'
       },
       organizer: {
-        slug: 'teacher-1',
+        slug: 'organizer-1',
         citySlug: 'palermo',
-        name: 'Test Teacher',
+        name: 'Test Organizer',
         shortBio: { en: 'Bio', it: 'Bio' },
-        specialties: ['hatha'],
+        specialties: ['hands-on-lab'],
         languages: ['English']
       },
       instructor: {
-        slug: 'teacher-1',
+        slug: 'organizer-1',
         citySlug: 'palermo',
-        name: 'Test Teacher',
+        name: 'Test Organizer',
         shortBio: { en: 'Bio', it: 'Bio' },
-        specialties: ['hatha'],
+        specialties: ['hands-on-lab'],
         languages: ['English']
       },
       style: {
-        slug: 'hatha',
-        categorySlug: 'yoga',
-        name: { en: 'Hatha', it: 'Hatha' },
+        slug: 'hands-on-lab',
+        categorySlug: 'stem',
+        name: { en: 'Hands-on Lab', it: 'Laboratorio hands-on' },
         description: { en: 'Style', it: 'Stile' }
       },
       target: {
@@ -130,13 +130,13 @@ describe('SessionCard', () => {
       </TestWrapper>
     );
 
-    expect(screen.getByText('Morning Yoga')).toBeInTheDocument();
+    expect(screen.getByText('Morning Lab')).toBeInTheDocument();
   });
 
   it('should display Italian title when locale is "it"', () => {
     const italianSession: Session = {
       ...mockSession,
-      title: { en: 'Morning Yoga', it: 'Yoga del Mattino' }
+      title: { en: 'Morning Lab', it: 'Laboratorio del mattino' }
     };
 
     render(
@@ -150,7 +150,7 @@ describe('SessionCard', () => {
       </TestWrapper>
     );
 
-    expect(screen.getByText('Yoga del Mattino')).toBeInTheDocument();
+    expect(screen.getByText('Laboratorio del mattino')).toBeInTheDocument();
   });
 
   it('should show verified status chip', () => {
@@ -194,7 +194,7 @@ describe('SessionCard', () => {
     );
 
     // Component should render even with stale status
-    expect(screen.getByText('Morning Yoga')).toBeInTheDocument();
+    expect(screen.getByText('Morning Lab')).toBeInTheDocument();
   });
 
   it('should display level badge in English', () => {
@@ -290,7 +290,7 @@ describe('SessionCard', () => {
       </TestWrapper>
     );
 
-    expect(screen.getByText('Morning Yoga')).toBeInTheDocument();
+    expect(screen.getByText('Morning Lab')).toBeInTheDocument();
   });
 
   it('should render children content correctly', () => {
@@ -306,7 +306,7 @@ describe('SessionCard', () => {
     );
 
     // Verify main title is rendered
-    const mainContent = screen.getByText('Morning Yoga');
+    const mainContent = screen.getByText('Morning Lab');
     expect(mainContent).toBeInTheDocument();
   });
 });

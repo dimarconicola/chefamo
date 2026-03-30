@@ -1,5 +1,5 @@
 import { getCatalogSourceMode } from '@/lib/catalog/server-data';
-import { getDb, isDatabaseConfigured } from '@/lib/data/db';
+import { getCatalogDb, getPersistentStoreDb, isCatalogDatabaseEnabled, isDatabaseConfigured, isPersistentStoreEnabled } from '@/lib/data/db';
 import { env } from '@/lib/env';
 import { getLatestFreshnessSnapshot } from '@/lib/freshness/service';
 import { getMapRuntimeDetail } from '@/lib/map/runtime';
@@ -16,28 +16,46 @@ export interface HealthCheck {
 export const getRuntimeHealth = async (citySlug = 'palermo') => {
   const latestFreshness = await getLatestFreshnessSnapshot(citySlug);
   const catalogSource = await getCatalogSourceMode();
-  const db = getDb();
+  const catalogDb = getCatalogDb();
+  const storeDb = getPersistentStoreDb();
   const mapRuntime = getMapRuntimeDetail();
 
   const checks: HealthCheck[] = [
     {
       label: 'Catalog source',
-      status: catalogSource === 'database' ? 'ok' : 'warn',
-      detail: catalogSource === 'database' ? 'Reading catalog from Postgres snapshot.' : 'Running on seed fallback.'
+      status: catalogSource === 'database' ? 'ok' : env.catalogDatabaseEnabled ? 'warn' : 'ok',
+      detail:
+        catalogSource === 'database'
+          ? 'Reading Chefamo catalog from the dedicated Postgres snapshot.'
+          : env.catalogDatabaseEnabled
+            ? 'Catalog database is enabled, but runtime fell back to the Chefamo seed snapshot.'
+            : 'Catalog database is intentionally disabled; running on the Chefamo seed snapshot.'
     },
     {
       label: 'Database',
-      status: isDatabaseConfigured && Boolean(db) ? 'ok' : 'fail',
-      detail: isDatabaseConfigured && Boolean(db) ? 'DATABASE_URL configured and client booted.' : 'DATABASE_URL missing or database client unavailable.'
+      status:
+        isCatalogDatabaseEnabled || isPersistentStoreEnabled
+          ? isDatabaseConfigured && Boolean(catalogDb || storeDb)
+            ? 'ok'
+            : 'fail'
+          : 'ok',
+      detail:
+        isCatalogDatabaseEnabled || isPersistentStoreEnabled
+          ? isDatabaseConfigured && Boolean(catalogDb || storeDb)
+            ? 'DATABASE_URL configured and the Chefamo backend client booted.'
+            : 'Dedicated Chefamo backend is enabled, but DATABASE_URL is missing or unavailable.'
+          : 'Dedicated Chefamo backend is intentionally disabled in this environment.'
     },
     {
       label: 'Persistent store',
-      status: isPersistentStoreConfigured() ? 'ok' : env.requirePersistentStore ? 'fail' : 'warn',
+      status: isPersistentStoreConfigured() ? 'ok' : env.requirePersistentStore ? 'fail' : env.persistentStoreEnabled ? 'warn' : 'ok',
       detail: isPersistentStoreConfigured()
         ? 'Claims, submissions, favorites, and schedule use Postgres.'
         : env.requirePersistentStore
           ? 'Persistent store is required in this environment but Postgres is unavailable.'
-          : 'Local fallback is allowed in this environment.'
+          : env.persistentStoreEnabled
+            ? 'Persistent store is enabled but not currently reachable.'
+            : 'Persistent store is intentionally disabled until Chefamo has its own backend.'
     },
     {
       label: 'Public map engine',
@@ -49,8 +67,12 @@ export const getRuntimeHealth = async (citySlug = 'palermo') => {
     },
     {
       label: 'Supabase public auth',
-      status: env.supabaseUrl && env.supabaseAnonKey ? 'ok' : 'warn',
-      detail: env.supabaseUrl && env.supabaseAnonKey ? 'Public auth envs configured.' : 'Supabase public auth envs incomplete.'
+      status: env.supabaseAuthEnabled ? (env.supabaseUrl && env.supabaseAnonKey ? 'ok' : 'warn') : 'ok',
+      detail: env.supabaseAuthEnabled
+        ? env.supabaseUrl && env.supabaseAnonKey
+          ? 'Chefamo Supabase auth is configured.'
+          : 'Chefamo Supabase auth is enabled, but auth envs are incomplete.'
+        : 'Supabase auth is intentionally disabled until Chefamo has its own project.'
     },
     {
       label: 'Session secret',

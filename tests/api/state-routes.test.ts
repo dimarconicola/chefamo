@@ -35,7 +35,7 @@ describe('favorites and schedule route contracts', () => {
 
     const { GET } = await import('@/app/api/state/favorites/route');
     const response = await GET(
-      new Request('http://localhost:3000/api/state/favorites?entityType=venue&entitySlug=yoga-city')
+      new Request('http://localhost:3000/api/state/favorites?entityType=place&entitySlug=minimupa-palermo')
     );
 
     expect(response.status).toBe(503);
@@ -54,7 +54,7 @@ describe('favorites and schedule route contracts', () => {
 
     const { GET } = await import('@/app/api/state/favorites/route');
     const response = await GET(
-      new Request('http://localhost:3000/api/state/favorites?entityType=venue&entitySlug=yoga-city')
+      new Request('http://localhost:3000/api/state/favorites?entityType=place&entitySlug=minimupa-palermo')
     );
 
     expect(response.status).toBe(401);
@@ -105,7 +105,7 @@ describe('favorites and schedule route contracts', () => {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           entityType: 'place',
-          entitySlug: 'yoga-city'
+          entitySlug: 'minimupa-palermo'
         })
       })
     );
@@ -116,7 +116,7 @@ describe('favorites and schedule route contracts', () => {
       data: {
         saved: true,
         entityType: 'place',
-        entitySlug: 'yoga-city'
+        entitySlug: 'minimupa-palermo'
       }
     });
   });

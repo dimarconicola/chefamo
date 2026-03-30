@@ -9,7 +9,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint .",
-    "typecheck": "tsc --noEmit",
+    "typecheck": "next typegen && tsc --noEmit",
     "db:generate": "drizzle-kit generate",
     "db:push": "drizzle-kit push",
     "db:bootstrap": "npm run catalog:bootstrap",
@@ -31,7 +31,7 @@
     "research:build": "bash scripts/build-palermo-research-db.sh",
     "research:report": "bash scripts/report-palermo-research-db.sh",
     "catalog:export": "node --import tsx scripts/export-palermo-catalog.ts",
-    "catalog:sync": "npm run research:build && npm run catalog:export",
+    "catalog:sync": "npm run catalog:export",
     "catalog:coverage": "node --import tsx scripts/report-catalog-coverage.ts"
   },
   "dependencies": {

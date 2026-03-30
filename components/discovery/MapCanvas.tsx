@@ -41,24 +41,24 @@ export function MapCanvas({
     locale === 'it'
       ? {
           loadingTitle: 'Sto preparando la mappa',
-          loadingBody: `Carico le sedi di ${cityName} e i relativi orari.`,
+          loadingBody: `Carico i luoghi di ${cityName} e le attività associate.`,
           errorTitle: 'La vista mappa non riesce a caricarsi bene',
           errorBody: 'Per ora continua da lista o calendario: gli stessi filtri restano validi.',
           unavailableTitle: 'La vista mappa non è disponibile qui',
-          unavailableBody: 'Continua da lista o calendario: le stesse classi restano consultabili.',
+          unavailableBody: 'Continua da lista o calendario: le stesse attività restano consultabili.',
           tileIssue: 'Sfondo mappa non disponibile, ma le sedi restano selezionabili.',
-          emptyTitle: 'Nessuno studio corrisponde ai filtri attuali',
+          emptyTitle: 'Nessun luogo corrisponde ai filtri attuali',
           emptyBody: 'Allarga i filtri o cambia giorno per riaprire la mappa.'
         }
       : {
           loadingTitle: 'Preparing the map',
-          loadingBody: `Loading ${cityName} venues and matching times.`,
+          loadingBody: `Loading ${cityName} places and matching activities.`,
           errorTitle: 'Map view could not load cleanly',
           errorBody: 'Continue with list or calendar for the same filtered results.',
           unavailableTitle: 'Map view is not available here',
-          unavailableBody: 'Continue with list or calendar for the same filtered results.',
+          unavailableBody: 'Continue with list or calendar for the same filtered activities.',
           tileIssue: 'Map background is unavailable, but venues still remain selectable.',
-          emptyTitle: 'No venues match these filters',
+          emptyTitle: 'No places match these filters',
           emptyBody: 'Broaden the filters or change day to reopen the map.'
         };
 

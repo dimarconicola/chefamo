@@ -11,7 +11,7 @@ const registry = {
   palermo: {
     'today-nearby': { en: TodayNearbyEn, it: TodayNearbyIt },
     'new-this-week': { en: NewThisWeekEn, it: NewThisWeekIt },
-    'english-speaking-classes': { en: EnglishSpeakingEn, it: EnglishSpeakingIt }
+    'english-friendly': { en: EnglishSpeakingEn, it: EnglishSpeakingIt }
   }
 } as const;
 

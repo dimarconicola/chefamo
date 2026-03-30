@@ -21,32 +21,32 @@ export function DigestForm({ citySlug, locale, className, showIntro = true, surf
     locale === 'it'
       ? {
           eyebrow: 'Digest settimanale',
-          title: 'Muoviti meglio, ogni settimana',
-          lead: 'Aggiornamenti mirati: lezioni verificate, variazioni orarie, nuove aperture e selezioni curate per Palermo.',
+          title: 'Solo idee che aiutano davvero a decidere',
+          lead: 'Weekend forti, piani pioggia, nuove aperture e attività 0-14 con segnali abbastanza chiari da meritare attenzione.',
           email: 'Email',
           english: 'Classi in inglese',
-          beginner: 'Adatte a principianti',
-          weekend: 'Weekend picks',
+          rainy: 'Piano pioggia',
+          weekend: 'Weekend forti',
           saving: 'Salvataggio…',
           cta: 'Iscriviti al digest',
           placeholder: 'nome@email.com',
-          done: 'Perfetto. Ti avviseremo con gli aggiornamenti utili della settimana.',
+          done: 'Perfetto. Ti scriveremo solo quando c è qualcosa che vale davvero il viaggio.',
           alreadyDone: 'Sei già iscrittə a questo digest. Ti aggiorneremo qui.',
           unavailable: 'Iscrizione temporaneamente non disponibile. Riprova più tardi.',
           genericError: 'Non siamo riusciti a salvare la tua iscrizione. Riprova.'
         }
       : {
           eyebrow: 'Weekly digest',
-          title: 'Move better, every week',
-          lead: 'Targeted updates: verified classes, schedule changes, new openings, and curated Palermo picks.',
+          title: 'Only ideas that are actually useful next week',
+          lead: 'Strong weekends, rain-plan backups, new openings, and 0-14 activities with enough signal to be worth considering.',
           email: 'Email',
           english: 'English-friendly',
-          beginner: 'Beginner-friendly',
-          weekend: 'Weekend picks',
+          rainy: 'Rainy-day plan',
+          weekend: 'Strong weekends',
           saving: 'Saving…',
           cta: 'Join the digest',
           placeholder: 'name@email.com',
-          done: 'Great. You are in for practical weekly updates.',
+          done: 'Great. We will only write when there is something genuinely worth considering.',
           alreadyDone: 'You are already subscribed to this digest.',
           unavailable: 'Subscriptions are temporarily unavailable. Please try again later.',
           genericError: 'We could not save your subscription. Please try again.'
@@ -104,8 +104,8 @@ export function DigestForm({ citySlug, locale, className, showIntro = true, surf
             <span>{copy.english}</span>
           </label>
           <label className="chip-option">
-            <input name="preferences" type="checkbox" value="beginner" />
-            <span>{copy.beginner}</span>
+            <input name="preferences" type="checkbox" value="rainy-day" />
+            <span>{copy.rainy}</span>
           </label>
           <label className="chip-option">
             <input name="preferences" type="checkbox" value="weekend" />

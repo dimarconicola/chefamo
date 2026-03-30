@@ -1,7 +1,9 @@
 import {
   chefamoBookingTargets,
   chefamoCategories,
+  chefamoCities,
   chefamoCollections,
+  chefamoNeighborhoods,
   chefamoOccurrences,
   chefamoOrganizers,
   chefamoPlaces,
@@ -23,66 +25,6 @@ import {
 import { sql } from 'drizzle-orm';
 
 const excluded = <T extends { name: string }>(column: T) => sql.raw(`excluded.${column.name}`);
-
-const bootstrapCities = [
-  {
-    slug: 'palermo',
-    countryCode: 'IT',
-    timezone: 'Europe/Rome',
-    status: 'public' as const,
-    bounds: [13.2805, 38.085, 13.405, 38.165] as [number, number, number, number],
-    name: { en: 'Palermo', it: 'Palermo' },
-    hero: {
-      en: 'The citywide family activity guide for Palermo.',
-      it: 'La guida cittadina alle attivita per famiglie a Palermo.'
-    }
-  },
-  {
-    slug: 'catania',
-    countryCode: 'IT',
-    timezone: 'Europe/Rome',
-    status: 'seed' as const,
-    bounds: [15.02, 37.45, 15.18, 37.57] as [number, number, number, number],
-    name: { en: 'Catania', it: 'Catania' },
-    hero: {
-      en: 'Next city in the chefamo pipeline.',
-      it: 'La prossima citta nella pipeline chefamo.'
-    }
-  }
-];
-
-const bootstrapNeighborhoods = [
-  {
-    citySlug: 'palermo',
-    slug: 'politeama',
-    name: { en: 'Politeama', it: 'Politeama' },
-    description: {
-      en: 'Central Palermo with family-friendly cultural institutions and after-school options.',
-      it: 'Palermo centrale con istituzioni culturali family-friendly e opzioni per il doposcuola.'
-    },
-    center: { lat: 38.1244, lng: 13.3521 }
-  },
-  {
-    citySlug: 'palermo',
-    slug: 'kalsa',
-    name: { en: 'Kalsa', it: 'Kalsa' },
-    description: {
-      en: 'Historic Palermo with museums and hands-on family culture.',
-      it: 'Palermo storica con musei e cultura hands-on per famiglie.'
-    },
-    center: { lat: 38.1175, lng: 13.3694 }
-  },
-  {
-    citySlug: 'palermo',
-    slug: 'capo',
-    name: { en: 'Capo', it: 'Capo' },
-    description: {
-      en: 'Compact central district with useful weekday indoor options for younger families.',
-      it: 'Quartiere centrale compatto con opzioni indoor feriali utili per le famiglie piu giovani.'
-    },
-    center: { lat: 38.1191, lng: 13.3514 }
-  }
-];
 
 const registryEntries = Array.from(
   new Map(
@@ -120,7 +62,7 @@ const upsertCatalog = async () => {
     await tx
       .insert(cities)
       .values(
-        bootstrapCities.map((city) => ({
+        chefamoCities.map((city) => ({
           slug: city.slug,
           countryCode: city.countryCode,
           timezone: city.timezone,
@@ -146,7 +88,7 @@ const upsertCatalog = async () => {
     await tx
       .insert(neighborhoods)
       .values(
-        bootstrapNeighborhoods.map((neighborhood) => ({
+        chefamoNeighborhoods.map((neighborhood) => ({
           citySlug: neighborhood.citySlug,
           slug: neighborhood.slug,
           name: neighborhood.name,
@@ -415,8 +357,8 @@ const upsertCatalog = async () => {
     JSON.stringify(
       {
         ok: true,
-        cities: bootstrapCities.length,
-        neighborhoods: bootstrapNeighborhoods.length,
+        cities: chefamoCities.length,
+        neighborhoods: chefamoNeighborhoods.length,
         categories: chefamoCategories.length,
         styles: chefamoStyles.length,
         instructors: chefamoOrganizers.length,

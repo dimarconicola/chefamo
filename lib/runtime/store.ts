@@ -4,7 +4,7 @@ import { join } from 'node:path';
 import { and, desc, eq, inArray } from 'drizzle-orm';
 
 import type { CalendarSubmission, ClaimSubmission, DigestSubscription, OutboundEvent, ReviewStatus, UserProfile } from '@/lib/catalog/types';
-import { getDb, isDatabaseConfigured } from '@/lib/data/db';
+import { getPersistentStoreDb as getDb, isPersistentStoreEnabled } from '@/lib/data/db';
 import { env } from '@/lib/env';
 import { AppError } from '@/lib/errors/handler';
 import { calendarSubmissions, claims, digestSubscriptions, favorites, outboundClicks, userProfiles } from '@/lib/data/schema';
@@ -51,18 +51,21 @@ const writeCollection = async <T,>(name: string, value: T[]) => {
 
 const toIso = (value: Date | string) => new Date(value).toISOString();
 
-export const isPersistentStoreConfigured = () => isDatabaseConfigured;
+export const isPersistentStoreConfigured = () => isPersistentStoreEnabled;
+
+const canFallbackToLocalRuntimeStore = () => env.nodeEnv === 'development' || env.vercelEnv === 'preview';
 
 const assertPersistentStoreAvailable = () => {
-  if (!env.requirePersistentStore) return;
   if (getDb()) return;
+  if (canFallbackToLocalRuntimeStore()) return;
   throw new AppError('Servizio temporaneamente non disponibile.', 503, 'STORE_UNAVAILABLE');
 };
 
-const canFallbackToLocalRuntimeStore = () => !env.requirePersistentStore;
-
 const normalizeReviewStatus = (value: string | null | undefined): ReviewStatus =>
   value === 'reviewing' || value === 'approved' || value === 'rejected' || value === 'imported' || value === 'resolved' ? value : 'new';
+
+const normalizeCalendarSubmitterType = (value: CalendarSubmission['submitterType'] | string): CalendarSubmission['submitterType'] =>
+  value === 'teacher' ? 'organizer' : value === 'studio' ? 'place' : value === 'organizer' ? 'organizer' : 'place';
 
 export const appendClaim = async (payload: ClaimSubmission) => {
   const db = getDb();
@@ -147,37 +150,41 @@ export const updateClaimReview = async (id: string, payload: { reviewStatus: Rev
 };
 
 export const appendCalendarSubmission = async (payload: CalendarSubmission) => {
+  const normalizedPayload = {
+    ...payload,
+    submitterType: normalizeCalendarSubmitterType(payload.submitterType)
+  };
   const db = getDb();
   if (!db) {
     assertPersistentStoreAvailable();
     const items = await readCollection<CalendarSubmission>('calendar-submissions');
-    items.unshift({ ...payload, reviewStatus: payload.reviewStatus ?? 'new' });
+    items.unshift({ ...normalizedPayload, reviewStatus: normalizedPayload.reviewStatus ?? 'new' });
     await writeCollection('calendar-submissions', items);
     return;
   }
 
   try {
     await db.insert(calendarSubmissions).values({
-      locale: payload.locale,
-      citySlug: payload.citySlug,
-      submitterType: payload.submitterType,
-      organizationName: payload.organizationName,
-      contactName: payload.contactName,
-      email: payload.email,
-      phone: payload.phone ?? null,
-      sourceUrls: payload.sourceUrls,
-      scheduleText: payload.scheduleText,
-      consent: payload.consent,
-      reviewStatus: payload.reviewStatus ?? 'new',
-      assignedTo: payload.assignedTo ?? null,
-      reviewNotes: payload.reviewNotes ?? null,
-      reviewedAt: payload.reviewedAt ? new Date(payload.reviewedAt) : null,
-      createdAt: new Date(payload.createdAt)
+      locale: normalizedPayload.locale,
+      citySlug: normalizedPayload.citySlug,
+      submitterType: normalizedPayload.submitterType,
+      organizationName: normalizedPayload.organizationName,
+      contactName: normalizedPayload.contactName,
+      email: normalizedPayload.email,
+      phone: normalizedPayload.phone ?? null,
+      sourceUrls: normalizedPayload.sourceUrls,
+      scheduleText: normalizedPayload.scheduleText,
+      consent: normalizedPayload.consent,
+      reviewStatus: normalizedPayload.reviewStatus ?? 'new',
+      assignedTo: normalizedPayload.assignedTo ?? null,
+      reviewNotes: normalizedPayload.reviewNotes ?? null,
+      reviewedAt: normalizedPayload.reviewedAt ? new Date(normalizedPayload.reviewedAt) : null,
+      createdAt: new Date(normalizedPayload.createdAt)
     });
   } catch (error) {
     if (!canFallbackToLocalRuntimeStore()) throw error;
     const items = await readCollection<CalendarSubmission>('calendar-submissions');
-    items.unshift({ ...payload, reviewStatus: payload.reviewStatus ?? 'new' });
+    items.unshift({ ...normalizedPayload, reviewStatus: normalizedPayload.reviewStatus ?? 'new' });
     await writeCollection('calendar-submissions', items);
   }
 };
@@ -194,7 +201,7 @@ export const listCalendarSubmissions = async (): Promise<CalendarSubmission[]> =
     id: row.id,
     locale: row.locale as 'en' | 'it',
     citySlug: row.citySlug,
-    submitterType: row.submitterType as 'studio' | 'teacher',
+    submitterType: normalizeCalendarSubmitterType(row.submitterType),
     organizationName: row.organizationName,
     contactName: row.contactName,
     email: row.email,

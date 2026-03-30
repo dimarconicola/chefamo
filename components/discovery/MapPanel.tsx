@@ -42,7 +42,7 @@ export function MapPanel({ locale, cityName, venues, bounds, renderMode }: MapPa
           matchingSessionCount: 1,
           sessionsPreview: [],
           placeHref: `/${locale}/${venue.citySlug}/places/${venue.slug}`,
-          studioHref: `/${locale}/${venue.citySlug}/studios/${venue.slug}`,
+          studioHref: `/${locale}/${venue.citySlug}/places/${venue.slug}`,
           primaryCtaHref: undefined,
           primaryCtaLabel: undefined
         })),

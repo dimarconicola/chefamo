@@ -24,9 +24,9 @@ export function SavedEntities({ locale, signedInEmail, sessions, venues, instruc
   const favoriteItems = useMemo(() => {
     const items = favorites.map((favorite) => {
       const [entityType, slug] = favorite.split(':');
-      if (entityType === 'venue') return venues.find((item) => item.slug === slug);
-      if (entityType === 'session') return sessions.find((item) => item.id === slug);
-      if (entityType === 'instructor') return instructors.find((item) => item.slug === slug);
+      if (entityType === 'venue' || entityType === 'place') return venues.find((item) => item.slug === slug);
+      if (entityType === 'session' || entityType === 'program') return sessions.find((item) => item.id === slug);
+      if (entityType === 'instructor' || entityType === 'organizer') return instructors.find((item) => item.slug === slug);
       return null;
     });
 
@@ -41,7 +41,7 @@ export function SavedEntities({ locale, signedInEmail, sessions, venues, instruc
   if (!signedInEmail) {
     return (
       <div className="empty-state">
-        <p>Sign in to save favorites and keep a weekly routine.</p>
+        <p>Sign in to keep places, organizers, and a family plan in one place.</p>
         <Link href={`/${locale}/sign-in`} className="button button-primary">
           Sign in
         </Link>
@@ -78,7 +78,7 @@ export function SavedEntities({ locale, signedInEmail, sessions, venues, instruc
             ))}
           </div>
         ) : (
-          <p className="muted">Add classes from the calendar to build a routine.</p>
+          <p className="muted">Add activities from the calendar to build your plan.</p>
         )}
       </section>
     </div>

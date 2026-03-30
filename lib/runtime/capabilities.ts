@@ -1,7 +1,7 @@
 import { cache } from 'react';
 
 import { isSupabaseConfigured } from '@/lib/auth/supabase';
-import { getDb } from '@/lib/data/db';
+import { getPersistentStoreDb } from '@/lib/data/db';
 import { env } from '@/lib/env';
 
 export type AuthMode = 'supabase' | 'dev-local' | 'unavailable';
@@ -22,7 +22,7 @@ export const getAuthMode = (): AuthMode => {
   return 'unavailable';
 };
 
-export const getStoreMode = (): StoreMode => (getDb() ? 'database' : 'unavailable');
+export const getStoreMode = (): StoreMode => (getPersistentStoreDb() ? 'database' : 'unavailable');
 
 export const getRuntimeCapabilities = cache(async (): Promise<RuntimeCapabilities> => ({
   authMode: getAuthMode(),

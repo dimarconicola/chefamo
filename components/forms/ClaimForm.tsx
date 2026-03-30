@@ -5,11 +5,11 @@ import { useState } from 'react';
 import type { Locale } from '@/lib/catalog/types';
 
 export function ClaimForm({
-  studioSlug,
+  placeSlug,
   locale,
   panel = true
 }: {
-  studioSlug: string;
+  placeSlug: string;
   locale: Locale;
   panel?: boolean;
 }) {
@@ -20,23 +20,23 @@ export function ClaimForm({
           name: 'Nome',
           email: 'Email',
           role: 'Ruolo',
-          rolePlaceholder: 'Proprietario, manager, insegnante',
+          rolePlaceholder: 'Gestore, referente, curatore',
           notes: 'Note',
-          notesPlaceholder: 'Indica cosa vuoi aggiornare o verificare.',
+          notesPlaceholder: 'Indica cosa vuoi aggiornare, correggere o verificare.',
           submitting: 'Invio in corso...',
-          submit: 'Invia richiesta',
-          done: 'Richiesta inviata. Il team la verificherà prima della pubblicazione.'
+          submit: 'Invia aggiornamento',
+          done: 'Grazie. Il team verificherà l aggiornamento prima della pubblicazione.'
         }
       : {
           name: 'Name',
           email: 'Email',
           role: 'Role',
-          rolePlaceholder: 'Owner, manager, teacher',
+          rolePlaceholder: 'Manager, coordinator, curator',
           notes: 'Notes',
-          notesPlaceholder: 'Tell us what you want to update or verify.',
+          notesPlaceholder: 'Tell us what needs updating, fixing, or verifying.',
           submitting: 'Submitting...',
-          submit: 'Submit claim',
-          done: 'Claim submitted. The team will review it before publishing updates.'
+          submit: 'Send update',
+          done: 'Thanks. The team will review it before publishing changes.'
         };
 
   return (
@@ -50,7 +50,7 @@ export function ClaimForm({
         await fetch('/api/claims', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ ...payload, studioSlug, locale })
+          body: JSON.stringify({ ...payload, placeSlug, locale })
         });
         setStatus('done');
         event.currentTarget.reset();

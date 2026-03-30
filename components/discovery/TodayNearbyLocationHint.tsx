@@ -25,14 +25,14 @@ export function TodayNearbyLocationHint({ locale, cityName, hasGeolocation }: To
     () =>
       locale === 'it'
         ? {
-            locating: 'Cerco la tua posizione per ordinare le classi più vicine.',
-            granted: `Classi ordinate per distanza dalla tua posizione a ${cityName}.`,
+            locating: 'Cerco la tua posizione per ordinare le attività più vicine.',
+            granted: `Attività ordinate per distanza dalla tua posizione a ${cityName}.`,
             denied: 'Geolocalizzazione negata: ordine dal centro città.',
             unavailable: 'Geolocalizzazione non disponibile: ordine dal centro città.'
           }
         : {
-            locating: 'Checking your location to sort nearby sessions.',
-            granted: `Sessions sorted by distance from your location in ${cityName}.`,
+            locating: 'Checking your location to sort nearby activities.',
+            granted: `Activities sorted by distance from your location in ${cityName}.`,
             denied: 'Location denied: falling back to city-center ordering.',
             unavailable: 'Location unavailable: falling back to city-center ordering.'
           },

@@ -1,7 +1,7 @@
 import { DateTime } from 'luxon';
 import { and, desc, eq, isNull, or } from 'drizzle-orm';
 
-import { sessions, venues } from '@/lib/catalog/seed';
+import { getCatalogSnapshot } from '@/lib/catalog/repository';
 import { getCatalogSourceMode } from '@/lib/catalog/server-data';
 import { getDb } from '@/lib/data/db';
 import { sessions as sessionTable } from '@/lib/data/schema';
@@ -13,22 +13,23 @@ export default async function AdminFreshnessPage({ params }: { params: Promise<{
   const citySlug = 'palermo';
   const db = getDb();
 
-  const [latestSnapshot, sourceMode, recentSourceChecks, registry] = await Promise.all([
+  const [latestSnapshot, sourceMode, recentSourceChecks, registry, catalog] = await Promise.all([
     getLatestFreshnessSnapshot(citySlug),
     getCatalogSourceMode(),
     listRecentFreshnessRunSources(citySlug, 40),
-    getSourceRegistrySnapshot(citySlug)
+    getSourceRegistrySnapshot(citySlug),
+    getCatalogSnapshot()
   ]);
 
-  let staleSessions = sessions
-    .filter((session) => session.verificationStatus === 'stale')
-    .map((session) => ({
-      id: session.id,
-      title: session.title.en,
-      lastVerifiedAt: session.lastVerifiedAt
+  let staleSessions = catalog.occurrences
+    .filter((occurrence) => occurrence.citySlug === citySlug && occurrence.verificationStatus === 'stale')
+    .map((occurrence) => ({
+      id: occurrence.id,
+      title: occurrence.title.en,
+      lastVerifiedAt: occurrence.lastVerifiedAt
     }));
 
-  let brokenLinks = venues.filter((venue) => !venue.bookingTargetOrder[0]).length;
+  let brokenLinks = catalog.occurrences.filter((occurrence) => occurrence.citySlug === citySlug && !occurrence.bookingTargetSlug).length;
 
   if (db) {
     const staleRows = await db
@@ -65,7 +66,7 @@ export default async function AdminFreshnessPage({ params }: { params: Promise<{
             Latest run {DateTime.fromISO(latestSnapshot.createdAt).toFormat('dd LLL yyyy HH:mm')} ·
             Cadence {latestSnapshot.cadence} ·
             Sources checked {latestSnapshot.totalSources} ·
-            Sessions tracked {latestSnapshot.totalSessions} ·
+            Activities tracked {latestSnapshot.totalSessions} ·
             Changed {latestSnapshot.changedSources} ·
             Unreachable {latestSnapshot.unreachableSources} ·
             Impacted {latestSnapshot.impactedSources} ·
@@ -90,7 +91,7 @@ export default async function AdminFreshnessPage({ params }: { params: Promise<{
           </p>
         </div>
         <div className="panel">
-          <p className="eyebrow">Stale sessions</p>
+          <p className="eyebrow">Stale activities</p>
           <div className="stack-list">
             {staleSessions.map((session) => (
               <div className="metric-card" key={session.id ?? session.title}>
@@ -102,7 +103,7 @@ export default async function AdminFreshnessPage({ params }: { params: Promise<{
         </div>
         <div className="panel">
           <p className="eyebrow">Broken links</p>
-          {brokenLinks === 0 ? <p className="muted">No broken links in the current dataset.</p> : <p className="muted">{brokenLinks} sessions without a valid booking target.</p>}
+          {brokenLinks === 0 ? <p className="muted">No broken links in the current dataset.</p> : <p className="muted">{brokenLinks} activities without a valid booking target.</p>}
         </div>
       </section>
       <section className="panel">

@@ -13,14 +13,14 @@ interface AccountDigestFormProps {
 const preferenceOptions = (locale: Locale) =>
   locale === 'it'
     ? [
-        { value: 'english', label: 'Classi in inglese' },
-        { value: 'beginner', label: 'Adatte a principianti' },
-        { value: 'weekend', label: 'Weekend picks' }
+        { value: 'english', label: 'In inglese' },
+        { value: 'rainy-day', label: 'Piano pioggia' },
+        { value: 'weekend', label: 'Weekend forti' }
       ]
     : [
         { value: 'english', label: 'English-friendly' },
-        { value: 'beginner', label: 'Beginner-friendly' },
-        { value: 'weekend', label: 'Weekend picks' }
+        { value: 'rainy-day', label: 'Rainy-day plan' },
+        { value: 'weekend', label: 'Strong weekends' }
       ];
 
 export function AccountDigestForm({ locale, citySlug, subscription }: AccountDigestFormProps) {
@@ -28,7 +28,7 @@ export function AccountDigestForm({ locale, citySlug, subscription }: AccountDig
     locale === 'it'
       ? {
           title: 'Digest settimanale',
-          lead: 'Ricevi aggiornamenti verificati e selezioni utili per la tua città base.',
+          lead: 'Ricevi weekend forti, piani pioggia e nuove aperture utili per la tua città base.',
           saving: 'Salvataggio...',
           subscribe: 'Attiva digest',
           update: 'Aggiorna digest',
@@ -39,7 +39,7 @@ export function AccountDigestForm({ locale, citySlug, subscription }: AccountDig
         }
       : {
           title: 'Weekly digest',
-          lead: 'Get verified updates and useful picks for your home city.',
+          lead: 'Get strong weekends, rain-plan backups, and useful new openings for your home city.',
           saving: 'Saving...',
           subscribe: 'Enable digest',
           update: 'Update digest',

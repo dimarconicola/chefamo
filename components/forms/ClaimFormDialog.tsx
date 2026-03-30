@@ -5,20 +5,20 @@ import { useEffect, useState } from 'react';
 import type { Locale } from '@/lib/catalog/types';
 import { ClaimForm } from '@/components/forms/ClaimForm';
 
-export function ClaimFormDialog({ studioSlug, locale }: { studioSlug: string; locale: Locale }) {
+export function ClaimFormDialog({ placeSlug, locale }: { placeSlug: string; locale: Locale }) {
   const [isOpen, setIsOpen] = useState(false);
   const labels =
     locale === 'it'
       ? {
           trigger: 'Invia richiesta',
           title: 'Suggerisci un aggiornamento',
-          body: 'Se gestisci questo studio o vuoi segnalare dati da correggere, usa questo form.',
+          body: 'Se gestisci questo luogo o vuoi segnalare dati da correggere, usa questo form.',
           close: 'Chiudi'
         }
       : {
           trigger: 'Send request',
           title: 'Suggest an update',
-          body: 'Use this form if you run this venue or want to report a catalog correction.',
+          body: 'Use this form if you run this place or want to report a catalog correction.',
           close: 'Close'
         };
 
@@ -59,7 +59,7 @@ export function ClaimFormDialog({ studioSlug, locale }: { studioSlug: string; lo
               </button>
             </div>
             <div className="dialog-body">
-              <ClaimForm studioSlug={studioSlug} locale={locale} panel={false} />
+              <ClaimForm placeSlug={placeSlug} locale={locale} panel={false} />
             </div>
           </div>
         </div>

@@ -451,7 +451,6 @@ const discoveryKeywords: Record<string, string> = {
   kids: 'kids',
   bimbi: 'kids',
   bambini: 'kids',
-  yoga: 'yoga',
   circo: 'circo',
   circomotricita: 'circo',
   danza: 'dance',

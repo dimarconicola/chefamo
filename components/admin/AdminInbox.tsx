@@ -15,6 +15,10 @@ export async function AdminInbox({ redirectPath }: { redirectPath: string }) {
     listDigestSubscriptions(),
     listOutboundEvents()
   ]);
+  const submissionTypeLabel = (value: string) => {
+    if (value === 'organizer' || value === 'teacher') return 'Organizzatore';
+    return 'Luogo';
+  };
 
   return (
     <div className="stack-list">
@@ -22,13 +26,13 @@ export async function AdminInbox({ redirectPath }: { redirectPath: string }) {
         <p className="eyebrow">{isPersistentStoreConfigured() ? 'Inbox persistente' : 'Inbox fallback'}</p>
         <h1>Moderazione operativa</h1>
         <p className="muted">
-          Claims, proposte calendario e lead discovery devono passare da qui prima di diventare dato pubblico affidabile.
+          Richieste luogo, proposte programma e lead discovery devono passare da qui prima di diventare dato pubblico affidabile.
         </p>
       </section>
 
       <section className="admin-grid">
         <article className="panel stat-card">
-          <p className="eyebrow">Claims</p>
+          <p className="eyebrow">Richieste luogo</p>
           <h3>{claims.length}</h3>
         </article>
         <article className="panel stat-card">
@@ -47,12 +51,12 @@ export async function AdminInbox({ redirectPath }: { redirectPath: string }) {
 
       <section className="saved-grid">
         <div className="panel">
-          <p className="eyebrow">Claims studio</p>
+          <p className="eyebrow">Richieste luogo</p>
           <div className="stack-list">
             {claims.length > 0 ? claims.map((claim) => (
               <article className="metric-card" key={claim.id ?? `${claim.email}-${claim.createdAt}`}>
                 <strong>{claim.name} · {claim.role}</strong>
-                <span className="muted">{claim.email} · studio {claim.studioSlug}</span>
+                <span className="muted">{claim.email} · luogo {claim.placeSlug ?? claim.studioSlug}</span>
                 <span className="muted">Creato {DateTime.fromISO(claim.createdAt).toFormat('dd LLL yyyy HH:mm')}</span>
                 <span className="muted">{claim.notes}</span>
                 <ReviewStatusForm
@@ -65,7 +69,7 @@ export async function AdminInbox({ redirectPath }: { redirectPath: string }) {
                   statusOptions={reviewStatuses}
                 />
               </article>
-            )) : <p className="muted">Nessuna claim ricevuta.</p>}
+            )) : <p className="muted">Nessuna richiesta ricevuta.</p>}
           </div>
         </div>
 
@@ -74,7 +78,7 @@ export async function AdminInbox({ redirectPath }: { redirectPath: string }) {
           <div className="stack-list">
             {submissions.length > 0 ? submissions.map((submission) => (
               <article className="metric-card" key={submission.id ?? `${submission.email}-${submission.createdAt}`}>
-                <strong>{submission.organizationName} · {submission.submitterType}</strong>
+                <strong>{submission.organizationName} · {submissionTypeLabel(submission.submitterType)}</strong>
                 <span className="muted">{submission.contactName} · {submission.email}</span>
                 <span className="muted">{submission.sourceUrls.join(' · ')}</span>
                 <span className="muted">{submission.scheduleText}</span>
