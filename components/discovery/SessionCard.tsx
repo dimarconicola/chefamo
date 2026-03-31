@@ -40,6 +40,12 @@ export function SessionCard({ session, locale, resolved, signedInEmail, schedule
             hybrid: 'Hybrid',
             online: 'Online'
           },
+          attendance: {
+            drop_in: 'Drop-in',
+            trial: 'Prova',
+            cycle: 'Ciclo',
+            term: 'Trimestre'
+          },
           price: 'Costo',
           age: 'Età',
           adultRequired: 'Con adulto',
@@ -76,6 +82,12 @@ export function SessionCard({ session, locale, resolved, signedInEmail, schedule
             in_person: 'In person',
             hybrid: 'Hybrid',
             online: 'Online'
+          },
+          attendance: {
+            drop_in: 'Drop-in',
+            trial: 'Trial',
+            cycle: 'Cycle',
+            term: 'Term'
           },
           price: 'Price',
           age: 'Age',
@@ -135,6 +147,7 @@ export function SessionCard({ session, locale, resolved, signedInEmail, schedule
             <ServerChip>{style.name[locale]}</ServerChip>
             <ServerChip>{labels.audience[session.audience]}</ServerChip>
             <ServerChip>{labels.level[session.level]}</ServerChip>
+            <ServerChip>{labels.attendance[session.attendanceModel]}</ServerChip>
             <ServerChip>{session.language}</ServerChip>
             <ServerChip>{labels.format[session.format]}</ServerChip>
             {session.ageBand ? <ServerChip>{labels.ageBand[session.ageBand]}</ServerChip> : null}

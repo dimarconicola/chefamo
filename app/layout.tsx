@@ -12,10 +12,10 @@ export const metadata: Metadata = {
     default: 'chefamo',
     template: '%s · chefamo'
   },
-  description: 'Palermo-first discovery for 0-14 activities, family culture, STEM, movement, and outdoor time.',
+  description: 'Palermo-first discovery for 0-14 sports, activities, family culture, STEM, and outdoor time.',
   openGraph: {
     title: 'chefamo',
-    description: 'Find the right Palermo activity, place, or weekend plan for ages 0-14.',
+    description: 'Find the right Palermo sport, activity, place, or weekend plan for ages 0-14.',
     type: 'website'
   },
   icons: {

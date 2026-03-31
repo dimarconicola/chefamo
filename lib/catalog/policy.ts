@@ -2,7 +2,6 @@ import type { AttendanceModel, Audience, KidsAgeBand, Occurrence, PlaceProfile }
 
 export const PRIMARY_CATEGORY_SLUGS = ['culture', 'movement', 'stem', 'reading', 'outdoors'] as const;
 export const ADJACENT_CATEGORY_SLUGS = [] as const;
-export const EXCLUDED_SPORT_HINTS = ['tennis', 'rugby', 'football', 'basketball', 'volleyball', 'nuoto', 'swim'] as const;
 
 export const SUPPORTED_PLACE_PROFILES: PlaceProfile[] = [
   'arts_center',
@@ -54,9 +53,11 @@ export const inferKidsAgeRangeFromStyle = (styleSlug: string): { min?: number; m
   const key = styleSlug.toLowerCase();
   if (key === 'kids-dance-pedagogy') return { min: 3, max: 4, ageBand: '3-5' };
   if (key === 'circomotricita') return { min: 3, max: 10, ageBand: 'mixed-kids' };
-  if (key === 'kids-theater') return { min: 6, max: 10, ageBand: '6-10' };
-  if (key === 'kids-contemporary-dance' || key === 'kids-dance-foundations') return { min: 6, max: 10, ageBand: '6-10' };
-  if (key === 'kids-capoeira' || key === 'aerial-kids-lab' || key === 'mindful-movement-kids') return { min: 6, max: 14, ageBand: 'mixed-kids' };
+  if (key === 'kids-theater') return { min: 7, max: 12, ageBand: 'mixed-kids' };
+  if (key === 'kids-contemporary-dance') return { min: 7, max: 10, ageBand: '6-10' };
+  if (key === 'kids-dance-foundations') return { min: 5, max: 6, ageBand: '3-5' };
+  if (key === 'kids-capoeira') return { min: 6, max: 14, ageBand: 'mixed-kids' };
+  if (key === 'aerial-kids-lab' || key === 'mindful-movement-kids') return { min: 6, max: 12, ageBand: '6-10' };
   return {};
 };
 
@@ -74,8 +75,6 @@ export const inferSessionAudience = inferOccurrenceAudience;
 
 export const isOccurrenceInScope = (occurrence: Pick<Occurrence, 'categorySlug' | 'title' | 'attendanceModel' | 'ageMax'>) => {
   if (!isCategoryInScope(occurrence.categorySlug)) return false;
-  const title = `${occurrence.title.en} ${occurrence.title.it}`.toLowerCase();
-  if (EXCLUDED_SPORT_HINTS.some((hint) => title.includes(hint))) return false;
   if (occurrence.attendanceModel === 'term' && typeof occurrence.ageMax === 'number' && occurrence.ageMax > 14) return false;
   if (typeof occurrence.ageMax === 'number' && occurrence.ageMax > 14) return false;
   return true;

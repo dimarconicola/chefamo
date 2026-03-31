@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-03-30T14:21:02.337Z",
+  "generatedAt": "2026-03-31T14:30:37.774Z",
   "citySlug": "palermo",
   "source": "chefamo-seed",
   "cities": [
@@ -96,17 +96,17 @@
       "slug": "movement",
       "citySlug": "palermo",
       "name": {
-        "en": "Movement",
-        "it": "Movimento"
+        "en": "Sports & Movement",
+        "it": "Sport e movimento"
       },
       "description": {
-        "en": "Circo, dance, capoeira, and body-led after-school activities.",
-        "it": "Circo, danza, capoeira e attivita motorie per il doposcuola."
+        "en": "Circo, dance, capoeira, active play, and structured after-school movement for children.",
+        "it": "Circo, danza, capoeira, gioco motorio e attivita sportive strutturate per il doposcuola."
       },
       "visibility": "live",
       "heroMetric": {
-        "en": "Physical activities grouped by age band.",
-        "it": "Attivita fisiche raggruppate per fascia d eta."
+        "en": "Active slots grouped by age band and weekly rhythm.",
+        "it": "Slot attivi raggruppati per fascia d eta e ritmo settimanale."
       }
     },
     {
@@ -172,6 +172,78 @@
       "description": {
         "en": "Short guided route with a clear start time.",
         "it": "Percorso guidato breve con orario chiaro."
+      }
+    },
+    {
+      "slug": "circomotricita",
+      "categorySlug": "movement",
+      "name": {
+        "en": "Circomotricity",
+        "it": "Circomotricita"
+      },
+      "description": {
+        "en": "Play-based movement sessions with circus-inspired motor skills for children.",
+        "it": "Sessioni di movimento ludico con competenze motorie ispirate al circo per bambini."
+      }
+    },
+    {
+      "slug": "aerial-kids-lab",
+      "categorySlug": "movement",
+      "name": {
+        "en": "Aerial kids lab",
+        "it": "Laboratorio aereo bambini"
+      },
+      "description": {
+        "en": "Suspension-based movement lab for children under close supervision.",
+        "it": "Laboratorio di movimento in sospensione per bambini con supervisione ravvicinata."
+      }
+    },
+    {
+      "slug": "kids-dance-foundations",
+      "categorySlug": "movement",
+      "name": {
+        "en": "Kids dance foundations",
+        "it": "Danza base bambini"
+      },
+      "description": {
+        "en": "Introductory dance classes for early school years.",
+        "it": "Lezioni introduttive di danza per i primi anni scolari."
+      }
+    },
+    {
+      "slug": "kids-dance-pedagogy",
+      "categorySlug": "movement",
+      "name": {
+        "en": "Dance pedagogy 3-4",
+        "it": "Pedagogia della danza 3-4"
+      },
+      "description": {
+        "en": "Early-childhood movement pedagogy focused on body awareness.",
+        "it": "Percorso di pedagogia del movimento per la prima infanzia e la consapevolezza corporea."
+      }
+    },
+    {
+      "slug": "kids-contemporary-dance",
+      "categorySlug": "movement",
+      "name": {
+        "en": "Kids contemporary dance",
+        "it": "Danza contemporanea bambini"
+      },
+      "description": {
+        "en": "Contemporary dance sessions for children with rhythm and movement foundations.",
+        "it": "Sessioni di danza contemporanea per bambini con basi di ritmo e movimento."
+      }
+    },
+    {
+      "slug": "kids-capoeira",
+      "categorySlug": "movement",
+      "name": {
+        "en": "Kids capoeira",
+        "it": "Capoeira bambini"
+      },
+      "description": {
+        "en": "Capoeira for children blending rhythm, coordination, and play.",
+        "it": "Capoeira per bambini tra ritmo, coordinazione e gioco."
       }
     },
     {
@@ -345,6 +417,56 @@
         "Italian",
         "English"
       ]
+    },
+    {
+      "slug": "circo-pificio-team",
+      "citySlug": "palermo",
+      "name": "Circo Pificio team",
+      "shortBio": {
+        "en": "Local team running circomotricity sessions that work well for younger children with high energy.",
+        "it": "Team locale che conduce sessioni di circomotricita adatte ai piu piccoli con energia alta."
+      },
+      "specialties": [
+        "circomotricita",
+        "active-play"
+      ],
+      "languages": [
+        "Italian"
+      ]
+    },
+    {
+      "slug": "spazio-terra-team",
+      "citySlug": "palermo",
+      "name": "Spazio Terra team",
+      "shortBio": {
+        "en": "Workshop-led movement team behind kids aerial and body-awareness labs.",
+        "it": "Team di laboratorio dietro percorsi aerei e di consapevolezza corporea per bambini."
+      },
+      "specialties": [
+        "aerial-kids-lab",
+        "movement-lab"
+      ],
+      "languages": [
+        "Italian"
+      ]
+    },
+    {
+      "slug": "diaria-kids",
+      "citySlug": "palermo",
+      "name": "Diaria Kids",
+      "shortBio": {
+        "en": "Recurring after-school dance and capoeira supply published through Diaria’s Palermo calendar.",
+        "it": "Programmazione ricorrente doposcuola di danza e capoeira pubblicata nel calendario palermitano di Diaria."
+      },
+      "specialties": [
+        "kids-contemporary-dance",
+        "kids-dance-foundations",
+        "kids-dance-pedagogy",
+        "kids-capoeira"
+      ],
+      "languages": [
+        "Italian"
+      ]
     }
   ],
   "bookingTargets": [
@@ -389,6 +511,30 @@
       "type": "website",
       "label": "Palermo Kids Lab",
       "href": "https://www.palermokidslab.it/"
+    },
+    {
+      "slug": "circopificio-website",
+      "type": "website",
+      "label": "Circo Pificio",
+      "href": "https://www.circopificio.it/circomotricita/"
+    },
+    {
+      "slug": "spazio-terra-source",
+      "type": "website",
+      "label": "Spazio Terra",
+      "href": "https://www.facebook.com/spazioterrapalermo"
+    },
+    {
+      "slug": "diaria-kids-enroll",
+      "type": "direct",
+      "label": "Diaria iscrizione",
+      "href": "https://www.diariapalermo.org/iscrizione-corsi/"
+    },
+    {
+      "slug": "diaria-kids-whatsapp",
+      "type": "whatsapp",
+      "label": "WhatsApp Diaria",
+      "href": "https://wa.me/393517066792"
     }
   ],
   "places": [
@@ -703,6 +849,187 @@
       "lastVerifiedAt": "2026-03-29T11:00:00+02:00",
       "profile": "community_hub",
       "environment": "indoor"
+    },
+    {
+      "slug": "circo-pificio-palermo",
+      "citySlug": "palermo",
+      "neighborhoodSlug": "politeama",
+      "name": "Circo Pificio",
+      "tagline": {
+        "en": "Circomotricity and active play for children with a real weekly rhythm.",
+        "it": "Circomotricita e gioco motorio per bambini con un vero ritmo settimanale."
+      },
+      "description": {
+        "en": "A focused movement pick for families who want coordination, balance, and fun without the chaos of a generic playroom.",
+        "it": "Una scelta motoria centrata per famiglie che cercano coordinazione, equilibrio e divertimento senza il caos di una ludoteca generica."
+      },
+      "address": "Via Serradifalco 130, Palermo",
+      "geo": {
+        "lat": 38.1239,
+        "lng": 13.3394
+      },
+      "amenities": [
+        "Small groups",
+        "Movement lab",
+        "Kids-focused programming"
+      ],
+      "languages": [
+        "Italian"
+      ],
+      "styleSlugs": [
+        "circomotricita"
+      ],
+      "categorySlugs": [
+        "movement"
+      ],
+      "bookingTargetOrder": [
+        "circopificio-website"
+      ],
+      "freshnessNote": {
+        "en": "Current public program checked from the official circomotricity page.",
+        "it": "Programma pubblico corrente controllato dalla pagina ufficiale di circomotricita."
+      },
+      "sourceUrl": "https://www.circopificio.it/circomotricita/",
+      "lastVerifiedAt": "2026-03-12T12:00:00+01:00",
+      "profile": "studio",
+      "environment": "indoor"
+    },
+    {
+      "slug": "spazio-terra-palermo",
+      "citySlug": "palermo",
+      "neighborhoodSlug": "politeama",
+      "name": "Spazio Terra",
+      "tagline": {
+        "en": "Workshop-led aerial and body-awareness sessions for children.",
+        "it": "Sessioni aeree e di consapevolezza corporea per bambini guidate come laboratorio."
+      },
+      "description": {
+        "en": "Useful when the family wants one playful but supervised movement format that feels different from standard classes.",
+        "it": "Utile quando la famiglia vuole un format di movimento giocoso ma supervisionato, diverso dalle classi standard."
+      },
+      "address": "Via Dante 119, Palermo",
+      "geo": {
+        "lat": 38.1268,
+        "lng": 13.3498
+      },
+      "amenities": [
+        "Workshop format",
+        "Indoor",
+        "Supervised apparatus"
+      ],
+      "languages": [
+        "Italian"
+      ],
+      "styleSlugs": [
+        "aerial-kids-lab"
+      ],
+      "categorySlugs": [
+        "movement"
+      ],
+      "bookingTargetOrder": [
+        "spazio-terra-source"
+      ],
+      "freshnessNote": {
+        "en": "Public workshop listing checked from the organizer’s active public page.",
+        "it": "Scheda laboratorio controllata dalla pagina pubblica attiva dell organizzatore."
+      },
+      "sourceUrl": "https://www.facebook.com/spazioterrapalermo",
+      "lastVerifiedAt": "2026-03-12T12:00:00+01:00",
+      "profile": "studio",
+      "environment": "indoor"
+    },
+    {
+      "slug": "diaria-sala-venezia",
+      "citySlug": "palermo",
+      "neighborhoodSlug": "kalsa",
+      "name": "Diaria - Sala Venezia",
+      "tagline": {
+        "en": "After-school dance and capoeira in the historic center.",
+        "it": "Danza e capoeira doposcuola nel centro storico."
+      },
+      "description": {
+        "en": "One of the strongest recurring kids-active clusters in the city if you need repeatable weekday options.",
+        "it": "Uno dei cluster attivi per bambini piu forti in citta se servono opzioni feriali ripetibili."
+      },
+      "address": "Via Venezia 61, Palermo",
+      "geo": {
+        "lat": 38.1173,
+        "lng": 13.3619
+      },
+      "amenities": [
+        "Weekly timetable",
+        "Historic center",
+        "Multi-age slots"
+      ],
+      "languages": [
+        "Italian"
+      ],
+      "styleSlugs": [
+        "kids-dance-foundations",
+        "kids-dance-pedagogy",
+        "kids-contemporary-dance",
+        "kids-capoeira"
+      ],
+      "categorySlugs": [
+        "movement"
+      ],
+      "bookingTargetOrder": [
+        "diaria-kids-enroll",
+        "diaria-kids-whatsapp"
+      ],
+      "freshnessNote": {
+        "en": "Kids timetable checked against the official Diaria calendar.",
+        "it": "Calendario bambini controllato sul calendario ufficiale Diaria."
+      },
+      "sourceUrl": "https://www.diariapalermo.org/corsi/calendario/",
+      "lastVerifiedAt": "2026-03-12T12:00:00+01:00",
+      "profile": "studio",
+      "environment": "indoor"
+    },
+    {
+      "slug": "diaria-studio-gagini",
+      "citySlug": "palermo",
+      "neighborhoodSlug": "kalsa",
+      "name": "Diaria - Studio Gagini",
+      "tagline": {
+        "en": "Recurring kids dance slots near La Loggia.",
+        "it": "Slot ricorrenti di danza bambini vicino La Loggia."
+      },
+      "description": {
+        "en": "A dependable center-city option for families planning weekly movement habits instead of one-off events.",
+        "it": "Un opzione affidabile in centro per famiglie che pianificano abitudini motorie settimanali invece di eventi una tantum."
+      },
+      "address": "Via Antonio Gagini 31/59, Palermo",
+      "geo": {
+        "lat": 38.1202,
+        "lng": 13.3621
+      },
+      "amenities": [
+        "Weekly timetable",
+        "Central location",
+        "Beginner-friendly"
+      ],
+      "languages": [
+        "Italian"
+      ],
+      "styleSlugs": [
+        "kids-contemporary-dance"
+      ],
+      "categorySlugs": [
+        "movement"
+      ],
+      "bookingTargetOrder": [
+        "diaria-kids-enroll",
+        "diaria-kids-whatsapp"
+      ],
+      "freshnessNote": {
+        "en": "Kids dance slots checked against the official Diaria calendar.",
+        "it": "Slot danza bambini controllati sul calendario ufficiale Diaria."
+      },
+      "sourceUrl": "https://www.diariapalermo.org/corsi/calendario/",
+      "lastVerifiedAt": "2026-03-12T12:00:00+01:00",
+      "profile": "studio",
+      "environment": "indoor"
     }
   ],
   "programs": [
@@ -957,6 +1284,222 @@
       "scheduleKind": "recurring",
       "venueSlug": "palermo-kids-lab-place",
       "instructorSlug": "palermo-kids-lab"
+    },
+    {
+      "slug": "circo-pificio-circomotricita",
+      "citySlug": "palermo",
+      "placeSlug": "circo-pificio-palermo",
+      "organizerSlug": "circo-pificio-team",
+      "categorySlug": "movement",
+      "styleSlug": "circomotricita",
+      "title": {
+        "en": "Kids Circomotricity",
+        "it": "Circomotricita bambini"
+      },
+      "summary": {
+        "en": "A strong coordination and confidence format for younger children who need structured movement more than competition.",
+        "it": "Un format forte per coordinazione e sicurezza corporea nei piu piccoli che hanno bisogno di movimento strutturato piu che di competizione."
+      },
+      "level": "beginner",
+      "language": "Italian",
+      "format": "in_person",
+      "bookingTargetSlug": "circopificio-website",
+      "sourceUrl": "https://www.circopificio.it/circomotricita/",
+      "lastVerifiedAt": "2026-03-12T12:00:00+01:00",
+      "verificationStatus": "verified",
+      "audience": "kids",
+      "attendanceModel": "cycle",
+      "ageMin": 3,
+      "ageMax": 10,
+      "ageBand": "mixed-kids",
+      "guardianRequired": false,
+      "priceNote": {
+        "en": "Enrollment details are shared directly by the organizer.",
+        "it": "I dettagli di iscrizione vengono condivisi direttamente dall organizzatore."
+      },
+      "scheduleKind": "recurring",
+      "venueSlug": "circo-pificio-palermo",
+      "instructorSlug": "circo-pificio-team"
+    },
+    {
+      "slug": "spazio-terra-aerial-lab",
+      "citySlug": "palermo",
+      "placeSlug": "spazio-terra-palermo",
+      "organizerSlug": "spazio-terra-team",
+      "categorySlug": "movement",
+      "styleSlug": "aerial-kids-lab",
+      "title": {
+        "en": "Aerial Kids Lab",
+        "it": "Laboratorio aereo bambini"
+      },
+      "summary": {
+        "en": "A playful Saturday movement option when the family wants novelty, supervision, and one clear slot.",
+        "it": "Un opzione motoria del sabato quando la famiglia cerca novita, supervisione e uno slot chiaro."
+      },
+      "level": "beginner",
+      "language": "Italian",
+      "format": "in_person",
+      "bookingTargetSlug": "spazio-terra-source",
+      "sourceUrl": "https://www.facebook.com/spazioterrapalermo",
+      "lastVerifiedAt": "2026-03-12T12:00:00+01:00",
+      "verificationStatus": "verified",
+      "audience": "kids",
+      "attendanceModel": "drop_in",
+      "ageMin": 6,
+      "ageMax": 12,
+      "ageBand": "6-10",
+      "guardianRequired": false,
+      "priceNote": {
+        "en": "Workshop pricing is usually shared per event.",
+        "it": "Il prezzo del laboratorio viene in genere condiviso evento per evento."
+      },
+      "scheduleKind": "seasonal",
+      "venueSlug": "spazio-terra-palermo",
+      "instructorSlug": "spazio-terra-team"
+    },
+    {
+      "slug": "diaria-contemporary-dance",
+      "citySlug": "palermo",
+      "placeSlug": "diaria-studio-gagini",
+      "organizerSlug": "diaria-kids",
+      "categorySlug": "movement",
+      "styleSlug": "kids-contemporary-dance",
+      "title": {
+        "en": "Contemporary Dance 7-10",
+        "it": "Danza contemporanea 7-10"
+      },
+      "summary": {
+        "en": "A repeatable weekly dance slot for children ready for rhythm, sequence, and expressive movement.",
+        "it": "Uno slot di danza settimanale ripetibile per bambini pronti a ritmo, sequenza e movimento espressivo."
+      },
+      "level": "beginner",
+      "language": "Italian",
+      "format": "in_person",
+      "bookingTargetSlug": "diaria-kids-enroll",
+      "sourceUrl": "https://www.diariapalermo.org/corsi/calendario/",
+      "lastVerifiedAt": "2026-03-12T12:00:00+01:00",
+      "verificationStatus": "verified",
+      "audience": "kids",
+      "attendanceModel": "cycle",
+      "ageMin": 7,
+      "ageMax": 10,
+      "ageBand": "6-10",
+      "guardianRequired": false,
+      "priceNote": {
+        "en": "Enrollment is handled directly through the Diaria registration flow.",
+        "it": "L iscrizione si gestisce direttamente tramite il flusso di registrazione Diaria."
+      },
+      "scheduleKind": "recurring",
+      "venueSlug": "diaria-studio-gagini",
+      "instructorSlug": "diaria-kids"
+    },
+    {
+      "slug": "diaria-capoeira",
+      "citySlug": "palermo",
+      "placeSlug": "diaria-sala-venezia",
+      "organizerSlug": "diaria-kids",
+      "categorySlug": "movement",
+      "styleSlug": "kids-capoeira",
+      "title": {
+        "en": "Capoeira 6-10",
+        "it": "Capoeira 6-10"
+      },
+      "summary": {
+        "en": "A rhythmic active format that works well for children who want movement, music, and coordination together.",
+        "it": "Un format attivo ritmico che funziona bene per bambini che vogliono movimento, musica e coordinazione insieme."
+      },
+      "level": "beginner",
+      "language": "Italian",
+      "format": "in_person",
+      "bookingTargetSlug": "diaria-kids-enroll",
+      "sourceUrl": "https://www.diariapalermo.org/corsi/calendario/",
+      "lastVerifiedAt": "2026-03-12T12:00:00+01:00",
+      "verificationStatus": "verified",
+      "audience": "kids",
+      "attendanceModel": "cycle",
+      "ageMin": 6,
+      "ageMax": 10,
+      "ageBand": "6-10",
+      "guardianRequired": false,
+      "priceNote": {
+        "en": "Registration and pricing are shared through Diaria.",
+        "it": "Iscrizione e prezzi vengono condivisi tramite Diaria."
+      },
+      "scheduleKind": "recurring",
+      "venueSlug": "diaria-sala-venezia",
+      "instructorSlug": "diaria-kids"
+    },
+    {
+      "slug": "diaria-dance-foundations",
+      "citySlug": "palermo",
+      "placeSlug": "diaria-sala-venezia",
+      "organizerSlug": "diaria-kids",
+      "categorySlug": "movement",
+      "styleSlug": "kids-dance-foundations",
+      "title": {
+        "en": "Dance 5-6 Years",
+        "it": "Danza 5-6 anni"
+      },
+      "summary": {
+        "en": "An early-school dance slot with a clean age fit for families wanting a gentle structured start.",
+        "it": "Uno slot di danza per i primi anni scolari con una fascia eta chiara per famiglie che cercano un inizio strutturato ma gentile."
+      },
+      "level": "beginner",
+      "language": "Italian",
+      "format": "in_person",
+      "bookingTargetSlug": "diaria-kids-enroll",
+      "sourceUrl": "https://www.diariapalermo.org/corsi/calendario/",
+      "lastVerifiedAt": "2026-03-12T12:00:00+01:00",
+      "verificationStatus": "verified",
+      "audience": "kids",
+      "attendanceModel": "cycle",
+      "ageMin": 5,
+      "ageMax": 6,
+      "ageBand": "3-5",
+      "guardianRequired": false,
+      "priceNote": {
+        "en": "Registration and pricing are shared through Diaria.",
+        "it": "Iscrizione e prezzi vengono condivisi tramite Diaria."
+      },
+      "scheduleKind": "recurring",
+      "venueSlug": "diaria-sala-venezia",
+      "instructorSlug": "diaria-kids"
+    },
+    {
+      "slug": "diaria-dance-pedagogy",
+      "citySlug": "palermo",
+      "placeSlug": "diaria-sala-venezia",
+      "organizerSlug": "diaria-kids",
+      "categorySlug": "movement",
+      "styleSlug": "kids-dance-pedagogy",
+      "title": {
+        "en": "Dance Pedagogy 3-4",
+        "it": "Pedagogia della danza 3-4"
+      },
+      "summary": {
+        "en": "A first-steps body-awareness class designed for very young children and caregivers planning early routines.",
+        "it": "Una classe di primi passi e consapevolezza corporea pensata per bambini molto piccoli e famiglie che impostano routine precoci."
+      },
+      "level": "beginner",
+      "language": "Italian",
+      "format": "in_person",
+      "bookingTargetSlug": "diaria-kids-enroll",
+      "sourceUrl": "https://www.diariapalermo.org/corsi/calendario/",
+      "lastVerifiedAt": "2026-03-12T12:00:00+01:00",
+      "verificationStatus": "verified",
+      "audience": "families",
+      "attendanceModel": "cycle",
+      "ageMin": 3,
+      "ageMax": 4,
+      "ageBand": "3-5",
+      "guardianRequired": true,
+      "priceNote": {
+        "en": "Registration and pricing are shared through Diaria.",
+        "it": "Iscrizione e prezzi vengono condivisi tramite Diaria."
+      },
+      "scheduleKind": "recurring",
+      "venueSlug": "diaria-sala-venezia",
+      "instructorSlug": "diaria-kids"
     }
   ],
   "occurrences": [
@@ -1265,6 +1808,278 @@
       },
       "venueSlug": "palermo-kids-lab-place",
       "instructorSlug": "palermo-kids-lab"
+    },
+    {
+      "id": "circo-pificio-circomotricita-tue",
+      "programSlug": "circo-pificio-circomotricita",
+      "citySlug": "palermo",
+      "placeSlug": "circo-pificio-palermo",
+      "organizerSlug": "circo-pificio-team",
+      "categorySlug": "movement",
+      "styleSlug": "circomotricita",
+      "title": {
+        "en": "Kids Circomotricity",
+        "it": "Circomotricita bambini"
+      },
+      "startAt": "2026-03-31T17:00:00.000+02:00",
+      "endAt": "2026-03-31T18:00:00.000+02:00",
+      "level": "beginner",
+      "language": "Italian",
+      "format": "in_person",
+      "bookingTargetSlug": "circopificio-website",
+      "sourceUrl": "https://www.circopificio.it/circomotricita/",
+      "lastVerifiedAt": "2026-03-12T12:00:00+01:00",
+      "verificationStatus": "verified",
+      "audience": "kids",
+      "attendanceModel": "cycle",
+      "ageMin": 3,
+      "ageMax": 10,
+      "ageBand": "mixed-kids",
+      "guardianRequired": false,
+      "priceNote": {
+        "en": "Enrollment details are shared directly by the organizer.",
+        "it": "I dettagli di iscrizione vengono condivisi direttamente dall organizzatore."
+      },
+      "venueSlug": "circo-pificio-palermo",
+      "instructorSlug": "circo-pificio-team"
+    },
+    {
+      "id": "spazio-terra-aerial-lab-sat",
+      "programSlug": "spazio-terra-aerial-lab",
+      "citySlug": "palermo",
+      "placeSlug": "spazio-terra-palermo",
+      "organizerSlug": "spazio-terra-team",
+      "categorySlug": "movement",
+      "styleSlug": "aerial-kids-lab",
+      "title": {
+        "en": "Aerial Kids Lab",
+        "it": "Laboratorio aereo bambini"
+      },
+      "startAt": "2026-04-04T10:30:00.000+02:00",
+      "endAt": "2026-04-04T11:30:00.000+02:00",
+      "level": "beginner",
+      "language": "Italian",
+      "format": "in_person",
+      "bookingTargetSlug": "spazio-terra-source",
+      "sourceUrl": "https://www.facebook.com/spazioterrapalermo",
+      "lastVerifiedAt": "2026-03-12T12:00:00+01:00",
+      "verificationStatus": "verified",
+      "audience": "kids",
+      "attendanceModel": "drop_in",
+      "ageMin": 6,
+      "ageMax": 12,
+      "ageBand": "6-10",
+      "guardianRequired": false,
+      "priceNote": {
+        "en": "Workshop pricing is usually shared per event.",
+        "it": "Il prezzo del laboratorio viene in genere condiviso evento per evento."
+      },
+      "venueSlug": "spazio-terra-palermo",
+      "instructorSlug": "spazio-terra-team"
+    },
+    {
+      "id": "diaria-contemporary-dance-mon",
+      "programSlug": "diaria-contemporary-dance",
+      "citySlug": "palermo",
+      "placeSlug": "diaria-studio-gagini",
+      "organizerSlug": "diaria-kids",
+      "categorySlug": "movement",
+      "styleSlug": "kids-contemporary-dance",
+      "title": {
+        "en": "Contemporary Dance 7-10",
+        "it": "Danza contemporanea 7-10"
+      },
+      "startAt": "2026-04-06T17:00:00.000+02:00",
+      "endAt": "2026-04-06T18:00:00.000+02:00",
+      "level": "beginner",
+      "language": "Italian",
+      "format": "in_person",
+      "bookingTargetSlug": "diaria-kids-enroll",
+      "sourceUrl": "https://www.diariapalermo.org/corsi/calendario/",
+      "lastVerifiedAt": "2026-03-12T12:00:00+01:00",
+      "verificationStatus": "verified",
+      "audience": "kids",
+      "attendanceModel": "cycle",
+      "ageMin": 7,
+      "ageMax": 10,
+      "ageBand": "6-10",
+      "guardianRequired": false,
+      "priceNote": {
+        "en": "Enrollment is handled directly through the Diaria registration flow.",
+        "it": "L iscrizione si gestisce direttamente tramite il flusso di registrazione Diaria."
+      },
+      "venueSlug": "diaria-studio-gagini",
+      "instructorSlug": "diaria-kids"
+    },
+    {
+      "id": "diaria-contemporary-dance-wed",
+      "programSlug": "diaria-contemporary-dance",
+      "citySlug": "palermo",
+      "placeSlug": "diaria-studio-gagini",
+      "organizerSlug": "diaria-kids",
+      "categorySlug": "movement",
+      "styleSlug": "kids-contemporary-dance",
+      "title": {
+        "en": "Contemporary Dance 7-10",
+        "it": "Danza contemporanea 7-10"
+      },
+      "startAt": "2026-04-01T17:00:00.000+02:00",
+      "endAt": "2026-04-01T18:00:00.000+02:00",
+      "level": "beginner",
+      "language": "Italian",
+      "format": "in_person",
+      "bookingTargetSlug": "diaria-kids-enroll",
+      "sourceUrl": "https://www.diariapalermo.org/corsi/calendario/",
+      "lastVerifiedAt": "2026-03-12T12:00:00+01:00",
+      "verificationStatus": "verified",
+      "audience": "kids",
+      "attendanceModel": "cycle",
+      "ageMin": 7,
+      "ageMax": 10,
+      "ageBand": "6-10",
+      "guardianRequired": false,
+      "priceNote": {
+        "en": "Enrollment is handled directly through the Diaria registration flow.",
+        "it": "L iscrizione si gestisce direttamente tramite il flusso di registrazione Diaria."
+      },
+      "venueSlug": "diaria-studio-gagini",
+      "instructorSlug": "diaria-kids"
+    },
+    {
+      "id": "diaria-capoeira-mon",
+      "programSlug": "diaria-capoeira",
+      "citySlug": "palermo",
+      "placeSlug": "diaria-sala-venezia",
+      "organizerSlug": "diaria-kids",
+      "categorySlug": "movement",
+      "styleSlug": "kids-capoeira",
+      "title": {
+        "en": "Capoeira 6-10",
+        "it": "Capoeira 6-10"
+      },
+      "startAt": "2026-04-06T16:45:00.000+02:00",
+      "endAt": "2026-04-06T17:45:00.000+02:00",
+      "level": "beginner",
+      "language": "Italian",
+      "format": "in_person",
+      "bookingTargetSlug": "diaria-kids-enroll",
+      "sourceUrl": "https://www.diariapalermo.org/corsi/calendario/",
+      "lastVerifiedAt": "2026-03-12T12:00:00+01:00",
+      "verificationStatus": "verified",
+      "audience": "kids",
+      "attendanceModel": "cycle",
+      "ageMin": 6,
+      "ageMax": 10,
+      "ageBand": "6-10",
+      "guardianRequired": false,
+      "priceNote": {
+        "en": "Registration and pricing are shared through Diaria.",
+        "it": "Iscrizione e prezzi vengono condivisi tramite Diaria."
+      },
+      "venueSlug": "diaria-sala-venezia",
+      "instructorSlug": "diaria-kids"
+    },
+    {
+      "id": "diaria-capoeira-thu",
+      "programSlug": "diaria-capoeira",
+      "citySlug": "palermo",
+      "placeSlug": "diaria-sala-venezia",
+      "organizerSlug": "diaria-kids",
+      "categorySlug": "movement",
+      "styleSlug": "kids-capoeira",
+      "title": {
+        "en": "Capoeira 6-10",
+        "it": "Capoeira 6-10"
+      },
+      "startAt": "2026-04-02T16:45:00.000+02:00",
+      "endAt": "2026-04-02T17:45:00.000+02:00",
+      "level": "beginner",
+      "language": "Italian",
+      "format": "in_person",
+      "bookingTargetSlug": "diaria-kids-enroll",
+      "sourceUrl": "https://www.diariapalermo.org/corsi/calendario/",
+      "lastVerifiedAt": "2026-03-12T12:00:00+01:00",
+      "verificationStatus": "verified",
+      "audience": "kids",
+      "attendanceModel": "cycle",
+      "ageMin": 6,
+      "ageMax": 10,
+      "ageBand": "6-10",
+      "guardianRequired": false,
+      "priceNote": {
+        "en": "Registration and pricing are shared through Diaria.",
+        "it": "Iscrizione e prezzi vengono condivisi tramite Diaria."
+      },
+      "venueSlug": "diaria-sala-venezia",
+      "instructorSlug": "diaria-kids"
+    },
+    {
+      "id": "diaria-dance-foundations-tue",
+      "programSlug": "diaria-dance-foundations",
+      "citySlug": "palermo",
+      "placeSlug": "diaria-sala-venezia",
+      "organizerSlug": "diaria-kids",
+      "categorySlug": "movement",
+      "styleSlug": "kids-dance-foundations",
+      "title": {
+        "en": "Dance 5-6 Years",
+        "it": "Danza 5-6 anni"
+      },
+      "startAt": "2026-03-31T16:30:00.000+02:00",
+      "endAt": "2026-03-31T17:30:00.000+02:00",
+      "level": "beginner",
+      "language": "Italian",
+      "format": "in_person",
+      "bookingTargetSlug": "diaria-kids-enroll",
+      "sourceUrl": "https://www.diariapalermo.org/corsi/calendario/",
+      "lastVerifiedAt": "2026-03-12T12:00:00+01:00",
+      "verificationStatus": "verified",
+      "audience": "kids",
+      "attendanceModel": "cycle",
+      "ageMin": 5,
+      "ageMax": 6,
+      "ageBand": "3-5",
+      "guardianRequired": false,
+      "priceNote": {
+        "en": "Registration and pricing are shared through Diaria.",
+        "it": "Iscrizione e prezzi vengono condivisi tramite Diaria."
+      },
+      "venueSlug": "diaria-sala-venezia",
+      "instructorSlug": "diaria-kids"
+    },
+    {
+      "id": "diaria-dance-pedagogy-wed",
+      "programSlug": "diaria-dance-pedagogy",
+      "citySlug": "palermo",
+      "placeSlug": "diaria-sala-venezia",
+      "organizerSlug": "diaria-kids",
+      "categorySlug": "movement",
+      "styleSlug": "kids-dance-pedagogy",
+      "title": {
+        "en": "Dance Pedagogy 3-4",
+        "it": "Pedagogia della danza 3-4"
+      },
+      "startAt": "2026-04-01T16:00:00.000+02:00",
+      "endAt": "2026-04-01T17:00:00.000+02:00",
+      "level": "beginner",
+      "language": "Italian",
+      "format": "in_person",
+      "bookingTargetSlug": "diaria-kids-enroll",
+      "sourceUrl": "https://www.diariapalermo.org/corsi/calendario/",
+      "lastVerifiedAt": "2026-03-12T12:00:00+01:00",
+      "verificationStatus": "verified",
+      "audience": "families",
+      "attendanceModel": "cycle",
+      "ageMin": 3,
+      "ageMax": 4,
+      "ageBand": "3-5",
+      "guardianRequired": true,
+      "priceNote": {
+        "en": "Registration and pricing are shared through Diaria.",
+        "it": "Iscrizione e prezzi vengono condivisi tramite Diaria."
+      },
+      "venueSlug": "diaria-sala-venezia",
+      "instructorSlug": "diaria-kids"
     }
   ],
   "collections": [
@@ -1301,6 +2116,23 @@
         "it": "Vedi i posti indoor"
       },
       "kind": "editorial"
+    },
+    {
+      "slug": "after-school-active",
+      "citySlug": "palermo",
+      "title": {
+        "en": "After-school active",
+        "it": "Doposcuola attivo"
+      },
+      "description": {
+        "en": "Movement, dance, capoeira, and coordination picks that fit the weekday family schedule.",
+        "it": "Picks di movimento, danza, capoeira e coordinazione che stanno dentro l agenda feriale di famiglia."
+      },
+      "cta": {
+        "en": "Open active picks",
+        "it": "Apri i pick attivi"
+      },
+      "kind": "rule"
     }
   ]
 }

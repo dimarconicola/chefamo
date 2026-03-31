@@ -30,6 +30,8 @@ const copy = {
     date: 'Day',
     time: 'Time',
     category: 'Category',
+    age: 'Age band',
+    audience: 'Who it is for',
     style: 'Style',
     neighborhood: 'Neighborhood',
     language: 'Language',
@@ -54,11 +56,19 @@ const copy = {
     evening: 'Evening',
     inPerson: 'In person',
     openNow: 'Open now',
-    dropIn: 'Drop-in only'
+    dropIn: 'Drop-in only',
+    age0to2: '0-2 years',
+    age3to5: '3-5 years',
+    age6to10: '6-10 years',
+    age11to14: '11-14 years',
+    ageMixed: 'Mixed kids',
+    audienceKids: 'Kids only',
+    audienceFamilies: 'Families',
+    audienceMixed: 'Mixed ages'
   },
   it: {
     title: 'Filtri',
-    subtitle: 'Affina per data, fascia oraria, quartiere e profilo attività.',
+    subtitle: 'Affina per data, fascia oraria, quartiere, fascia d eta e profilo attivita.',
     show: 'Mostra filtri',
     hide: 'Nascondi filtri',
     activeFilters: 'filtri attivi',
@@ -67,6 +77,8 @@ const copy = {
     date: 'Giorno',
     time: 'Orario',
     category: 'Categoria',
+    age: 'Fascia d eta',
+    audience: 'Per chi',
     style: 'Stile',
     neighborhood: 'Quartiere',
     language: 'Lingua',
@@ -91,7 +103,15 @@ const copy = {
     evening: 'Sera',
     inPerson: 'In presenza',
     openNow: 'Aperto ora',
-    dropIn: 'Solo drop-in'
+    dropIn: 'Solo drop-in',
+    age0to2: '0-2 anni',
+    age3to5: '3-5 anni',
+    age6to10: '6-10 anni',
+    age11to14: '11-14 anni',
+    ageMixed: '3-14 anni',
+    audienceKids: 'Solo bambini',
+    audienceFamilies: 'Famiglie',
+    audienceMixed: 'Eta miste'
   }
 } as const;
 
@@ -116,6 +136,8 @@ export function FilterBar({
     new Set(filters.time_buckets?.length ? filters.time_buckets : filters.time_bucket ? [filters.time_bucket] : [])
   );
   const [category, setCategory] = useState<string>(filters.category ?? '');
+  const [ageBand, setAgeBand] = useState<string>(filters.age_band ?? '');
+  const [audience, setAudience] = useState<string>(filters.audience ?? '');
   const [style, setStyle] = useState<string>(filters.style ?? '');
   const [level, setLevel] = useState<string>(filters.level ?? '');
   const [language, setLanguage] = useState<string>(filters.language ?? '');
@@ -134,6 +156,8 @@ export function FilterBar({
     if (dayFilter) labelsSet.push(dayFilter);
     timeBuckets.forEach((item) => labelsSet.push(item));
     if (category) labelsSet.push(category);
+    if (ageBand) labelsSet.push(ageBand);
+    if (audience) labelsSet.push(audience);
     if (style) labelsSet.push(style);
     if (level) labelsSet.push(level);
     if (language) labelsSet.push(language);
@@ -141,7 +165,7 @@ export function FilterBar({
     if (format) labelsSet.push(format);
     availability.forEach((item) => labelsSet.push(item));
     return labelsSet;
-  }, [availability, category, dayFilter, format, language, level, neighborhood, style, timeBuckets]);
+  }, [ageBand, audience, availability, category, dayFilter, format, language, level, neighborhood, style, timeBuckets]);
 
   const applyFilters = () => {
     const source = typeof window === 'undefined' ? searchParams.toString() : window.location.search;
@@ -159,6 +183,8 @@ export function FilterBar({
     setOrDelete('weekday', dayFilter && isWeekday ? dayFilter : undefined);
     setOrDelete('time_bucket', timeBuckets.size > 0 ? Array.from(timeBuckets).join(',') : undefined);
     setOrDelete('category', category || undefined);
+    setOrDelete('age_band', ageBand || undefined);
+    setOrDelete('audience', audience || undefined);
     setOrDelete('style', style || undefined);
     setOrDelete('level', level || undefined);
     setOrDelete('language', language || undefined);
@@ -175,13 +201,15 @@ export function FilterBar({
   const resetFilters = () => {
     const source = typeof window === 'undefined' ? searchParams.toString() : window.location.search;
     const next = new URLSearchParams(source);
-    ['date', 'weekday', 'time_bucket', 'category', 'style', 'level', 'language', 'neighborhood', 'format', 'open_now', 'drop_in', 'page'].forEach((key) =>
+    ['date', 'weekday', 'time_bucket', 'category', 'age_band', 'audience', 'style', 'level', 'language', 'neighborhood', 'format', 'open_now', 'drop_in', 'page'].forEach((key) =>
       next.delete(key)
     );
 
     setDayFilter('');
     setTimeBuckets(new Set());
     setCategory('');
+    setAgeBand('');
+    setAudience('');
     setStyle('');
     setLevel('');
     setLanguage('');
@@ -242,6 +270,10 @@ export function FilterBar({
             setTimeBuckets={setTimeBuckets}
             category={category}
             setCategory={setCategory}
+            ageBand={ageBand}
+            setAgeBand={setAgeBand}
+            audience={audience}
+            setAudience={setAudience}
             style={style}
             setStyle={setStyle}
             level={level}

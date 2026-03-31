@@ -64,6 +64,8 @@ const buildOccurrence = (
   instructorSlug: program.organizerSlug
 });
 
+const diariaCalendarSource = 'https://www.diariapalermo.org/corsi/calendario/';
+
 export const chefamoCities: City[] = [
   {
     slug: 'palermo',
@@ -127,10 +129,13 @@ export const chefamoCategories: ActivityCategory[] = [
   {
     slug: 'movement',
     citySlug: 'palermo',
-    name: localized('Movement', 'Movimento'),
-    description: localized('Circo, dance, capoeira, and body-led after-school activities.', 'Circo, danza, capoeira e attivita motorie per il doposcuola.'),
+    name: localized('Sports & Movement', 'Sport e movimento'),
+    description: localized(
+      'Circo, dance, capoeira, active play, and structured after-school movement for children.',
+      'Circo, danza, capoeira, gioco motorio e attivita sportive strutturate per il doposcuola.'
+    ),
     visibility: 'live',
-    heroMetric: localized('Physical activities grouped by age band.', 'Attivita fisiche raggruppate per fascia d eta.')
+    heroMetric: localized('Active slots grouped by age band and weekly rhythm.', 'Slot attivi raggruppati per fascia d eta e ritmo settimanale.')
   },
   {
     slug: 'stem',
@@ -160,6 +165,12 @@ export const chefamoCategories: ActivityCategory[] = [
 
 export const chefamoStyles: Style[] = [
   { slug: 'guided-visit', categorySlug: 'culture', name: localized('Guided visit', 'Visita guidata'), description: localized('Short guided route with a clear start time.', 'Percorso guidato breve con orario chiaro.') },
+  { slug: 'circomotricita', categorySlug: 'movement', name: localized('Circomotricity', 'Circomotricita'), description: localized('Play-based movement sessions with circus-inspired motor skills for children.', 'Sessioni di movimento ludico con competenze motorie ispirate al circo per bambini.') },
+  { slug: 'aerial-kids-lab', categorySlug: 'movement', name: localized('Aerial kids lab', 'Laboratorio aereo bambini'), description: localized('Suspension-based movement lab for children under close supervision.', 'Laboratorio di movimento in sospensione per bambini con supervisione ravvicinata.') },
+  { slug: 'kids-dance-foundations', categorySlug: 'movement', name: localized('Kids dance foundations', 'Danza base bambini'), description: localized('Introductory dance classes for early school years.', 'Lezioni introduttive di danza per i primi anni scolari.') },
+  { slug: 'kids-dance-pedagogy', categorySlug: 'movement', name: localized('Dance pedagogy 3-4', 'Pedagogia della danza 3-4'), description: localized('Early-childhood movement pedagogy focused on body awareness.', 'Percorso di pedagogia del movimento per la prima infanzia e la consapevolezza corporea.') },
+  { slug: 'kids-contemporary-dance', categorySlug: 'movement', name: localized('Kids contemporary dance', 'Danza contemporanea bambini'), description: localized('Contemporary dance sessions for children with rhythm and movement foundations.', 'Sessioni di danza contemporanea per bambini con basi di ritmo e movimento.') },
+  { slug: 'kids-capoeira', categorySlug: 'movement', name: localized('Kids capoeira', 'Capoeira bambini'), description: localized('Capoeira for children blending rhythm, coordination, and play.', 'Capoeira per bambini tra ritmo, coordinazione e gioco.') },
   { slug: 'planetarium-show', categorySlug: 'stem', name: localized('Planetarium show', 'Spettacolo al planetario'), description: localized('Dome-based astronomy format for families.', 'Format sotto cupola dedicato all astronomia per famiglie.') },
   { slug: 'hands-on-lab', categorySlug: 'stem', name: localized('Hands-on lab', 'Laboratorio hands-on'), description: localized('Interactive making or discovery lab.', 'Laboratorio interattivo di scoperta o costruzione.') },
   { slug: 'storytime', categorySlug: 'reading', name: localized('Storytime', 'Letture animate'), description: localized('Reading-led session for young children and carers.', 'Sessione guidata da letture per bimbi piccoli e accompagnatori.') },
@@ -216,6 +227,39 @@ export const chefamoOrganizers: Organizer[] = [
     shortBio: localized('Small-group coding and digital creativity for older children.', 'Piccoli gruppi di coding e creativita digitale per bambini piu grandi.'),
     specialties: ['kids-coding', 'hands-on-lab'],
     languages: ['Italian', 'English']
+  },
+  {
+    slug: 'circo-pificio-team',
+    citySlug: 'palermo',
+    name: 'Circo Pificio team',
+    shortBio: localized(
+      'Local team running circomotricity sessions that work well for younger children with high energy.',
+      'Team locale che conduce sessioni di circomotricita adatte ai piu piccoli con energia alta.'
+    ),
+    specialties: ['circomotricita', 'active-play'],
+    languages: ['Italian']
+  },
+  {
+    slug: 'spazio-terra-team',
+    citySlug: 'palermo',
+    name: 'Spazio Terra team',
+    shortBio: localized(
+      'Workshop-led movement team behind kids aerial and body-awareness labs.',
+      'Team di laboratorio dietro percorsi aerei e di consapevolezza corporea per bambini.'
+    ),
+    specialties: ['aerial-kids-lab', 'movement-lab'],
+    languages: ['Italian']
+  },
+  {
+    slug: 'diaria-kids',
+    citySlug: 'palermo',
+    name: 'Diaria Kids',
+    shortBio: localized(
+      'Recurring after-school dance and capoeira supply published through Diaria’s Palermo calendar.',
+      'Programmazione ricorrente doposcuola di danza e capoeira pubblicata nel calendario palermitano di Diaria.'
+    ),
+    specialties: ['kids-contemporary-dance', 'kids-dance-foundations', 'kids-dance-pedagogy', 'kids-capoeira'],
+    languages: ['Italian']
   }
 ];
 
@@ -226,7 +270,11 @@ export const chefamoBookingTargets: BookingTarget[] = [
   { slug: 'biblioteca-contact', type: 'phone', label: '091 7408870', href: 'tel:+390917408870' },
   { slug: 'museo-marionette-contact', type: 'email', label: 'info@museomarionettepalermo.it', href: 'mailto:info@museomarionettepalermo.it' },
   { slug: 'villa-filippina-info', type: 'email', label: 'parcovillafilippina@gmail.com', href: 'mailto:parcovillafilippina@gmail.com' },
-  { slug: 'kids-lab-booking', type: 'website', label: 'Palermo Kids Lab', href: 'https://www.palermokidslab.it/' }
+  { slug: 'kids-lab-booking', type: 'website', label: 'Palermo Kids Lab', href: 'https://www.palermokidslab.it/' },
+  { slug: 'circopificio-website', type: 'website', label: 'Circo Pificio', href: 'https://www.circopificio.it/circomotricita/' },
+  { slug: 'spazio-terra-source', type: 'website', label: 'Spazio Terra', href: 'https://www.facebook.com/spazioterrapalermo' },
+  { slug: 'diaria-kids-enroll', type: 'direct', label: 'Diaria iscrizione', href: 'https://www.diariapalermo.org/iscrizione-corsi/' },
+  { slug: 'diaria-kids-whatsapp', type: 'whatsapp', label: 'WhatsApp Diaria', href: 'https://wa.me/393517066792' }
 ];
 
 export const chefamoPlaces: Place[] = [
@@ -369,6 +417,98 @@ export const chefamoPlaces: Place[] = [
     sourceUrl: 'https://www.palermokidslab.it/',
     lastVerifiedAt: '2026-03-29T11:00:00+02:00',
     profile: 'community_hub',
+    environment: 'indoor'
+  },
+  {
+    slug: 'circo-pificio-palermo',
+    citySlug: 'palermo',
+    neighborhoodSlug: 'politeama',
+    name: 'Circo Pificio',
+    tagline: localized('Circomotricity and active play for children with a real weekly rhythm.', 'Circomotricita e gioco motorio per bambini con un vero ritmo settimanale.'),
+    description: localized(
+      'A focused movement pick for families who want coordination, balance, and fun without the chaos of a generic playroom.',
+      'Una scelta motoria centrata per famiglie che cercano coordinazione, equilibrio e divertimento senza il caos di una ludoteca generica.'
+    ),
+    address: 'Via Serradifalco 130, Palermo',
+    geo: { lat: 38.1239, lng: 13.3394 },
+    amenities: ['Small groups', 'Movement lab', 'Kids-focused programming'],
+    languages: ['Italian'],
+    styleSlugs: ['circomotricita'],
+    categorySlugs: ['movement'],
+    bookingTargetOrder: ['circopificio-website'],
+    freshnessNote: localized('Current public program checked from the official circomotricity page.', 'Programma pubblico corrente controllato dalla pagina ufficiale di circomotricita.'),
+    sourceUrl: 'https://www.circopificio.it/circomotricita/',
+    lastVerifiedAt: '2026-03-12T12:00:00+01:00',
+    profile: 'studio',
+    environment: 'indoor'
+  },
+  {
+    slug: 'spazio-terra-palermo',
+    citySlug: 'palermo',
+    neighborhoodSlug: 'politeama',
+    name: 'Spazio Terra',
+    tagline: localized('Workshop-led aerial and body-awareness sessions for children.', 'Sessioni aeree e di consapevolezza corporea per bambini guidate come laboratorio.'),
+    description: localized(
+      'Useful when the family wants one playful but supervised movement format that feels different from standard classes.',
+      'Utile quando la famiglia vuole un format di movimento giocoso ma supervisionato, diverso dalle classi standard.'
+    ),
+    address: 'Via Dante 119, Palermo',
+    geo: { lat: 38.1268, lng: 13.3498 },
+    amenities: ['Workshop format', 'Indoor', 'Supervised apparatus'],
+    languages: ['Italian'],
+    styleSlugs: ['aerial-kids-lab'],
+    categorySlugs: ['movement'],
+    bookingTargetOrder: ['spazio-terra-source'],
+    freshnessNote: localized('Public workshop listing checked from the organizer’s active public page.', 'Scheda laboratorio controllata dalla pagina pubblica attiva dell organizzatore.'),
+    sourceUrl: 'https://www.facebook.com/spazioterrapalermo',
+    lastVerifiedAt: '2026-03-12T12:00:00+01:00',
+    profile: 'studio',
+    environment: 'indoor'
+  },
+  {
+    slug: 'diaria-sala-venezia',
+    citySlug: 'palermo',
+    neighborhoodSlug: 'kalsa',
+    name: 'Diaria - Sala Venezia',
+    tagline: localized('After-school dance and capoeira in the historic center.', 'Danza e capoeira doposcuola nel centro storico.'),
+    description: localized(
+      'One of the strongest recurring kids-active clusters in the city if you need repeatable weekday options.',
+      'Uno dei cluster attivi per bambini piu forti in citta se servono opzioni feriali ripetibili.'
+    ),
+    address: 'Via Venezia 61, Palermo',
+    geo: { lat: 38.1173, lng: 13.3619 },
+    amenities: ['Weekly timetable', 'Historic center', 'Multi-age slots'],
+    languages: ['Italian'],
+    styleSlugs: ['kids-dance-foundations', 'kids-dance-pedagogy', 'kids-contemporary-dance', 'kids-capoeira'],
+    categorySlugs: ['movement'],
+    bookingTargetOrder: ['diaria-kids-enroll', 'diaria-kids-whatsapp'],
+    freshnessNote: localized('Kids timetable checked against the official Diaria calendar.', 'Calendario bambini controllato sul calendario ufficiale Diaria.'),
+    sourceUrl: diariaCalendarSource,
+    lastVerifiedAt: '2026-03-12T12:00:00+01:00',
+    profile: 'studio',
+    environment: 'indoor'
+  },
+  {
+    slug: 'diaria-studio-gagini',
+    citySlug: 'palermo',
+    neighborhoodSlug: 'kalsa',
+    name: 'Diaria - Studio Gagini',
+    tagline: localized('Recurring kids dance slots near La Loggia.', 'Slot ricorrenti di danza bambini vicino La Loggia.'),
+    description: localized(
+      'A dependable center-city option for families planning weekly movement habits instead of one-off events.',
+      'Un opzione affidabile in centro per famiglie che pianificano abitudini motorie settimanali invece di eventi una tantum.'
+    ),
+    address: 'Via Antonio Gagini 31/59, Palermo',
+    geo: { lat: 38.1202, lng: 13.3621 },
+    amenities: ['Weekly timetable', 'Central location', 'Beginner-friendly'],
+    languages: ['Italian'],
+    styleSlugs: ['kids-contemporary-dance'],
+    categorySlugs: ['movement'],
+    bookingTargetOrder: ['diaria-kids-enroll', 'diaria-kids-whatsapp'],
+    freshnessNote: localized('Kids dance slots checked against the official Diaria calendar.', 'Slot danza bambini controllati sul calendario ufficiale Diaria.'),
+    sourceUrl: diariaCalendarSource,
+    lastVerifiedAt: '2026-03-12T12:00:00+01:00',
+    profile: 'studio',
     environment: 'indoor'
   }
 ];
@@ -562,6 +702,186 @@ export const chefamoPrograms: Program[] = [
     scheduleKind: 'recurring',
     venueSlug: 'palermo-kids-lab-place',
     instructorSlug: 'palermo-kids-lab'
+  },
+  {
+    slug: 'circo-pificio-circomotricita',
+    citySlug: 'palermo',
+    placeSlug: 'circo-pificio-palermo',
+    organizerSlug: 'circo-pificio-team',
+    categorySlug: 'movement',
+    styleSlug: 'circomotricita',
+    title: localized('Kids Circomotricity', 'Circomotricita bambini'),
+    summary: localized(
+      'A strong coordination and confidence format for younger children who need structured movement more than competition.',
+      'Un format forte per coordinazione e sicurezza corporea nei piu piccoli che hanno bisogno di movimento strutturato piu che di competizione.'
+    ),
+    level: 'beginner',
+    language: 'Italian',
+    format: 'in_person',
+    bookingTargetSlug: 'circopificio-website',
+    sourceUrl: 'https://www.circopificio.it/circomotricita/',
+    lastVerifiedAt: '2026-03-12T12:00:00+01:00',
+    verificationStatus: 'verified',
+    audience: 'kids',
+    attendanceModel: 'cycle',
+    ageMin: 3,
+    ageMax: 10,
+    ageBand: 'mixed-kids',
+    guardianRequired: false,
+    priceNote: localized('Enrollment details are shared directly by the organizer.', 'I dettagli di iscrizione vengono condivisi direttamente dall organizzatore.'),
+    scheduleKind: 'recurring',
+    venueSlug: 'circo-pificio-palermo',
+    instructorSlug: 'circo-pificio-team'
+  },
+  {
+    slug: 'spazio-terra-aerial-lab',
+    citySlug: 'palermo',
+    placeSlug: 'spazio-terra-palermo',
+    organizerSlug: 'spazio-terra-team',
+    categorySlug: 'movement',
+    styleSlug: 'aerial-kids-lab',
+    title: localized('Aerial Kids Lab', 'Laboratorio aereo bambini'),
+    summary: localized(
+      'A playful Saturday movement option when the family wants novelty, supervision, and one clear slot.',
+      'Un opzione motoria del sabato quando la famiglia cerca novita, supervisione e uno slot chiaro.'
+    ),
+    level: 'beginner',
+    language: 'Italian',
+    format: 'in_person',
+    bookingTargetSlug: 'spazio-terra-source',
+    sourceUrl: 'https://www.facebook.com/spazioterrapalermo',
+    lastVerifiedAt: '2026-03-12T12:00:00+01:00',
+    verificationStatus: 'verified',
+    audience: 'kids',
+    attendanceModel: 'drop_in',
+    ageMin: 6,
+    ageMax: 12,
+    ageBand: '6-10',
+    guardianRequired: false,
+    priceNote: localized('Workshop pricing is usually shared per event.', 'Il prezzo del laboratorio viene in genere condiviso evento per evento.'),
+    scheduleKind: 'seasonal',
+    venueSlug: 'spazio-terra-palermo',
+    instructorSlug: 'spazio-terra-team'
+  },
+  {
+    slug: 'diaria-contemporary-dance',
+    citySlug: 'palermo',
+    placeSlug: 'diaria-studio-gagini',
+    organizerSlug: 'diaria-kids',
+    categorySlug: 'movement',
+    styleSlug: 'kids-contemporary-dance',
+    title: localized('Contemporary Dance 7-10', 'Danza contemporanea 7-10'),
+    summary: localized(
+      'A repeatable weekly dance slot for children ready for rhythm, sequence, and expressive movement.',
+      'Uno slot di danza settimanale ripetibile per bambini pronti a ritmo, sequenza e movimento espressivo.'
+    ),
+    level: 'beginner',
+    language: 'Italian',
+    format: 'in_person',
+    bookingTargetSlug: 'diaria-kids-enroll',
+    sourceUrl: diariaCalendarSource,
+    lastVerifiedAt: '2026-03-12T12:00:00+01:00',
+    verificationStatus: 'verified',
+    audience: 'kids',
+    attendanceModel: 'cycle',
+    ageMin: 7,
+    ageMax: 10,
+    ageBand: '6-10',
+    guardianRequired: false,
+    priceNote: localized('Enrollment is handled directly through the Diaria registration flow.', 'L iscrizione si gestisce direttamente tramite il flusso di registrazione Diaria.'),
+    scheduleKind: 'recurring',
+    venueSlug: 'diaria-studio-gagini',
+    instructorSlug: 'diaria-kids'
+  },
+  {
+    slug: 'diaria-capoeira',
+    citySlug: 'palermo',
+    placeSlug: 'diaria-sala-venezia',
+    organizerSlug: 'diaria-kids',
+    categorySlug: 'movement',
+    styleSlug: 'kids-capoeira',
+    title: localized('Capoeira 6-10', 'Capoeira 6-10'),
+    summary: localized(
+      'A rhythmic active format that works well for children who want movement, music, and coordination together.',
+      'Un format attivo ritmico che funziona bene per bambini che vogliono movimento, musica e coordinazione insieme.'
+    ),
+    level: 'beginner',
+    language: 'Italian',
+    format: 'in_person',
+    bookingTargetSlug: 'diaria-kids-enroll',
+    sourceUrl: diariaCalendarSource,
+    lastVerifiedAt: '2026-03-12T12:00:00+01:00',
+    verificationStatus: 'verified',
+    audience: 'kids',
+    attendanceModel: 'cycle',
+    ageMin: 6,
+    ageMax: 10,
+    ageBand: '6-10',
+    guardianRequired: false,
+    priceNote: localized('Registration and pricing are shared through Diaria.', 'Iscrizione e prezzi vengono condivisi tramite Diaria.'),
+    scheduleKind: 'recurring',
+    venueSlug: 'diaria-sala-venezia',
+    instructorSlug: 'diaria-kids'
+  },
+  {
+    slug: 'diaria-dance-foundations',
+    citySlug: 'palermo',
+    placeSlug: 'diaria-sala-venezia',
+    organizerSlug: 'diaria-kids',
+    categorySlug: 'movement',
+    styleSlug: 'kids-dance-foundations',
+    title: localized('Dance 5-6 Years', 'Danza 5-6 anni'),
+    summary: localized(
+      'An early-school dance slot with a clean age fit for families wanting a gentle structured start.',
+      'Uno slot di danza per i primi anni scolari con una fascia eta chiara per famiglie che cercano un inizio strutturato ma gentile.'
+    ),
+    level: 'beginner',
+    language: 'Italian',
+    format: 'in_person',
+    bookingTargetSlug: 'diaria-kids-enroll',
+    sourceUrl: diariaCalendarSource,
+    lastVerifiedAt: '2026-03-12T12:00:00+01:00',
+    verificationStatus: 'verified',
+    audience: 'kids',
+    attendanceModel: 'cycle',
+    ageMin: 5,
+    ageMax: 6,
+    ageBand: '3-5',
+    guardianRequired: false,
+    priceNote: localized('Registration and pricing are shared through Diaria.', 'Iscrizione e prezzi vengono condivisi tramite Diaria.'),
+    scheduleKind: 'recurring',
+    venueSlug: 'diaria-sala-venezia',
+    instructorSlug: 'diaria-kids'
+  },
+  {
+    slug: 'diaria-dance-pedagogy',
+    citySlug: 'palermo',
+    placeSlug: 'diaria-sala-venezia',
+    organizerSlug: 'diaria-kids',
+    categorySlug: 'movement',
+    styleSlug: 'kids-dance-pedagogy',
+    title: localized('Dance Pedagogy 3-4', 'Pedagogia della danza 3-4'),
+    summary: localized(
+      'A first-steps body-awareness class designed for very young children and caregivers planning early routines.',
+      'Una classe di primi passi e consapevolezza corporea pensata per bambini molto piccoli e famiglie che impostano routine precoci.'
+    ),
+    level: 'beginner',
+    language: 'Italian',
+    format: 'in_person',
+    bookingTargetSlug: 'diaria-kids-enroll',
+    sourceUrl: diariaCalendarSource,
+    lastVerifiedAt: '2026-03-12T12:00:00+01:00',
+    verificationStatus: 'verified',
+    audience: 'families',
+    attendanceModel: 'cycle',
+    ageMin: 3,
+    ageMax: 4,
+    ageBand: '3-5',
+    guardianRequired: true,
+    priceNote: localized('Registration and pricing are shared through Diaria.', 'Iscrizione e prezzi vengono condivisi tramite Diaria.'),
+    scheduleKind: 'recurring',
+    venueSlug: 'diaria-sala-venezia',
+    instructorSlug: 'diaria-kids'
   }
 ];
 
@@ -574,7 +894,15 @@ export const chefamoOccurrences: Occurrence[] = [
   buildOccurrence('biblioteca-storytime-wed', chefamoPrograms[3], nextWeekday(3, 16, 30, 45)),
   buildOccurrence('marionette-weekend-show-sat', chefamoPrograms[4], nextWeekday(6, 16, 30, 60)),
   buildOccurrence('marionette-weekend-show-sun', chefamoPrograms[4], nextWeekday(7, 12, 0, 60)),
-  buildOccurrence('palermo-kids-coding-club-sat', chefamoPrograms[6], nextWeekday(6, 10, 0, 90))
+  buildOccurrence('palermo-kids-coding-club-sat', chefamoPrograms[6], nextWeekday(6, 10, 0, 90)),
+  buildOccurrence('circo-pificio-circomotricita-tue', chefamoPrograms[7], nextWeekday(2, 17, 0, 60)),
+  buildOccurrence('spazio-terra-aerial-lab-sat', chefamoPrograms[8], nextWeekday(6, 10, 30, 60)),
+  buildOccurrence('diaria-contemporary-dance-mon', chefamoPrograms[9], nextWeekday(1, 17, 0, 60)),
+  buildOccurrence('diaria-contemporary-dance-wed', chefamoPrograms[9], nextWeekday(3, 17, 0, 60)),
+  buildOccurrence('diaria-capoeira-mon', chefamoPrograms[10], nextWeekday(1, 16, 45, 60)),
+  buildOccurrence('diaria-capoeira-thu', chefamoPrograms[10], nextWeekday(4, 16, 45, 60)),
+  buildOccurrence('diaria-dance-foundations-tue', chefamoPrograms[11], nextWeekday(2, 16, 30, 60)),
+  buildOccurrence('diaria-dance-pedagogy-wed', chefamoPrograms[12], nextWeekday(3, 16, 0, 60))
 ];
 
 export const chefamoCollections: EditorialCollection[] = [
@@ -593,5 +921,16 @@ export const chefamoCollections: EditorialCollection[] = [
     description: localized('Indoor options you can trust when the forecast turns or energy drops.', 'Opzioni indoor affidabili quando il meteo gira o cala l energia.'),
     cta: localized('See indoor picks', 'Vedi i posti indoor'),
     kind: 'editorial'
+  },
+  {
+    slug: 'after-school-active',
+    citySlug: 'palermo',
+    title: localized('After-school active', 'Doposcuola attivo'),
+    description: localized(
+      'Movement, dance, capoeira, and coordination picks that fit the weekday family schedule.',
+      'Picks di movimento, danza, capoeira e coordinazione che stanno dentro l agenda feriale di famiglia.'
+    ),
+    cta: localized('Open active picks', 'Apri i pick attivi'),
+    kind: 'rule'
   }
 ];

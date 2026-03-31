@@ -81,12 +81,6 @@ export default async function ActivitiesPage({
   const weekOccurrences = filterByNeighborhood(applyOccurrenceFilters(baseOccurrences, { date: 'week' }));
   const filteredOccurrences = filterByNeighborhood(applyOccurrenceFilters(baseOccurrences, filters));
   const cityStyleSlugs = new Set(weekOccurrences.map((occurrence) => occurrence.styleSlug));
-  const metrics = {
-    places: cityPlaces.length,
-    occurrences: weekOccurrences.length,
-    neighborhoods: new Set(cityPlaces.map((place) => place.neighborhoodSlug)).size,
-    programs: new Set(weekOccurrences.map((occurrence) => occurrence.programSlug)).size
-  };
   const occurrenceResults = filteredOccurrences.sort((left, right) => left.startAt.localeCompare(right.startAt));
   const visiblePlaces = [...new Set(occurrenceResults.map((occurrence) => occurrence.placeSlug))]
     .map((slug) => placeBySlug.get(slug))
@@ -134,12 +128,27 @@ export default async function ActivitiesPage({
     sat: locale === 'it' ? 'Sabato' : 'Saturday',
     sun: locale === 'it' ? 'Domenica' : 'Sunday'
   } as const;
+  const ageBandLabels = {
+    '0-2': locale === 'it' ? '0-2 anni' : '0-2 years',
+    '3-5': locale === 'it' ? '3-5 anni' : '3-5 years',
+    '6-10': locale === 'it' ? '6-10 anni' : '6-10 years',
+    '11-14': locale === 'it' ? '11-14 anni' : '11-14 years',
+    'mixed-kids': locale === 'it' ? '3-14 anni' : 'Mixed kids'
+  } as const;
+  const audienceLabels = {
+    kids: locale === 'it' ? 'Solo bambini' : 'Kids only',
+    families: locale === 'it' ? 'Famiglie' : 'Families',
+    mixed: locale === 'it' ? 'Eta miste' : 'Mixed ages',
+    adults: locale === 'it' ? 'Adulti' : 'Adults'
+  } as const;
 
   const activeFilters = [
     filters.date ? filterValueToLabel.date[filters.date] : null,
     filters.weekday ? weekdayLabels[filters.weekday] : null,
     ...selectedTimeBuckets.map((bucket) => filterValueToLabel.time_bucket[bucket]),
     filters.category ? categories.find((category) => category.slug === filters.category)?.name[locale] ?? filters.category : null,
+    filters.age_band ? ageBandLabels[filters.age_band] : null,
+    filters.audience ? audienceLabels[filters.audience] : null,
     filters.style ? styleLabelBySlug.get(filters.style) ?? filters.style : null,
     filters.level ? filterValueToLabel.level[filters.level] : null,
     filters.language ? filters.language : null,
@@ -164,6 +173,30 @@ export default async function ActivitiesPage({
     const query = next.toString();
     return query ? `${basePath}?${query}` : basePath;
   };
+  const movementOccurrences = occurrenceResults.filter((occurrence) => occurrence.categorySlug === 'movement');
+  const activeAgeCounts = {
+    preschool: occurrenceResults.filter((occurrence) => occurrence.ageBand === '3-5').length,
+    schoolAge: occurrenceResults.filter((occurrence) => occurrence.ageBand === '6-10').length,
+    olderKids: occurrenceResults.filter((occurrence) => occurrence.ageBand === '11-14' || occurrence.ageBand === 'mixed-kids').length
+  };
+  const quickLinks = [
+    {
+      href: hrefWith({ category: 'movement', page: undefined }),
+      label: locale === 'it' ? 'Sport e movimento' : 'Sports & movement'
+    },
+    {
+      href: hrefWith({ age_band: '3-5', page: undefined }),
+      label: ageBandLabels['3-5']
+    },
+    {
+      href: hrefWith({ age_band: '6-10', page: undefined }),
+      label: ageBandLabels['6-10']
+    },
+    {
+      href: hrefWith({ date: 'weekend', page: undefined }),
+      label: locale === 'it' ? 'Solo weekend' : 'Weekend only'
+    }
+  ];
 
   const pageSize = 16;
   const totalPages = Math.max(1, Math.ceil(occurrenceResults.length / pageSize));
@@ -203,37 +236,37 @@ export default async function ActivitiesPage({
 
   const intro =
     locale === 'it'
-      ? 'Attività con orario chiaro, età leggibili e passaggi diretti verso il luogo o la prenotazione.'
-      : 'Time-based activities with clear age guidance and direct paths to the place or booking details.';
+      ? 'Sport, movimento e attivita con orari reali, fasce eta leggibili e passaggi diretti verso il luogo o la prenotazione.'
+      : 'Sports, movement, and scheduled activities with clear age guidance and direct paths to the place or booking details.';
   const copy =
     locale === 'it'
       ? {
-          heroBadge: `${city.name[locale]} · attività`,
-          title: 'Scopri attività che entrano davvero nella settimana.',
+          heroBadge: `${city.name[locale]} · sport e attività`,
+          title: 'Trova gli slot giusti per tenere la settimana in movimento.',
           intro,
           back: 'Torna alla città',
           todayNearby: dict.todayNearby,
           chipOne: `${occurrenceResults.length} attività visibili`,
-          chipTwo: `${visiblePlaces.length} luoghi attivi`,
-          chipThree: `${metrics.programs} programmi con orario`,
+          chipTwo: `${movementOccurrences.length} slot attivi`,
+          chipThree: `${visiblePlaces.length} luoghi attivi`,
           statActivities: 'Attività filtrate',
+          statMovement: 'Sport e movimento',
           statPlaces: 'Luoghi in vista',
-          statPrograms: 'Programmi',
-          statAreas: 'Quartieri'
+          statAge: '6-14 utili'
         }
       : {
-          heroBadge: `${city.name[locale]} · activities`,
-          title: 'Find activities that can genuinely fit the week.',
+          heroBadge: `${city.name[locale]} · sports & activities`,
+          title: 'Find the right slots to keep the week moving.',
           intro,
           back: 'Back to city',
           todayNearby: dict.todayNearby,
           chipOne: `${occurrenceResults.length} visible activities`,
-          chipTwo: `${visiblePlaces.length} active places`,
-          chipThree: `${metrics.programs} timed programs`,
+          chipTwo: `${movementOccurrences.length} active movement slots`,
+          chipThree: `${visiblePlaces.length} active places`,
           statActivities: 'Filtered activities',
+          statMovement: 'Sports & movement',
           statPlaces: 'Places in view',
-          statPrograms: 'Programs',
-          statAreas: 'Neighborhoods'
+          statAge: 'Useful for 6-14'
         };
 
   return (
@@ -252,6 +285,13 @@ export default async function ActivitiesPage({
               <span className="chefamo-chip chefamo-chip-yellow">{copy.chipTwo}</span>
               <span className="chefamo-chip chefamo-chip-green">{copy.chipThree}</span>
             </div>
+            <div className="chefamo-chip-row chefamo-discovery-shortcuts">
+              {quickLinks.map((link) => (
+                <ServerButtonLink key={link.label} href={link.href} className="chefamo-shortcut-link">
+                  {link.label}
+                </ServerButtonLink>
+              ))}
+            </div>
             <div className="chefamo-action-row">
               <ServerButtonLink href={`/${locale}/${citySlug}`} className="chefamo-cta chefamo-cta-secondary">
                 {copy.back}
@@ -264,24 +304,24 @@ export default async function ActivitiesPage({
           </div>
 
           <article className="chefamo-play-card chefamo-city-overview-card">
-            <p className="chefamo-card-kicker">{dict.classes}</p>
-            <h2>{locale === 'it' ? 'Filtri forti, orari chiari, pochi passaggi.' : 'Strong filters, clear times, fewer steps.'}</h2>
+            <p className="chefamo-card-kicker">{locale === 'it' ? 'Sport e attivita' : 'Sports & activities'}</p>
+            <h2>{locale === 'it' ? 'Fasce età chiare, routine feriali, luoghi che reggono davvero.' : 'Clear age bands, weekday rhythm, and places that actually hold up.'}</h2>
             <div className="chefamo-stat-grid">
               <div className="chefamo-stat-tile chefamo-tone-red">
                 <strong>{occurrenceResults.length}</strong>
                 <span>{copy.statActivities}</span>
               </div>
               <div className="chefamo-stat-tile chefamo-tone-blue">
+                <strong>{movementOccurrences.length}</strong>
+                <span>{copy.statMovement}</span>
+              </div>
+              <div className="chefamo-stat-tile chefamo-tone-yellow">
                 <strong>{visiblePlaces.length}</strong>
                 <span>{copy.statPlaces}</span>
               </div>
-              <div className="chefamo-stat-tile chefamo-tone-yellow">
-                <strong>{metrics.programs}</strong>
-                <span>{copy.statPrograms}</span>
-              </div>
               <div className="chefamo-stat-tile chefamo-tone-green">
-                <strong>{metrics.neighborhoods}</strong>
-                <span>{copy.statAreas}</span>
+                <strong>{activeAgeCounts.schoolAge + activeAgeCounts.olderKids}</strong>
+                <span>{copy.statAge}</span>
               </div>
             </div>
           </article>
