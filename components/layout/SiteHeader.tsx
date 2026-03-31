@@ -4,6 +4,7 @@ import NextLink from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useState } from 'react';
 
+import { ChefamoMark } from '@/components/brand/ChefamoMark';
 import { switchLocalePath } from '@/lib/i18n/routing';
 import type { Locale } from '@/lib/catalog/types';
 
@@ -28,50 +29,52 @@ export function SiteHeader({ locale, dict, signedInEmail }: SiteHeaderProps) {
   ];
   const mobileNavId = `mobile-nav-${locale}`;
   const brandNote = locale === 'it' ? 'guida 0-14' : '0-14 guide';
+  const isActive = (href: string) => pathname === href || pathname.startsWith(`${href}/`);
 
   return (
     <div className="site-header-wrap">
-      <div className="site-shell site-header">
-        <NextLink href={`/${locale}`} className="brand-mark" onClick={() => setMenuOpen(false)}>
-          <span className="brand-orbit" />
-          <span className="brand-lockup">
-            <span className="brand-word">{dict.brand}</span>
-            <span className="brand-note">{brandNote}</span>
-          </span>
+      <div className="site-shell site-header chefamo-header">
+        <NextLink href={`/${locale}`} className="chefamo-brand-link" onClick={() => setMenuOpen(false)}>
+          <ChefamoMark note={brandNote} />
         </NextLink>
 
-        <nav className="site-nav site-nav-primary">
+        <nav className="site-nav site-nav-primary chefamo-primary-nav">
           {navItems.map((item) => (
-            <NextLink key={item.href} href={item.href}>
+            <NextLink
+              key={item.href}
+              href={item.href}
+              className={isActive(item.href) ? 'site-nav-link chefamo-nav-link is-active' : 'site-nav-link chefamo-nav-link'}
+              aria-current={isActive(item.href) ? 'page' : undefined}
+            >
               {item.label}
             </NextLink>
           ))}
         </nav>
 
-        <div className="site-actions site-actions-primary">
-          <NextLink href={switchLocalePath(pathname, alternate)} className="button locale-toggle">
+        <div className="site-actions site-actions-primary chefamo-header-actions">
+          <NextLink href={switchLocalePath(pathname, alternate)} className="chefamo-header-pill chefamo-header-pill-muted locale-toggle">
             {alternate.toUpperCase()}
           </NextLink>
           {signedInEmail ? (
-            <div className="account-cluster">
-              <NextLink href={`/${locale}/account`} className="button button-account-label" title={signedInEmail}>
+            <div className="account-cluster chefamo-account-cluster">
+              <NextLink href={`/${locale}/account`} className="chefamo-header-pill chefamo-header-account" title={signedInEmail}>
                 {signedInEmail}
               </NextLink>
               <form action="/api/auth/signout" method="post">
                 <input type="hidden" name="locale" value={locale} />
-                <button type="submit" className="button button-ghost button-signout">
+                <button type="submit" className="chefamo-header-pill chefamo-header-pill-muted">
                   {dict.signOut}
                 </button>
               </form>
             </div>
           ) : (
-            <NextLink href={`/${locale}/sign-in`} className="button button-signin">
+            <NextLink href={`/${locale}/sign-in`} className="chefamo-header-pill chefamo-header-pill-primary">
               {dict.signIn}
             </NextLink>
           )}
           <button
             type="button"
-            className="button mobile-menu-toggle"
+            className="chefamo-header-pill chefamo-header-pill-muted mobile-menu-toggle"
             onClick={() => setMenuOpen((current) => !current)}
             aria-expanded={menuOpen}
             aria-controls={mobileNavId}
@@ -83,30 +86,45 @@ export function SiteHeader({ locale, dict, signedInEmail }: SiteHeaderProps) {
       </div>
 
       {menuOpen ? (
-        <div className="site-shell mobile-nav-panel" id={mobileNavId}>
+        <div className="site-shell mobile-nav-panel chefamo-mobile-nav" id={mobileNavId}>
           {navItems.map((item) => (
-            <NextLink key={item.href} href={item.href} onClick={() => setMenuOpen(false)}>
+            <NextLink
+              key={item.href}
+              href={item.href}
+              className={isActive(item.href) ? 'mobile-nav-link chefamo-mobile-nav-link is-active' : 'mobile-nav-link chefamo-mobile-nav-link'}
+              aria-current={isActive(item.href) ? 'page' : undefined}
+              onClick={() => setMenuOpen(false)}
+            >
               {item.label}
             </NextLink>
           ))}
           {signedInEmail ? (
             <div className="mobile-account-panel">
-              <NextLink href={`/${locale}/account`} className="button button-account-label mobile-account-label" title={signedInEmail} onClick={() => setMenuOpen(false)}>
+              <NextLink
+                href={`/${locale}/account`}
+                className="chefamo-mobile-nav-link chefamo-mobile-nav-link-strong mobile-account-label"
+                title={signedInEmail}
+                onClick={() => setMenuOpen(false)}
+              >
                 {signedInEmail}
               </NextLink>
               <form action="/api/auth/signout" method="post" className="mobile-nav-form">
                 <input type="hidden" name="locale" value={locale} />
-                <button type="submit" className="button button-ghost button-signout">
+                <button type="submit" className="chefamo-header-pill chefamo-header-pill-muted button-signout">
                   {dict.signOut}
                 </button>
               </form>
             </div>
           ) : (
-            <NextLink href={`/${locale}/sign-in`} className="button button-signin mobile-nav-action" onClick={() => setMenuOpen(false)}>
+            <NextLink href={`/${locale}/sign-in`} className="chefamo-header-pill chefamo-header-pill-primary mobile-nav-action" onClick={() => setMenuOpen(false)}>
               {dict.signIn}
             </NextLink>
           )}
-          <NextLink href={switchLocalePath(pathname, alternate)} className="button locale-toggle mobile-nav-action" onClick={() => setMenuOpen(false)}>
+          <NextLink
+            href={switchLocalePath(pathname, alternate)}
+            className="chefamo-header-pill chefamo-header-pill-muted mobile-nav-action"
+            onClick={() => setMenuOpen(false)}
+          >
             {alternate.toUpperCase()}
           </NextLink>
         </div>

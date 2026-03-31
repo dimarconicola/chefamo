@@ -162,6 +162,17 @@ export function StudiosDirectoryClient({
 
       {view === 'list' ? (
         <section className="panel studios-directory-browser">
+          {userLocationState !== 'idle' ? (
+            <p className="classes-map-inline-status muted">
+              {userLocationState === 'locating'
+                ? labels.locating
+                : userLocationState === 'granted'
+                  ? labels.locateGranted
+                  : userLocationState === 'unavailable'
+                    ? labels.geolocationUnavailable
+                    : labels.locateDenied}
+            </p>
+          ) : null}
           <div className="detail-header">
             <div>
               <p className="eyebrow">{cityName}</p>
@@ -173,7 +184,7 @@ export function StudiosDirectoryClient({
           </div>
 
           <div className="studios-directory-grid">
-            {cards.map((card) => (
+            {cardsByProximity.map((card) => (
               <article key={card.slug} className="studios-directory-list-card">
                 <div className="studios-directory-list-copy">
                   <div className="studios-directory-list-top">

@@ -2,6 +2,7 @@ import Image from 'next/image';
 import { DateTime } from 'luxon';
 import { notFound } from 'next/navigation';
 
+import { PlayfulIcon } from '@/components/brand/PlayfulIcon';
 import { ServerCardLink, ServerChip, ServerLink } from '@/components/ui/server';
 import { getCatalogSnapshot } from '@/lib/catalog/repository';
 import { resolveLocale } from '@/lib/i18n/routing';
@@ -33,6 +34,8 @@ export default async function OrganizersIndexPage({ params }: { params: Promise<
           title: 'Chi cura l esperienza family a Palermo',
           lead:
             'Una directory alfabetica di istituzioni, spazi e piccoli operatori che pubblicano attività 0-14 con segnali abbastanza chiari da essere utili.',
+          chipOne: 'Profili utili',
+          chipTwo: 'Lingue attive',
           sessions: 'attività visibili',
           next: 'Prossima attività',
           open: 'Apri profilo',
@@ -44,6 +47,8 @@ export default async function OrganizersIndexPage({ params }: { params: Promise<
           title: 'Who shapes the family activity layer in Palermo',
           lead:
             'An alphabetical directory of institutions, spaces, and small operators that publish 0-14 activities clearly enough to be useful.',
+          chipOne: 'Useful profiles',
+          chipTwo: 'Active languages',
           sessions: 'visible activities',
           next: 'Next activity',
           open: 'Open profile',
@@ -52,14 +57,39 @@ export default async function OrganizersIndexPage({ params }: { params: Promise<
         };
 
   return (
-    <div className="stack-list teachers-directory-page">
-      <section className="panel teachers-directory-hero">
-        <p className="eyebrow">{copy.eyebrow}</p>
-        <h1>{copy.title}</h1>
-        <p className="lead">{copy.lead}</p>
+    <div className="chefamo-page teachers-directory-page">
+      <section className="chefamo-band chefamo-discovery-hero-band full-bleed">
+        <div className="chefamo-shell chefamo-discovery-hero-grid">
+          <div className="chefamo-hero-copy">
+            <div className="chefamo-eyebrow-pill chefamo-tone-green">
+              <PlayfulIcon name="spark" className="chefamo-inline-icon" />
+              <span>{copy.eyebrow}</span>
+            </div>
+            <h1 className="chefamo-display-md">{copy.title}</h1>
+            <p className="chefamo-lead">{copy.lead}</p>
+            <div className="chefamo-chip-row">
+              <span className="chefamo-chip chefamo-chip-red">
+                {organizers.length} {copy.chipOne}
+              </span>
+              <span className="chefamo-chip chefamo-chip-blue">
+                {new Set(organizers.flatMap((organizer) => organizer.languages)).size} {copy.chipTwo}
+              </span>
+            </div>
+          </div>
+
+          <article className="chefamo-play-card chefamo-city-overview-card">
+            <p className="chefamo-card-kicker">{locale === 'it' ? 'Segnale affidabile' : 'Reliable signal'}</p>
+            <h2>{locale === 'it' ? 'Profili chiari, non pagine parcheggiate.' : 'Clear profiles, not abandoned pages.'}</h2>
+            <p className="chefamo-muted">
+              {locale === 'it'
+                ? 'Qui emergono operatori che pubblicano abbastanza bene da aiutare davvero una famiglia a scegliere.'
+                : 'This surface highlights operators that publish clearly enough to genuinely help a family choose.'}
+            </p>
+          </article>
+        </div>
       </section>
 
-      <section className="teachers-directory-grid">
+      <section className="teachers-directory-grid chefamo-organizer-grid">
         {organizers.map((organizer) => {
           const occurrences = occurrencesByOrganizer.get(organizer.slug) ?? [];
           const nextOccurrence = occurrences[0];
@@ -69,7 +99,7 @@ export default async function OrganizersIndexPage({ params }: { params: Promise<
           const socialLink = organizer.socialLinks?.[0];
 
           return (
-            <article key={organizer.slug} className="panel teacher-directory-card">
+            <article key={organizer.slug} className="panel teacher-directory-card chefamo-organizer-card">
               <div className="teacher-directory-top">
                 {organizer.headshot ? (
                   <div className="teacher-directory-media">
@@ -108,12 +138,12 @@ export default async function OrganizersIndexPage({ params }: { params: Promise<
               </div>
 
               <div className="teacher-directory-meta">
-                <div>
+                <div className="chefamo-organizer-meta-card">
                   <p className="eyebrow">{copy.next}</p>
                   <p className="muted">{nextLabel ?? copy.noNext}</p>
                 </div>
                 {socialLink ? (
-                  <div>
+                  <div className="chefamo-organizer-meta-card">
                     <p className="eyebrow">{copy.verifiedLink}</p>
                     <ServerLink href={socialLink.href} target="_blank" rel="noreferrer" className="inline-link">
                       {socialLink.label[locale]}
@@ -122,7 +152,10 @@ export default async function OrganizersIndexPage({ params }: { params: Promise<
                 ) : null}
               </div>
 
-              <ServerCardLink href={`/${locale}/${citySlug}/organizers/${organizer.slug}`} className="teacher-directory-link-card">
+              <ServerCardLink
+                href={`/${locale}/${citySlug}/organizers/${organizer.slug}`}
+                className="teacher-directory-link-card chefamo-organizer-link"
+              >
                 <strong>{copy.open}</strong>
                 <span className="muted">{organizer.name}</span>
               </ServerCardLink>

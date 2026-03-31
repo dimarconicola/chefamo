@@ -104,7 +104,7 @@ export function SessionCard({ session, locale, resolved, signedInEmail, schedule
   const priceNote = getPriceNoteForLocale(session.priceNote, locale);
 
   return (
-    <article className="session-card panel">
+    <article className="session-card panel chefamo-session-card">
       <div className="session-card-shell">
         <div className="session-time-block">
           <span className="session-time-main">{start.toFormat('HH:mm')}</span>

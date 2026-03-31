@@ -24,6 +24,7 @@ const copy = {
     subtitle: 'Refine by date, time, neighborhood, and family activity profile.',
     show: 'Show filters',
     hide: 'Hide filters',
+    activeFilters: 'active filters',
     apply: 'Apply',
     reset: 'Reset',
     date: 'Day',
@@ -60,6 +61,7 @@ const copy = {
     subtitle: 'Affina per data, fascia oraria, quartiere e profilo attività.',
     show: 'Mostra filtri',
     hide: 'Nascondi filtri',
+    activeFilters: 'filtri attivi',
     apply: 'Applica',
     reset: 'Azzera',
     date: 'Giorno',
@@ -107,6 +109,7 @@ export function FilterBar({
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const [expanded, setExpanded] = useState(false);
+  const controlsId = `filter-controls-${locale}-${citySlug}`;
 
   const [dayFilter, setDayFilter] = useState<string>(filters.weekday ?? filters.date ?? '');
   const [timeBuckets, setTimeBuckets] = useState<Set<string>>(
@@ -197,9 +200,22 @@ export function FilterBar({
           <p className="eyebrow">{labels.title}</p>
           <p className="muted">{labels.subtitle}</p>
         </div>
-        <button type="button" className="button button-ghost" onClick={() => setExpanded((value) => !value)}>
-          {expanded ? labels.hide : labels.show}
-        </button>
+        <div className="filter-panel-head-actions">
+          {activeFilters.length > 0 ? (
+            <span className="meta-pill filter-count-pill">
+              {activeFilters.length} {labels.activeFilters}
+            </span>
+          ) : null}
+          <button
+            type="button"
+            className="button button-ghost filter-panel-toggle"
+            onClick={() => setExpanded((value) => !value)}
+            aria-expanded={expanded}
+            aria-controls={controlsId}
+          >
+            {expanded ? labels.hide : labels.show}
+          </button>
+        </div>
       </div>
 
       {activeFilters.length > 0 ? (
@@ -213,33 +229,35 @@ export function FilterBar({
       ) : null}
 
       {expanded ? (
-        <FilterBarControls
-          locale={locale}
-          labels={labels}
-          categories={categories}
-          neighborhoods={neighborhoods}
-          styles={styles}
-          dayFilter={dayFilter}
-          setDayFilter={setDayFilter}
-          timeBuckets={timeBuckets}
-          setTimeBuckets={setTimeBuckets}
-          category={category}
-          setCategory={setCategory}
-          style={style}
-          setStyle={setStyle}
-          level={level}
-          setLevel={setLevel}
-          language={language}
-          setLanguage={setLanguage}
-          neighborhood={neighborhood}
-          setNeighborhood={setNeighborhood}
-          format={format}
-          setFormat={setFormat}
-          availability={availability}
-          setAvailability={setAvailability}
-          applyFilters={applyFilters}
-          resetFilters={resetFilters}
-        />
+        <div id={controlsId} className="filter-panel-body">
+          <FilterBarControls
+            locale={locale}
+            labels={labels}
+            categories={categories}
+            neighborhoods={neighborhoods}
+            styles={styles}
+            dayFilter={dayFilter}
+            setDayFilter={setDayFilter}
+            timeBuckets={timeBuckets}
+            setTimeBuckets={setTimeBuckets}
+            category={category}
+            setCategory={setCategory}
+            style={style}
+            setStyle={setStyle}
+            level={level}
+            setLevel={setLevel}
+            language={language}
+            setLanguage={setLanguage}
+            neighborhood={neighborhood}
+            setNeighborhood={setNeighborhood}
+            format={format}
+            setFormat={setFormat}
+            availability={availability}
+            setAvailability={setAvailability}
+            applyFilters={applyFilters}
+            resetFilters={resetFilters}
+          />
+        </div>
       ) : null}
 
       {activePreview.length === 0 ? null : (
