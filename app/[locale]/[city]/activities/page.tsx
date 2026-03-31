@@ -1,9 +1,10 @@
 import { notFound } from 'next/navigation';
 
+import { PlayfulIcon } from '@/components/brand/PlayfulIcon';
 import { ClassesResultsClient } from '@/components/discovery/ClassesResultsClient';
 import type { CalendarEntry as ClassesCalendarEntry } from '@/components/discovery/classes-results.types';
 import { FilterBar } from '@/components/discovery/FilterBar';
-import { ServerButtonLink, ServerChip } from '@/components/ui/server';
+import { ServerButtonLink } from '@/components/ui/server';
 import { getSessionUser } from '@/lib/auth/session';
 import { applyOccurrenceFilters, parseFilters } from '@/lib/catalog/filters';
 import { getCatalogSnapshot } from '@/lib/catalog/repository';
@@ -204,37 +205,86 @@ export default async function ActivitiesPage({
     locale === 'it'
       ? 'Attività con orario chiaro, età leggibili e passaggi diretti verso il luogo o la prenotazione.'
       : 'Time-based activities with clear age guidance and direct paths to the place or booking details.';
-  const badgeCopy =
+  const copy =
     locale === 'it'
-      ? { matches: 'attività', venues: 'luoghi', styles: 'formati attivi', back: 'Torna alla città' }
-      : { matches: 'activities', venues: 'places', styles: 'live formats', back: 'Back to city' };
+      ? {
+          heroBadge: `${city.name[locale]} · attività`,
+          title: 'Scopri attività che entrano davvero nella settimana.',
+          intro,
+          back: 'Torna alla città',
+          todayNearby: dict.todayNearby,
+          chipOne: `${occurrenceResults.length} attività visibili`,
+          chipTwo: `${visiblePlaces.length} luoghi attivi`,
+          chipThree: `${metrics.programs} programmi con orario`,
+          statActivities: 'Attività filtrate',
+          statPlaces: 'Luoghi in vista',
+          statPrograms: 'Programmi',
+          statAreas: 'Quartieri'
+        }
+      : {
+          heroBadge: `${city.name[locale]} · activities`,
+          title: 'Find activities that can genuinely fit the week.',
+          intro,
+          back: 'Back to city',
+          todayNearby: dict.todayNearby,
+          chipOne: `${occurrenceResults.length} visible activities`,
+          chipTwo: `${visiblePlaces.length} active places`,
+          chipThree: `${metrics.programs} timed programs`,
+          statActivities: 'Filtered activities',
+          statPlaces: 'Places in view',
+          statPrograms: 'Programs',
+          statAreas: 'Neighborhoods'
+        };
 
   return (
-    <div className="stack-list classes-page classes-page-refresh">
-      <section className="classes-hero classes-hero-single">
-        <div className="hero-copy classes-hero-main">
-          <p className="eyebrow">{city.name[locale]}</p>
-          <h1>{dict.classes}</h1>
-          <p className="lead">{intro}</p>
-          <div className="badge-row classes-hero-badges">
-            <ServerChip tone="meta">
-              {occurrenceResults.length} {badgeCopy.matches}
-            </ServerChip>
-            <ServerChip tone="meta">
-              {visiblePlaces.length} {badgeCopy.venues}
-            </ServerChip>
-            <ServerChip tone="meta">
-              {metrics.programs} {locale === 'it' ? 'programmi' : 'programs'}
-            </ServerChip>
+    <div className="chefamo-page classes-page classes-page-refresh">
+      <section className="chefamo-band chefamo-discovery-hero-band full-bleed">
+        <div className="chefamo-shell chefamo-discovery-hero-grid">
+          <div className="chefamo-hero-copy">
+            <div className="chefamo-eyebrow-pill chefamo-tone-blue">
+              <PlayfulIcon name="calendar" className="chefamo-inline-icon" />
+              <span>{copy.heroBadge}</span>
+            </div>
+            <h1 className="chefamo-display-md">{copy.title}</h1>
+            <p className="chefamo-lead">{copy.intro}</p>
+            <div className="chefamo-chip-row">
+              <span className="chefamo-chip chefamo-chip-red">{copy.chipOne}</span>
+              <span className="chefamo-chip chefamo-chip-yellow">{copy.chipTwo}</span>
+              <span className="chefamo-chip chefamo-chip-green">{copy.chipThree}</span>
+            </div>
+            <div className="chefamo-action-row">
+              <ServerButtonLink href={`/${locale}/${citySlug}`} className="chefamo-cta chefamo-cta-secondary">
+                {copy.back}
+              </ServerButtonLink>
+              <ServerButtonLink href={`/${locale}/${citySlug}/collections/today-nearby`} className="chefamo-cta chefamo-cta-primary">
+                {copy.todayNearby}
+                <PlayfulIcon name="arrow" className="chefamo-inline-icon" />
+              </ServerButtonLink>
+            </div>
           </div>
-          <div className="site-actions classes-hero-actions">
-            <ServerButtonLink href={`/${locale}/${citySlug}`} className="button-ghost">
-              {badgeCopy.back}
-            </ServerButtonLink>
-            <ServerButtonLink href={`/${locale}/${citySlug}/collections/today-nearby`} className="button-secondary">
-              {dict.todayNearby}
-            </ServerButtonLink>
-          </div>
+
+          <article className="chefamo-play-card chefamo-city-overview-card">
+            <p className="chefamo-card-kicker">{dict.classes}</p>
+            <h2>{locale === 'it' ? 'Filtri forti, orari chiari, pochi passaggi.' : 'Strong filters, clear times, fewer steps.'}</h2>
+            <div className="chefamo-stat-grid">
+              <div className="chefamo-stat-tile chefamo-tone-red">
+                <strong>{occurrenceResults.length}</strong>
+                <span>{copy.statActivities}</span>
+              </div>
+              <div className="chefamo-stat-tile chefamo-tone-blue">
+                <strong>{visiblePlaces.length}</strong>
+                <span>{copy.statPlaces}</span>
+              </div>
+              <div className="chefamo-stat-tile chefamo-tone-yellow">
+                <strong>{metrics.programs}</strong>
+                <span>{copy.statPrograms}</span>
+              </div>
+              <div className="chefamo-stat-tile chefamo-tone-green">
+                <strong>{metrics.neighborhoods}</strong>
+                <span>{copy.statAreas}</span>
+              </div>
+            </div>
+          </article>
         </div>
       </section>
 

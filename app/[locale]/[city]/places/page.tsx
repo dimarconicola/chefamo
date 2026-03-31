@@ -1,6 +1,7 @@
 import { DateTime } from 'luxon';
 import { notFound } from 'next/navigation';
 
+import { PlayfulIcon } from '@/components/brand/PlayfulIcon';
 import { StudiosDirectoryClient, type StudioDirectoryCard } from '@/components/discovery/StudiosDirectoryClient';
 import { VenueCover } from '@/components/catalog/VenueCover';
 import { ServerButtonLink, ServerCardLink } from '@/components/ui/server';
@@ -104,36 +105,47 @@ export default async function PlacesIndexPage({
         };
 
   return (
-    <div className="stack-list studios-directory-page">
-      <section className="city-hero studios-directory-hero">
-        <div className="hero-copy city-hero-main">
-          <p className="eyebrow">{copy.eyebrow}</p>
-          <h1>{copy.title}</h1>
-          <p>{copy.lead}</p>
-          <div className="site-actions">
-            <ServerButtonLink href={`/${locale}/${citySlug}/activities`} className="button-primary">
-              {copy.openActivities}
-            </ServerButtonLink>
-            <ServerButtonLink href={`/${locale}/${citySlug}/organizers`} className="button-ghost">
-              {copy.openOrganizers}
-            </ServerButtonLink>
+    <div className="chefamo-page studios-directory-page">
+      <section className="chefamo-band chefamo-discovery-hero-band full-bleed">
+        <div className="chefamo-shell chefamo-discovery-hero-grid">
+          <div className="chefamo-hero-copy">
+            <div className="chefamo-eyebrow-pill chefamo-tone-yellow">
+              <PlayfulIcon name="map" className="chefamo-inline-icon" />
+              <span>{copy.eyebrow}</span>
+            </div>
+            <h1 className="chefamo-display-md">{copy.title}</h1>
+            <p className="chefamo-lead">{copy.lead}</p>
+            <div className="chefamo-chip-row">
+              <span className="chefamo-chip chefamo-chip-red">
+                {weekOccurrences.length} {copy.weekly}
+              </span>
+              <span className="chefamo-chip chefamo-chip-blue">
+                {places.length} {copy.verifiedPlaces}
+              </span>
+              <span className="chefamo-chip chefamo-chip-green">
+                {new Set(places.map((place) => place.neighborhoodSlug)).size} {copy.activeAreas}
+              </span>
+            </div>
+            <div className="chefamo-action-row">
+              <ServerButtonLink href={`/${locale}/${citySlug}/activities`} className="chefamo-cta chefamo-cta-primary">
+                {copy.openActivities}
+                <PlayfulIcon name="arrow" className="chefamo-inline-icon" />
+              </ServerButtonLink>
+              <ServerButtonLink href={`/${locale}/${citySlug}/organizers`} className="chefamo-cta chefamo-cta-secondary">
+                {copy.openOrganizers}
+              </ServerButtonLink>
+            </div>
           </div>
-        </div>
-        <div className="hero-copy city-hero-metrics">
-          <div className="hero-metrics">
-            <div className="stat-card">
-              <strong>{weekOccurrences.length}</strong>
-              <span>{copy.weekly}</span>
-            </div>
-            <div className="stat-card">
-              <strong>{places.length}</strong>
-              <span>{copy.verifiedPlaces}</span>
-            </div>
-            <div className="stat-card">
-              <strong>{new Set(places.map((place) => place.neighborhoodSlug)).size}</strong>
-              <span>{copy.activeAreas}</span>
-            </div>
-          </div>
+
+          <article className="chefamo-play-card chefamo-city-overview-card">
+            <p className="chefamo-card-kicker">{city.name[locale]}</p>
+            <h2>{locale === 'it' ? 'Prima scegli il contesto, poi il singolo slot.' : 'Choose the context before the slot.'}</h2>
+            <p className="chefamo-muted">
+              {locale === 'it'
+                ? 'La directory resta ampia, ma il tono è più chiaro: luoghi affidabili, mappe utilizzabili e un percorso rapido verso il posto giusto.'
+                : 'The directory stays broad, but the tone is clearer: trustworthy places, usable maps, and a quick path to the right venue.'}
+            </p>
+          </article>
         </div>
       </section>
 

@@ -16,6 +16,7 @@ const config = [
       'node_modules/**',
       'next-env.d.ts',
       'UI inspiration/**',
+      'UI-Inspiration/**',
       'playwright-report/**',
       'test-results/**'
     ]

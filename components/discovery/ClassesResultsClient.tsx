@@ -81,6 +81,7 @@ export function ClassesResultsClient({
           visibleClasses: 'Attività visibili',
           filteredClasses: 'Attività filtrate',
           visible: 'attività visibili',
+          visiblePlaces: 'luoghi attivi',
           page: 'Pagina',
           previous: 'Precedente',
           next: 'Successiva',
@@ -98,6 +99,7 @@ export function ClassesResultsClient({
           visibleClasses: 'Visible activities',
           filteredClasses: 'Filtered activities',
           visible: 'visible activities',
+          visiblePlaces: 'active places',
           page: 'Page',
           previous: 'Previous',
           next: 'Next',
@@ -134,24 +136,39 @@ export function ClassesResultsClient({
   }, [mapVenueSummaries, selectedVenueSlug]);
 
   return (
-    <div className="stack-list">
-      <section className="panel view-switcher-panel">
+    <div className="stack-list chefamo-results-stack">
+      <section className="panel view-switcher-panel chefamo-results-toolbar">
         <div className="view-switcher">
-          <button type="button" className={`button ${view === 'list' ? 'button-primary' : 'button-ghost'}`} onClick={() => setView('list')}>
+          <button
+            type="button"
+            className={`button chefamo-view-toggle ${view === 'list' ? 'button-primary is-active' : 'button-ghost'}`}
+            onClick={() => setView('list')}
+          >
             {labels.list}
           </button>
-          <button type="button" className={`button ${view === 'map' ? 'button-primary' : 'button-ghost'}`} onClick={() => setView('map')}>
+          <button
+            type="button"
+            className={`button chefamo-view-toggle ${view === 'map' ? 'button-primary is-active' : 'button-ghost'}`}
+            onClick={() => setView('map')}
+          >
             {labels.map}
           </button>
-          <button type="button" className={`button ${view === 'calendar' ? 'button-primary' : 'button-ghost'}`} onClick={() => setView('calendar')}>
+          <button
+            type="button"
+            className={`button chefamo-view-toggle ${view === 'calendar' ? 'button-primary is-active' : 'button-ghost'}`}
+            onClick={() => setView('calendar')}
+          >
             {labels.calendar}
           </button>
         </div>
       </section>
 
-      <section className="panel classes-visible-summary">
-        <span className="meta-pill">
+      <section className="panel classes-visible-summary chefamo-results-summary">
+        <span className="meta-pill chefamo-results-pill">
           {visibleCount} {labels.visible}
+        </span>
+        <span className="meta-pill chefamo-results-pill">
+          {mapVenueSummaries.length} {labels.visiblePlaces}
         </span>
       </section>
 
