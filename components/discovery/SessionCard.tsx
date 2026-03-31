@@ -26,7 +26,7 @@ export function SessionCard({ session, locale, resolved, signedInEmail, schedule
       ? {
           verified: 'Verificato',
           stale: 'Da aggiornare',
-          bookNow: 'Apri dettagli',
+          moreInfo: 'Più info',
           place: 'Apri luogo',
           organizer: 'Apri organizzatore',
           level: {
@@ -39,6 +39,12 @@ export function SessionCard({ session, locale, resolved, signedInEmail, schedule
             in_person: 'In presenza',
             hybrid: 'Hybrid',
             online: 'Online'
+          },
+          attendance: {
+            drop_in: 'Drop-in',
+            trial: 'Prova',
+            cycle: 'Ciclo',
+            term: 'Trimestre'
           },
           price: 'Costo',
           age: 'Età',
@@ -63,7 +69,7 @@ export function SessionCard({ session, locale, resolved, signedInEmail, schedule
       : {
           verified: 'Verified',
           stale: 'Needs refresh',
-          bookNow: 'Open details',
+          moreInfo: 'More info',
           place: 'View place',
           organizer: 'View organizer',
           level: {
@@ -76,6 +82,12 @@ export function SessionCard({ session, locale, resolved, signedInEmail, schedule
             in_person: 'In person',
             hybrid: 'Hybrid',
             online: 'Online'
+          },
+          attendance: {
+            drop_in: 'Drop-in',
+            trial: 'Trial',
+            cycle: 'Cycle',
+            term: 'Term'
           },
           price: 'Price',
           age: 'Age',
@@ -135,6 +147,7 @@ export function SessionCard({ session, locale, resolved, signedInEmail, schedule
             <ServerChip>{style.name[locale]}</ServerChip>
             <ServerChip>{labels.audience[session.audience]}</ServerChip>
             <ServerChip>{labels.level[session.level]}</ServerChip>
+            <ServerChip>{labels.attendance[session.attendanceModel]}</ServerChip>
             <ServerChip>{session.language}</ServerChip>
             <ServerChip>{labels.format[session.format]}</ServerChip>
             {session.ageBand ? <ServerChip>{labels.ageBand[session.ageBand]}</ServerChip> : null}
@@ -172,13 +185,13 @@ export function SessionCard({ session, locale, resolved, signedInEmail, schedule
                 runtimeCapabilities={runtimeCapabilities}
               />
               <BookingLink
-                locale={locale}
                 citySlug={session.citySlug}
                 categorySlug={session.categorySlug}
                 venueSlug={session.placeSlug}
                 sessionId={session.id}
+                sourceUrl={session.sourceUrl}
                 target={target}
-                label={labels.bookNow}
+                label={labels.moreInfo}
               />
               <ScheduleButton
                 occurrenceId={session.id}

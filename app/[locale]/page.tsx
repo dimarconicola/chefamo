@@ -63,8 +63,8 @@ export default async function LocaleHome({ params }: { params: Promise<{ locale:
             {
               icon: 'map' as const,
               tone: 'blue',
-              title: 'Weekend culturali, laboratori, coding, letture',
-              description: 'Non solo cosa fare, ma dove ha senso andare con quella fascia d età e con quel livello di energia.'
+              title: 'Sport, weekend culturali, laboratori, coding',
+              description: 'Non solo cosa fare, ma dove ha senso andare con quella fascia d eta e con quel livello di energia.'
             },
             {
               icon: 'calendar' as const,
@@ -76,7 +76,7 @@ export default async function LocaleHome({ params }: { params: Promise<{ locale:
               icon: 'spark' as const,
               tone: 'green',
               title: 'Età leggibili e filtri utili',
-              description: 'Musei, letture, planetario, coding, circo e luoghi tranquilli convivono nello stesso flusso senza diventare caos.'
+              description: 'Sport, musei, letture, planetario, coding, circo e luoghi tranquilli convivono nello stesso flusso senza diventare caos.'
             },
             {
               icon: 'cloud' as const,
@@ -126,7 +126,7 @@ export default async function LocaleHome({ params }: { params: Promise<{ locale:
             {
               icon: 'map' as const,
               tone: 'blue',
-              title: 'Culture weekends, labs, coding, reading',
+              title: 'Sports, culture weekends, labs, coding',
               description: 'Not just what to do, but where it makes sense to go for that age band and energy level.'
             },
             {
@@ -139,7 +139,7 @@ export default async function LocaleHome({ params }: { params: Promise<{ locale:
               icon: 'spark' as const,
               tone: 'green',
               title: 'Readable ages and useful filters',
-              description: 'Museums, reading, planetarium, coding, circus, and calmer places live in one flow without turning into noise.'
+              description: 'Sports, museums, reading, planetarium, coding, circus, and calmer places live in one flow without turning into noise.'
             },
             {
               icon: 'cloud' as const,

@@ -16,12 +16,11 @@ The catalog should stay:
 - puppet theater and family shows
 - libraries, storytime, and reading-led spaces
 - STEM labs, coding, science, and planetarium formats
-- movement formats for children when clearly age-targeted
+- movement, sport, and active-play formats for children when clearly age-targeted
 - outdoor hubs and good-anytime family places
 
 ## Out of scope
 
-- team sports and generic training supply such as tennis, rugby, football, basketball, volleyball
 - offers above age `14`
 - listings with no verifiable source URL
 - listings with no usable booking or contact path
@@ -43,7 +42,7 @@ Occurrences should:
 
 - use a real start and end time
 - stay inside the current scope rules
-- avoid out-of-scope sports signals in title or source context
+- keep age guidance explicit whenever the activity is sport- or movement-led
 
 ## Program rules
 

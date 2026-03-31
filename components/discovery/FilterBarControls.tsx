@@ -10,6 +10,8 @@ interface FilterBarControlsProps {
     date: string;
     time: string;
     category: string;
+    age: string;
+    audience: string;
     style: string;
     neighborhood: string;
     language: string;
@@ -34,6 +36,14 @@ interface FilterBarControlsProps {
     inPerson: string;
     openNow: string;
     dropIn: string;
+    age0to2: string;
+    age3to5: string;
+    age6to10: string;
+    age11to14: string;
+    ageMixed: string;
+    audienceKids: string;
+    audienceFamilies: string;
+    audienceMixed: string;
     any: string;
   };
   categories: Array<{ slug: string; name: string }>;
@@ -45,6 +55,10 @@ interface FilterBarControlsProps {
   setTimeBuckets: (value: Set<string>) => void;
   category: string;
   setCategory: (value: string) => void;
+  ageBand: string;
+  setAgeBand: (value: string) => void;
+  audience: string;
+  setAudience: (value: string) => void;
   style: string;
   setStyle: (value: string) => void;
   level: string;
@@ -85,6 +99,10 @@ export function FilterBarControls({
   setTimeBuckets,
   category,
   setCategory,
+  ageBand,
+  setAgeBand,
+  audience,
+  setAudience,
   style,
   setStyle,
   level,
@@ -146,6 +164,28 @@ export function FilterBarControls({
                 {item.name}
               </option>
             ))}
+          </select>
+        </label>
+
+        <label>
+          <span>{labels.age}</span>
+          <select value={ageBand} onChange={(event) => setAgeBand(event.currentTarget.value)}>
+            <option value="">{labels.any}</option>
+            <option value="0-2">{labels.age0to2}</option>
+            <option value="3-5">{labels.age3to5}</option>
+            <option value="6-10">{labels.age6to10}</option>
+            <option value="11-14">{labels.age11to14}</option>
+            <option value="mixed-kids">{labels.ageMixed}</option>
+          </select>
+        </label>
+
+        <label>
+          <span>{labels.audience}</span>
+          <select value={audience} onChange={(event) => setAudience(event.currentTarget.value)}>
+            <option value="">{labels.any}</option>
+            <option value="kids">{labels.audienceKids}</option>
+            <option value="families">{labels.audienceFamilies}</option>
+            <option value="mixed">{labels.audienceMixed}</option>
           </select>
         </label>
 

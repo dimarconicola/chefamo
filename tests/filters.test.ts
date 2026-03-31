@@ -15,3 +15,10 @@ test('Weekend filter returns weekend sessions only', async () => {
   assert.ok(results.length > 0);
   assert.equal(results.every((session) => ['morning', 'midday', 'evening', 'early'].includes(getTimeBucket(session.startAt))), true);
 });
+
+test('Age-band filter narrows to kids-active supply', async () => {
+  const results = await getOccurrences('palermo', { category: 'movement', age_band: '6-10' });
+  assert.ok(results.length > 0);
+  assert.equal(results.every((session) => session.categorySlug === 'movement'), true);
+  assert.equal(results.every((session) => session.ageBand === '6-10'), true);
+});
