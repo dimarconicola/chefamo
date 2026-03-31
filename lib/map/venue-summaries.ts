@@ -1,4 +1,5 @@
 import type { MapVenueSessionPreview, MapVenueSummary } from '@/components/discovery/classes-results.types';
+import { getExternalInfoLabel, resolveExternalInfoTarget } from '@/lib/catalog/external-links';
 import type { BookingTarget, Locale, Neighborhood, Occurrence, Organizer, Place, Style } from '@/lib/catalog/types';
 
 interface BuildMapVenueSummariesArgs {
@@ -35,6 +36,7 @@ const buildPreview = (
   targetBySlug: Map<string, BookingTarget>
 ): MapVenueSessionPreview => {
   const target = targetBySlug.get(session.bookingTargetSlug);
+  const externalTarget = resolveExternalInfoTarget({ target, fallbackHref: session.sourceUrl });
 
   return {
     sessionId: session.id,
@@ -44,8 +46,8 @@ const buildPreview = (
     startAt: session.startAt,
     instructorName: instructorBySlug.get(session.instructorSlug)?.name,
     styleName: styleBySlug.get(session.styleSlug)?.name[locale],
-    bookingHref: target?.href,
-    bookingLabel: target?.label
+    bookingHref: externalTarget.href,
+    bookingLabel: getExternalInfoLabel(locale)
   };
 };
 
@@ -85,6 +87,7 @@ export function buildMapVenueSummaries({
       const venueTarget = venue.bookingTargetOrder.map((slug) => targetBySlug.get(slug)).find((target): target is BookingTarget => Boolean(target));
       const sessionTarget = orderedSessions.map((session) => targetBySlug.get(session.bookingTargetSlug)).find((target): target is BookingTarget => Boolean(target));
       const primaryTarget = venueTarget ?? sessionTarget;
+      const externalTarget = resolveExternalInfoTarget({ target: primaryTarget, fallbackHref: venue.sourceUrl });
       const neighborhood = neighborhoodBySlug.get(venue.neighborhoodSlug);
 
       return {
@@ -99,8 +102,8 @@ export function buildMapVenueSummaries({
         sessionsPreview,
         studioHref: `/${locale}/${citySlug}/places/${venue.slug}`,
         placeHref: `/${locale}/${citySlug}/places/${venue.slug}`,
-        primaryCtaHref: primaryTarget?.href,
-        primaryCtaLabel: primaryTarget?.label
+        primaryCtaHref: externalTarget.href,
+        primaryCtaLabel: getExternalInfoLabel(locale)
       } satisfies MapVenueSummary;
     });
 

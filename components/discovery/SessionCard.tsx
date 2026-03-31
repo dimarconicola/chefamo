@@ -26,7 +26,7 @@ export function SessionCard({ session, locale, resolved, signedInEmail, schedule
       ? {
           verified: 'Verificato',
           stale: 'Da aggiornare',
-          bookNow: 'Apri dettagli',
+          moreInfo: 'Più info',
           place: 'Apri luogo',
           organizer: 'Apri organizzatore',
           level: {
@@ -69,7 +69,7 @@ export function SessionCard({ session, locale, resolved, signedInEmail, schedule
       : {
           verified: 'Verified',
           stale: 'Needs refresh',
-          bookNow: 'Open details',
+          moreInfo: 'More info',
           place: 'View place',
           organizer: 'View organizer',
           level: {
@@ -185,13 +185,13 @@ export function SessionCard({ session, locale, resolved, signedInEmail, schedule
                 runtimeCapabilities={runtimeCapabilities}
               />
               <BookingLink
-                locale={locale}
                 citySlug={session.citySlug}
                 categorySlug={session.categorySlug}
                 venueSlug={session.placeSlug}
                 sessionId={session.id}
+                sourceUrl={session.sourceUrl}
                 target={target}
-                label={labels.bookNow}
+                label={labels.moreInfo}
               />
               <ScheduleButton
                 occurrenceId={session.id}

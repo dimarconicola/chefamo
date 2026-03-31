@@ -120,6 +120,66 @@ describe('buildMapVenueSummaries', () => {
     expect(summaries[0].nextSession?.title).toBe('Visita famiglia del mattino');
     expect(summaries[0].sessionsPreview).toHaveLength(2);
     expect(summaries[0].primaryCtaHref).toBe('https://example.com/book');
+    expect(summaries[0].primaryCtaLabel).toBe('Più info');
     expect(summaries[1].neighborhoodName).toBe('Centro');
+  });
+
+  it('falls back to the public source URL when the target is phone or email', () => {
+    const summaries = buildMapVenueSummaries({
+      locale: 'it',
+      citySlug: 'palermo',
+      sessions: [
+        createMockSession({
+          id: 'session-phone',
+          venueSlug: 'venue-1',
+          instructorSlug: 'organizer-1',
+          styleSlug: 'guided-visit',
+          bookingTargetSlug: 'phone-contact',
+          sourceUrl: 'https://example.com/source',
+          startAt: '2026-03-25T08:00:00.000Z',
+          endAt: '2026-03-25T09:00:00.000Z'
+        })
+      ],
+      venues: [
+        createMockVenue({
+          slug: 'venue-1',
+          bookingTargetOrder: ['phone-contact'],
+          sourceUrl: 'https://example.com/place-source'
+        })
+      ],
+      neighborhoods: [
+        {
+          slug: 'mondello',
+          citySlug: 'palermo',
+          name: { it: 'Mondello', en: 'Mondello' },
+          description: { it: 'Zona mare', en: 'Seaside' },
+          center: { lat: 38.2, lng: 13.3 }
+        }
+      ],
+      instructors: [
+        {
+          slug: 'organizer-1',
+          citySlug: 'palermo',
+          name: 'Fondazione Teatro Massimo',
+          shortBio: { it: 'Bio', en: 'Bio' },
+          specialties: [],
+          languages: ['it']
+        }
+      ],
+      styles: [
+        {
+          slug: 'guided-visit',
+          categorySlug: 'culture',
+          name: { it: 'Visita guidata', en: 'Guided visit' },
+          description: { it: 'Visita guidata', en: 'Guided visit' }
+        }
+      ],
+      bookingTargets: [{ slug: 'phone-contact', type: 'phone', label: 'Chiama', href: 'tel:+390000000000' }]
+    });
+
+    expect(summaries[0].primaryCtaHref).toBe('https://example.com/place-source');
+    expect(summaries[0].primaryCtaLabel).toBe('Più info');
+    expect(summaries[0].nextSession?.bookingHref).toBe('https://example.com/source');
+    expect(summaries[0].nextSession?.bookingLabel).toBe('Più info');
   });
 });

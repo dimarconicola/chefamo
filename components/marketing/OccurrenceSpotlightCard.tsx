@@ -68,7 +68,7 @@ export function OccurrenceSpotlightCard({ occurrence, resolved, locale, href, to
           <span>{resolved.organizer.name}</span>
         </p>
         <span className="chefamo-card-link">
-          {locale === 'it' ? 'Apri dettaglio' : 'Open details'}
+          {locale === 'it' ? 'Apri luogo' : 'Open place'}
           <PlayfulIcon name="arrow" className="chefamo-inline-icon" />
         </span>
       </div>

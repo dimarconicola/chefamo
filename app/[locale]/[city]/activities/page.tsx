@@ -236,8 +236,8 @@ export default async function ActivitiesPage({
 
   const intro =
     locale === 'it'
-      ? 'Sport, movimento e attivita con orari reali, fasce eta leggibili e passaggi diretti verso il luogo o la prenotazione.'
-      : 'Sports, movement, and scheduled activities with clear age guidance and direct paths to the place or booking details.';
+      ? 'Sport, movimento e attivita con orari reali, fasce eta leggibili e passaggi diretti verso il luogo o la fonte esterna.'
+      : 'Sports, movement, and scheduled activities with clear age guidance and direct paths to the place or source page.';
   const copy =
     locale === 'it'
       ? {
