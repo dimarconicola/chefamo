@@ -15,24 +15,31 @@ test('kids style mapping includes known Palermo styles', () => {
   assert.equal(capoeira.max, 14);
 });
 
-test('category scope keeps mind-body and excludes unrelated sports', () => {
+test('category scope keeps the core family activity surfaces', () => {
   assert.equal(isCategoryInScope('movement'), true);
   assert.equal(isCategoryInScope('culture'), true);
   assert.equal(isCategoryInScope('tennis'), false);
 });
 
-test('session policy excludes out-of-scope sports keywords', () => {
-  const allowed = isSessionInScope({
+test('session policy allows age-scoped kids movement and sport wording', () => {
+  const capoeira = isSessionInScope({
     categorySlug: 'movement',
     attendanceModel: 'drop_in',
     title: { en: 'Kids capoeira club', it: 'Capoeira bambini' }
   });
-  const excluded = isSessionInScope({
+  const swim = isSessionInScope({
     categorySlug: 'movement',
     attendanceModel: 'drop_in',
-    title: { en: 'Rugby conditioning', it: 'Preparazione rugby' }
+    title: { en: 'Swim basics 6-10', it: 'Nuoto base 6-10' }
+  });
+  const tooOld = isSessionInScope({
+    categorySlug: 'movement',
+    attendanceModel: 'term',
+    ageMax: 16,
+    title: { en: 'Teen conditioning', it: 'Preparazione adolescenti' }
   });
 
-  assert.equal(allowed, true);
-  assert.equal(excluded, false);
+  assert.equal(capoeira, true);
+  assert.equal(swim, true);
+  assert.equal(tooOld, false);
 });

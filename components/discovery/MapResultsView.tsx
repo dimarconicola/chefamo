@@ -57,11 +57,11 @@ export function MapResultsView({
           locateDenied: 'Posizione non disponibile. Resto sui confini della città.',
           openSheet: 'Apri risultati',
           collapseSheet: 'Riduci pannello',
-          expandSheet: 'Apri dettagli',
+          expandSheet: 'Espandi pannello',
           matchingSessions: 'attività in vista',
           nextSession: 'Prossima',
           studioPage: 'Apri luogo',
-          booking: 'Prenota o contatta',
+          moreInfo: 'Più info',
           matchingTitle: 'Luoghi che corrispondono ai filtri',
           selectedTitle: 'Dettaglio luogo',
           browseAll: 'Sfoglia tutti i luoghi',
@@ -81,11 +81,11 @@ export function MapResultsView({
           locateDenied: 'Location unavailable. Staying on city bounds.',
           openSheet: 'Open results',
           collapseSheet: 'Collapse panel',
-          expandSheet: 'Open details',
+          expandSheet: 'Expand panel',
           matchingSessions: 'matching sessions',
           nextSession: 'Next',
           studioPage: 'Open place',
-          booking: 'Book or contact',
+          moreInfo: 'More info',
           matchingTitle: 'Places matching your filters',
           selectedTitle: 'Place detail',
           browseAll: 'Browse all places',
@@ -289,7 +289,7 @@ export function MapResultsView({
                   </NextLink>
                   {selectedVenue.primaryCtaHref ? (
                     <a href={selectedVenue.primaryCtaHref} className="button button-secondary" target="_blank" rel="noreferrer">
-                      {selectedVenue.primaryCtaLabel ?? labels.booking}
+                      {selectedVenue.primaryCtaLabel ?? labels.moreInfo}
                     </a>
                   ) : null}
                 </div>

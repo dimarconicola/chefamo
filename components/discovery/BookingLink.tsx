@@ -1,18 +1,21 @@
 'use client';
 
-import type { BookingTarget, Locale } from '@/lib/catalog/types';
+import { resolveExternalInfoTarget } from '@/lib/catalog/external-links';
+import type { BookingTarget } from '@/lib/catalog/types';
 
 interface BookingLinkProps {
-  locale: Locale;
   citySlug: string;
   categorySlug: string;
   venueSlug: string;
   sessionId?: string;
+  sourceUrl: string;
   target: BookingTarget;
   label: string;
 }
 
-export function BookingLink({ citySlug, categorySlug, venueSlug, sessionId, target, label }: BookingLinkProps) {
+export function BookingLink({ citySlug, categorySlug, venueSlug, sessionId, sourceUrl, target, label }: BookingLinkProps) {
+  const externalTarget = resolveExternalInfoTarget({ target, fallbackHref: sourceUrl });
+
   const track = () => {
     navigator.sendBeacon(
       '/api/outbound',
@@ -21,14 +24,14 @@ export function BookingLink({ citySlug, categorySlug, venueSlug, sessionId, targ
         venueSlug,
         citySlug,
         categorySlug,
-        targetType: target.type,
-        href: target.href
+        targetType: externalTarget.targetType,
+        href: externalTarget.href
       })
     );
   };
 
   return (
-    <a href={target.href} className="button button-primary" onClick={track} target="_blank" rel="noreferrer">
+    <a href={externalTarget.href} className="button button-primary" onClick={track} target="_blank" rel="noreferrer">
       {label}
     </a>
   );
