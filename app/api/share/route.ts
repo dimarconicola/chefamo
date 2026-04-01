@@ -27,6 +27,8 @@ export const POST = apiHandler(async (request) => {
     venueSlug: parsed.venueSlug,
     citySlug: parsed.citySlug,
     categorySlug: parsed.categorySlug,
+    eventKind: 'share',
+    shareMethod: parsed.method ?? 'copy',
     targetType: 'website',
     href: parsed.href,
     createdAt: new Date().toISOString()

@@ -31,6 +31,7 @@ export const POST = apiHandler(async (request) => {
     venueSlug: parsed.venueSlug,
     citySlug: parsed.citySlug,
     categorySlug: parsed.categorySlug,
+    eventKind: 'outbound',
     targetType: parsed.targetType,
     href: parsed.href,
     createdAt: new Date().toISOString()

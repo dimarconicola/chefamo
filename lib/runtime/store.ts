@@ -391,23 +391,29 @@ export const listDigestSubscriptions = async (): Promise<DigestSubscription[]> =
 };
 
 export const appendOutboundEvent = async (payload: OutboundEvent) => {
+  const normalizedPayload: OutboundEvent = {
+    ...payload,
+    eventKind: payload.eventKind ?? 'outbound'
+  };
   const db = getDb();
   if (!db) {
     assertPersistentStoreAvailable();
     const items = await readCollection<OutboundEvent>('outbound-events');
-    items.unshift(payload);
+    items.unshift(normalizedPayload);
     await writeCollection('outbound-events', items);
     return;
   }
 
   await db.insert(outboundClicks).values({
-    sessionId: payload.occurrenceId ?? payload.sessionId ?? null,
-    venueSlug: payload.placeSlug ?? payload.venueSlug ?? '',
-    citySlug: payload.citySlug,
-    categorySlug: payload.categorySlug,
-    targetType: payload.targetType,
-    href: payload.href,
-    createdAt: new Date(payload.createdAt)
+    sessionId: normalizedPayload.occurrenceId ?? normalizedPayload.sessionId ?? null,
+    venueSlug: normalizedPayload.placeSlug ?? normalizedPayload.venueSlug ?? '',
+    citySlug: normalizedPayload.citySlug,
+    categorySlug: normalizedPayload.categorySlug,
+    eventKind: normalizedPayload.eventKind,
+    shareMethod: normalizedPayload.shareMethod ?? null,
+    targetType: normalizedPayload.targetType,
+    href: normalizedPayload.href,
+    createdAt: new Date(normalizedPayload.createdAt)
   });
 };
 
@@ -426,11 +432,19 @@ export const listOutboundEvents = async (): Promise<OutboundEvent[]> => {
     venueSlug: row.venueSlug,
     citySlug: row.citySlug,
     categorySlug: row.categorySlug,
+    eventKind: row.eventKind ?? 'outbound',
+    shareMethod: row.shareMethod ?? undefined,
     targetType: row.targetType,
     href: row.href,
     createdAt: toIso(row.createdAt)
   }));
 };
+
+export const listOutboundClickEvents = async (): Promise<OutboundEvent[]> =>
+  (await listOutboundEvents()).filter((event) => (event.eventKind ?? 'outbound') === 'outbound');
+
+export const listShareEvents = async (): Promise<OutboundEvent[]> =>
+  (await listOutboundEvents()).filter((event) => event.eventKind === 'share');
 
 const listStoredEntities = () => readCollection<StoredEntityRow>('user-entities');
 
