@@ -9,6 +9,10 @@ vi.mock('@/components/discovery/BookingLink', () => ({
   BookingLink: ({ label }: { label: string }) => <button type="button">{label}</button>
 }));
 
+vi.mock('@/components/share/ShareButton', () => ({
+  ShareButton: ({ label }: { label: string }) => <button type="button">{label}</button>
+}));
+
 vi.mock('@/components/state/ScheduleButton', () => ({
   ScheduleButton: ({ label }: { label: string }) => <button type="button">{label}</button>
 }));
@@ -308,5 +312,20 @@ describe('SessionCard', () => {
     // Verify main title is rendered
     const mainContent = screen.getByText('Morning Lab');
     expect(mainContent).toBeInTheDocument();
+  });
+
+  it('should render a share action', () => {
+    render(
+      <TestWrapper>
+        <SessionCard
+          session={mockSession}
+          locale="en"
+          resolved={resolved}
+          scheduleLabel="Save to schedule"
+        />
+      </TestWrapper>
+    );
+
+    expect(screen.getByText('Share')).toBeInTheDocument();
   });
 });

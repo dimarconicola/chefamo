@@ -14,6 +14,8 @@ const getStyleFromSnapshot = (catalog: CatalogSnapshot, slug: string) => catalog
 const getCategoryFromSnapshot = (catalog: CatalogSnapshot, slug: string) => catalog.categories.find((category) => category.slug === slug);
 const getBookingTargetFromSnapshot = (catalog: CatalogSnapshot, slug: string) => catalog.bookingTargets.find((target) => target.slug === slug);
 const getProgramFromSnapshot = (catalog: CatalogSnapshot, slug: string) => catalog.programs.find((program) => program.slug === slug);
+const getOccurrenceFromSnapshot = (catalog: CatalogSnapshot, occurrenceId: string) =>
+  catalog.occurrences.find((occurrence) => occurrence.id === occurrenceId);
 
 const getCategoriesFromSnapshot = (catalog: CatalogSnapshot, citySlug: string) => catalog.categories.filter((item) => item.citySlug === citySlug);
 const getNeighborhoodsFromSnapshot = (catalog: CatalogSnapshot, citySlug: string) =>
@@ -91,6 +93,7 @@ export const getStyles = async () => (await getCatalogSnapshot()).styles;
 export const getCategory = async (slug: string) => getCategoryFromSnapshot(await getCatalogSnapshot(), slug);
 export const getBookingTarget = async (slug: string) => getBookingTargetFromSnapshot(await getCatalogSnapshot(), slug);
 export const getProgram = async (slug: string) => getProgramFromSnapshot(await getCatalogSnapshot(), slug);
+export const getOccurrence = async (occurrenceId: string) => getOccurrenceFromSnapshot(await getCatalogSnapshot(), occurrenceId);
 
 export const getOccurrences = async (citySlug: string, filters: DiscoveryFilters = {}) =>
   getOccurrencesFromSnapshot(await getCatalogSnapshot(), citySlug, filters);

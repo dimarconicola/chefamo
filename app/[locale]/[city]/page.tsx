@@ -5,6 +5,7 @@ import { OccurrenceSpotlightCard } from '@/components/marketing/OccurrenceSpotli
 import { DigestForm } from '@/components/forms/DigestForm';
 import { ServerButtonLink, ServerCardLink, ServerLink } from '@/components/ui/server';
 import { applyOccurrenceFilters } from '@/lib/catalog/filters';
+import { getOccurrencePath } from '@/lib/catalog/occurrence-links';
 import { getCatalogSnapshot } from '@/lib/catalog/repository';
 import { resolveOccurrenceCardDataFromSnapshot } from '@/lib/catalog/session-card-data';
 import { getCityMetrics, getLocaleLabel } from '@/lib/catalog/server-data';
@@ -189,7 +190,7 @@ export default async function CityPage({ params }: { params: Promise<{ locale: s
                   occurrence={occurrence}
                   resolved={resolved}
                   locale={locale}
-                  href={`/${locale}/${citySlug}/places/${occurrence.placeSlug}`}
+                  href={getOccurrencePath(locale, citySlug, occurrence.id)}
                   tone={spotlightTones[index % spotlightTones.length]}
                 />
               );

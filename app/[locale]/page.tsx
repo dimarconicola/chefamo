@@ -4,6 +4,7 @@ import { PlayfulIcon } from '@/components/brand/PlayfulIcon';
 import { OccurrenceSpotlightCard } from '@/components/marketing/OccurrenceSpotlightCard';
 import { DigestForm } from '@/components/forms/DigestForm';
 import { ServerButtonLink, ServerCardLink, ServerLink } from '@/components/ui/server';
+import { getOccurrencePath } from '@/lib/catalog/occurrence-links';
 import { getCatalogSnapshot } from '@/lib/catalog/repository';
 import { resolveOccurrenceCardDataFromSnapshot } from '@/lib/catalog/session-card-data';
 import { getCityMetrics, getFeaturedOccurrences, getLocaleLabel } from '@/lib/catalog/server-data';
@@ -276,7 +277,7 @@ export default async function LocaleHome({ params }: { params: Promise<{ locale:
                   occurrence={occurrence}
                   resolved={resolved}
                   locale={locale}
-                  href={`/${locale}/${occurrence.citySlug}/places/${occurrence.placeSlug}`}
+                  href={getOccurrencePath(locale, occurrence.citySlug, occurrence.id)}
                   tone={spotlightTones[index % spotlightTones.length]}
                 />
               );
