@@ -55,7 +55,7 @@ export default async function LocaleHome({ params }: { params: Promise<{ locale:
           newsletterChipTwo: 'Piani pioggia',
           newsletterChipThree: 'Weekend forti',
           stats: {
-            activities: 'Attività',
+            activities: 'Attività nel catalogo',
             places: 'Luoghi',
             neighborhoods: 'Quartieri',
             formats: 'Formati'
@@ -118,7 +118,7 @@ export default async function LocaleHome({ params }: { params: Promise<{ locale:
           newsletterChipTwo: 'Rain plans',
           newsletterChipThree: 'Strong weekends',
           stats: {
-            activities: 'Activities',
+            activities: 'Activities in catalog',
             places: 'Places',
             neighborhoods: 'Neighborhoods',
             formats: 'Formats'
@@ -185,7 +185,7 @@ export default async function LocaleHome({ params }: { params: Promise<{ locale:
               <h2>{copy.cityPanelTitle}</h2>
               <div className="chefamo-stat-grid">
                 <div className="chefamo-stat-tile chefamo-tone-red">
-                  <strong>{metrics.sessions}</strong>
+                  <strong>{metrics.programs}</strong>
                   <span>{copy.stats.activities}</span>
                 </div>
                 <div className="chefamo-stat-tile chefamo-tone-blue">

@@ -51,7 +51,7 @@ export default async function CityPage({ params }: { params: Promise<{ locale: s
           cityPulse: 'Pulse Palermo',
           cityPulseTitle: 'Il mockup giocoso ora è il layer operativo della città.',
           cityPulseBody: 'Weekend forti, sport, piani pioggia, luoghi culturali, movimento e fallback calmi stanno nello stesso spazio senza confondersi.',
-          statActivities: 'Attività in settimana',
+          statActivities: 'Attività nel catalogo',
           statPlaces: 'Luoghi verificati',
           statPrograms: 'Programmi',
           statNeighborhoods: 'Quartieri coperti',
@@ -88,7 +88,7 @@ export default async function CityPage({ params }: { params: Promise<{ locale: s
           cityPulse: 'Pulse Palermo',
           cityPulseTitle: 'The playful mockup is now the city operating layer.',
           cityPulseBody: 'Strong weekends, sports, rain plans, cultural places, movement, and calmer backups live in the same space without turning into noise.',
-          statActivities: 'Activities this week',
+          statActivities: 'Activities in catalog',
           statPlaces: 'Verified places',
           statPrograms: 'Programs',
           statNeighborhoods: 'Neighborhoods covered',
@@ -147,7 +147,7 @@ export default async function CityPage({ params }: { params: Promise<{ locale: s
               <p className="chefamo-muted">{copy.cityPulseBody}</p>
               <div className="chefamo-stat-grid">
                 <div className="chefamo-stat-tile chefamo-tone-red">
-                  <strong>{metrics.occurrences}</strong>
+                  <strong>{metrics.programs}</strong>
                   <span>{copy.statActivities}</span>
                 </div>
                 <div className="chefamo-stat-tile chefamo-tone-blue">
