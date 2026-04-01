@@ -20,7 +20,7 @@ export default async function CookiesPage({ params }: { params: Promise<{ locale
             },
             {
               title: 'Analitiche tecniche',
-              body: 'Possiamo raccogliere eventi tecnici essenziali e click outbound per capire se il servizio funziona correttamente e quali link sono piu utili.'
+              body: 'Possiamo raccogliere eventi tecnici essenziali, click outbound e intenti di condivisione per capire se il servizio funziona correttamente e quali link sono piu utili.'
             }
           ]
         }
@@ -40,7 +40,7 @@ export default async function CookiesPage({ params }: { params: Promise<{ locale
             },
             {
               title: 'Technical analytics',
-              body: 'We may collect essential technical events and outbound clicks to understand whether the service works correctly and which links are most useful.'
+              body: 'We may collect essential technical events, outbound clicks, and share intents to understand whether the service works correctly and which links are most useful.'
             }
           ]
         };

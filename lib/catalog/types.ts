@@ -251,6 +251,8 @@ export interface OutboundEvent {
   venueSlug?: string;
   citySlug: string;
   categorySlug: string;
+  eventKind?: 'outbound' | 'share';
+  shareMethod?: 'native' | 'copy';
   targetType: BookingTarget['type'];
   href: string;
   createdAt: string;
