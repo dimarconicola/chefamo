@@ -196,6 +196,12 @@ export function SessionCard({ session, locale, resolved, signedInEmail, schedule
                 text={shareText}
                 locale={locale}
                 label={labels.share}
+                tracking={{
+                  occurrenceId: session.id,
+                  citySlug: session.citySlug,
+                  categorySlug: session.categorySlug,
+                  venueSlug: session.placeSlug
+                }}
               />
               <FavoriteButton
                 entitySlug={session.programSlug}

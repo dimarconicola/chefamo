@@ -9,6 +9,12 @@ interface ShareButtonProps {
   locale: string;
   label: string;
   className?: string;
+  tracking?: {
+    occurrenceId: string;
+    citySlug: string;
+    categorySlug: string;
+    venueSlug: string;
+  };
 }
 
 const copyText = async (value: string) => {
@@ -29,7 +35,7 @@ const copyText = async (value: string) => {
   return copied;
 };
 
-export function ShareButton({ url, title, text, locale, label, className = 'button button-ghost' }: ShareButtonProps) {
+export function ShareButton({ url, title, text, locale, label, className = 'button button-ghost', tracking }: ShareButtonProps) {
   const [notice, setNotice] = useState<string | null>(null);
   const copy =
     locale === 'it'
@@ -48,10 +54,23 @@ export function ShareButton({ url, title, text, locale, label, className = 'butt
       url.startsWith('http://') || url.startsWith('https://') || typeof window === 'undefined'
         ? url
         : new URL(url, window.location.origin).toString();
+    const track = (method: 'native' | 'copy') => {
+      if (!tracking) return;
+
+      navigator.sendBeacon(
+        '/api/share',
+        JSON.stringify({
+          ...tracking,
+          href: resolvedUrl,
+          method
+        })
+      );
+    };
 
     if (typeof navigator.share === 'function') {
       try {
         await navigator.share({ title, text, url: resolvedUrl });
+        track('native');
         return;
       } catch (error) {
         if (error instanceof DOMException && error.name === 'AbortError') {
@@ -62,6 +81,7 @@ export function ShareButton({ url, title, text, locale, label, className = 'butt
 
     try {
       const copied = await copyText(resolvedUrl);
+      if (copied) track('copy');
       setNotice(copied ? copy.copied : copy.unavailable);
     } catch {
       setNotice(copy.unavailable);

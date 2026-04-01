@@ -242,6 +242,12 @@ export default async function OccurrencePage({
                 text={shareText}
                 locale={locale}
                 label={copy.share}
+                tracking={{
+                  occurrenceId: occurrence.id,
+                  citySlug: occurrence.citySlug,
+                  categorySlug: occurrence.categorySlug,
+                  venueSlug: occurrence.placeSlug
+                }}
               />
               <BookingLink
                 citySlug={occurrence.citySlug}
