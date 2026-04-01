@@ -114,6 +114,26 @@ export const chefamoNeighborhoods: Neighborhood[] = [
       'Quartiere centrale compatto con opzioni indoor feriali utili per le famiglie piu giovani.'
     ),
     center: { lat: 38.1191, lng: 13.3514 }
+  },
+  {
+    citySlug: 'palermo',
+    slug: 'castellammare',
+    name: localized('Castellammare', 'Castellammare'),
+    description: localized(
+      'Historic center streets with museums, courtyards, and family workshops close to Via Roma.',
+      'Strade del centro storico con musei, cortili e laboratori per famiglie vicino a via Roma.'
+    ),
+    center: { lat: 38.1206, lng: 13.3614 }
+  },
+  {
+    citySlug: 'palermo',
+    slug: 'zen',
+    name: localized('ZEN', 'ZEN'),
+    description: localized(
+      'Neighborhood-led cultural spaces with reading, community care, and educational activities for children.',
+      'Spazi culturali di quartiere con lettura, cura della comunita e attivita educative per bambini.'
+    ),
+    center: { lat: 38.1682, lng: 13.3188 }
   }
 ];
 
@@ -176,7 +196,9 @@ export const chefamoStyles: Style[] = [
   { slug: 'storytime', categorySlug: 'reading', name: localized('Storytime', 'Letture animate'), description: localized('Reading-led session for young children and carers.', 'Sessione guidata da letture per bimbi piccoli e accompagnatori.') },
   { slug: 'puppet-theater', categorySlug: 'culture', name: localized('Puppet theater', 'Teatro dei pupi'), description: localized('Family theater rooted in Sicilian puppetry.', 'Teatro per famiglie radicato nella tradizione dei pupi siciliani.') },
   { slug: 'open-park-day', categorySlug: 'outdoors', name: localized('Open park day', 'Giornata al parco'), description: localized('Flexible outdoor time with family-friendly infrastructure.', 'Tempo flessibile all aperto con infrastruttura family-friendly.') },
-  { slug: 'kids-coding', categorySlug: 'stem', name: localized('Kids coding', 'Coding per bambini'), description: localized('Guided digital creativity and problem-solving.', 'Creativita digitale guidata e problem solving.') }
+  { slug: 'kids-coding', categorySlug: 'stem', name: localized('Kids coding', 'Coding per bambini'), description: localized('Guided digital creativity and problem-solving.', 'Creativita digitale guidata e problem solving.') },
+  { slug: 'creative-kids-lab', categorySlug: 'culture', name: localized('Creative kids lab', 'Laboratorio creativo bambini'), description: localized('Arts, making, and expressive workshops built around play and participation.', 'Laboratori di arte, creazione ed espressione costruiti intorno a gioco e partecipazione.') },
+  { slug: 'natural-cooking-lab', categorySlug: 'stem', name: localized('Natural cooking lab', 'Laboratorio di cucina naturale'), description: localized('Hands-on food lab for children and families using seasonal ingredients and practical making.', 'Laboratorio pratico di cucina per bambini e famiglie con ingredienti stagionali e preparazioni concrete.') }
 ];
 
 export const chefamoOrganizers: Organizer[] = [
@@ -260,6 +282,72 @@ export const chefamoOrganizers: Organizer[] = [
     ),
     specialties: ['kids-contemporary-dance', 'kids-dance-foundations', 'kids-dance-pedagogy', 'kids-capoeira'],
     languages: ['Italian']
+  },
+  {
+    slug: 'le-giuggiole',
+    citySlug: 'palermo',
+    name: 'Le Giuggiole',
+    shortBio: localized(
+      'ARCI family circle hosted at EPYC with workshops, play, reading, and cultural activities for children and caregivers.',
+      'Circolo ARCI per famiglie ospitato da EPYC con laboratori, gioco, letture e attivita culturali per bambini e accompagnatori.'
+    ),
+    specialties: ['creative-kids-lab', 'storytime', 'family-culture'],
+    languages: ['Italian']
+  },
+  {
+    slug: 'booq',
+    citySlug: 'palermo',
+    name: 'booq',
+    shortBio: localized(
+      'Neighborhood bibliofficina in the Kalsa with intercultural reading and family-friendly community programming.',
+      'Bibliofficina di quartiere alla Kalsa con letture interculturali e programmazione di comunita family-friendly.'
+    ),
+    specialties: ['storytime', 'reading-for-kids', 'community-library'],
+    languages: ['Italian']
+  },
+  {
+    slug: 'libreria-dudi',
+    citySlug: 'palermo',
+    name: 'Libreria Dudi',
+    shortBio: localized(
+      'Children-focused bookshop and workshop space with reading, science, movement, and music activities from early years to 14.',
+      'Libreria per bambini e spazio laboratorio con attivita di lettura, scienza, movimento e musica dalla prima infanzia ai 14 anni.'
+    ),
+    specialties: ['storytime', 'creative-kids-lab', 'reading-for-kids'],
+    languages: ['Italian']
+  },
+  {
+    slug: 'giulia-agnello-naturopata',
+    citySlug: 'palermo',
+    name: 'Giulia Agnello Naturopata',
+    shortBio: localized(
+      'Natural food educator running family cooking workshops around Palermo with a practical, seasonal approach.',
+      'Educatrice al cibo naturale che conduce laboratori di cucina per famiglie a Palermo con un approccio pratico e stagionale.'
+    ),
+    specialties: ['natural-cooking-lab', 'hands-on-lab'],
+    languages: ['Italian']
+  },
+  {
+    slug: 'radici-museo-natura',
+    citySlug: 'palermo',
+    name: 'Radici Museo della Natura',
+    shortBio: localized(
+      'Museum and ecological cultural center with recurring family activities, readings, and hands-on labs.',
+      'Museo e centro culturale ecologico con attivita ricorrenti per famiglie, letture e laboratori hands-on.'
+    ),
+    specialties: ['hands-on-lab', 'natural-cooking-lab', 'family-culture'],
+    languages: ['Italian', 'English']
+  },
+  {
+    slug: 'laboratorio-zen-insieme',
+    citySlug: 'palermo',
+    name: 'Laboratorio ZEN Insieme',
+    shortBio: localized(
+      'Long-running neighborhood association combining reading, after-school support, culture, and social infrastructure for children.',
+      'Associazione di quartiere attiva da anni che intreccia lettura, doposcuola, cultura e infrastruttura sociale per bambini.'
+    ),
+    specialties: ['storytime', 'community-library', 'family-culture'],
+    languages: ['Italian']
   }
 ];
 
@@ -274,7 +362,15 @@ export const chefamoBookingTargets: BookingTarget[] = [
   { slug: 'circopificio-website', type: 'website', label: 'Circo Pificio', href: 'https://www.circopificio.it/circomotricita/' },
   { slug: 'spazio-terra-source', type: 'website', label: 'Spazio Terra', href: 'https://www.facebook.com/spazioterrapalermo' },
   { slug: 'diaria-kids-enroll', type: 'direct', label: 'Diaria iscrizione', href: 'https://www.diariapalermo.org/iscrizione-corsi/' },
-  { slug: 'diaria-kids-whatsapp', type: 'whatsapp', label: 'WhatsApp Diaria', href: 'https://wa.me/393517066792' }
+  { slug: 'diaria-kids-whatsapp', type: 'whatsapp', label: 'WhatsApp Diaria', href: 'https://wa.me/393517066792' },
+  { slug: 'le-giuggiole-website', type: 'website', label: 'Le Giuggiole', href: 'https://www.arcipalermo.it/index.php/i-circoli/le-giuggiole' },
+  { slug: 'booq-website', type: 'website', label: 'booq', href: 'https://www.booqpa.org/' },
+  { slug: 'booq-mammalingua', type: 'website', label: 'booq MammaLingua', href: 'https://www.mammalingua.it/presidi/bibliofficina-booq/' },
+  { slug: 'dudi-laboratori', type: 'website', label: 'Libreria Dudi', href: 'https://www.libreriadudi.it/laboratori/' },
+  { slug: 'radici-attivita', type: 'website', label: 'Radici', href: 'https://radicimuseo.it/attivita/' },
+  { slug: 'zen-giufa-info', type: 'website', label: 'Biblioteca Giufa', href: 'https://www.zeninsieme.it/la-biblioteca-giufa/' },
+  { slug: 'elibe-corsi', type: 'website', label: 'Elibe', href: 'https://www.elibepalermo.it/corsi-elibe-palermo/' },
+  { slug: 'palazzo-lampedusa-info', type: 'website', label: 'Palazzo Lampedusa', href: 'https://www.indigorooms.it/palazzo-lampedusa-palermo/' }
 ];
 
 export const chefamoPlaces: Place[] = [
@@ -509,6 +605,167 @@ export const chefamoPlaces: Place[] = [
     sourceUrl: diariaCalendarSource,
     lastVerifiedAt: '2026-03-12T12:00:00+01:00',
     profile: 'studio',
+    environment: 'indoor'
+  },
+  {
+    slug: 'le-giuggiole-epyc',
+    citySlug: 'palermo',
+    neighborhoodSlug: 'politeama',
+    name: 'Le Giuggiole @ EPYC',
+    tagline: localized('Family ARCI circle with culture, play, and flexible workshops in the center.', 'Circolo ARCI per famiglie con cultura, gioco e laboratori flessibili in centro.'),
+    description: localized(
+      'A good city-center pick for creative family afternoons with a lighter, more community-led feel than formal classes.',
+      'Una buona scelta in centro per pomeriggi creativi in famiglia con un tono piu comunitario e meno formale delle classi strutturate.'
+    ),
+    address: 'Via Pignatelli Aragona 40 c/o EPYC, Palermo',
+    geo: { lat: 38.1227, lng: 13.3558 },
+    amenities: ['Family circle', 'Indoor', 'Creative labs'],
+    languages: ['Italian'],
+    styleSlugs: ['creative-kids-lab', 'storytime'],
+    categorySlugs: ['culture', 'reading'],
+    bookingTargetOrder: ['le-giuggiole-website'],
+    freshnessNote: localized('Family programming and EPYC location checked from the ARCI Palermo page.', 'Programmazione family e sede presso EPYC controllate dalla pagina ARCI Palermo.'),
+    sourceUrl: 'https://www.arcipalermo.it/index.php/i-circoli/le-giuggiole',
+    lastVerifiedAt: '2026-04-01T10:30:00+02:00',
+    profile: 'association',
+    environment: 'indoor'
+  },
+  {
+    slug: 'booq-palermo',
+    citySlug: 'palermo',
+    neighborhoodSlug: 'kalsa',
+    name: 'booq',
+    tagline: localized('Intercultural neighborhood library and workshop space in the Kalsa.', 'Biblioteca interculturale e spazio laboratorio di quartiere alla Kalsa.'),
+    description: localized(
+      'Useful when the family wants reading-led time, community atmosphere, and activities shaped around inclusion rather than commerce.',
+      'Utile quando la famiglia cerca tempo guidato dai libri, atmosfera di comunita e attivita costruite sull inclusione piu che sul consumo.'
+    ),
+    address: 'Piazza Kalsa 31, Palermo',
+    geo: { lat: 38.1168, lng: 13.3704 },
+    amenities: ['Reading room', 'Intercultural books', 'Community space'],
+    languages: ['Italian'],
+    styleSlugs: ['storytime'],
+    categorySlugs: ['reading', 'culture'],
+    bookingTargetOrder: ['booq-website', 'booq-mammalingua'],
+    freshnessNote: localized('Neighborhood bibliofficina and MammaLingua activity checked from official project pages.', 'Bibliofficina di quartiere e attivita MammaLingua controllate su pagine ufficiali di progetto.'),
+    sourceUrl: 'https://www.mammalingua.it/presidi/bibliofficina-booq/',
+    lastVerifiedAt: '2026-04-01T10:30:00+02:00',
+    profile: 'library',
+    environment: 'indoor'
+  },
+  {
+    slug: 'libreria-dudi-palermo',
+    citySlug: 'palermo',
+    neighborhoodSlug: 'politeama',
+    name: 'Libreria Dudi',
+    tagline: localized('Bookshop for 0-14 with reading, science, music, and movement workshops.', 'Libreria 0-14 con letture, scienza, musica e laboratori di movimento.'),
+    description: localized(
+      'A reliable family culture anchor when you want book-led programming with a strong age spread from toddlers to older children.',
+      'Un ancora affidabile di cultura family quando cerchi programmazione guidata dai libri con una buona copertura d eta dai piccoli ai piu grandi.'
+    ),
+    address: 'Via Quintino Sella 71, Palermo',
+    geo: { lat: 38.1284, lng: 13.3498 },
+    amenities: ['Bookshop', 'Workshop room', '0-14 focus'],
+    languages: ['Italian'],
+    styleSlugs: ['storytime', 'creative-kids-lab'],
+    categorySlugs: ['reading', 'stem', 'culture'],
+    bookingTargetOrder: ['dudi-laboratori'],
+    freshnessNote: localized('Current workshop roster checked from the official laboratori page.', 'Roster laboratori corrente controllato dalla pagina ufficiale laboratori.'),
+    sourceUrl: 'https://www.libreriadudi.it/laboratori/',
+    lastVerifiedAt: '2026-04-01T10:30:00+02:00',
+    profile: 'community_hub',
+    environment: 'indoor'
+  },
+  {
+    slug: 'radici-museo-natura-place',
+    citySlug: 'palermo',
+    neighborhoodSlug: 'castellammare',
+    name: 'Radici Museo della Natura',
+    tagline: localized('Ecology, culture, and family workshops in a small central museum.', 'Ecologia, cultura e laboratori per famiglie in un piccolo museo centrale.'),
+    description: localized(
+      'One of the better central options when you want nature, making, and cultural depth in the same place.',
+      'Una delle opzioni centrali migliori quando cerchi natura, attivita pratiche e profondita culturale nello stesso posto.'
+    ),
+    address: 'Via Antonio Gagini 23, Palermo',
+    geo: { lat: 38.1203, lng: 13.3621 },
+    amenities: ['Museum', 'Bistrot', 'Recurring family activities'],
+    languages: ['Italian', 'English'],
+    styleSlugs: ['hands-on-lab', 'natural-cooking-lab'],
+    categorySlugs: ['stem', 'culture'],
+    bookingTargetOrder: ['radici-attivita'],
+    freshnessNote: localized('Family activity pages and venue information checked from the official Radici site.', 'Pagine attivita family e informazioni venue controllate dal sito ufficiale di Radici.'),
+    sourceUrl: 'https://radicimuseo.it/attivita/',
+    lastVerifiedAt: '2026-04-01T10:30:00+02:00',
+    profile: 'museum',
+    environment: 'indoor'
+  },
+  {
+    slug: 'laboratorio-zen-insieme-place',
+    citySlug: 'palermo',
+    neighborhoodSlug: 'zen',
+    name: 'Laboratorio ZEN Insieme',
+    tagline: localized('Neighborhood reading, after-school, and cultural support rooted in everyday family life.', 'Lettura, doposcuola e supporto culturale di quartiere radicati nella vita dei bambini.'),
+    description: localized(
+      'A key social and cultural infrastructure pick for families who value community-rooted spaces over polished commercial venues.',
+      'Una scelta chiave di infrastruttura sociale e culturale per famiglie che valorizzano spazi radicati nella comunita piu che venue commerciali rifinite.'
+    ),
+    address: 'Via Costante Girardengo 18, Palermo',
+    geo: { lat: 38.1682, lng: 13.3188 },
+    amenities: ['Neighborhood library', 'After-school support', 'Community programming'],
+    languages: ['Italian'],
+    styleSlugs: ['storytime'],
+    categorySlugs: ['reading', 'culture'],
+    bookingTargetOrder: ['zen-giufa-info'],
+    freshnessNote: localized('Biblioteca Giufa and community programs checked from the association website.', 'Biblioteca Giufa e programmi di comunita controllati dal sito dell associazione.'),
+    sourceUrl: 'https://www.zeninsieme.it/la-biblioteca-giufa/',
+    lastVerifiedAt: '2026-04-01T10:30:00+02:00',
+    profile: 'association',
+    environment: 'indoor'
+  },
+  {
+    slug: 'elibe-spazio-maternage',
+    citySlug: 'palermo',
+    neighborhoodSlug: 'politeama',
+    name: 'Elibe Spazio Maternage',
+    tagline: localized('Early-family space hosting courses and gentle workshops in central Palermo.', 'Spazio per la prima infanzia che ospita corsi e laboratori gentili nel centro di Palermo.'),
+    description: localized(
+      'Useful for younger-family routines and small-group activities that need a calmer, more caregiving-led environment.',
+      'Utile per routine delle famiglie piu giovani e attivita in piccolo gruppo che richiedono un ambiente piu calmo e orientato alla cura.'
+    ),
+    address: 'Via Agrigento 3d / 3e, Palermo',
+    geo: { lat: 38.1285, lng: 13.3491 },
+    amenities: ['Early-family space', 'Indoor', 'Small-group rooms'],
+    languages: ['Italian'],
+    styleSlugs: ['natural-cooking-lab'],
+    categorySlugs: ['stem', 'culture'],
+    bookingTargetOrder: ['elibe-corsi'],
+    freshnessNote: localized('Venue address and current courses checked from the official Elibe website.', 'Indirizzo venue e corsi attuali controllati dal sito ufficiale Elibe.'),
+    sourceUrl: 'https://www.elibepalermo.it/corsi-elibe-palermo/',
+    lastVerifiedAt: '2026-04-01T10:30:00+02:00',
+    profile: 'community_hub',
+    environment: 'indoor'
+  },
+  {
+    slug: 'palazzo-lampedusa',
+    citySlug: 'palermo',
+    neighborhoodSlug: 'castellammare',
+    name: 'Palazzo Lampedusa',
+    tagline: localized('Historic courtyard venue near Via Roma used for family workshops and events.', 'Venue storica con cortile vicino via Roma usata per laboratori ed eventi family.'),
+    description: localized(
+      'A strong setting-driven pick when a one-off workshop matters as much for atmosphere as for the activity itself.',
+      'Una scelta forte quando un laboratorio one-off conta tanto per l atmosfera quanto per l attivita in se.'
+    ),
+    address: 'Via di Lampedusa 23, Palermo',
+    geo: { lat: 38.1201, lng: 13.3612 },
+    amenities: ['Historic venue', 'Central location', 'Event hosting'],
+    languages: ['Italian'],
+    styleSlugs: ['natural-cooking-lab'],
+    categorySlugs: ['culture', 'stem'],
+    bookingTargetOrder: ['palazzo-lampedusa-info'],
+    freshnessNote: localized('Venue information and address checked from the Palazzo Lampedusa page.', 'Informazioni venue e indirizzo controllati dalla pagina dedicata a Palazzo Lampedusa.'),
+    sourceUrl: 'https://www.indigorooms.it/palazzo-lampedusa-palermo/',
+    lastVerifiedAt: '2026-04-01T10:30:00+02:00',
+    profile: 'arts_center',
     environment: 'indoor'
   }
 ];
@@ -882,6 +1139,276 @@ export const chefamoPrograms: Program[] = [
     scheduleKind: 'recurring',
     venueSlug: 'diaria-sala-venezia',
     instructorSlug: 'diaria-kids'
+  },
+  {
+    slug: 'le-giuggiole-family-labs',
+    citySlug: 'palermo',
+    placeSlug: 'le-giuggiole-epyc',
+    organizerSlug: 'le-giuggiole',
+    categorySlug: 'culture',
+    styleSlug: 'creative-kids-lab',
+    title: localized('Creative Family Labs at EPYC', 'Laboratori creativi in famiglia da EPYC'),
+    summary: localized(
+      'Flexible family workshops with a community feel, good for children who want art, making, and shared time rather than a rigid course.',
+      'Laboratori family flessibili con un tono di comunita, utili per bambini che vogliono arte, creazione e tempo condiviso piu che un corso rigido.'
+    ),
+    level: 'open',
+    language: 'Italian',
+    format: 'in_person',
+    bookingTargetSlug: 'le-giuggiole-website',
+    sourceUrl: 'https://www.arcipalermo.it/index.php/i-circoli/le-giuggiole',
+    lastVerifiedAt: '2026-04-01T10:30:00+02:00',
+    verificationStatus: 'verified',
+    audience: 'families',
+    attendanceModel: 'drop_in',
+    ageMin: 3,
+    ageMax: 12,
+    ageBand: 'mixed-kids',
+    guardianRequired: true,
+    priceNote: localized('Program details change across the season and are shared through the organizer pages.', 'I dettagli del programma cambiano durante la stagione e vengono condivisi tramite le pagine dell organizzatore.'),
+    scheduleKind: 'variable',
+    venueSlug: 'le-giuggiole-epyc',
+    instructorSlug: 'le-giuggiole'
+  },
+  {
+    slug: 'booq-mammalingua-reading',
+    citySlug: 'palermo',
+    placeSlug: 'booq-palermo',
+    organizerSlug: 'booq',
+    categorySlug: 'reading',
+    styleSlug: 'storytime',
+    title: localized('MammaLingua and Intercultural Reading', 'MammaLingua e letture interculturali'),
+    summary: localized(
+      'A reading-led inclusion format for younger children and multilingual families in a neighborhood cultural space.',
+      'Un format guidato dai libri e dall inclusione per i piu piccoli e le famiglie multilingue in uno spazio culturale di quartiere.'
+    ),
+    level: 'open',
+    language: 'Italian',
+    format: 'in_person',
+    bookingTargetSlug: 'booq-mammalingua',
+    sourceUrl: 'https://www.mammalingua.it/presidi/bibliofficina-booq/',
+    lastVerifiedAt: '2026-04-01T10:30:00+02:00',
+    verificationStatus: 'verified',
+    audience: 'families',
+    attendanceModel: 'drop_in',
+    ageMin: 0,
+    ageMax: 10,
+    ageBand: 'mixed-kids',
+    guardianRequired: true,
+    priceNote: localized('Activities are usually free or low-cost and communicated through project updates.', 'Le attivita sono in genere gratuite o low-cost e vengono comunicate tramite gli aggiornamenti del progetto.'),
+    scheduleKind: 'variable',
+    venueSlug: 'booq-palermo',
+    instructorSlug: 'booq'
+  },
+  {
+    slug: 'dudi-reading-labs',
+    citySlug: 'palermo',
+    placeSlug: 'libreria-dudi-palermo',
+    organizerSlug: 'libreria-dudi',
+    categorySlug: 'reading',
+    styleSlug: 'storytime',
+    title: localized('Dudi Readings and Workshops', 'Letture e laboratori Dudi'),
+    summary: localized(
+      'A broad 0-14 workshop roster anchored in books, from toddler formats to labs for older children.',
+      'Un roster ampio di laboratori 0-14 ancorati ai libri, dai format per piccolissimi ai laboratori per bambini piu grandi.'
+    ),
+    level: 'open',
+    language: 'Italian',
+    format: 'in_person',
+    bookingTargetSlug: 'dudi-laboratori',
+    sourceUrl: 'https://www.libreriadudi.it/laboratori/',
+    lastVerifiedAt: '2026-04-01T10:30:00+02:00',
+    verificationStatus: 'verified',
+    audience: 'families',
+    attendanceModel: 'drop_in',
+    ageMin: 0,
+    ageMax: 14,
+    ageBand: 'mixed-kids',
+    guardianRequired: true,
+    priceNote: localized('Formats and prices vary by lab and age band.', 'Format e prezzi variano in base al laboratorio e alla fascia d eta.'),
+    scheduleKind: 'variable',
+    venueSlug: 'libreria-dudi-palermo',
+    instructorSlug: 'libreria-dudi'
+  },
+  {
+    slug: 'radici-family-ecology-labs',
+    citySlug: 'palermo',
+    placeSlug: 'radici-museo-natura-place',
+    organizerSlug: 'radici-museo-natura',
+    categorySlug: 'stem',
+    styleSlug: 'hands-on-lab',
+    title: localized('Family Ecology Labs at Radici', 'Laboratori di ecologia per famiglie da Radici'),
+    summary: localized(
+      'Recurring family activities mixing nature, sensory exploration, and practical making in a small museum setting.',
+      'Attivita ricorrenti per famiglie che intrecciano natura, esplorazione sensoriale e fare pratico in un piccolo museo.'
+    ),
+    level: 'open',
+    language: 'Italian',
+    format: 'in_person',
+    bookingTargetSlug: 'radici-attivita',
+    sourceUrl: 'https://radicimuseo.it/attivita/',
+    lastVerifiedAt: '2026-04-01T10:30:00+02:00',
+    verificationStatus: 'verified',
+    audience: 'families',
+    attendanceModel: 'drop_in',
+    ageMin: 5,
+    ageMax: 14,
+    ageBand: 'mixed-kids',
+    guardianRequired: true,
+    priceNote: localized('Family activities vary month by month and are published on the official activity page.', 'Le attivita per famiglie variano di mese in mese e vengono pubblicate sulla pagina ufficiale attivita.'),
+    scheduleKind: 'variable',
+    venueSlug: 'radici-museo-natura-place',
+    instructorSlug: 'radici-museo-natura'
+  },
+  {
+    slug: 'zen-giufa-reading-club',
+    citySlug: 'palermo',
+    placeSlug: 'laboratorio-zen-insieme-place',
+    organizerSlug: 'laboratorio-zen-insieme',
+    categorySlug: 'reading',
+    styleSlug: 'storytime',
+    title: localized('Biblioteca Giufa Reading Club', 'Biblioteca Giufa legge e crea'),
+    summary: localized(
+      'Neighborhood reading and making activity with a strong social mission and an everyday family feel.',
+      'Attivita di quartiere tra lettura e creazione con una missione sociale forte e un tono family quotidiano.'
+    ),
+    level: 'open',
+    language: 'Italian',
+    format: 'in_person',
+    bookingTargetSlug: 'zen-giufa-info',
+    sourceUrl: 'https://www.zeninsieme.it/la-biblioteca-giufa/',
+    lastVerifiedAt: '2026-04-01T10:30:00+02:00',
+    verificationStatus: 'verified',
+    audience: 'families',
+    attendanceModel: 'drop_in',
+    ageMin: 3,
+    ageMax: 14,
+    ageBand: 'mixed-kids',
+    guardianRequired: true,
+    priceNote: localized('Community activities are usually shared through the association channels.', 'Le attivita di comunita vengono in genere condivise tramite i canali dell associazione.'),
+    scheduleKind: 'variable',
+    venueSlug: 'laboratorio-zen-insieme-place',
+    instructorSlug: 'laboratorio-zen-insieme'
+  },
+  {
+    slug: 'giulia-agnello-natural-cooking-dudi',
+    citySlug: 'palermo',
+    placeSlug: 'libreria-dudi-palermo',
+    organizerSlug: 'giulia-agnello-naturopata',
+    categorySlug: 'stem',
+    styleSlug: 'natural-cooking-lab',
+    title: localized('Natural Cooking Lab at Dudi', 'Laboratorio di cucina naturale da Dudi'),
+    summary: localized(
+      'Hands-on April cooking workshop centered on Easter eggs and natural ingredients for children 4+ and families.',
+      'Laboratorio pratico di aprile centrato su uova di Pasqua e ingredienti naturali per bambini 4+ e famiglie.'
+    ),
+    level: 'open',
+    language: 'Italian',
+    format: 'in_person',
+    bookingTargetSlug: 'dudi-laboratori',
+    sourceUrl: 'https://www.libreriadudi.it/laboratori/',
+    lastVerifiedAt: '2026-04-01T10:30:00+02:00',
+    verificationStatus: 'verified',
+    audience: 'families',
+    attendanceModel: 'drop_in',
+    ageMin: 4,
+    ageMax: 14,
+    ageBand: 'mixed-kids',
+    guardianRequired: true,
+    priceNote: localized('EUR 15. Sibling discount: EUR 5 off.', 'EUR 15. Riduzione fratelli e sorelle: EUR 5.'),
+    scheduleKind: 'seasonal',
+    venueSlug: 'libreria-dudi-palermo',
+    instructorSlug: 'giulia-agnello-naturopata'
+  },
+  {
+    slug: 'giulia-agnello-natural-cooking-palazzo-lampedusa',
+    citySlug: 'palermo',
+    placeSlug: 'palazzo-lampedusa',
+    organizerSlug: 'giulia-agnello-naturopata',
+    categorySlug: 'stem',
+    styleSlug: 'natural-cooking-lab',
+    title: localized('Natural Cooking Lab at Palazzo Lampedusa', 'Laboratorio di cucina naturale a Palazzo Lampedusa'),
+    summary: localized(
+      'April family cooking slot focused on brioches and cocoa spread in a historic central venue.',
+      'Slot family di aprile dedicato a brioche e crema al cacao in una venue storica del centro.'
+    ),
+    level: 'open',
+    language: 'Italian',
+    format: 'in_person',
+    bookingTargetSlug: 'palazzo-lampedusa-info',
+    sourceUrl: 'https://www.indigorooms.it/palazzo-lampedusa-palermo/',
+    lastVerifiedAt: '2026-04-01T10:30:00+02:00',
+    verificationStatus: 'verified',
+    audience: 'families',
+    attendanceModel: 'drop_in',
+    ageMin: 0,
+    ageMax: 14,
+    ageBand: 'mixed-kids',
+    guardianRequired: true,
+    priceNote: localized('EUR 15. Sibling discount: EUR 5 off.', 'EUR 15. Riduzione fratelli e sorelle: EUR 5.'),
+    scheduleKind: 'seasonal',
+    venueSlug: 'palazzo-lampedusa',
+    instructorSlug: 'giulia-agnello-naturopata'
+  },
+  {
+    slug: 'giulia-agnello-natural-cooking-elibe',
+    citySlug: 'palermo',
+    placeSlug: 'elibe-spazio-maternage',
+    organizerSlug: 'giulia-agnello-naturopata',
+    categorySlug: 'stem',
+    styleSlug: 'natural-cooking-lab',
+    title: localized('Natural Cooking Lab at Elibe', 'Laboratorio di cucina naturale da Elibe'),
+    summary: localized(
+      'Younger-family April cooking lab focused on lentil-and-vegetable bites in a maternage setting.',
+      'Laboratorio di aprile per famiglie piu giovani centrato su polpette di lenticchie e verdure in uno spazio maternage.'
+    ),
+    level: 'open',
+    language: 'Italian',
+    format: 'in_person',
+    bookingTargetSlug: 'elibe-corsi',
+    sourceUrl: 'https://www.elibepalermo.it/corsi-elibe-palermo/',
+    lastVerifiedAt: '2026-04-01T10:30:00+02:00',
+    verificationStatus: 'verified',
+    audience: 'families',
+    attendanceModel: 'drop_in',
+    ageMin: 1,
+    ageMax: 14,
+    ageBand: 'mixed-kids',
+    guardianRequired: true,
+    priceNote: localized('EUR 15. Sibling discount: EUR 5 off.', 'EUR 15. Riduzione fratelli e sorelle: EUR 5.'),
+    scheduleKind: 'seasonal',
+    venueSlug: 'elibe-spazio-maternage',
+    instructorSlug: 'giulia-agnello-naturopata'
+  },
+  {
+    slug: 'giulia-agnello-natural-cooking-radici',
+    citySlug: 'palermo',
+    placeSlug: 'radici-museo-natura-place',
+    organizerSlug: 'giulia-agnello-naturopata',
+    categorySlug: 'stem',
+    styleSlug: 'natural-cooking-lab',
+    title: localized('Natural Cooking Lab at Radici', 'Laboratorio di cucina naturale da Radici'),
+    summary: localized(
+      'April family lab focused on vegetarian spring rolls with a practical, seasonal kitchen approach.',
+      'Laboratorio family di aprile dedicato agli involtini primavera vegetariani con un approccio pratico e stagionale.'
+    ),
+    level: 'open',
+    language: 'Italian',
+    format: 'in_person',
+    bookingTargetSlug: 'radici-attivita',
+    sourceUrl: 'https://radicimuseo.it/attivita/',
+    lastVerifiedAt: '2026-04-01T10:30:00+02:00',
+    verificationStatus: 'verified',
+    audience: 'families',
+    attendanceModel: 'drop_in',
+    ageMin: 5,
+    ageMax: 14,
+    ageBand: 'mixed-kids',
+    guardianRequired: true,
+    priceNote: localized('EUR 15. Sibling discount: EUR 5 off.', 'EUR 15. Riduzione fratelli e sorelle: EUR 5.'),
+    scheduleKind: 'seasonal',
+    venueSlug: 'radici-museo-natura-place',
+    instructorSlug: 'giulia-agnello-naturopata'
   }
 ];
 
@@ -902,7 +1429,23 @@ export const chefamoOccurrences: Occurrence[] = [
   buildOccurrence('diaria-capoeira-mon', chefamoPrograms[10], nextWeekday(1, 16, 45, 60)),
   buildOccurrence('diaria-capoeira-thu', chefamoPrograms[10], nextWeekday(4, 16, 45, 60)),
   buildOccurrence('diaria-dance-foundations-tue', chefamoPrograms[11], nextWeekday(2, 16, 30, 60)),
-  buildOccurrence('diaria-dance-pedagogy-wed', chefamoPrograms[12], nextWeekday(3, 16, 0, 60))
+  buildOccurrence('diaria-dance-pedagogy-wed', chefamoPrograms[12], nextWeekday(3, 16, 0, 60)),
+  buildOccurrence('giulia-dudi-natural-cooking-2026-04-04', chefamoPrograms[18], {
+    startAt: '2026-04-04T17:00:00+02:00',
+    endAt: '2026-04-04T18:00:00+02:00'
+  }),
+  buildOccurrence('giulia-palazzo-lampedusa-natural-cooking-2026-04-10', chefamoPrograms[19], {
+    startAt: '2026-04-10T17:45:00+02:00',
+    endAt: '2026-04-10T18:45:00+02:00'
+  }),
+  buildOccurrence('giulia-elibe-natural-cooking-2026-04-13', chefamoPrograms[20], {
+    startAt: '2026-04-13T16:30:00+02:00',
+    endAt: '2026-04-13T17:30:00+02:00'
+  }),
+  buildOccurrence('giulia-radici-natural-cooking-2026-04-23', chefamoPrograms[21], {
+    startAt: '2026-04-23T17:45:00+02:00',
+    endAt: '2026-04-23T18:45:00+02:00'
+  })
 ];
 
 export const chefamoCollections: EditorialCollection[] = [
