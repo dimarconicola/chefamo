@@ -4,6 +4,7 @@ import { PlayfulIcon } from '@/components/brand/PlayfulIcon';
 import { OccurrenceSpotlightCard } from '@/components/marketing/OccurrenceSpotlightCard';
 import { DigestForm } from '@/components/forms/DigestForm';
 import { ServerButtonLink, ServerCardLink, ServerLink } from '@/components/ui/server';
+import { getOccurrencePath } from '@/lib/catalog/occurrence-links';
 import { getCatalogSnapshot } from '@/lib/catalog/repository';
 import { resolveOccurrenceCardDataFromSnapshot } from '@/lib/catalog/session-card-data';
 import { getCityMetrics, getFeaturedOccurrences, getLocaleLabel } from '@/lib/catalog/server-data';
@@ -54,7 +55,7 @@ export default async function LocaleHome({ params }: { params: Promise<{ locale:
           newsletterChipTwo: 'Piani pioggia',
           newsletterChipThree: 'Weekend forti',
           stats: {
-            activities: 'Attività',
+            activities: 'Attività nel catalogo',
             places: 'Luoghi',
             neighborhoods: 'Quartieri',
             formats: 'Formati'
@@ -117,7 +118,7 @@ export default async function LocaleHome({ params }: { params: Promise<{ locale:
           newsletterChipTwo: 'Rain plans',
           newsletterChipThree: 'Strong weekends',
           stats: {
-            activities: 'Activities',
+            activities: 'Activities in catalog',
             places: 'Places',
             neighborhoods: 'Neighborhoods',
             formats: 'Formats'
@@ -184,7 +185,7 @@ export default async function LocaleHome({ params }: { params: Promise<{ locale:
               <h2>{copy.cityPanelTitle}</h2>
               <div className="chefamo-stat-grid">
                 <div className="chefamo-stat-tile chefamo-tone-red">
-                  <strong>{metrics.sessions}</strong>
+                  <strong>{metrics.programs}</strong>
                   <span>{copy.stats.activities}</span>
                 </div>
                 <div className="chefamo-stat-tile chefamo-tone-blue">
@@ -276,7 +277,7 @@ export default async function LocaleHome({ params }: { params: Promise<{ locale:
                   occurrence={occurrence}
                   resolved={resolved}
                   locale={locale}
-                  href={`/${locale}/${occurrence.citySlug}/places/${occurrence.placeSlug}`}
+                  href={getOccurrencePath(locale, occurrence.citySlug, occurrence.id)}
                   tone={spotlightTones[index % spotlightTones.length]}
                 />
               );

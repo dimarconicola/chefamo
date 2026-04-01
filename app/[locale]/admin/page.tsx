@@ -23,6 +23,8 @@ export default async function AdminPage({ params }: { params: Promise<{ locale: 
     getCollections('palermo'),
     getRuntimeHealth('palermo')
   ]);
+  const outboundClicks = outbound.filter((event) => (event.eventKind ?? 'outbound') === 'outbound');
+  const shareEvents = outbound.filter((event) => event.eventKind === 'share');
 
   return (
     <div className="stack-list">
@@ -40,7 +42,8 @@ export default async function AdminPage({ params }: { params: Promise<{ locale: 
           value={String(claims.length + submissions.length + leads.length)}
           detail={isPersistentStoreConfigured() ? 'Claims, submissions, and lead review stored in Postgres.' : 'Operational queues are on fallback storage.'}
         />
-        <StatCard label="Outbound clicks" value={String(outbound.length)} detail="Intent tracking captured via click-out CTAs." />
+        <StatCard label="Outbound clicks" value={String(outboundClicks.length)} detail="External info-link clicks from activity and place surfaces." />
+        <StatCard label="Share intents" value={String(shareEvents.length)} detail="Native shares and copy-link actions from activity permalinks." />
         <StatCard label="Collections" value={String(collections.length)} detail="Rule-based and editorial surfaces." />
         <StatCard label="Runtime health" value={health.hasFailures ? 'Fail' : health.hasWarnings ? 'Warn' : 'OK'} detail={`${health.checks.length} release checks`} />
         <StatCard label="Digest signups" value={String(digests.length)} detail="Retention signal before monetization." />

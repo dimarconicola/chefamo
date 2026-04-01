@@ -13,6 +13,8 @@ export const sourceTrustTierEnum = pgEnum('source_trust_tier', ['tier_a', 'tier_
 export const sourcePurposeEnum = pgEnum('source_purpose', ['catalog', 'discovery']);
 export const discoveryLeadStatusEnum = pgEnum('discovery_lead_status', ['new', 'reviewed', 'imported', 'rejected']);
 export const reviewStatusEnum = pgEnum('review_status', ['new', 'reviewing', 'approved', 'rejected', 'imported', 'resolved']);
+export const outboundEventKindEnum = pgEnum('outbound_event_kind', ['outbound', 'share']);
+export const shareMethodEnum = pgEnum('share_method', ['native', 'copy']);
 
 export const cities = pgTable('cities', {
   id: uuid('id').defaultRandom().primaryKey(),
@@ -279,6 +281,8 @@ export const outboundClicks = pgTable('outbound_clicks', {
   venueSlug: varchar('venue_slug', { length: 120 }).notNull(),
   citySlug: varchar('city_slug', { length: 80 }).notNull(),
   categorySlug: varchar('category_slug', { length: 80 }).notNull(),
+  eventKind: outboundEventKindEnum('event_kind').notNull().default('outbound'),
+  shareMethod: shareMethodEnum('share_method'),
   targetType: contactTypeEnum('target_type').notNull(),
   href: text('href').notNull(),
   createdAt: timestamp('created_at', { withTimezone: true }).defaultNow().notNull()

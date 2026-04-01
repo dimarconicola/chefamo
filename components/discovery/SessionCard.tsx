@@ -1,7 +1,9 @@
 import { DateTime } from 'luxon';
 
 import { FavoriteButton } from '@/components/state/FavoriteButton';
+import { ShareButton } from '@/components/share/ShareButton';
 import { ScheduleButton } from '@/components/state/ScheduleButton';
+import { getOccurrencePath } from '@/lib/catalog/occurrence-links';
 import { getPriceNoteForLocale } from '@/lib/catalog/price-notes';
 import { ServerChip, ServerLink } from '@/components/ui/server';
 import type { ResolvedOccurrenceCardData } from '@/lib/catalog/session-card-data';
@@ -26,7 +28,9 @@ export function SessionCard({ session, locale, resolved, signedInEmail, schedule
       ? {
           verified: 'Verificato',
           stale: 'Da aggiornare',
+          share: 'Condividi',
           moreInfo: 'Più info',
+          activity: 'Apri attività',
           place: 'Apri luogo',
           organizer: 'Apri organizzatore',
           level: {
@@ -69,7 +73,9 @@ export function SessionCard({ session, locale, resolved, signedInEmail, schedule
       : {
           verified: 'Verified',
           stale: 'Needs refresh',
+          share: 'Share',
           moreInfo: 'More info',
+          activity: 'Open activity',
           place: 'View place',
           organizer: 'View organizer',
           level: {
@@ -114,6 +120,8 @@ export function SessionCard({ session, locale, resolved, signedInEmail, schedule
   const end = DateTime.fromISO(session.endAt).setZone('Europe/Rome');
   const durationMinutes = Math.max(30, Math.round(end.diff(start, 'minutes').minutes));
   const priceNote = getPriceNoteForLocale(session.priceNote, locale);
+  const activityPath = getOccurrencePath(locale, session.citySlug, session.id);
+  const shareText = `${session.title[locale]} · ${formatSessionTime(session.startAt, locale)} · ${place.name}`;
 
   return (
     <article className="session-card panel chefamo-session-card">
@@ -126,7 +134,11 @@ export function SessionCard({ session, locale, resolved, signedInEmail, schedule
           <div className="session-card-top">
             <div>
               <p className="eyebrow">{style.name[locale]}</p>
-              <h3>{session.title[locale]}</h3>
+              <h3>
+                <ServerLink href={activityPath} className="inline-link">
+                  {session.title[locale]}
+                </ServerLink>
+              </h3>
             </div>
             <span className={`status-pill ${session.verificationStatus}`}>
               {session.verificationStatus === 'verified' ? labels.verified : labels.stale}
@@ -166,6 +178,9 @@ export function SessionCard({ session, locale, resolved, signedInEmail, schedule
           <div className="session-card-footer">
             <div className="stack-list">
               <div className="session-card-links">
+                <ServerLink href={activityPath} className="inline-link">
+                  {labels.activity}
+                </ServerLink>
                 <ServerLink href={`/${locale}/${session.citySlug}/places/${place.slug}`} className="inline-link">
                   {labels.place}
                 </ServerLink>
@@ -175,6 +190,19 @@ export function SessionCard({ session, locale, resolved, signedInEmail, schedule
               </div>
             </div>
             <div className="session-actions">
+              <ShareButton
+                url={activityPath}
+                title={`${session.title[locale]} · chefamo`}
+                text={shareText}
+                locale={locale}
+                label={labels.share}
+                tracking={{
+                  occurrenceId: session.id,
+                  citySlug: session.citySlug,
+                  categorySlug: session.categorySlug,
+                  venueSlug: session.placeSlug
+                }}
+              />
               <FavoriteButton
                 entitySlug={session.programSlug}
                 entityType="program"
