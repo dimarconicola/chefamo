@@ -1196,6 +1196,15 @@ main.site-main {
   border: 1px solid rgba(44, 48, 46, 0.08);
 }
 
+.saved-schedule-actions {
+  gap: 0.45rem;
+}
+
+.saved-calendar-hint {
+  margin: 0;
+  max-width: 42rem;
+}
+
 .saved-section-header .eyebrow {
   margin-bottom: 0.15rem;
 }

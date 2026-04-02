@@ -234,6 +234,11 @@ export function FilterBar({
               {activeFilters.length} {labels.activeFilters}
             </span>
           ) : null}
+          {activeFilters.length > 0 ? (
+            <button type="button" className="button button-ghost filter-panel-reset" onClick={resetFilters}>
+              {labels.reset}
+            </button>
+          ) : null}
           <button
             type="button"
             className="button button-ghost filter-panel-toggle"
