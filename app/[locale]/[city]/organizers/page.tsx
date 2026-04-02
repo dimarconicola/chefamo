@@ -30,7 +30,7 @@ export default async function OrganizersIndexPage({ params }: { params: Promise<
     locale === 'it'
       ? {
           eyebrow: 'Organizzatori a Palermo',
-          title: 'Chi rende leggibili le attivita della citta',
+          title: 'Chi cura l esperienza family a Palermo',
           lead: 'Persone, non solo slot. Elenco alfabetico degli organizzatori, con profili, prossime attivita e link esterni verificati.',
           sessions: 'attivita in calendario',
           next: 'Prossima attivita',
@@ -40,7 +40,7 @@ export default async function OrganizersIndexPage({ params }: { params: Promise<
         }
       : {
           eyebrow: 'Organizers in Palermo',
-          title: 'Who makes the city activity layer readable',
+          title: 'Who curates the family experience in Palermo',
           lead: 'People, not just slots. Alphabetical organizer directory with concise profiles, upcoming activities, and verified external links.',
           sessions: 'scheduled activities',
           next: 'Next activity',
@@ -122,7 +122,7 @@ export default async function OrganizersIndexPage({ params }: { params: Promise<
 
               <ServerCardLink href={`/${locale}/${citySlug}/organizers/${instructor.slug}`} className="teacher-directory-link-card">
                 <strong>{copy.open}</strong>
-                <span className="muted">{instructor.name}</span>
+                <span className="muted">{locale === 'it' ? 'Scheda completa' : 'Full profile'}</span>
               </ServerCardLink>
             </article>
           );
