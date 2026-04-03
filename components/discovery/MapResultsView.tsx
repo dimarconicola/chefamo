@@ -180,7 +180,7 @@ export function MapResultsView({
 
   const mobileSummary = selectedVenue
     ? `${selectedVenue.name} · ${selectedVenue.matchingSessionCount} ${labels.matchingSessions}`
-    : `${visibleCount} ${labels.visibleClasses} · ${mapVenueSummaries.length} ${labels.visibleVenues}`;
+    : `${visibleCount} ${labels.visibleClasses} · ${mapVenueSummaries.length}`;
 
   return (
     <section className="classes-map-stage panel">

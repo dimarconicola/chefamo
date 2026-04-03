@@ -26,7 +26,7 @@ export default async function LocaleHome({ params }: { params: Promise<{ locale:
     locale === 'it'
       ? {
           heroBadge: 'Palermo-first family activity guide',
-          heroTitle: 'Il tempo libero in famiglia, reso leggibile.',
+          heroTitle: 'Chefamo rende leggibile il tempo libero in famiglia.',
           heroBody:
             'Chefamo prende il tono giocoso e rassicurante del nuovo concept e lo mette al servizio di cose vere: attività con orari reali, luoghi affidabili e organizzatori che pubblicano abbastanza bene da farti decidere senza aprire dieci tab.',
           ctaPrimary: 'Esplora attività',
@@ -89,7 +89,7 @@ export default async function LocaleHome({ params }: { params: Promise<{ locale:
         }
       : {
           heroBadge: 'Palermo-first family activity guide',
-          heroTitle: 'Family free time, made readable.',
+          heroTitle: 'Chefamo makes family free time readable.',
           heroBody:
             'Chefamo takes the playful, reassuring UI concept and puts it to work on real discovery: activities with actual times, trustworthy places, and organizers clear enough to help you decide without opening ten tabs.',
           ctaPrimary: 'Explore activities',
@@ -336,7 +336,7 @@ export default async function LocaleHome({ params }: { params: Promise<{ locale:
             <span className="chefamo-chip chefamo-chip-yellow">{copy.newsletterChipTwo}</span>
             <span className="chefamo-chip chefamo-chip-green">{copy.newsletterChipThree}</span>
           </div>
-          <DigestForm citySlug="palermo" locale={locale} surface="plain" showIntro={false} compact className="chefamo-newsletter-form" />
+          <DigestForm citySlug="palermo" locale={locale} surface="plain" compact className="chefamo-newsletter-form" />
         </div>
       </section>
     </div>

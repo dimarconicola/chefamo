@@ -1419,6 +1419,7 @@ export const chefamoOccurrences: Occurrence[] = [
   buildOccurrence('planetario-weekend-show-sun', chefamoPrograms[1], nextWeekday(7, 12, 0, 60)),
   buildOccurrence('minimupa-creative-lab-sat', chefamoPrograms[2], nextWeekday(6, 10, 30, 90)),
   buildOccurrence('biblioteca-storytime-wed', chefamoPrograms[3], nextWeekday(3, 16, 30, 45)),
+  buildOccurrence('biblioteca-storytime-mon', chefamoPrograms[3], nextWeekday(1, 9, 30, 45)),
   buildOccurrence('marionette-weekend-show-sat', chefamoPrograms[4], nextWeekday(6, 16, 30, 60)),
   buildOccurrence('marionette-weekend-show-sun', chefamoPrograms[4], nextWeekday(7, 12, 0, 60)),
   buildOccurrence('palermo-kids-coding-club-sat', chefamoPrograms[6], nextWeekday(6, 10, 0, 90)),

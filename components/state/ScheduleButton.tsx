@@ -24,7 +24,7 @@ export function ScheduleButton({ occurrenceId, locale, signedInEmail, label, sav
   const copy =
     locale === 'it'
       ? {
-          unavailable: 'Piano temporaneamente non disponibile.',
+          unavailable: 'Agenda temporaneamente non disponibile.',
           authRequired: 'Accedi per salvare nel piano.'
         }
       : {
