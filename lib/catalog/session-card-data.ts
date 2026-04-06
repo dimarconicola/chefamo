@@ -59,7 +59,10 @@ export const resolveOccurrenceCardData = async (occurrences: Occurrence[]) => {
 
 export const resolveSessionCardData = resolveOccurrenceCardData;
 
-export const resolveOccurrenceCardDataFromSnapshot = (catalog: CatalogSnapshot, occurrences: Occurrence[]) => {
+export const resolveOccurrenceCardDataFromSnapshot = (
+  catalog: Pick<CatalogSnapshot, 'places' | 'organizers' | 'styles' | 'bookingTargets'>,
+  occurrences: Occurrence[]
+) => {
   const placeBySlug = new Map(catalog.places.map((place) => [place.slug, place] as const));
   const organizerBySlug = new Map(catalog.organizers.map((organizer) => [organizer.slug, organizer] as const));
   const styleBySlug = new Map(catalog.styles.map((style) => [style.slug, style] as const));
