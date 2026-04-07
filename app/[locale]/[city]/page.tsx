@@ -95,6 +95,78 @@ export default async function CityPage({ params }: { params: Promise<{ locale: s
           motionTitle: 'One city, many tempos',
           motionBody: 'Cultural spaces, movement, reading, and indoor backup plans all live in the same flow.',
           movementCta: 'Open all activities'
+          heroBadge: `${getLocaleLabel(locale, city.name)} family hub`,
+          heroLead:
+            'Una vista unica su attività con orari reali, luoghi utili anche senza slot, e organizzatori che meritano fiducia abbastanza da entrare nella giornata di una famiglia.',
+          ctaPrimary: 'Esplora attività',
+          ctaSecondary: 'Apri luoghi',
+          cityPulse: 'Pulse Palermo',
+          cityPulseTitle: 'Il mockup giocoso ora è il layer operativo della città.',
+          cityPulseBody: 'Weekend forti, sport, piani pioggia, luoghi culturali, movimento e fallback calmi stanno nello stesso spazio senza confondersi.',
+          statActivities: 'Attività nel catalogo',
+          statPlaces: 'Luoghi verificati',
+          statPrograms: 'Programmi',
+          statNeighborhoods: 'Quartieri coperti',
+          featuredEyebrow: 'Attività in evidenza',
+          featuredTitle: 'Cose che valgono davvero questa settimana',
+          featuredCta: 'Apri tutte le attività',
+          categoryEyebrow: 'Categorie',
+          categoryTitle: 'Scegli il tipo di giornata prima del singolo slot',
+          neighborhoodEyebrow: 'Quartieri',
+          neighborhoodTitle: 'Quando vuoi ridurre attrito, il quartiere conta',
+          collectionEyebrow: 'Collezioni',
+          collectionTitle: 'Flussi curati per arrivare più velocemente a una decisione',
+          placesEyebrow: 'Luoghi',
+          placesTitle: 'Musei, biblioteche, parchi e sedi che restano utili nel tempo',
+          placesCta: 'Apri tutti i luoghi',
+          organizersEyebrow: 'Organizzatori',
+          organizersTitle: 'Chi rende davvero leggibile il panorama 0-14',
+          organizersCta: 'Apri tutti gli organizzatori',
+          newsletterEyebrow: 'Digest Palermo',
+          newsletterTitle: 'Tieniti il tono giocoso, ma ricevi solo segnale utile.',
+          newsletterBody:
+            'Nuove attività, aperture affidabili, picks per pioggia e shortlist per il weekend. Nessun rumore, solo cose che possono finire davvero nel calendario.',
+          newsletterChipOne: 'Zero rumore',
+          newsletterChipTwo: 'Indoor quando serve',
+          newsletterChipThree: 'Solo posti utili',
+          emptyActivities: 'Stiamo preparando i prossimi slot verificati.'
+        }
+      : {
+          heroBadge: `${getLocaleLabel(locale, city.name)} family hub`,
+          heroLead:
+            'One clear view across activities with real times, places that stay useful without a slot, and organizers trustworthy enough to enter a family plan.',
+          ctaPrimary: 'Explore activities',
+          ctaSecondary: 'Open places',
+          cityPulse: 'Pulse Palermo',
+          cityPulseTitle: 'The playful mockup is now the city operating layer.',
+          cityPulseBody: 'Strong weekends, sports, rain plans, cultural places, movement, and calmer backups live in the same space without turning into noise.',
+          statActivities: 'Activities in catalog',
+          statPlaces: 'Verified places',
+          statPrograms: 'Programs',
+          statNeighborhoods: 'Neighborhoods covered',
+          featuredEyebrow: 'Featured activities',
+          featuredTitle: 'Things actually worth doing this week',
+          featuredCta: 'Open all activities',
+          categoryEyebrow: 'Categories',
+          categoryTitle: 'Choose the type of day before chasing one slot',
+          neighborhoodEyebrow: 'Neighborhoods',
+          neighborhoodTitle: 'When you want less friction, neighborhood matters',
+          collectionEyebrow: 'Collections',
+          collectionTitle: 'Curated flows that get a family to a decision faster',
+          placesEyebrow: 'Places',
+          placesTitle: 'Museums, libraries, parks, and venues that stay useful over time',
+          placesCta: 'Open all places',
+          organizersEyebrow: 'Organizers',
+          organizersTitle: 'Who actually makes the 0-14 layer readable',
+          organizersCta: 'Open all organizers',
+          newsletterEyebrow: 'Palermo digest',
+          newsletterTitle: 'Keep the playful tone, receive only useful signal.',
+          newsletterBody:
+            'New activities, trustworthy openings, rainy-day picks, and weekend shortlists. No noise, only things that can genuinely make it into a family calendar.',
+          newsletterChipOne: 'No noise',
+          newsletterChipTwo: 'Indoor when needed',
+          newsletterChipThree: 'Useful places only',
+          emptyActivities: 'We are preparing the next verified slots.'
         };
 
   const formatNextOccurrence = (iso?: string) => {
@@ -126,6 +198,31 @@ export default async function CityPage({ params }: { params: Promise<{ locale: s
             <StatCard label={copy.places} value={String(metrics.places)} detail={copy.placesDetail} />
             <StatCard label={copy.organizers} value={String(metrics.organizers)} detail={copy.organizersDetail} />
             <StatCard label={copy.neighborhoods} value={String(metrics.neighborhoods)} detail={copy.neighborhoodsDetail} />
+
+          <div className="chefamo-hero-stack">
+            <article className="chefamo-play-card chefamo-city-overview-card">
+              <p className="chefamo-card-kicker">{copy.cityPulse}</p>
+              <h2>{copy.cityPulseTitle}</h2>
+              <p className="chefamo-muted">{copy.cityPulseBody}</p>
+              <div className="chefamo-stat-grid">
+                <div className="chefamo-stat-tile chefamo-tone-red">
+                  <strong>{metrics.programs}</strong>
+                  <span>{copy.statActivities}</span>
+                </div>
+                <div className="chefamo-stat-tile chefamo-tone-blue">
+                  <strong>{metrics.places}</strong>
+                  <span>{copy.statPlaces}</span>
+                </div>
+                <div className="chefamo-stat-tile chefamo-tone-yellow">
+                  <strong>{metrics.programs}</strong>
+                  <span>{copy.statPrograms}</span>
+                </div>
+                <div className="chefamo-stat-tile chefamo-tone-green">
+                  <strong>{metrics.neighborhoods}</strong>
+                  <span>{copy.statNeighborhoods}</span>
+                </div>
+              </div>
+            </article>
           </div>
         </div>
       </section>

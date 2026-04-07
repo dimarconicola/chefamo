@@ -60,6 +60,13 @@ export default async function LocaleHome({ params }: { params: Promise<{ locale:
           newsletterChipTwo: 'Piani pioggia',
           newsletterChipThree: 'Weekend forti',
           motionCards: [
+          stats: {
+            activities: 'Attività nel catalogo',
+            places: 'Luoghi',
+            neighborhoods: 'Quartieri',
+            formats: 'Formati'
+          },
+          features: [
             {
               icon: 'map' as const,
               title: 'Sport, cultura, laboratori, coding',
@@ -136,6 +143,13 @@ export default async function LocaleHome({ params }: { params: Promise<{ locale:
           newsletterChipTwo: 'Rain plans',
           newsletterChipThree: 'Strong weekends',
           motionCards: [
+          stats: {
+            activities: 'Activities in catalog',
+            places: 'Places',
+            neighborhoods: 'Neighborhoods',
+            formats: 'Formats'
+          },
+          features: [
             {
               icon: 'map' as const,
               title: 'Sports, culture, labs, coding',
@@ -218,6 +232,29 @@ export default async function LocaleHome({ params }: { params: Promise<{ locale:
           </div>
         </div>
       </section>
+          <div className="chefamo-hero-stack">
+            <article className="chefamo-play-card chefamo-city-overview-card">
+              <p className="chefamo-card-kicker">{copy.cityPanelEyebrow}</p>
+              <h2>{copy.cityPanelTitle}</h2>
+              <div className="chefamo-stat-grid">
+                <div className="chefamo-stat-tile chefamo-tone-red">
+                  <strong>{metrics.programs}</strong>
+                  <span>{copy.stats.activities}</span>
+                </div>
+                <div className="chefamo-stat-tile chefamo-tone-blue">
+                  <strong>{metrics.places}</strong>
+                  <span>{copy.stats.places}</span>
+                </div>
+                <div className="chefamo-stat-tile chefamo-tone-yellow">
+                  <strong>{metrics.neighborhoods}</strong>
+                  <span>{copy.stats.neighborhoods}</span>
+                </div>
+                <div className="chefamo-stat-tile chefamo-tone-green">
+                  <strong>{metrics.styles}</strong>
+                  <span>{copy.stats.formats}</span>
+                </div>
+              </div>
+            </article>
 
       <section className="home-v2-motion">
         <div className="home-v2-shell">
