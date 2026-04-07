@@ -172,12 +172,15 @@ const toOccurrence = (
   occurrence: Omit<Occurrence, 'programSlug' | 'placeSlug' | 'organizerSlug' | 'venueSlug' | 'instructorSlug'> & {
     venueSlug: string;
     instructorSlug: string;
+    placeSlug?: string;
+    organizerSlug?: string;
+    programSlug?: string;
   }
 ): Occurrence => ({
   ...occurrence,
-  programSlug: inferProgramSlug(occurrence),
-  placeSlug: occurrence.venueSlug,
-  organizerSlug: occurrence.instructorSlug,
+  programSlug: occurrence.programSlug ?? inferProgramSlug(occurrence),
+  placeSlug: occurrence.placeSlug ?? occurrence.venueSlug,
+  organizerSlug: occurrence.organizerSlug ?? occurrence.instructorSlug,
   venueSlug: occurrence.venueSlug,
   instructorSlug: occurrence.instructorSlug
 });
@@ -296,6 +299,7 @@ const loadDatabaseSnapshot = async (): Promise<CatalogSnapshot | null> => {
             citySlug: row.citySlug,
             venueSlug: row.venueSlug,
             instructorSlug: row.instructorSlug,
+            programSlug: row.programSlug ?? undefined,
             categorySlug: row.categorySlug,
             styleSlug: row.styleSlug,
             title: row.title,
@@ -381,6 +385,11 @@ const loadDatabaseSnapshot = async (): Promise<CatalogSnapshot | null> => {
       )
       .filter((place) => activePlaceSlugs.has(place.slug));
 
+    const programsBySlug = new Map(seedSnapshot.programs.map((program) => [program.slug, program] as const));
+    for (const program of buildPrograms(occurrences)) {
+      programsBySlug.set(program.slug, program);
+    }
+
     return {
       sourceMode: 'database',
       cities: seedSnapshot.cities,
@@ -399,7 +408,7 @@ const loadDatabaseSnapshot = async (): Promise<CatalogSnapshot | null> => {
           href: row.href
         }))
         .filter((target) => usedBookingTargetSlugs.has(target.slug)),
-      programs: buildPrograms(occurrences),
+      programs: [...programsBySlug.values()].sort((left, right) => left.title.it.localeCompare(right.title.it, 'it', { sensitivity: 'base' })),
       occurrences,
       sessions: occurrences,
       collections: seedSnapshot.collections

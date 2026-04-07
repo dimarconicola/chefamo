@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-04-01T06:58:29.161Z",
+  "generatedAt": "2026-04-07T09:25:38.256Z",
   "citySlug": "palermo",
   "source": "chefamo-seed",
   "cities": [
@@ -279,6 +279,18 @@
       }
     },
     {
+      "slug": "kids-theater",
+      "categorySlug": "movement",
+      "name": {
+        "en": "Kids theater",
+        "it": "Teatro bambini"
+      },
+      "description": {
+        "en": "Theater classes for children with voice, movement, and playful scene work.",
+        "it": "Classi di teatro per bambini con voce, movimento e lavoro scenico giocato."
+      }
+    },
+    {
       "slug": "planetarium-show",
       "categorySlug": "stem",
       "name": {
@@ -518,6 +530,22 @@
         "kids-contemporary-dance",
         "kids-dance-foundations",
         "kids-dance-pedagogy",
+        "kids-capoeira",
+        "kids-theater"
+      ],
+      "languages": [
+        "Italian"
+      ]
+    },
+    {
+      "slug": "capoeira-zumbi-team",
+      "citySlug": "palermo",
+      "name": "Capoeira Zumbi Palermo",
+      "shortBio": {
+        "en": "Recurring youth capoeira practice with a stable Palermo base.",
+        "it": "Pratica ricorrente di capoeira per ragazzi con una base stabile a Palermo."
+      },
+      "specialties": [
         "kids-capoeira"
       ],
       "languages": [
@@ -741,6 +769,12 @@
       "type": "website",
       "label": "Palazzo Lampedusa",
       "href": "https://www.indigorooms.it/palazzo-lampedusa-palermo/"
+    },
+    {
+      "slug": "capoeira-zumbi-website",
+      "type": "website",
+      "label": "Capoeira Zumbi",
+      "href": "https://www.capoeirazumbi.org/"
     }
   ],
   "places": [
@@ -1219,7 +1253,8 @@
         "Italian"
       ],
       "styleSlugs": [
-        "kids-contemporary-dance"
+        "kids-contemporary-dance",
+        "kids-theater"
       ],
       "categorySlugs": [
         "movement"
@@ -1556,6 +1591,51 @@
       "sourceUrl": "https://www.indigorooms.it/palazzo-lampedusa-palermo/",
       "lastVerifiedAt": "2026-04-01T10:30:00+02:00",
       "profile": "arts_center",
+      "environment": "indoor"
+    },
+    {
+      "slug": "capoeira-zumbi-palermo",
+      "citySlug": "palermo",
+      "neighborhoodSlug": "liberta",
+      "name": "Capoeira Zumbi Palermo",
+      "tagline": {
+        "en": "Youth capoeira with a stable Palermo training base.",
+        "it": "Capoeira per ragazzi con una base di pratica stabile a Palermo."
+      },
+      "description": {
+        "en": "Capoeira Zumbi publishes recurring youth practice and direct contact paths from its Palermo base.",
+        "it": "Capoeira Zumbi pubblica pratica ricorrente per ragazzi e contatti diretti dalla sua base palermitana."
+      },
+      "address": "Via Danimarca 52, Palermo",
+      "geo": {
+        "lat": 38.1540288,
+        "lng": 13.3311013
+      },
+      "amenities": [
+        "Capoeira",
+        "Youth practice",
+        "Community-led"
+      ],
+      "languages": [
+        "Italian"
+      ],
+      "styleSlugs": [
+        "kids-capoeira"
+      ],
+      "categorySlugs": [
+        "movement",
+        "kids-activities"
+      ],
+      "bookingTargetOrder": [
+        "capoeira-zumbi-website"
+      ],
+      "freshnessNote": {
+        "en": "Capoeira Palermo sources checked on 2026-04-03.",
+        "it": "Fonti capoeira Palermo controllate il 2026-04-03."
+      },
+      "sourceUrl": "https://www.capoeirazumbi.org/",
+      "lastVerifiedAt": "2026-04-03T09:00:00+02:00",
+      "profile": "club",
       "environment": "indoor"
     }
   ],
@@ -2351,6 +2431,114 @@
       "scheduleKind": "seasonal",
       "venueSlug": "radici-museo-natura-place",
       "instructorSlug": "giulia-agnello-naturopata"
+    },
+    {
+      "slug": "diaria-theater-10plus",
+      "citySlug": "palermo",
+      "placeSlug": "diaria-studio-gagini",
+      "organizerSlug": "diaria-kids",
+      "categorySlug": "movement",
+      "styleSlug": "kids-theater",
+      "title": {
+        "en": "Theater 10+ Years",
+        "it": "Teatro 10+ anni"
+      },
+      "summary": {
+        "en": "A late-afternoon theater slot for older children who want voice, movement, and scene work.",
+        "it": "Uno slot teatrale del tardo pomeriggio per bambini piu grandi che vogliono voce, movimento e lavoro scenico."
+      },
+      "level": "beginner",
+      "language": "Italian",
+      "format": "in_person",
+      "bookingTargetSlug": "diaria-kids-enroll",
+      "sourceUrl": "https://www.diariapalermo.org/corsi/calendario/",
+      "lastVerifiedAt": "2026-03-12T12:00:00+01:00",
+      "verificationStatus": "verified",
+      "audience": "kids",
+      "attendanceModel": "cycle",
+      "ageMin": 10,
+      "ageMax": 14,
+      "ageBand": "mixed-kids",
+      "guardianRequired": false,
+      "priceNote": {
+        "en": "Registration and pricing are shared through Diaria.",
+        "it": "Iscrizione e prezzi vengono condivisi tramite Diaria."
+      },
+      "scheduleKind": "recurring",
+      "venueSlug": "diaria-studio-gagini",
+      "instructorSlug": "diaria-kids"
+    },
+    {
+      "slug": "diaria-theater-7-10",
+      "citySlug": "palermo",
+      "placeSlug": "diaria-studio-gagini",
+      "organizerSlug": "diaria-kids",
+      "categorySlug": "movement",
+      "styleSlug": "kids-theater",
+      "title": {
+        "en": "Theater 7-10 Years",
+        "it": "Teatro 7-10 anni"
+      },
+      "summary": {
+        "en": "A mid-week theater slot for younger primary-school children.",
+        "it": "Uno slot teatrale infrasettimanale per bambini della primaria piu piccoli."
+      },
+      "level": "beginner",
+      "language": "Italian",
+      "format": "in_person",
+      "bookingTargetSlug": "diaria-kids-enroll",
+      "sourceUrl": "https://www.diariapalermo.org/corsi/calendario/",
+      "lastVerifiedAt": "2026-03-12T12:00:00+01:00",
+      "verificationStatus": "verified",
+      "audience": "kids",
+      "attendanceModel": "cycle",
+      "ageMin": 7,
+      "ageMax": 10,
+      "ageBand": "6-10",
+      "guardianRequired": false,
+      "priceNote": {
+        "en": "Registration and pricing are shared through Diaria.",
+        "it": "Iscrizione e prezzi vengono condivisi tramite Diaria."
+      },
+      "scheduleKind": "recurring",
+      "venueSlug": "diaria-studio-gagini",
+      "instructorSlug": "diaria-kids"
+    },
+    {
+      "slug": "capoeira-zumbi-kids",
+      "citySlug": "palermo",
+      "placeSlug": "capoeira-zumbi-palermo",
+      "organizerSlug": "capoeira-zumbi-team",
+      "categorySlug": "movement",
+      "styleSlug": "kids-capoeira",
+      "title": {
+        "en": "Capoeira Kids",
+        "it": "Capoeira bambini"
+      },
+      "summary": {
+        "en": "Recurring capoeira practice for children with rhythm, coordination, and group play.",
+        "it": "Pratica ricorrente di capoeira per bambini con ritmo, coordinazione e gioco di gruppo."
+      },
+      "level": "beginner",
+      "language": "Italian",
+      "format": "in_person",
+      "bookingTargetSlug": "capoeira-zumbi-website",
+      "sourceUrl": "https://www.lalaue.com/city/palermo/",
+      "lastVerifiedAt": "2026-04-03T09:00:00+02:00",
+      "verificationStatus": "verified",
+      "audience": "kids",
+      "attendanceModel": "cycle",
+      "ageMin": 6,
+      "ageMax": 14,
+      "ageBand": "mixed-kids",
+      "guardianRequired": false,
+      "priceNote": {
+        "en": "Contact the organizer for current enrollment and pricing details.",
+        "it": "Contatta l organizzatore per iscrizione e prezzi correnti."
+      },
+      "scheduleKind": "recurring",
+      "venueSlug": "capoeira-zumbi-palermo",
+      "instructorSlug": "capoeira-zumbi-team"
     }
   ],
   "occurrences": [
@@ -2366,8 +2554,8 @@
         "en": "Family Theater Tour",
         "it": "Visita famiglia al Teatro Massimo"
       },
-      "startAt": "2026-04-04T10:30:00.000+02:00",
-      "endAt": "2026-04-04T11:10:00.000+02:00",
+      "startAt": "2026-04-11T10:30:00.000+02:00",
+      "endAt": "2026-04-11T11:10:00.000+02:00",
       "level": "open",
       "language": "Italian",
       "format": "in_person",
@@ -2400,8 +2588,8 @@
         "en": "Family Theater Tour",
         "it": "Visita famiglia al Teatro Massimo"
       },
-      "startAt": "2026-04-05T11:20:00.000+02:00",
-      "endAt": "2026-04-05T12:00:00.000+02:00",
+      "startAt": "2026-04-12T11:20:00.000+02:00",
+      "endAt": "2026-04-12T12:00:00.000+02:00",
       "level": "open",
       "language": "Italian",
       "format": "in_person",
@@ -2434,8 +2622,8 @@
         "en": "Weekend Planetarium Show",
         "it": "Spettacolo del weekend al planetario"
       },
-      "startAt": "2026-04-04T17:00:00.000+02:00",
-      "endAt": "2026-04-04T18:00:00.000+02:00",
+      "startAt": "2026-04-11T17:00:00.000+02:00",
+      "endAt": "2026-04-11T18:00:00.000+02:00",
       "level": "open",
       "language": "Italian",
       "format": "in_person",
@@ -2468,8 +2656,8 @@
         "en": "Weekend Planetarium Show",
         "it": "Spettacolo del weekend al planetario"
       },
-      "startAt": "2026-04-05T12:00:00.000+02:00",
-      "endAt": "2026-04-05T13:00:00.000+02:00",
+      "startAt": "2026-04-12T12:00:00.000+02:00",
+      "endAt": "2026-04-12T13:00:00.000+02:00",
       "level": "open",
       "language": "Italian",
       "format": "in_person",
@@ -2502,8 +2690,8 @@
         "en": "MiniMuPa Creative Lab",
         "it": "Laboratorio creativo MiniMuPa"
       },
-      "startAt": "2026-04-04T10:30:00.000+02:00",
-      "endAt": "2026-04-04T12:00:00.000+02:00",
+      "startAt": "2026-04-11T10:30:00.000+02:00",
+      "endAt": "2026-04-11T12:00:00.000+02:00",
       "level": "open",
       "language": "Italian",
       "format": "in_person",
@@ -2536,8 +2724,42 @@
         "en": "Library Story Circle",
         "it": "Cerchio di letture in biblioteca"
       },
-      "startAt": "2026-04-01T16:30:00.000+02:00",
-      "endAt": "2026-04-01T17:15:00.000+02:00",
+      "startAt": "2026-04-08T16:30:00.000+02:00",
+      "endAt": "2026-04-08T17:15:00.000+02:00",
+      "level": "open",
+      "language": "Italian",
+      "format": "in_person",
+      "bookingTargetSlug": "biblioteca-contact",
+      "sourceUrl": "https://www.comune.palermo.it/",
+      "lastVerifiedAt": "2026-03-29T11:00:00+02:00",
+      "verificationStatus": "verified",
+      "audience": "families",
+      "attendanceModel": "drop_in",
+      "ageMin": 3,
+      "ageMax": 7,
+      "ageBand": "3-5",
+      "guardianRequired": true,
+      "priceNote": {
+        "en": "Library access is free; some special events may require reservation.",
+        "it": "Accesso biblioteca gratuito; alcuni eventi speciali possono richiedere prenotazione."
+      },
+      "venueSlug": "biblioteca-piccolo-principe-place",
+      "instructorSlug": "biblioteca-piccolo-principe"
+    },
+    {
+      "id": "biblioteca-storytime-mon",
+      "programSlug": "biblioteca-storytime",
+      "citySlug": "palermo",
+      "placeSlug": "biblioteca-piccolo-principe-place",
+      "organizerSlug": "biblioteca-piccolo-principe",
+      "categorySlug": "reading",
+      "styleSlug": "storytime",
+      "title": {
+        "en": "Library Story Circle",
+        "it": "Cerchio di letture in biblioteca"
+      },
+      "startAt": "2026-04-13T09:30:00.000+02:00",
+      "endAt": "2026-04-13T10:15:00.000+02:00",
       "level": "open",
       "language": "Italian",
       "format": "in_person",
@@ -2570,8 +2792,8 @@
         "en": "Weekend Puppet Theater",
         "it": "Teatro dei pupi del weekend"
       },
-      "startAt": "2026-04-04T16:30:00.000+02:00",
-      "endAt": "2026-04-04T17:30:00.000+02:00",
+      "startAt": "2026-04-11T16:30:00.000+02:00",
+      "endAt": "2026-04-11T17:30:00.000+02:00",
       "level": "open",
       "language": "Italian",
       "format": "in_person",
@@ -2604,8 +2826,8 @@
         "en": "Weekend Puppet Theater",
         "it": "Teatro dei pupi del weekend"
       },
-      "startAt": "2026-04-05T12:00:00.000+02:00",
-      "endAt": "2026-04-05T13:00:00.000+02:00",
+      "startAt": "2026-04-12T12:00:00.000+02:00",
+      "endAt": "2026-04-12T13:00:00.000+02:00",
       "level": "open",
       "language": "Italian",
       "format": "in_person",
@@ -2638,8 +2860,8 @@
         "en": "Coding Club 8-12",
         "it": "Coding club 8-12"
       },
-      "startAt": "2026-04-04T10:00:00.000+02:00",
-      "endAt": "2026-04-04T11:30:00.000+02:00",
+      "startAt": "2026-04-11T10:00:00.000+02:00",
+      "endAt": "2026-04-11T11:30:00.000+02:00",
       "level": "beginner",
       "language": "Italian",
       "format": "in_person",
@@ -2706,8 +2928,8 @@
         "en": "Aerial Kids Lab",
         "it": "Laboratorio aereo bambini"
       },
-      "startAt": "2026-04-04T10:30:00.000+02:00",
-      "endAt": "2026-04-04T11:30:00.000+02:00",
+      "startAt": "2026-04-11T10:30:00.000+02:00",
+      "endAt": "2026-04-11T11:30:00.000+02:00",
       "level": "beginner",
       "language": "Italian",
       "format": "in_person",
@@ -2740,8 +2962,8 @@
         "en": "Contemporary Dance 7-10",
         "it": "Danza contemporanea 7-10"
       },
-      "startAt": "2026-04-06T17:00:00.000+02:00",
-      "endAt": "2026-04-06T18:00:00.000+02:00",
+      "startAt": "2026-04-13T17:00:00.000+02:00",
+      "endAt": "2026-04-13T18:00:00.000+02:00",
       "level": "beginner",
       "language": "Italian",
       "format": "in_person",
@@ -2774,8 +2996,8 @@
         "en": "Contemporary Dance 7-10",
         "it": "Danza contemporanea 7-10"
       },
-      "startAt": "2026-04-01T17:00:00.000+02:00",
-      "endAt": "2026-04-01T18:00:00.000+02:00",
+      "startAt": "2026-04-08T17:00:00.000+02:00",
+      "endAt": "2026-04-08T18:00:00.000+02:00",
       "level": "beginner",
       "language": "Italian",
       "format": "in_person",
@@ -2808,8 +3030,8 @@
         "en": "Capoeira 6-10",
         "it": "Capoeira 6-10"
       },
-      "startAt": "2026-04-06T16:45:00.000+02:00",
-      "endAt": "2026-04-06T17:45:00.000+02:00",
+      "startAt": "2026-04-13T16:45:00.000+02:00",
+      "endAt": "2026-04-13T17:45:00.000+02:00",
       "level": "beginner",
       "language": "Italian",
       "format": "in_person",
@@ -2842,8 +3064,8 @@
         "en": "Capoeira 6-10",
         "it": "Capoeira 6-10"
       },
-      "startAt": "2026-04-02T16:45:00.000+02:00",
-      "endAt": "2026-04-02T17:45:00.000+02:00",
+      "startAt": "2026-04-09T16:45:00.000+02:00",
+      "endAt": "2026-04-09T17:45:00.000+02:00",
       "level": "beginner",
       "language": "Italian",
       "format": "in_person",
@@ -2910,8 +3132,8 @@
         "en": "Dance Pedagogy 3-4",
         "it": "Pedagogia della danza 3-4"
       },
-      "startAt": "2026-04-01T16:00:00.000+02:00",
-      "endAt": "2026-04-01T17:00:00.000+02:00",
+      "startAt": "2026-04-08T16:00:00.000+02:00",
+      "endAt": "2026-04-08T17:00:00.000+02:00",
       "level": "beginner",
       "language": "Italian",
       "format": "in_person",
@@ -2933,7 +3155,143 @@
       "instructorSlug": "diaria-kids"
     },
     {
-      "id": "giulia-dudi-natural-cooking-2026-04-04",
+      "id": "diaria-theater-tue",
+      "programSlug": "diaria-theater-10plus",
+      "citySlug": "palermo",
+      "placeSlug": "diaria-studio-gagini",
+      "organizerSlug": "diaria-kids",
+      "categorySlug": "movement",
+      "styleSlug": "kids-theater",
+      "title": {
+        "en": "Theater 10+ Years",
+        "it": "Teatro 10+ anni"
+      },
+      "startAt": "2026-04-07T16:15:00.000+02:00",
+      "endAt": "2026-04-07T18:00:00.000+02:00",
+      "level": "beginner",
+      "language": "Italian",
+      "format": "in_person",
+      "bookingTargetSlug": "diaria-kids-enroll",
+      "sourceUrl": "https://www.diariapalermo.org/corsi/calendario/",
+      "lastVerifiedAt": "2026-03-12T12:00:00+01:00",
+      "verificationStatus": "verified",
+      "audience": "kids",
+      "attendanceModel": "cycle",
+      "ageMin": 10,
+      "ageMax": 14,
+      "ageBand": "mixed-kids",
+      "guardianRequired": false,
+      "priceNote": {
+        "en": "Registration and pricing are shared through Diaria.",
+        "it": "Iscrizione e prezzi vengono condivisi tramite Diaria."
+      },
+      "venueSlug": "diaria-studio-gagini",
+      "instructorSlug": "diaria-kids"
+    },
+    {
+      "id": "diaria-theater-thu",
+      "programSlug": "diaria-theater-7-10",
+      "citySlug": "palermo",
+      "placeSlug": "diaria-studio-gagini",
+      "organizerSlug": "diaria-kids",
+      "categorySlug": "movement",
+      "styleSlug": "kids-theater",
+      "title": {
+        "en": "Theater 7-10 Years",
+        "it": "Teatro 7-10 anni"
+      },
+      "startAt": "2026-04-09T16:15:00.000+02:00",
+      "endAt": "2026-04-09T18:00:00.000+02:00",
+      "level": "beginner",
+      "language": "Italian",
+      "format": "in_person",
+      "bookingTargetSlug": "diaria-kids-enroll",
+      "sourceUrl": "https://www.diariapalermo.org/corsi/calendario/",
+      "lastVerifiedAt": "2026-03-12T12:00:00+01:00",
+      "verificationStatus": "verified",
+      "audience": "kids",
+      "attendanceModel": "cycle",
+      "ageMin": 7,
+      "ageMax": 10,
+      "ageBand": "6-10",
+      "guardianRequired": false,
+      "priceNote": {
+        "en": "Registration and pricing are shared through Diaria.",
+        "it": "Iscrizione e prezzi vengono condivisi tramite Diaria."
+      },
+      "venueSlug": "diaria-studio-gagini",
+      "instructorSlug": "diaria-kids"
+    },
+    {
+      "id": "capoeira-zumbi-tue-kids-1630",
+      "programSlug": "capoeira-zumbi-kids",
+      "citySlug": "palermo",
+      "placeSlug": "capoeira-zumbi-palermo",
+      "organizerSlug": "capoeira-zumbi-team",
+      "categorySlug": "movement",
+      "styleSlug": "kids-capoeira",
+      "title": {
+        "en": "Capoeira Kids",
+        "it": "Capoeira bambini"
+      },
+      "startAt": "2026-04-07T16:30:00.000+02:00",
+      "endAt": "2026-04-07T17:30:00.000+02:00",
+      "level": "beginner",
+      "language": "Italian",
+      "format": "in_person",
+      "bookingTargetSlug": "capoeira-zumbi-website",
+      "sourceUrl": "https://www.lalaue.com/city/palermo/",
+      "lastVerifiedAt": "2026-04-03T09:00:00+02:00",
+      "verificationStatus": "verified",
+      "audience": "kids",
+      "attendanceModel": "cycle",
+      "ageMin": 6,
+      "ageMax": 14,
+      "ageBand": "mixed-kids",
+      "guardianRequired": false,
+      "priceNote": {
+        "en": "Contact the organizer for current enrollment and pricing details.",
+        "it": "Contatta l organizzatore per iscrizione e prezzi correnti."
+      },
+      "venueSlug": "capoeira-zumbi-palermo",
+      "instructorSlug": "capoeira-zumbi-team"
+    },
+    {
+      "id": "capoeira-zumbi-thu-kids-1630",
+      "programSlug": "capoeira-zumbi-kids",
+      "citySlug": "palermo",
+      "placeSlug": "capoeira-zumbi-palermo",
+      "organizerSlug": "capoeira-zumbi-team",
+      "categorySlug": "movement",
+      "styleSlug": "kids-capoeira",
+      "title": {
+        "en": "Capoeira Kids",
+        "it": "Capoeira bambini"
+      },
+      "startAt": "2026-04-09T16:30:00.000+02:00",
+      "endAt": "2026-04-09T17:30:00.000+02:00",
+      "level": "beginner",
+      "language": "Italian",
+      "format": "in_person",
+      "bookingTargetSlug": "capoeira-zumbi-website",
+      "sourceUrl": "https://www.lalaue.com/city/palermo/",
+      "lastVerifiedAt": "2026-04-03T09:00:00+02:00",
+      "verificationStatus": "verified",
+      "audience": "kids",
+      "attendanceModel": "cycle",
+      "ageMin": 6,
+      "ageMax": 14,
+      "ageBand": "mixed-kids",
+      "guardianRequired": false,
+      "priceNote": {
+        "en": "Contact the organizer for current enrollment and pricing details.",
+        "it": "Contatta l organizzatore per iscrizione e prezzi correnti."
+      },
+      "venueSlug": "capoeira-zumbi-palermo",
+      "instructorSlug": "capoeira-zumbi-team"
+    },
+    {
+      "id": "giulia-dudi-natural-cooking-2026-04-11",
       "programSlug": "giulia-agnello-natural-cooking-dudi",
       "citySlug": "palermo",
       "placeSlug": "libreria-dudi-palermo",
@@ -2944,8 +3302,8 @@
         "en": "Natural Cooking Lab at Dudi",
         "it": "Laboratorio di cucina naturale da Dudi"
       },
-      "startAt": "2026-04-04T17:00:00+02:00",
-      "endAt": "2026-04-04T18:00:00+02:00",
+      "startAt": "2026-04-11T17:00:00+02:00",
+      "endAt": "2026-04-11T18:00:00+02:00",
       "level": "open",
       "language": "Italian",
       "format": "in_person",
@@ -3067,6 +3425,346 @@
       },
       "venueSlug": "radici-museo-natura-place",
       "instructorSlug": "giulia-agnello-naturopata"
+    },
+    {
+      "id": "biblioteca-storytime-fri",
+      "programSlug": "biblioteca-storytime",
+      "citySlug": "palermo",
+      "placeSlug": "biblioteca-piccolo-principe-place",
+      "organizerSlug": "biblioteca-piccolo-principe",
+      "categorySlug": "reading",
+      "styleSlug": "storytime",
+      "title": {
+        "en": "Library Story Circle",
+        "it": "Cerchio di letture in biblioteca"
+      },
+      "startAt": "2026-04-10T16:30:00.000+02:00",
+      "endAt": "2026-04-10T17:15:00.000+02:00",
+      "level": "open",
+      "language": "Italian",
+      "format": "in_person",
+      "bookingTargetSlug": "biblioteca-contact",
+      "sourceUrl": "https://www.comune.palermo.it/",
+      "lastVerifiedAt": "2026-03-29T11:00:00+02:00",
+      "verificationStatus": "verified",
+      "audience": "families",
+      "attendanceModel": "drop_in",
+      "ageMin": 3,
+      "ageMax": 7,
+      "ageBand": "3-5",
+      "guardianRequired": true,
+      "priceNote": {
+        "en": "Library access is free; some special events may require reservation.",
+        "it": "Accesso biblioteca gratuito; alcuni eventi speciali possono richiedere prenotazione."
+      },
+      "venueSlug": "biblioteca-piccolo-principe-place",
+      "instructorSlug": "biblioteca-piccolo-principe"
+    },
+    {
+      "id": "palermo-kids-coding-club-wed",
+      "programSlug": "palermo-kids-coding-club",
+      "citySlug": "palermo",
+      "placeSlug": "palermo-kids-lab-place",
+      "organizerSlug": "palermo-kids-lab",
+      "categorySlug": "stem",
+      "styleSlug": "kids-coding",
+      "title": {
+        "en": "Coding Club 8-12",
+        "it": "Coding club 8-12"
+      },
+      "startAt": "2026-04-08T15:30:00.000+02:00",
+      "endAt": "2026-04-08T17:00:00.000+02:00",
+      "level": "beginner",
+      "language": "Italian",
+      "format": "in_person",
+      "bookingTargetSlug": "kids-lab-booking",
+      "sourceUrl": "https://www.palermokidslab.it/",
+      "lastVerifiedAt": "2026-03-29T11:00:00+02:00",
+      "verificationStatus": "verified",
+      "audience": "kids",
+      "attendanceModel": "cycle",
+      "ageMin": 8,
+      "ageMax": 12,
+      "ageBand": "6-10",
+      "guardianRequired": false,
+      "priceNote": {
+        "en": "Small-group cycle pricing shared on request.",
+        "it": "Prezzi del ciclo in piccoli gruppi condivisi su richiesta."
+      },
+      "venueSlug": "palermo-kids-lab-place",
+      "instructorSlug": "palermo-kids-lab"
+    },
+    {
+      "id": "diaria-contemporary-dance-fri",
+      "programSlug": "diaria-contemporary-dance",
+      "citySlug": "palermo",
+      "placeSlug": "diaria-studio-gagini",
+      "organizerSlug": "diaria-kids",
+      "categorySlug": "movement",
+      "styleSlug": "kids-contemporary-dance",
+      "title": {
+        "en": "Contemporary Dance 7-10",
+        "it": "Danza contemporanea 7-10"
+      },
+      "startAt": "2026-04-10T17:00:00.000+02:00",
+      "endAt": "2026-04-10T18:00:00.000+02:00",
+      "level": "beginner",
+      "language": "Italian",
+      "format": "in_person",
+      "bookingTargetSlug": "diaria-kids-enroll",
+      "sourceUrl": "https://www.diariapalermo.org/corsi/calendario/",
+      "lastVerifiedAt": "2026-03-12T12:00:00+01:00",
+      "verificationStatus": "verified",
+      "audience": "kids",
+      "attendanceModel": "cycle",
+      "ageMin": 7,
+      "ageMax": 10,
+      "ageBand": "6-10",
+      "guardianRequired": false,
+      "priceNote": {
+        "en": "Enrollment is handled directly through the Diaria registration flow.",
+        "it": "L iscrizione si gestisce direttamente tramite il flusso di registrazione Diaria."
+      },
+      "venueSlug": "diaria-studio-gagini",
+      "instructorSlug": "diaria-kids"
+    },
+    {
+      "id": "diaria-dance-foundations-thu",
+      "programSlug": "diaria-dance-foundations",
+      "citySlug": "palermo",
+      "placeSlug": "diaria-sala-venezia",
+      "organizerSlug": "diaria-kids",
+      "categorySlug": "movement",
+      "styleSlug": "kids-dance-foundations",
+      "title": {
+        "en": "Dance 5-6 Years",
+        "it": "Danza 5-6 anni"
+      },
+      "startAt": "2026-04-09T16:30:00.000+02:00",
+      "endAt": "2026-04-09T17:30:00.000+02:00",
+      "level": "beginner",
+      "language": "Italian",
+      "format": "in_person",
+      "bookingTargetSlug": "diaria-kids-enroll",
+      "sourceUrl": "https://www.diariapalermo.org/corsi/calendario/",
+      "lastVerifiedAt": "2026-03-12T12:00:00+01:00",
+      "verificationStatus": "verified",
+      "audience": "kids",
+      "attendanceModel": "cycle",
+      "ageMin": 5,
+      "ageMax": 6,
+      "ageBand": "3-5",
+      "guardianRequired": false,
+      "priceNote": {
+        "en": "Registration and pricing are shared through Diaria.",
+        "it": "Iscrizione e prezzi vengono condivisi tramite Diaria."
+      },
+      "venueSlug": "diaria-sala-venezia",
+      "instructorSlug": "diaria-kids"
+    },
+    {
+      "id": "capoeira-zumbi-sat-kids-1030",
+      "programSlug": "capoeira-zumbi-kids",
+      "citySlug": "palermo",
+      "placeSlug": "capoeira-zumbi-palermo",
+      "organizerSlug": "capoeira-zumbi-team",
+      "categorySlug": "movement",
+      "styleSlug": "kids-capoeira",
+      "title": {
+        "en": "Capoeira Kids",
+        "it": "Capoeira bambini"
+      },
+      "startAt": "2026-04-11T10:30:00.000+02:00",
+      "endAt": "2026-04-11T11:30:00.000+02:00",
+      "level": "beginner",
+      "language": "Italian",
+      "format": "in_person",
+      "bookingTargetSlug": "capoeira-zumbi-website",
+      "sourceUrl": "https://www.lalaue.com/city/palermo/",
+      "lastVerifiedAt": "2026-04-03T09:00:00+02:00",
+      "verificationStatus": "verified",
+      "audience": "kids",
+      "attendanceModel": "cycle",
+      "ageMin": 6,
+      "ageMax": 14,
+      "ageBand": "mixed-kids",
+      "guardianRequired": false,
+      "priceNote": {
+        "en": "Contact the organizer for current enrollment and pricing details.",
+        "it": "Contatta l organizzatore per iscrizione e prezzi correnti."
+      },
+      "venueSlug": "capoeira-zumbi-palermo",
+      "instructorSlug": "capoeira-zumbi-team"
+    },
+    {
+      "id": "le-giuggiole-family-labs-sat",
+      "programSlug": "le-giuggiole-family-labs",
+      "citySlug": "palermo",
+      "placeSlug": "le-giuggiole-epyc",
+      "organizerSlug": "le-giuggiole",
+      "categorySlug": "culture",
+      "styleSlug": "creative-kids-lab",
+      "title": {
+        "en": "Creative Family Labs at EPYC",
+        "it": "Laboratori creativi in famiglia da EPYC"
+      },
+      "startAt": "2026-04-11T11:00:00.000+02:00",
+      "endAt": "2026-04-11T12:30:00.000+02:00",
+      "level": "open",
+      "language": "Italian",
+      "format": "in_person",
+      "bookingTargetSlug": "le-giuggiole-website",
+      "sourceUrl": "https://www.arcipalermo.it/index.php/i-circoli/le-giuggiole",
+      "lastVerifiedAt": "2026-04-01T10:30:00+02:00",
+      "verificationStatus": "verified",
+      "audience": "families",
+      "attendanceModel": "drop_in",
+      "ageMin": 3,
+      "ageMax": 12,
+      "ageBand": "mixed-kids",
+      "guardianRequired": true,
+      "priceNote": {
+        "en": "Program details change across the season and are shared through the organizer pages.",
+        "it": "I dettagli del programma cambiano durante la stagione e vengono condivisi tramite le pagine dell organizzatore."
+      },
+      "venueSlug": "le-giuggiole-epyc",
+      "instructorSlug": "le-giuggiole"
+    },
+    {
+      "id": "booq-mammalingua-reading-fri",
+      "programSlug": "booq-mammalingua-reading",
+      "citySlug": "palermo",
+      "placeSlug": "booq-palermo",
+      "organizerSlug": "booq",
+      "categorySlug": "reading",
+      "styleSlug": "storytime",
+      "title": {
+        "en": "MammaLingua and Intercultural Reading",
+        "it": "MammaLingua e letture interculturali"
+      },
+      "startAt": "2026-04-10T10:30:00.000+02:00",
+      "endAt": "2026-04-10T11:30:00.000+02:00",
+      "level": "open",
+      "language": "Italian",
+      "format": "in_person",
+      "bookingTargetSlug": "booq-mammalingua",
+      "sourceUrl": "https://www.mammalingua.it/presidi/bibliofficina-booq/",
+      "lastVerifiedAt": "2026-04-01T10:30:00+02:00",
+      "verificationStatus": "verified",
+      "audience": "families",
+      "attendanceModel": "drop_in",
+      "ageMin": 0,
+      "ageMax": 10,
+      "ageBand": "mixed-kids",
+      "guardianRequired": true,
+      "priceNote": {
+        "en": "Activities are usually free or low-cost and communicated through project updates.",
+        "it": "Le attivita sono in genere gratuite o low-cost e vengono comunicate tramite gli aggiornamenti del progetto."
+      },
+      "venueSlug": "booq-palermo",
+      "instructorSlug": "booq"
+    },
+    {
+      "id": "dudi-reading-labs-thu",
+      "programSlug": "dudi-reading-labs",
+      "citySlug": "palermo",
+      "placeSlug": "libreria-dudi-palermo",
+      "organizerSlug": "libreria-dudi",
+      "categorySlug": "reading",
+      "styleSlug": "storytime",
+      "title": {
+        "en": "Dudi Readings and Workshops",
+        "it": "Letture e laboratori Dudi"
+      },
+      "startAt": "2026-04-09T17:00:00.000+02:00",
+      "endAt": "2026-04-09T18:15:00.000+02:00",
+      "level": "open",
+      "language": "Italian",
+      "format": "in_person",
+      "bookingTargetSlug": "dudi-laboratori",
+      "sourceUrl": "https://www.libreriadudi.it/laboratori/",
+      "lastVerifiedAt": "2026-04-01T10:30:00+02:00",
+      "verificationStatus": "verified",
+      "audience": "families",
+      "attendanceModel": "drop_in",
+      "ageMin": 0,
+      "ageMax": 14,
+      "ageBand": "mixed-kids",
+      "guardianRequired": true,
+      "priceNote": {
+        "en": "Formats and prices vary by lab and age band.",
+        "it": "Format e prezzi variano in base al laboratorio e alla fascia d eta."
+      },
+      "venueSlug": "libreria-dudi-palermo",
+      "instructorSlug": "libreria-dudi"
+    },
+    {
+      "id": "radici-family-ecology-labs-sat",
+      "programSlug": "radici-family-ecology-labs",
+      "citySlug": "palermo",
+      "placeSlug": "radici-museo-natura-place",
+      "organizerSlug": "radici-museo-natura",
+      "categorySlug": "stem",
+      "styleSlug": "hands-on-lab",
+      "title": {
+        "en": "Family Ecology Labs at Radici",
+        "it": "Laboratori di ecologia per famiglie da Radici"
+      },
+      "startAt": "2026-04-11T16:00:00.000+02:00",
+      "endAt": "2026-04-11T17:30:00.000+02:00",
+      "level": "open",
+      "language": "Italian",
+      "format": "in_person",
+      "bookingTargetSlug": "radici-attivita",
+      "sourceUrl": "https://radicimuseo.it/attivita/",
+      "lastVerifiedAt": "2026-04-01T10:30:00+02:00",
+      "verificationStatus": "verified",
+      "audience": "families",
+      "attendanceModel": "drop_in",
+      "ageMin": 5,
+      "ageMax": 14,
+      "ageBand": "mixed-kids",
+      "guardianRequired": true,
+      "priceNote": {
+        "en": "Family activities vary month by month and are published on the official activity page.",
+        "it": "Le attivita per famiglie variano di mese in mese e vengono pubblicate sulla pagina ufficiale attivita."
+      },
+      "venueSlug": "radici-museo-natura-place",
+      "instructorSlug": "radici-museo-natura"
+    },
+    {
+      "id": "zen-giufa-reading-club-thu",
+      "programSlug": "zen-giufa-reading-club",
+      "citySlug": "palermo",
+      "placeSlug": "laboratorio-zen-insieme-place",
+      "organizerSlug": "laboratorio-zen-insieme",
+      "categorySlug": "reading",
+      "styleSlug": "storytime",
+      "title": {
+        "en": "Biblioteca Giufa Reading Club",
+        "it": "Biblioteca Giufa legge e crea"
+      },
+      "startAt": "2026-04-09T17:30:00.000+02:00",
+      "endAt": "2026-04-09T18:30:00.000+02:00",
+      "level": "open",
+      "language": "Italian",
+      "format": "in_person",
+      "bookingTargetSlug": "zen-giufa-info",
+      "sourceUrl": "https://www.zeninsieme.it/la-biblioteca-giufa/",
+      "lastVerifiedAt": "2026-04-01T10:30:00+02:00",
+      "verificationStatus": "verified",
+      "audience": "families",
+      "attendanceModel": "drop_in",
+      "ageMin": 3,
+      "ageMax": 14,
+      "ageBand": "mixed-kids",
+      "guardianRequired": true,
+      "priceNote": {
+        "en": "Community activities are usually shared through the association channels.",
+        "it": "Le attivita di comunita vengono in genere condivise tramite i canali dell associazione."
+      },
+      "venueSlug": "laboratorio-zen-insieme-place",
+      "instructorSlug": "laboratorio-zen-insieme"
     }
   ],
   "collections": [

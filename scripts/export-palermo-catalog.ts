@@ -237,6 +237,7 @@ const sqlStatements = [
     'sessions',
     [
       'id',
+      'program_slug',
       'city_slug',
       'venue_slug',
       'instructor_slug',
@@ -262,6 +263,7 @@ const sqlStatements = [
     ],
     palermoOccurrences.map((item) => [
       sqlLiteral(item.id),
+      sqlLiteral(item.programSlug),
       sqlLiteral(item.citySlug),
       sqlLiteral(item.venueSlug),
       sqlLiteral(item.instructorSlug),

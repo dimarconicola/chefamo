@@ -22,7 +22,7 @@ import {
   styles,
   venues
 } from '@/lib/data/schema';
-import { sql } from 'drizzle-orm';
+import { notInArray, sql } from 'drizzle-orm';
 
 const excluded = <T extends { name: string }>(column: T) => sql.raw(`excluded.${column.name}`);
 
@@ -59,6 +59,18 @@ const upsertCatalog = async () => {
   }
 
   await db.transaction(async (tx) => {
+    await tx.execute(sql.raw('ALTER TABLE "sessions" ADD COLUMN IF NOT EXISTS "program_slug" varchar(160)'));
+
+    const citySlugs = chefamoCities.map((city) => city.slug);
+    const neighborhoodSlugs = chefamoNeighborhoods.map((neighborhood) => neighborhood.slug);
+    const categorySlugs = chefamoCategories.map((category) => category.slug);
+    const styleSlugs = chefamoStyles.map((style) => style.slug);
+    const organizerSlugs = chefamoOrganizers.map((organizer) => organizer.slug);
+    const placeSlugs = chefamoPlaces.map((place) => place.slug);
+    const bookingTargetSlugs = chefamoBookingTargets.map((target) => target.slug);
+    const occurrenceIds = chefamoOccurrences.map((occurrence) => occurrence.id);
+    const collectionSlugs = chefamoCollections.map((collection) => collection.slug);
+
     await tx
       .insert(cities)
       .values(
@@ -242,6 +254,7 @@ const upsertCatalog = async () => {
       .values(
         chefamoOccurrences.map((occurrence) => ({
           id: occurrence.id,
+          programSlug: occurrence.programSlug,
           citySlug: occurrence.citySlug,
           venueSlug: occurrence.placeSlug,
           instructorSlug: occurrence.organizerSlug,
@@ -269,6 +282,7 @@ const upsertCatalog = async () => {
       .onConflictDoUpdate({
         target: sessions.id,
         set: {
+          programSlug: excluded(sessions.programSlug),
           citySlug: excluded(sessions.citySlug),
           venueSlug: excluded(sessions.venueSlug),
           instructorSlug: excluded(sessions.instructorSlug),
@@ -316,6 +330,16 @@ const upsertCatalog = async () => {
           kind: excluded(editorialCollections.kind)
         }
       });
+
+    await tx.delete(sessions).where(notInArray(sessions.id, occurrenceIds));
+    await tx.delete(venues).where(notInArray(venues.slug, placeSlugs));
+    await tx.delete(instructors).where(notInArray(instructors.slug, organizerSlugs));
+    await tx.delete(bookingTargets).where(notInArray(bookingTargets.slug, bookingTargetSlugs));
+    await tx.delete(styles).where(notInArray(styles.slug, styleSlugs));
+    await tx.delete(activityCategories).where(notInArray(activityCategories.slug, categorySlugs));
+    await tx.delete(neighborhoods).where(notInArray(neighborhoods.slug, neighborhoodSlugs));
+    await tx.delete(cities).where(notInArray(cities.slug, citySlugs));
+    await tx.delete(editorialCollections).where(notInArray(editorialCollections.slug, collectionSlugs));
 
     await tx
       .insert(sourceRegistry)

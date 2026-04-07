@@ -107,6 +107,7 @@ export const bookingTargets = pgTable('booking_targets', {
 
 export const sessions = pgTable('sessions', {
   id: varchar('id', { length: 160 }).primaryKey(),
+  programSlug: varchar('program_slug', { length: 160 }),
   citySlug: varchar('city_slug', { length: 80 }).notNull(),
   venueSlug: varchar('venue_slug', { length: 120 }).notNull(),
   instructorSlug: varchar('instructor_slug', { length: 120 }).notNull(),

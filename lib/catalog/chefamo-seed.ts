@@ -17,13 +17,18 @@ const localized = (en: string, it: string) => ({ en, it });
 
 const nextWeekday = (weekday: number, hour: number, minute: number, durationMinutes: number) => {
   const zone = 'Europe/Rome';
-  let day = DateTime.now().setZone(zone).startOf('day');
+  const now = DateTime.now().setZone(zone);
+  let day = now.startOf('day');
 
   while (day.weekday !== weekday) {
     day = day.plus({ days: 1 });
   }
 
-  const start = day.set({ hour, minute, second: 0, millisecond: 0 });
+  let start = day.set({ hour, minute, second: 0, millisecond: 0 });
+  if (start <= now) {
+    start = start.plus({ days: 7 });
+  }
+
   const end = start.plus({ minutes: durationMinutes });
   return {
     startAt: start.toISO() ?? '',
@@ -191,6 +196,7 @@ export const chefamoStyles: Style[] = [
   { slug: 'kids-dance-pedagogy', categorySlug: 'movement', name: localized('Dance pedagogy 3-4', 'Pedagogia della danza 3-4'), description: localized('Early-childhood movement pedagogy focused on body awareness.', 'Percorso di pedagogia del movimento per la prima infanzia e la consapevolezza corporea.') },
   { slug: 'kids-contemporary-dance', categorySlug: 'movement', name: localized('Kids contemporary dance', 'Danza contemporanea bambini'), description: localized('Contemporary dance sessions for children with rhythm and movement foundations.', 'Sessioni di danza contemporanea per bambini con basi di ritmo e movimento.') },
   { slug: 'kids-capoeira', categorySlug: 'movement', name: localized('Kids capoeira', 'Capoeira bambini'), description: localized('Capoeira for children blending rhythm, coordination, and play.', 'Capoeira per bambini tra ritmo, coordinazione e gioco.') },
+  { slug: 'kids-theater', categorySlug: 'movement', name: localized('Kids theater', 'Teatro bambini'), description: localized('Theater classes for children with voice, movement, and playful scene work.', 'Classi di teatro per bambini con voce, movimento e lavoro scenico giocato.') },
   { slug: 'planetarium-show', categorySlug: 'stem', name: localized('Planetarium show', 'Spettacolo al planetario'), description: localized('Dome-based astronomy format for families.', 'Format sotto cupola dedicato all astronomia per famiglie.') },
   { slug: 'hands-on-lab', categorySlug: 'stem', name: localized('Hands-on lab', 'Laboratorio hands-on'), description: localized('Interactive making or discovery lab.', 'Laboratorio interattivo di scoperta o costruzione.') },
   { slug: 'storytime', categorySlug: 'reading', name: localized('Storytime', 'Letture animate'), description: localized('Reading-led session for young children and carers.', 'Sessione guidata da letture per bimbi piccoli e accompagnatori.') },
@@ -280,7 +286,18 @@ export const chefamoOrganizers: Organizer[] = [
       'Recurring after-school dance and capoeira supply published through Diaria’s Palermo calendar.',
       'Programmazione ricorrente doposcuola di danza e capoeira pubblicata nel calendario palermitano di Diaria.'
     ),
-    specialties: ['kids-contemporary-dance', 'kids-dance-foundations', 'kids-dance-pedagogy', 'kids-capoeira'],
+    specialties: ['kids-contemporary-dance', 'kids-dance-foundations', 'kids-dance-pedagogy', 'kids-capoeira', 'kids-theater'],
+    languages: ['Italian']
+  },
+  {
+    slug: 'capoeira-zumbi-team',
+    citySlug: 'palermo',
+    name: 'Capoeira Zumbi Palermo',
+    shortBio: localized(
+      'Recurring youth capoeira practice with a stable Palermo base.',
+      'Pratica ricorrente di capoeira per ragazzi con una base stabile a Palermo.'
+    ),
+    specialties: ['kids-capoeira'],
     languages: ['Italian']
   },
   {
@@ -370,7 +387,8 @@ export const chefamoBookingTargets: BookingTarget[] = [
   { slug: 'radici-attivita', type: 'website', label: 'Radici', href: 'https://radicimuseo.it/attivita/' },
   { slug: 'zen-giufa-info', type: 'website', label: 'Biblioteca Giufa', href: 'https://www.zeninsieme.it/la-biblioteca-giufa/' },
   { slug: 'elibe-corsi', type: 'website', label: 'Elibe', href: 'https://www.elibepalermo.it/corsi-elibe-palermo/' },
-  { slug: 'palazzo-lampedusa-info', type: 'website', label: 'Palazzo Lampedusa', href: 'https://www.indigorooms.it/palazzo-lampedusa-palermo/' }
+  { slug: 'palazzo-lampedusa-info', type: 'website', label: 'Palazzo Lampedusa', href: 'https://www.indigorooms.it/palazzo-lampedusa-palermo/' },
+  { slug: 'capoeira-zumbi-website', type: 'website', label: 'Capoeira Zumbi', href: 'https://www.capoeirazumbi.org/' }
 ];
 
 export const chefamoPlaces: Place[] = [
@@ -598,7 +616,7 @@ export const chefamoPlaces: Place[] = [
     geo: { lat: 38.1202, lng: 13.3621 },
     amenities: ['Weekly timetable', 'Central location', 'Beginner-friendly'],
     languages: ['Italian'],
-    styleSlugs: ['kids-contemporary-dance'],
+    styleSlugs: ['kids-contemporary-dance', 'kids-theater'],
     categorySlugs: ['movement'],
     bookingTargetOrder: ['diaria-kids-enroll', 'diaria-kids-whatsapp'],
     freshnessNote: localized('Kids dance slots checked against the official Diaria calendar.', 'Slot danza bambini controllati sul calendario ufficiale Diaria.'),
@@ -766,6 +784,32 @@ export const chefamoPlaces: Place[] = [
     sourceUrl: 'https://www.indigorooms.it/palazzo-lampedusa-palermo/',
     lastVerifiedAt: '2026-04-01T10:30:00+02:00',
     profile: 'arts_center',
+    environment: 'indoor'
+  },
+  {
+    slug: 'capoeira-zumbi-palermo',
+    citySlug: 'palermo',
+    neighborhoodSlug: 'liberta',
+    name: 'Capoeira Zumbi Palermo',
+    tagline: localized('Youth capoeira with a stable Palermo training base.', 'Capoeira per ragazzi con una base di pratica stabile a Palermo.'),
+    description: localized(
+      'Capoeira Zumbi publishes recurring youth practice and direct contact paths from its Palermo base.',
+      'Capoeira Zumbi pubblica pratica ricorrente per ragazzi e contatti diretti dalla sua base palermitana.'
+    ),
+    address: 'Via Danimarca 52, Palermo',
+    geo: { lat: 38.1540288, lng: 13.3311013 },
+    amenities: ['Capoeira', 'Youth practice', 'Community-led'],
+    languages: ['Italian'],
+    styleSlugs: ['kids-capoeira'],
+    categorySlugs: ['movement', 'kids-activities'],
+    bookingTargetOrder: ['capoeira-zumbi-website'],
+    freshnessNote: localized(
+      'Capoeira Palermo sources checked on 2026-04-03.',
+      'Fonti capoeira Palermo controllate il 2026-04-03.'
+    ),
+    sourceUrl: 'https://www.capoeirazumbi.org/',
+    lastVerifiedAt: '2026-04-03T09:00:00+02:00',
+    profile: 'club',
     environment: 'indoor'
   }
 ];
@@ -1409,8 +1453,106 @@ export const chefamoPrograms: Program[] = [
     scheduleKind: 'seasonal',
     venueSlug: 'radici-museo-natura-place',
     instructorSlug: 'giulia-agnello-naturopata'
+  },
+  {
+    slug: 'diaria-theater-10plus',
+    citySlug: 'palermo',
+    placeSlug: 'diaria-studio-gagini',
+    organizerSlug: 'diaria-kids',
+    categorySlug: 'movement',
+    styleSlug: 'kids-theater',
+    title: localized('Theater 10+ Years', 'Teatro 10+ anni'),
+    summary: localized(
+      'A late-afternoon theater slot for older children who want voice, movement, and scene work.',
+      'Uno slot teatrale del tardo pomeriggio per bambini piu grandi che vogliono voce, movimento e lavoro scenico.'
+    ),
+    level: 'beginner',
+    language: 'Italian',
+    format: 'in_person',
+    bookingTargetSlug: 'diaria-kids-enroll',
+    sourceUrl: diariaCalendarSource,
+    lastVerifiedAt: '2026-03-12T12:00:00+01:00',
+    verificationStatus: 'verified',
+    audience: 'kids',
+    attendanceModel: 'cycle',
+    ageMin: 10,
+    ageMax: 14,
+    ageBand: 'mixed-kids',
+    guardianRequired: false,
+    priceNote: localized('Registration and pricing are shared through Diaria.', 'Iscrizione e prezzi vengono condivisi tramite Diaria.'),
+    scheduleKind: 'recurring',
+    venueSlug: 'diaria-studio-gagini',
+    instructorSlug: 'diaria-kids'
+  },
+  {
+    slug: 'diaria-theater-7-10',
+    citySlug: 'palermo',
+    placeSlug: 'diaria-studio-gagini',
+    organizerSlug: 'diaria-kids',
+    categorySlug: 'movement',
+    styleSlug: 'kids-theater',
+    title: localized('Theater 7-10 Years', 'Teatro 7-10 anni'),
+    summary: localized(
+      'A mid-week theater slot for younger primary-school children.',
+      'Uno slot teatrale infrasettimanale per bambini della primaria piu piccoli.'
+    ),
+    level: 'beginner',
+    language: 'Italian',
+    format: 'in_person',
+    bookingTargetSlug: 'diaria-kids-enroll',
+    sourceUrl: diariaCalendarSource,
+    lastVerifiedAt: '2026-03-12T12:00:00+01:00',
+    verificationStatus: 'verified',
+    audience: 'kids',
+    attendanceModel: 'cycle',
+    ageMin: 7,
+    ageMax: 10,
+    ageBand: '6-10',
+    guardianRequired: false,
+    priceNote: localized('Registration and pricing are shared through Diaria.', 'Iscrizione e prezzi vengono condivisi tramite Diaria.'),
+    scheduleKind: 'recurring',
+    venueSlug: 'diaria-studio-gagini',
+    instructorSlug: 'diaria-kids'
+  },
+  {
+    slug: 'capoeira-zumbi-kids',
+    citySlug: 'palermo',
+    placeSlug: 'capoeira-zumbi-palermo',
+    organizerSlug: 'capoeira-zumbi-team',
+    categorySlug: 'movement',
+    styleSlug: 'kids-capoeira',
+    title: localized('Capoeira Kids', 'Capoeira bambini'),
+    summary: localized(
+      'Recurring capoeira practice for children with rhythm, coordination, and group play.',
+      'Pratica ricorrente di capoeira per bambini con ritmo, coordinazione e gioco di gruppo.'
+    ),
+    level: 'beginner',
+    language: 'Italian',
+    format: 'in_person',
+    bookingTargetSlug: 'capoeira-zumbi-website',
+    sourceUrl: 'https://www.lalaue.com/city/palermo/',
+    lastVerifiedAt: '2026-04-03T09:00:00+02:00',
+    verificationStatus: 'verified',
+    audience: 'kids',
+    attendanceModel: 'cycle',
+    ageMin: 6,
+    ageMax: 14,
+    ageBand: 'mixed-kids',
+    guardianRequired: false,
+    priceNote: localized('Contact the organizer for current enrollment and pricing details.', 'Contatta l organizzatore per iscrizione e prezzi correnti.'),
+    scheduleKind: 'recurring',
+    venueSlug: 'capoeira-zumbi-palermo',
+    instructorSlug: 'capoeira-zumbi-team'
   }
 ];
+
+const programBySlug = (slug: string) => {
+  const program = chefamoPrograms.find((item) => item.slug === slug);
+  if (!program) {
+    throw new Error(`Missing Chefamo program: ${slug}`);
+  }
+  return program;
+};
 
 export const chefamoOccurrences: Occurrence[] = [
   buildOccurrence('teatro-massimo-family-tour-sat', chefamoPrograms[0], nextWeekday(6, 10, 30, 40)),
@@ -1431,9 +1573,13 @@ export const chefamoOccurrences: Occurrence[] = [
   buildOccurrence('diaria-capoeira-thu', chefamoPrograms[10], nextWeekday(4, 16, 45, 60)),
   buildOccurrence('diaria-dance-foundations-tue', chefamoPrograms[11], nextWeekday(2, 16, 30, 60)),
   buildOccurrence('diaria-dance-pedagogy-wed', chefamoPrograms[12], nextWeekday(3, 16, 0, 60)),
-  buildOccurrence('giulia-dudi-natural-cooking-2026-04-04', chefamoPrograms[18], {
-    startAt: '2026-04-04T17:00:00+02:00',
-    endAt: '2026-04-04T18:00:00+02:00'
+  buildOccurrence('diaria-theater-tue', chefamoPrograms[22], nextWeekday(2, 16, 15, 105)),
+  buildOccurrence('diaria-theater-thu', chefamoPrograms[23], nextWeekday(4, 16, 15, 105)),
+  buildOccurrence('capoeira-zumbi-tue-kids-1630', chefamoPrograms[24], nextWeekday(2, 16, 30, 60)),
+  buildOccurrence('capoeira-zumbi-thu-kids-1630', chefamoPrograms[24], nextWeekday(4, 16, 30, 60)),
+  buildOccurrence('giulia-dudi-natural-cooking-2026-04-11', chefamoPrograms[18], {
+    startAt: '2026-04-11T17:00:00+02:00',
+    endAt: '2026-04-11T18:00:00+02:00'
   }),
   buildOccurrence('giulia-palazzo-lampedusa-natural-cooking-2026-04-10', chefamoPrograms[19], {
     startAt: '2026-04-10T17:45:00+02:00',
@@ -1446,7 +1592,17 @@ export const chefamoOccurrences: Occurrence[] = [
   buildOccurrence('giulia-radici-natural-cooking-2026-04-23', chefamoPrograms[21], {
     startAt: '2026-04-23T17:45:00+02:00',
     endAt: '2026-04-23T18:45:00+02:00'
-  })
+  }),
+  buildOccurrence('biblioteca-storytime-fri', programBySlug('biblioteca-storytime'), nextWeekday(5, 16, 30, 45)),
+  buildOccurrence('palermo-kids-coding-club-wed', programBySlug('palermo-kids-coding-club'), nextWeekday(3, 15, 30, 90)),
+  buildOccurrence('diaria-contemporary-dance-fri', programBySlug('diaria-contemporary-dance'), nextWeekday(5, 17, 0, 60)),
+  buildOccurrence('diaria-dance-foundations-thu', programBySlug('diaria-dance-foundations'), nextWeekday(4, 16, 30, 60)),
+  buildOccurrence('capoeira-zumbi-sat-kids-1030', programBySlug('capoeira-zumbi-kids'), nextWeekday(6, 10, 30, 60)),
+  buildOccurrence('le-giuggiole-family-labs-sat', programBySlug('le-giuggiole-family-labs'), nextWeekday(6, 11, 0, 90)),
+  buildOccurrence('booq-mammalingua-reading-fri', programBySlug('booq-mammalingua-reading'), nextWeekday(5, 10, 30, 60)),
+  buildOccurrence('dudi-reading-labs-thu', programBySlug('dudi-reading-labs'), nextWeekday(4, 17, 0, 75)),
+  buildOccurrence('radici-family-ecology-labs-sat', programBySlug('radici-family-ecology-labs'), nextWeekday(6, 16, 0, 90)),
+  buildOccurrence('zen-giufa-reading-club-thu', programBySlug('zen-giufa-reading-club'), nextWeekday(4, 17, 30, 60))
 ];
 
 export const chefamoCollections: EditorialCollection[] = [
