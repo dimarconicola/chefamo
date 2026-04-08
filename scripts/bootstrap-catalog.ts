@@ -10,6 +10,7 @@ import {
   chefamoStyles
 } from '@/lib/catalog/chefamo-seed';
 import { getDb, isDatabaseConfigured } from '@/lib/data/db';
+import { enablePublicTableRls } from '@/lib/data/rls';
 import {
   activityCategories,
   bookingTargets,
@@ -376,6 +377,8 @@ const upsertCatalog = async () => {
         }
       });
   });
+
+  await enablePublicTableRls();
 
   console.log(
     JSON.stringify(
