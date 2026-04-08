@@ -23,6 +23,7 @@
     "test:ui": "vitest --ui",
     "test:coverage": "vitest run --coverage",
     "catalog:bootstrap": "node --import tsx scripts/bootstrap-catalog.ts",
+    "security:enable-rls": "node --import tsx scripts/enable-rls.ts",
     "smoke:routes": "node --import tsx scripts/smoke-routes.ts",
     "readiness": "node --import tsx scripts/check-readiness.ts",
     "freshness:run": "node --import tsx scripts/run-freshness.ts",
