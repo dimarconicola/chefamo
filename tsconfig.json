@@ -20,5 +20,5 @@
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "**/*.mdx"],
-  "exclude": ["node_modules", "UI-Inspiration"]
+  "exclude": ["node_modules", "UI inspiration", "UI-Inspiration", "UI Inspo"]
 }

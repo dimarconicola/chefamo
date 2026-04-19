@@ -49,6 +49,7 @@ test('cadence source lists expand from daily to quarterly', () => {
   assert.ok(daily.length > 0);
   assert.ok(quarterly.length >= daily.length);
   assert.equal(quarterly.some((url) => url.includes('palermobimbi.it')), true);
+  assert.equal(quarterly.some((url) => url.includes('balarm.it')), true);
 });
 
 test('social catalog sources stay classified as weekly social checks', () => {

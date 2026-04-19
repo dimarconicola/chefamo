@@ -60,6 +60,28 @@ const palermoDiscoverySources: SourceRegistryEntry[] = [
   },
   {
     citySlug: 'palermo',
+    sourceUrl: 'https://www.balarm.it/laboratori-e-attivita-per-bambini-a-palermo-e-provincia-del-weekend',
+    sourceType: 'directory',
+    cadence: 'weekly',
+    trustTier: 'tier_b',
+    purpose: 'discovery',
+    tags: ['palermo', 'kids', 'families', 'weekend', 'cinema'],
+    active: true,
+    notes: 'Weekly editorial sweep for Palermo children listings, including labs, shows, and family cinema picks.'
+  },
+  {
+    citySlug: 'palermo',
+    sourceUrl: 'https://www.cinemacitypalermo.it/programma-film/',
+    sourceType: 'directory',
+    cadence: 'weekly',
+    trustTier: 'tier_b',
+    purpose: 'discovery',
+    tags: ['palermo', 'cinema', 'families', 'summer'],
+    active: true,
+    notes: 'Weekly scan for open-air film programming, with family-safe screenings and civic cinema events.'
+  },
+  {
+    citySlug: 'palermo',
     sourceUrl: 'https://www.comune.palermo.it',
     sourceType: 'official_site',
     cadence: 'quarterly',

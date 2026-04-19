@@ -13,9 +13,10 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     entries.push({ url: `${baseUrl}/${locale}/suggest-calendar` });
     for (const city of cities) {
       entries.push({ url: `${baseUrl}/${locale}/${city.slug}` });
-      entries.push({ url: `${baseUrl}/${locale}/${city.slug}/activities` });
-      entries.push({ url: `${baseUrl}/${locale}/${city.slug}/places` });
+      entries.push({ url: `${baseUrl}/${locale}/${city.slug}/classes` });
+      entries.push({ url: `${baseUrl}/${locale}/${city.slug}/teachers` });
       entries.push({ url: `${baseUrl}/${locale}/${city.slug}/organizers` });
+      entries.push({ url: `${baseUrl}/${locale}/${city.slug}/places` });
       const collections = await getCollections(city.slug);
       collections.forEach((collection) => {
         entries.push({ url: `${baseUrl}/${locale}/${city.slug}/collections/${collection.slug}` });

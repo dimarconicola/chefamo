@@ -242,7 +242,7 @@ export default async function ActivitiesPage({
     locale === 'it'
       ? {
           heroBadge: `${city.name[locale]} · sport e attività`,
-          title: 'Trova gli slot giusti per tenere la settimana in movimento.',
+          title: 'Attività',
           intro,
           back: 'Torna alla città',
           todayNearby: dict.todayNearby,
@@ -256,7 +256,7 @@ export default async function ActivitiesPage({
         }
       : {
           heroBadge: `${city.name[locale]} · sports & activities`,
-          title: 'Find the right slots to keep the week moving.',
+          title: 'Activities',
           intro,
           back: 'Back to city',
           todayNearby: dict.todayNearby,

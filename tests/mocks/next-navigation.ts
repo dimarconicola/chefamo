@@ -4,23 +4,30 @@ import { vi } from 'vitest';
  * Mocks of Next.js navigation hooks for testing
  */
 
+export const routerPushMock = vi.fn();
+export const routerReplaceMock = vi.fn();
+export const routerRefreshMock = vi.fn();
+export const routerBackMock = vi.fn();
+export const routerForwardMock = vi.fn();
+export const routerPrefetchMock = vi.fn();
+
 export function useRouter() {
   return {
-    push: vi.fn(),
-    replace: vi.fn(),
-    refresh: vi.fn(),
-    back: vi.fn(),
-    forward: vi.fn(),
-    prefetch: vi.fn()
+    push: routerPushMock,
+    replace: routerReplaceMock,
+    refresh: routerRefreshMock,
+    back: routerBackMock,
+    forward: routerForwardMock,
+    prefetch: routerPrefetchMock
   };
 }
 
 export function usePathname() {
-  return '/';
+  return globalThis.window?.location?.pathname ?? '/';
 }
 
 export function useSearchParams() {
-  return new URLSearchParams();
+  return new URLSearchParams(globalThis.window?.location?.search ?? '');
 }
 
 export function useParams() {

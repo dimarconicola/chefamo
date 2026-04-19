@@ -2,12 +2,13 @@ import { DateTime } from 'luxon';
 
 import { PlayfulIcon } from '@/components/brand/PlayfulIcon';
 import { ServerCardLink } from '@/components/ui/server';
+import { buildFallbackOccurrenceCardData } from '@/lib/catalog/session-card-fallback';
 import type { ResolvedOccurrenceCardData } from '@/lib/catalog/session-card-data';
 import type { Locale, Occurrence } from '@/lib/catalog/types';
 
 interface OccurrenceSpotlightCardProps {
   occurrence: Occurrence;
-  resolved: ResolvedOccurrenceCardData;
+  resolved?: ResolvedOccurrenceCardData;
   locale: Locale;
   href: string;
   tone: 'red' | 'blue' | 'yellow' | 'green';
@@ -43,6 +44,7 @@ const getAgeLabel = (occurrence: Occurrence, locale: Locale) => {
 export function OccurrenceSpotlightCard({ occurrence, resolved, locale, href, tone }: OccurrenceSpotlightCardProps) {
   const start = DateTime.fromISO(occurrence.startAt).setZone('Europe/Rome');
   const ageLabel = getAgeLabel(occurrence, locale);
+  const cardData = resolved ?? buildFallbackOccurrenceCardData(occurrence);
 
   return (
     <ServerCardLink href={href} className={`chefamo-spotlight-card chefamo-tone-${tone}`}>
@@ -51,21 +53,21 @@ export function OccurrenceSpotlightCard({ occurrence, resolved, locale, href, to
         <div className="chefamo-spotlight-cover-copy">
           <p className="chefamo-spotlight-day">{start.toFormat(locale === 'it' ? 'ccc d LLL' : 'ccc LLL d')}</p>
           <strong>{start.toFormat('HH:mm')}</strong>
-          <span>{resolved.style.name[locale]}</span>
+          <span>{cardData.style.name[locale]}</span>
         </div>
         <div className="chefamo-spotlight-orb chefamo-spotlight-orb-a" aria-hidden="true" />
         <div className="chefamo-spotlight-orb chefamo-spotlight-orb-b" aria-hidden="true" />
       </div>
       <div className="chefamo-spotlight-body">
-        <p className="chefamo-card-kicker">{resolved.style.name[locale]}</p>
+        <p className="chefamo-card-kicker">{cardData.style.name[locale]}</p>
         <h3>{occurrence.title[locale]}</h3>
         <p className="chefamo-spotlight-meta">
           <PlayfulIcon name="pin" className="chefamo-inline-icon" />
-          <span>{resolved.place.name}</span>
+          <span>{cardData.place.name}</span>
         </p>
         <p className="chefamo-spotlight-meta">
           <PlayfulIcon name="calendar" className="chefamo-inline-icon" />
-          <span>{resolved.organizer.name}</span>
+          <span>{cardData.organizer.name}</span>
         </p>
         <span className="chefamo-card-link">
           {locale === 'it' ? 'Apri attività' : 'Open activity'}

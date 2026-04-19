@@ -6,6 +6,7 @@ import { ScheduleButton } from '@/components/state/ScheduleButton';
 import { getOccurrencePath } from '@/lib/catalog/occurrence-links';
 import { getPriceNoteForLocale } from '@/lib/catalog/price-notes';
 import { ServerChip, ServerLink } from '@/components/ui/server';
+import { buildFallbackOccurrenceCardData } from '@/lib/catalog/session-card-fallback';
 import type { ResolvedOccurrenceCardData } from '@/lib/catalog/session-card-data';
 import type { Locale, Occurrence } from '@/lib/catalog/types';
 import type { RuntimeCapabilities } from '@/lib/runtime/capabilities';
@@ -15,14 +16,15 @@ import { BookingLink } from './BookingLink';
 interface SessionCardProps {
   session: Occurrence;
   locale: Locale;
-  resolved: ResolvedOccurrenceCardData;
+  resolved?: ResolvedOccurrenceCardData;
   signedInEmail?: string;
   scheduleLabel: string;
   runtimeCapabilities?: RuntimeCapabilities;
 }
 
 export function SessionCard({ session, locale, resolved, signedInEmail, scheduleLabel, runtimeCapabilities }: SessionCardProps) {
-  const { place, organizer, style, target } = resolved;
+  const resolvedCard = resolved ?? buildFallbackOccurrenceCardData(session);
+  const { place, organizer, style, target } = resolvedCard;
   const labels =
     locale === 'it'
       ? {

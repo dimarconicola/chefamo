@@ -328,4 +328,16 @@ describe('SessionCard', () => {
 
     expect(screen.getByText('Share')).toBeInTheDocument();
   });
+
+  it('should fall back safely when resolved card data is missing', () => {
+    render(
+      <TestWrapper>
+        <SessionCard session={mockSession} locale="en" scheduleLabel="Save to schedule" />
+      </TestWrapper>
+    );
+
+    expect(screen.getByText('Morning Lab')).toBeInTheDocument();
+    expect(screen.getByText('Venue 1')).toBeInTheDocument();
+    expect(screen.getByText('Organizer 1')).toBeInTheDocument();
+  });
 });

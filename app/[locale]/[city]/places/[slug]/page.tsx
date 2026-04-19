@@ -1,15 +1,13 @@
-import { notFound } from 'next/navigation';
 import { DateTime } from 'luxon';
+import { notFound } from 'next/navigation';
 
 import { VenueCover } from '@/components/catalog/VenueCover';
 import { ClaimFormDialog } from '@/components/forms/ClaimFormDialog';
-import { SessionCard } from '@/components/discovery/SessionCard';
 import { FavoriteButton } from '@/components/state/FavoriteButton';
 import { ServerButtonLink, ServerChip, ServerLink } from '@/components/ui/server';
 import { getSessionUser } from '@/lib/auth/session';
 import { getCatalogSnapshot } from '@/lib/catalog/repository';
-import { resolveOccurrenceCardDataFromSnapshot } from '@/lib/catalog/session-card-data';
-import { getDictionary } from '@/lib/i18n/dictionaries';
+import { resolveSessionCardDataFromSnapshot } from '@/lib/catalog/session-card-data';
 import { resolveLocale } from '@/lib/i18n/routing';
 import { getRuntimeCapabilities } from '@/lib/runtime/capabilities';
 import { formatVerifiedAt } from '@/lib/ui/format';
@@ -17,23 +15,24 @@ import { formatVerifiedAt } from '@/lib/ui/format';
 export default async function PlacePage({ params }: { params: Promise<{ locale: string; city: string; slug: string }> }) {
   const { locale: rawLocale, city: citySlug, slug } = await params;
   const locale = resolveLocale(rawLocale);
-  const dict = getDictionary(locale);
   const catalog = await getCatalogSnapshot();
   const city = catalog.cities.find((item) => item.slug === citySlug);
   if (!city || city.status !== 'public') notFound();
   const place = catalog.places.find((item) => item.slug === slug && item.citySlug === citySlug);
   if (!place) notFound();
 
-  const neighborhoods = catalog.neighborhoods.filter((item) => item.citySlug === citySlug);
-  const placeOccurrences = catalog.occurrences.filter((occurrence) => occurrence.placeSlug === slug);
-  const placePrograms = catalog.programs.filter((program) => program.placeSlug === slug);
-  const neighborhood = neighborhoods.find((item) => item.slug === place.neighborhoodSlug);
-  const occurrences = placeOccurrences.sort((left, right) => left.startAt.localeCompare(right.startAt)).slice(0, 20);
+  const neighborhood = catalog.neighborhoods.find((item) => item.slug === place.neighborhoodSlug);
+  const occurrences = catalog.occurrences
+    .filter((occurrence) => occurrence.placeSlug === slug)
+    .sort((left, right) => left.startAt.localeCompare(right.startAt))
+    .slice(0, 20);
+
   const [user, resolvedOccurrences, runtimeCapabilities] = await Promise.all([
     getSessionUser(),
-    Promise.resolve(resolveOccurrenceCardDataFromSnapshot(catalog, occurrences)),
+    Promise.resolve(resolveSessionCardDataFromSnapshot(catalog, occurrences)),
     getRuntimeCapabilities()
   ]);
+
   const groupedOccurrences = Object.values(
     occurrences.reduce<Record<string, typeof occurrences>>((groups, occurrence) => {
       const key = DateTime.fromISO(occurrence.startAt).setZone('Europe/Rome').toISODate();
@@ -46,74 +45,37 @@ export default async function PlacePage({ params }: { params: Promise<{ locale: 
   const occurrencesByDay = groupedOccurrences.map((dayOccurrences) =>
     dayOccurrences.sort((left, right) => left.startAt.localeCompare(right.startAt))
   );
-  const profileCopy =
+
+  const copy =
     locale === 'it'
       ? {
           eyebrow: 'Luogo',
-          schedule: 'Segnali verificati',
-          trust: 'Affidabilità',
-          weekdaySessions: 'attività con orario',
+          trust: 'Fiducia',
+          schedule: 'Programmazione verificata',
+          weekdayOccurrences: 'attività a calendario',
           languages: 'lingue',
-          styles: 'formati',
+          styles: 'stili',
           source: 'Fonte primaria',
           upcoming: 'Prossime attività',
-          website: 'Sito ufficiale',
+          website: 'Apri luogo',
           savePlace: 'Segui luogo',
-          savedPlace: 'Luogo seguito',
-          programs: 'programmi'
+          savedPlace: 'Luogo salvato',
+          showMore: 'Vedi attività'
         }
       : {
           eyebrow: 'Place',
-          schedule: 'Verified signals',
-          trust: 'Trust layer',
-          weekdaySessions: 'scheduled activities',
+          trust: 'Trust',
+          schedule: 'Verified program',
+          weekdayOccurrences: 'scheduled activities',
           languages: 'languages',
-          styles: 'formats',
+          styles: 'styles',
           source: 'Primary source',
           upcoming: 'Upcoming activities',
-          website: 'Official website',
+          website: 'Open place',
           savePlace: 'Follow place',
-          savedPlace: 'Place followed',
-          programs: 'programs'
+          savedPlace: 'Place saved',
+          showMore: 'See activity'
         };
-  const profileLabels =
-    locale === 'it'
-      ? {
-          arts_center: 'Centro culturale',
-          museum: 'Museo',
-          library: 'Biblioteca',
-          school: 'Scuola',
-          club: 'Club',
-          sports_center: 'Centro sportivo',
-          association: 'Associazione',
-          event_series: 'Rassegna',
-          studio: 'Laboratorio',
-          park: 'Parco',
-          community_hub: 'Hub creativo',
-          indoor: 'Indoor',
-          outdoor: 'Outdoor',
-          mixed: 'Indoor + outdoor',
-          goodAnytime: 'Buono in ogni momento'
-        }
-      : {
-          arts_center: 'Arts center',
-          museum: 'Museum',
-          library: 'Library',
-          school: 'School',
-          club: 'Club',
-          sports_center: 'Sports center',
-          association: 'Association',
-          event_series: 'Series',
-          studio: 'Studio',
-          park: 'Park',
-          community_hub: 'Creative hub',
-          indoor: 'Indoor',
-          outdoor: 'Outdoor',
-          mixed: 'Indoor + outdoor',
-          goodAnytime: 'Good anytime'
-        };
-  const profileLabel = place.profile ? profileLabels[place.profile] : null;
-  const environmentLabel = place.environment ? profileLabels[place.environment] : null;
 
   return (
     <div className="stack-list">
@@ -121,13 +83,10 @@ export default async function PlacePage({ params }: { params: Promise<{ locale: 
         <div className="panel profile-main">
           <div className="profile-main-layout">
             <div className="profile-main-copy">
-              <p className="eyebrow">{profileCopy.eyebrow}</p>
+              <p className="eyebrow">{copy.eyebrow}</p>
               <h1>{place.name}</h1>
               <p className="lead">{place.description[locale]}</p>
               <div className="profile-chip-row">
-                {profileLabel ? <ServerChip tone="meta">{profileLabel}</ServerChip> : null}
-                {environmentLabel ? <ServerChip tone="meta">{environmentLabel}</ServerChip> : null}
-                {place.goodAnytime ? <ServerChip tone="meta">{profileLabels.goodAnytime}</ServerChip> : null}
                 {place.amenities.map((amenity) => (
                   <ServerChip key={amenity} tone="meta">
                     {amenity}
@@ -148,12 +107,12 @@ export default async function PlacePage({ params }: { params: Promise<{ locale: 
                   entityType="place"
                   locale={locale}
                   signedInEmail={user?.email}
-                  label={profileCopy.savePlace}
-                  savedLabel={profileCopy.savedPlace}
+                  label={copy.savePlace}
+                  savedLabel={copy.savedPlace}
                   runtimeCapabilities={runtimeCapabilities}
                 />
                 <ServerButtonLink href={place.sourceUrl} className="button-secondary" target="_blank" rel="noreferrer">
-                  {profileCopy.website}
+                  {copy.website}
                 </ServerButtonLink>
               </div>
             </div>
@@ -162,10 +121,10 @@ export default async function PlacePage({ params }: { params: Promise<{ locale: 
         </div>
         <div className="profile-side-stack">
           <div className="panel profile-side">
-            <p className="eyebrow">{profileCopy.trust}</p>
-            <h2>{profileCopy.schedule}</h2>
+            <p className="eyebrow">{copy.trust}</p>
+            <h2>{copy.schedule}</h2>
             <p className="muted">
-              {profileCopy.source}:{' '}
+              {copy.source}:{' '}
               <ServerLink href={place.sourceUrl} target="_blank" rel="noreferrer" className="inline-link">
                 {place.sourceUrl}
               </ServerLink>
@@ -173,15 +132,15 @@ export default async function PlacePage({ params }: { params: Promise<{ locale: 
             <div className="classes-stat-grid profile-metrics">
               <div className="classes-stat-card">
                 <strong>{occurrences.length}</strong>
-                <span>{profileCopy.weekdaySessions}</span>
-              </div>
-              <div className="classes-stat-card">
-                <strong>{placePrograms.length}</strong>
-                <span>{profileCopy.programs}</span>
+                <span>{copy.weekdayOccurrences}</span>
               </div>
               <div className="classes-stat-card">
                 <strong>{place.languages.length}</strong>
-                <span>{profileCopy.languages}</span>
+                <span>{copy.languages}</span>
+              </div>
+              <div className="classes-stat-card">
+                <strong>{place.styleSlugs.length}</strong>
+                <span>{copy.styles}</span>
               </div>
             </div>
             <div className="profile-side-actions">
@@ -194,49 +153,75 @@ export default async function PlacePage({ params }: { params: Promise<{ locale: 
       <section className="panel">
         <div className="detail-header">
           <div>
-            <p className="eyebrow">{profileCopy.upcoming}</p>
-            <h2>{locale === 'it' ? 'Cosa puoi prenotare o programmare da qui' : 'What you can plan from this place'}</h2>
+            <p className="eyebrow">{copy.upcoming}</p>
+            <h2>{locale === 'it' ? 'Opzioni affidabili in arrivo' : 'Trustworthy upcoming options'}</h2>
           </div>
         </div>
-        {occurrencesByDay.length > 0 ? (
-          <div className="stack-list">
-            {occurrencesByDay.map((dayOccurrences) => {
-              const day = DateTime.fromISO(dayOccurrences[0].startAt).setZone('Europe/Rome');
-              return (
-                <section key={day.toISODate() ?? dayOccurrences[0].id} className="session-day-group panel">
-                  <div className="day-group-header">
-                    <div>
-                      <p className="eyebrow">{day.toFormat(locale === 'it' ? 'cccc' : 'cccc')}</p>
-                      <h2>{day.toFormat(locale === 'it' ? 'd LLLL' : 'd LLLL')}</h2>
-                    </div>
-                    <div className="day-group-meta">
-                      <ServerChip tone="meta">{dayOccurrences.length}</ServerChip>
-                    </div>
+        <div className="stack-list">
+          {occurrencesByDay.map((dayOccurrences) => {
+            const day = DateTime.fromISO(dayOccurrences[0].startAt).setZone('Europe/Rome');
+            return (
+              <section key={day.toISODate() ?? dayOccurrences[0].id} className="session-day-group panel">
+                <div className="day-group-header">
+                  <div>
+                    <p className="eyebrow">{day.toFormat(locale === 'it' ? 'cccc' : 'cccc')}</p>
+                    <h2>{day.toFormat(locale === 'it' ? 'd LLLL' : 'd LLLL')}</h2>
                   </div>
-                  <div className="session-day-stack">
-                    {dayOccurrences.map((occurrence) => (
-                      <SessionCard
-                        key={occurrence.id}
-                        session={occurrence}
-                        locale={locale}
-                        resolved={resolvedOccurrences.get(occurrence.id)!}
-                        signedInEmail={user?.email}
-                        scheduleLabel={dict.saveSchedule}
-                        runtimeCapabilities={runtimeCapabilities}
-                      />
-                    ))}
+                  <div className="day-group-meta">
+                    <ServerChip tone="meta">{dayOccurrences.length}</ServerChip>
                   </div>
-                </section>
-              );
-            })}
-          </div>
-        ) : (
-          <p className="muted">
-            {locale === 'it'
-              ? 'Questo luogo è comunque utile anche senza orari futuri già pubblicati: puoi usarlo come riferimento affidabile per la famiglia.'
-              : 'This place is still useful even without published future slots: keep it as a reliable family reference point.'}
-          </p>
-        )}
+                </div>
+                <div className="session-day-stack">
+                  {dayOccurrences.map((occurrence) => {
+                    const resolved = resolvedOccurrences.get(occurrence.id)!;
+                    const occurrenceStart = DateTime.fromISO(occurrence.startAt).setZone('Europe/Rome');
+                    const occurrenceEnd = DateTime.fromISO(occurrence.endAt).setZone('Europe/Rome');
+                    const durationMinutes = Math.max(30, Math.round(occurrenceEnd.diff(occurrenceStart, 'minutes').minutes));
+
+                    return (
+                      <article key={occurrence.id} className="panel chefamo-session-card">
+                        <div className="session-card-shell">
+                          <div className="session-time-block">
+                            <span className="session-time-main">{occurrenceStart.toFormat('HH:mm')}</span>
+                            <span className="session-time-sub">{durationMinutes} min</span>
+                          </div>
+                          <div className="session-card-body">
+                            <div className="session-card-top">
+                              <div>
+                                <p className="eyebrow">{resolved.style.name[locale]}</p>
+                                <p className="lead">
+                                  <ServerLink href={`/${locale}/${citySlug}/activities/${occurrence.id}`} className="inline-link">
+                                    {occurrence.title[locale]}
+                                  </ServerLink>
+                                </p>
+                              </div>
+                              <span className={`status-pill ${occurrence.verificationStatus}`}>
+                                {occurrence.verificationStatus === 'verified' ? (locale === 'it' ? 'Verificato' : 'Verified') : locale === 'it' ? 'Da aggiornare' : 'Needs refresh'}
+                              </span>
+                            </div>
+                            <p className="session-meta">{occurrenceStart.toFormat(locale === 'it' ? 'ccc d LLL · HH:mm' : 'ccc d LLL · HH:mm')}</p>
+                            <p className="muted">
+                              {resolved.place.name} · {resolved.organizer.name}
+                            </p>
+                            <div className="session-card-footer">
+                              <div className="stack-list">
+                                <div className="session-card-links">
+                                  <ServerLink href={`/${locale}/${citySlug}/activities/${occurrence.id}`} className="inline-link">
+                                    {copy.showMore}
+                                  </ServerLink>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </article>
+                    );
+                  })}
+                </div>
+              </section>
+            );
+          })}
+        </div>
       </section>
     </div>
   );

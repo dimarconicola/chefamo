@@ -3,6 +3,7 @@ import { SavedScheduleClient } from '@/components/state/SavedScheduleClient';
 import { ServerButtonLink, ServerChip } from '@/components/ui/server';
 import { getSessionUser } from '@/lib/auth/session';
 import { getCatalogSnapshot } from '@/lib/catalog/repository';
+import { getOccurrencePath } from '@/lib/catalog/occurrence-links';
 import { resolveLocale } from '@/lib/i18n/routing';
 import { listUserSchedule } from '@/lib/runtime/store';
 import { getRuntimeCapabilities } from '@/lib/runtime/capabilities';
@@ -20,8 +21,13 @@ export default async function SchedulePage({ params }: { params: Promise<{ local
           back: 'Torna alle attivita',
           eyebrow: 'Piano',
           title: 'La tua settimana, gia filtrata',
-          lead: 'Qui trovi solo gli slot che hai salvato per pianificare la settimana senza rumore.',
+          lead: 'Qui trovi solo gli slot che hai salvato per pianificare la settimana senza rumore e, se vuoi, scaricarli nel tuo calendario.',
           empty: 'Nessuna attivita salvata nel piano. Aggiungila dalle card delle attivita.',
+          calendarExportLabel: 'Aggiungi al calendario',
+          calendarExportHint: 'Scarica un file .ics da aprire in Apple Calendar, Google Calendar o Outlook.',
+          calendarFileName: 'chefamo-attivita-salvate.ics',
+          calendarName: 'Chefamo - attività salvate',
+          calendarDescription: 'Le attività salvate su Chefamo.',
           gateEyebrow: 'Blocca gli orari giusti',
           gateTitle: 'Il piano serve a fissare il tempo, non i preferiti.',
           gateLead: 'Qui restano solo gli slot che vuoi davvero fare, separati da luoghi, organizzatori e programmi che segui.',
@@ -40,8 +46,13 @@ export default async function SchedulePage({ params }: { params: Promise<{ local
           back: 'Back to activities',
           eyebrow: 'Plan',
           title: 'Your week, already filtered',
-          lead: 'This page only shows the dated slots you saved so your week stays focused.',
+          lead: 'This page only shows the dated slots you saved so your week stays focused and ready to export to your calendar.',
           empty: 'No activities saved to your plan yet. Add them from activity cards.',
+          calendarExportLabel: 'Add to calendar',
+          calendarExportHint: 'Download an .ics file for Apple Calendar, Google Calendar, or Outlook.',
+          calendarFileName: 'chefamo-saved-activities.ics',
+          calendarName: 'Chefamo - saved activities',
+          calendarDescription: 'The activities you saved on Chefamo.',
           gateEyebrow: 'Hold on to the right time slots',
           gateTitle: 'Plan is for time, not generic favorites',
           gateLead: 'Keep the dated slots you actually want to do separate from the places, organizers, and programs you follow.',
@@ -133,12 +144,25 @@ export default async function SchedulePage({ params }: { params: Promise<{ local
     );
   }
   const catalog = await getCatalogSnapshot();
-  const occurrenceItems = catalog.occurrences.map((occurrence) => ({
-    id: occurrence.id,
-    href: `/${locale}/${occurrence.citySlug}/places/${occurrence.placeSlug ?? occurrence.venueSlug}`,
-    title: occurrence.title[locale],
-    meta: formatSessionTime(occurrence.startAt, locale)
-  }));
+  const placeBySlug = new Map(catalog.places.map((place) => [place.slug, place]));
+  const organizerBySlug = new Map(catalog.organizers.map((organizer) => [organizer.slug, organizer]));
+  const occurrenceItems = catalog.occurrences.map((occurrence) => {
+    const place = placeBySlug.get(occurrence.placeSlug ?? occurrence.venueSlug);
+    const organizer = organizerBySlug.get(occurrence.organizerSlug ?? occurrence.instructorSlug);
+
+    return {
+      id: occurrence.id,
+      href: getOccurrencePath(locale, occurrence.citySlug, occurrence.id),
+      title: occurrence.title[locale],
+      meta: formatSessionTime(occurrence.startAt, locale),
+      startAt: occurrence.startAt,
+      endAt: occurrence.endAt,
+      placeName: place?.name ?? occurrence.placeSlug ?? occurrence.venueSlug,
+      placeAddress: place?.address,
+      organizerName: organizer?.name,
+      sourceUrl: occurrence.sourceUrl
+    };
+  });
 
   return (
     <div className="stack-list">
@@ -156,7 +180,17 @@ export default async function SchedulePage({ params }: { params: Promise<{ local
       </section>
 
       <section className="panel">
-        <SavedScheduleClient signedInEmail={user.email} initialScheduleIds={scheduleRows} occurrences={occurrenceItems} emptyLabel={copy.empty} />
+        <SavedScheduleClient
+          signedInEmail={user.email}
+          initialScheduleIds={scheduleRows}
+          occurrences={occurrenceItems}
+          emptyLabel={copy.empty}
+          calendarExportLabel={copy.calendarExportLabel}
+          calendarExportHint={copy.calendarExportHint}
+          calendarFileName={copy.calendarFileName}
+          calendarName={copy.calendarName}
+          calendarDescription={copy.calendarDescription}
+        />
       </section>
     </div>
   );

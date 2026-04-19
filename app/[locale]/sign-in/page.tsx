@@ -24,9 +24,9 @@ export default async function SignInPage({
 
   const copy =
     locale === 'it'
-      ? {
+        ? {
           eyebrow: 'Accedi',
-          title: 'Ritrova i tuoi piani giusti, senza password',
+          title: 'Ritrova i tuoi posti giusti, senza password',
           lead: 'Ti basta la mail: apri il link, conferma e ritrovi preferiti e piano personale dentro chefamo.',
           email: 'Email',
           continue: 'Continua',
@@ -51,7 +51,7 @@ export default async function SignInPage({
           helpTitle: 'Hai già inviato il link?',
           helpLead: 'Se non lo vedi subito, controlla spam o la tab Promozioni. Il bottone nella mail ti riporta qui già autenticato.'
         }
-      : {
+        : {
           eyebrow: 'Sign in',
           title: 'Get back to the right places without a password',
           lead: 'Use your email, open the link, and jump back into your saved favorites and plan inside chefamo.',
