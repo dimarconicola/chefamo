@@ -1,6 +1,6 @@
 import type { AttendanceModel, Audience, KidsAgeBand, Occurrence, PlaceProfile } from '@/lib/catalog/types';
 
-export const PRIMARY_CATEGORY_SLUGS = ['culture', 'movement', 'stem', 'reading', 'outdoors'] as const;
+export const PRIMARY_CATEGORY_SLUGS = ['culture', 'movement', 'stem', 'reading', 'outdoors', 'cinema'] as const;
 export const ADJACENT_CATEGORY_SLUGS = [] as const;
 
 export const SUPPORTED_PLACE_PROFILES: PlaceProfile[] = [

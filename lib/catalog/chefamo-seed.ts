@@ -17,13 +17,18 @@ const localized = (en: string, it: string) => ({ en, it });
 
 const nextWeekday = (weekday: number, hour: number, minute: number, durationMinutes: number) => {
   const zone = 'Europe/Rome';
-  let day = DateTime.now().setZone(zone).startOf('day');
+  const now = DateTime.now().setZone(zone);
+  let day = now.startOf('day');
 
   while (day.weekday !== weekday) {
     day = day.plus({ days: 1 });
   }
 
-  const start = day.set({ hour, minute, second: 0, millisecond: 0 });
+  let start = day.set({ hour, minute, second: 0, millisecond: 0 });
+  if (start <= now) {
+    start = start.plus({ days: 7 });
+  }
+
   const end = start.plus({ minutes: durationMinutes });
   return {
     startAt: start.toISO() ?? '',
@@ -134,6 +139,16 @@ export const chefamoNeighborhoods: Neighborhood[] = [
       'Spazi culturali di quartiere con lettura, cura della comunita e attivita educative per bambini.'
     ),
     center: { lat: 38.1682, lng: 13.3188 }
+  },
+  {
+    citySlug: 'palermo',
+    slug: 'roccella',
+    name: localized('Roccella', 'Roccella'),
+    description: localized(
+      'Eastern Palermo around Forum Palermo, useful for family plans tied to larger venues and weekend screenings.',
+      'Palermo est intorno a Forum Palermo, utile per piani family legati a grandi venue e proiezioni del weekend.'
+    ),
+    center: { lat: 38.0888, lng: 13.4112 }
   }
 ];
 
@@ -180,6 +195,17 @@ export const chefamoCategories: ActivityCategory[] = [
     description: localized('Parks and open-air family hubs that work without heavy planning.', 'Parchi e hub all aperto che funzionano senza pianificazioni pesanti.'),
     visibility: 'live',
     heroMetric: localized('Good-anytime places for family reset.', 'Luoghi da usare quando serve un reset in famiglia.')
+  },
+  {
+    slug: 'cinema',
+    citySlug: 'palermo',
+    name: localized('Cinema', 'Cinema'),
+    description: localized(
+      'Family screenings, kids-friendly multiplex options, and film plans that work for under-12s.',
+      'Proiezioni family, opzioni kids-friendly in multisala e piani cinema che funzionano per gli under 12.'
+    ),
+    visibility: 'live',
+    heroMetric: localized('Big-screen rituals with clear family access paths.', 'Riti sul grande schermo con accessi chiari per le famiglie.')
   }
 ];
 
@@ -191,11 +217,13 @@ export const chefamoStyles: Style[] = [
   { slug: 'kids-dance-pedagogy', categorySlug: 'movement', name: localized('Dance pedagogy 3-4', 'Pedagogia della danza 3-4'), description: localized('Early-childhood movement pedagogy focused on body awareness.', 'Percorso di pedagogia del movimento per la prima infanzia e la consapevolezza corporea.') },
   { slug: 'kids-contemporary-dance', categorySlug: 'movement', name: localized('Kids contemporary dance', 'Danza contemporanea bambini'), description: localized('Contemporary dance sessions for children with rhythm and movement foundations.', 'Sessioni di danza contemporanea per bambini con basi di ritmo e movimento.') },
   { slug: 'kids-capoeira', categorySlug: 'movement', name: localized('Kids capoeira', 'Capoeira bambini'), description: localized('Capoeira for children blending rhythm, coordination, and play.', 'Capoeira per bambini tra ritmo, coordinazione e gioco.') },
+  { slug: 'kids-theater', categorySlug: 'movement', name: localized('Kids theater', 'Teatro bambini'), description: localized('Theater classes for children with voice, movement, and playful scene work.', 'Classi di teatro per bambini con voce, movimento e lavoro scenico giocato.') },
   { slug: 'planetarium-show', categorySlug: 'stem', name: localized('Planetarium show', 'Spettacolo al planetario'), description: localized('Dome-based astronomy format for families.', 'Format sotto cupola dedicato all astronomia per famiglie.') },
   { slug: 'hands-on-lab', categorySlug: 'stem', name: localized('Hands-on lab', 'Laboratorio hands-on'), description: localized('Interactive making or discovery lab.', 'Laboratorio interattivo di scoperta o costruzione.') },
   { slug: 'storytime', categorySlug: 'reading', name: localized('Storytime', 'Letture animate'), description: localized('Reading-led session for young children and carers.', 'Sessione guidata da letture per bimbi piccoli e accompagnatori.') },
   { slug: 'puppet-theater', categorySlug: 'culture', name: localized('Puppet theater', 'Teatro dei pupi'), description: localized('Family theater rooted in Sicilian puppetry.', 'Teatro per famiglie radicato nella tradizione dei pupi siciliani.') },
   { slug: 'open-park-day', categorySlug: 'outdoors', name: localized('Open park day', 'Giornata al parco'), description: localized('Flexible outdoor time with family-friendly infrastructure.', 'Tempo flessibile all aperto con infrastruttura family-friendly.') },
+  { slug: 'family-screening', categorySlug: 'cinema', name: localized('Family screening', 'Proiezione family'), description: localized('Kids-friendly screening format with relaxed family logistics and easy online booking.', 'Formato di proiezione per famiglie con logistica semplice e prenotazione online chiara.') },
   { slug: 'kids-coding', categorySlug: 'stem', name: localized('Kids coding', 'Coding per bambini'), description: localized('Guided digital creativity and problem-solving.', 'Creativita digitale guidata e problem solving.') },
   { slug: 'creative-kids-lab', categorySlug: 'culture', name: localized('Creative kids lab', 'Laboratorio creativo bambini'), description: localized('Arts, making, and expressive workshops built around play and participation.', 'Laboratori di arte, creazione ed espressione costruiti intorno a gioco e partecipazione.') },
   { slug: 'natural-cooking-lab', categorySlug: 'stem', name: localized('Natural cooking lab', 'Laboratorio di cucina naturale'), description: localized('Hands-on food lab for children and families using seasonal ingredients and practical making.', 'Laboratorio pratico di cucina per bambini e famiglie con ingredienti stagionali e preparazioni concrete.') }
@@ -280,7 +308,18 @@ export const chefamoOrganizers: Organizer[] = [
       'Recurring after-school dance and capoeira supply published through Diaria’s Palermo calendar.',
       'Programmazione ricorrente doposcuola di danza e capoeira pubblicata nel calendario palermitano di Diaria.'
     ),
-    specialties: ['kids-contemporary-dance', 'kids-dance-foundations', 'kids-dance-pedagogy', 'kids-capoeira'],
+    specialties: ['kids-contemporary-dance', 'kids-dance-foundations', 'kids-dance-pedagogy', 'kids-capoeira', 'kids-theater'],
+    languages: ['Italian']
+  },
+  {
+    slug: 'capoeira-zumbi-team',
+    citySlug: 'palermo',
+    name: 'Capoeira Zumbi Palermo',
+    shortBio: localized(
+      'Recurring youth capoeira practice with a stable Palermo base.',
+      'Pratica ricorrente di capoeira per ragazzi con una base stabile a Palermo.'
+    ),
+    specialties: ['kids-capoeira'],
     languages: ['Italian']
   },
   {
@@ -348,6 +387,28 @@ export const chefamoOrganizers: Organizer[] = [
     ),
     specialties: ['storytime', 'community-library', 'family-culture'],
     languages: ['Italian']
+  },
+  {
+    slug: 'uci-cinemas-palermo',
+    citySlug: 'palermo',
+    name: 'UCI Cinemas Palermo',
+    shortBio: localized(
+      'Multiplex at Forum Palermo with weekly Kids Club screenings and autism-friendly family slots.',
+      'Multisala a Forum Palermo con proiezioni settimanali Kids Club e slot family anche autism friendly.'
+    ),
+    specialties: ['family-screening', 'family-cinema', 'autism-friendly'],
+    languages: ['Italian']
+  },
+  {
+    slug: 'cinema-city-palermo',
+    citySlug: 'palermo',
+    name: 'Cinema City Palermo',
+    shortBio: localized(
+      'Citywide open-air cinema project with seasonal screenings in public spaces, including family-accessible titles.',
+      'Rassegna di cinema nelle piazze con proiezioni stagionali negli spazi pubblici, incluse serate accessibili alle famiglie.'
+    ),
+    specialties: ['family-screening', 'open-air-cinema', 'civic-culture'],
+    languages: ['Italian']
   }
 ];
 
@@ -370,7 +431,10 @@ export const chefamoBookingTargets: BookingTarget[] = [
   { slug: 'radici-attivita', type: 'website', label: 'Radici', href: 'https://radicimuseo.it/attivita/' },
   { slug: 'zen-giufa-info', type: 'website', label: 'Biblioteca Giufa', href: 'https://www.zeninsieme.it/la-biblioteca-giufa/' },
   { slug: 'elibe-corsi', type: 'website', label: 'Elibe', href: 'https://www.elibepalermo.it/corsi-elibe-palermo/' },
-  { slug: 'palazzo-lampedusa-info', type: 'website', label: 'Palazzo Lampedusa', href: 'https://www.indigorooms.it/palazzo-lampedusa-palermo/' }
+  { slug: 'palazzo-lampedusa-info', type: 'website', label: 'Palazzo Lampedusa', href: 'https://www.indigorooms.it/palazzo-lampedusa-palermo/' },
+  { slug: 'capoeira-zumbi-website', type: 'website', label: 'Capoeira Zumbi', href: 'https://www.capoeirazumbi.org/' },
+  { slug: 'uci-kids-club', type: 'website', label: 'UCI Kids Club', href: 'https://www.ucicinemas.it/eventi-uci/rassegne/kidsclub/' },
+  { slug: 'cinema-city-program', type: 'website', label: 'Cinema City Palermo', href: 'https://www.cinemacitypalermo.it/programma-film/' }
 ];
 
 export const chefamoPlaces: Place[] = [
@@ -598,7 +662,7 @@ export const chefamoPlaces: Place[] = [
     geo: { lat: 38.1202, lng: 13.3621 },
     amenities: ['Weekly timetable', 'Central location', 'Beginner-friendly'],
     languages: ['Italian'],
-    styleSlugs: ['kids-contemporary-dance'],
+    styleSlugs: ['kids-contemporary-dance', 'kids-theater'],
     categorySlugs: ['movement'],
     bookingTargetOrder: ['diaria-kids-enroll', 'diaria-kids-whatsapp'],
     freshnessNote: localized('Kids dance slots checked against the official Diaria calendar.', 'Slot danza bambini controllati sul calendario ufficiale Diaria.'),
@@ -767,6 +831,91 @@ export const chefamoPlaces: Place[] = [
     lastVerifiedAt: '2026-04-01T10:30:00+02:00',
     profile: 'arts_center',
     environment: 'indoor'
+  },
+  {
+    slug: 'capoeira-zumbi-palermo',
+    citySlug: 'palermo',
+    neighborhoodSlug: 'liberta',
+    name: 'Capoeira Zumbi Palermo',
+    tagline: localized('Youth capoeira with a stable Palermo training base.', 'Capoeira per ragazzi con una base di pratica stabile a Palermo.'),
+    description: localized(
+      'Capoeira Zumbi publishes recurring youth practice and direct contact paths from its Palermo base.',
+      'Capoeira Zumbi pubblica pratica ricorrente per ragazzi e contatti diretti dalla sua base palermitana.'
+    ),
+    address: 'Via Danimarca 52, Palermo',
+    geo: { lat: 38.1540288, lng: 13.3311013 },
+    amenities: ['Capoeira', 'Youth practice', 'Community-led'],
+    languages: ['Italian'],
+    styleSlugs: ['kids-capoeira'],
+    categorySlugs: ['movement', 'kids-activities'],
+    bookingTargetOrder: ['capoeira-zumbi-website'],
+    freshnessNote: localized(
+      'Capoeira Palermo sources checked on 2026-04-03.',
+      'Fonti capoeira Palermo controllate il 2026-04-03.'
+    ),
+    sourceUrl: 'https://www.capoeirazumbi.org/',
+    lastVerifiedAt: '2026-04-03T09:00:00+02:00',
+    profile: 'club',
+    environment: 'indoor'
+  },
+  {
+    slug: 'uci-cinemas-forum-palermo',
+    citySlug: 'palermo',
+    neighborhoodSlug: 'roccella',
+    name: 'UCI Cinemas Palermo',
+    tagline: localized(
+      'A stable big-screen option for family films and Sunday-morning kids screenings.',
+      'Un opzione stabile da grande schermo per film family e proiezioni bambini la domenica mattina.'
+    ),
+    description: localized(
+      'Useful when the family wants a low-friction cinema plan with clear online booking, multiplex logistics, and under-12 friendly titles.',
+      'Utile quando la famiglia vuole un piano cinema a basso attrito con prenotazione online chiara, logistica da multisala e titoli adatti agli under 12.'
+    ),
+    address: 'Centro Commerciale Forum Palermo, Via Filippo Pecoraino, Palermo',
+    geo: { lat: 38.0888, lng: 13.4112 },
+    amenities: ['Multiplex', 'Online booking', 'Autism-friendly screenings', 'Parking'],
+    languages: ['Italian'],
+    styleSlugs: ['family-screening'],
+    categorySlugs: ['cinema'],
+    bookingTargetOrder: ['uci-kids-club'],
+    freshnessNote: localized(
+      'Kids Club and venue information checked from Forum Palermo and current family cinema listings.',
+      'Kids Club e informazioni venue controllati da Forum Palermo e listing correnti di cinema family.'
+    ),
+    sourceUrl: 'https://www.forum-palermo.it/negozi/uci-cinemas/',
+    lastVerifiedAt: '2026-04-19T12:00:00+02:00',
+    profile: 'arts_center',
+    environment: 'indoor',
+    goodAnytime: true
+  },
+  {
+    slug: 'cinema-city-palermo',
+    citySlug: 'palermo',
+    neighborhoodSlug: 'castellammare',
+    name: 'Cinema City Palermo',
+    tagline: localized(
+      'Open-air summer cinema in civic spaces, with some titles that work well for families.',
+      'Cinema estivo nelle piazze e negli spazi civici, con alcuni titoli che funzionano bene anche per le famiglie.'
+    ),
+    description: localized(
+      'Useful for summer nights when the family wants a cultural plan outdoors and can choose among specific family-safe screenings instead of a generic multiplex slot.',
+      'Utile nelle sere d estate quando la famiglia vuole un piano culturale outdoor e può scegliere tra proiezioni family-safe invece di uno slot generico da multisala.'
+    ),
+    address: 'Piazza del Parlamento 1, Palermo',
+    geo: { lat: 38.1107, lng: 13.3536 },
+    amenities: ['Open-air screening', 'Seasonal program', 'City-center location'],
+    languages: ['Italian'],
+    styleSlugs: ['family-screening'],
+    categorySlugs: ['cinema', 'culture'],
+    bookingTargetOrder: ['cinema-city-program'],
+    freshnessNote: localized(
+      'Seasonal film program checked from the official Cinema City program and annual edition pages.',
+      'Programma film stagionale controllato dal programma ufficiale e dalle pagine dell edizione annuale di Cinema City.'
+    ),
+    sourceUrl: 'https://www.cinemacitypalermo.it/programma-film/',
+    lastVerifiedAt: '2026-04-19T12:30:00+02:00',
+    profile: 'event_series',
+    environment: 'outdoor'
   }
 ];
 
@@ -1409,8 +1558,172 @@ export const chefamoPrograms: Program[] = [
     scheduleKind: 'seasonal',
     venueSlug: 'radici-museo-natura-place',
     instructorSlug: 'giulia-agnello-naturopata'
+  },
+  {
+    slug: 'diaria-theater-10plus',
+    citySlug: 'palermo',
+    placeSlug: 'diaria-studio-gagini',
+    organizerSlug: 'diaria-kids',
+    categorySlug: 'movement',
+    styleSlug: 'kids-theater',
+    title: localized('Theater 10+ Years', 'Teatro 10+ anni'),
+    summary: localized(
+      'A late-afternoon theater slot for older children who want voice, movement, and scene work.',
+      'Uno slot teatrale del tardo pomeriggio per bambini piu grandi che vogliono voce, movimento e lavoro scenico.'
+    ),
+    level: 'beginner',
+    language: 'Italian',
+    format: 'in_person',
+    bookingTargetSlug: 'diaria-kids-enroll',
+    sourceUrl: diariaCalendarSource,
+    lastVerifiedAt: '2026-03-12T12:00:00+01:00',
+    verificationStatus: 'verified',
+    audience: 'kids',
+    attendanceModel: 'cycle',
+    ageMin: 10,
+    ageMax: 14,
+    ageBand: 'mixed-kids',
+    guardianRequired: false,
+    priceNote: localized('Registration and pricing are shared through Diaria.', 'Iscrizione e prezzi vengono condivisi tramite Diaria.'),
+    scheduleKind: 'recurring',
+    venueSlug: 'diaria-studio-gagini',
+    instructorSlug: 'diaria-kids'
+  },
+  {
+    slug: 'diaria-theater-7-10',
+    citySlug: 'palermo',
+    placeSlug: 'diaria-studio-gagini',
+    organizerSlug: 'diaria-kids',
+    categorySlug: 'movement',
+    styleSlug: 'kids-theater',
+    title: localized('Theater 7-10 Years', 'Teatro 7-10 anni'),
+    summary: localized(
+      'A mid-week theater slot for younger primary-school children.',
+      'Uno slot teatrale infrasettimanale per bambini della primaria piu piccoli.'
+    ),
+    level: 'beginner',
+    language: 'Italian',
+    format: 'in_person',
+    bookingTargetSlug: 'diaria-kids-enroll',
+    sourceUrl: diariaCalendarSource,
+    lastVerifiedAt: '2026-03-12T12:00:00+01:00',
+    verificationStatus: 'verified',
+    audience: 'kids',
+    attendanceModel: 'cycle',
+    ageMin: 7,
+    ageMax: 10,
+    ageBand: '6-10',
+    guardianRequired: false,
+    priceNote: localized('Registration and pricing are shared through Diaria.', 'Iscrizione e prezzi vengono condivisi tramite Diaria.'),
+    scheduleKind: 'recurring',
+    venueSlug: 'diaria-studio-gagini',
+    instructorSlug: 'diaria-kids'
+  },
+  {
+    slug: 'capoeira-zumbi-kids',
+    citySlug: 'palermo',
+    placeSlug: 'capoeira-zumbi-palermo',
+    organizerSlug: 'capoeira-zumbi-team',
+    categorySlug: 'movement',
+    styleSlug: 'kids-capoeira',
+    title: localized('Capoeira Kids', 'Capoeira bambini'),
+    summary: localized(
+      'Recurring capoeira practice for children with rhythm, coordination, and group play.',
+      'Pratica ricorrente di capoeira per bambini con ritmo, coordinazione e gioco di gruppo.'
+    ),
+    level: 'beginner',
+    language: 'Italian',
+    format: 'in_person',
+    bookingTargetSlug: 'capoeira-zumbi-website',
+    sourceUrl: 'https://www.lalaue.com/city/palermo/',
+    lastVerifiedAt: '2026-04-03T09:00:00+02:00',
+    verificationStatus: 'verified',
+    audience: 'kids',
+    attendanceModel: 'cycle',
+    ageMin: 6,
+    ageMax: 14,
+    ageBand: 'mixed-kids',
+    guardianRequired: false,
+    priceNote: localized('Contact the organizer for current enrollment and pricing details.', 'Contatta l organizzatore per iscrizione e prezzi correnti.'),
+    scheduleKind: 'recurring',
+    venueSlug: 'capoeira-zumbi-palermo',
+    instructorSlug: 'capoeira-zumbi-team'
+  },
+  {
+    slug: 'uci-kids-club-palermo',
+    citySlug: 'palermo',
+    placeSlug: 'uci-cinemas-forum-palermo',
+    organizerSlug: 'uci-cinemas-palermo',
+    categorySlug: 'cinema',
+    styleSlug: 'family-screening',
+    title: localized('Kids Club family screenings', 'Kids Club film per bambini'),
+    summary: localized(
+      'Sunday-morning family cinema with under-12 friendly titles, reduced pricing, and autism-friendly availability.',
+      'Cinema family della domenica mattina con titoli adatti agli under 12, prezzo ridotto e disponibilita autism friendly.'
+    ),
+    level: 'open',
+    language: 'Italian',
+    format: 'in_person',
+    bookingTargetSlug: 'uci-kids-club',
+    sourceUrl: 'https://www.balarm.it/eventi/cinema-per-i-piu-piccoli-anche-autism-friendly-kids-club-all-uci-di-palermo-140562',
+    lastVerifiedAt: '2026-04-19T12:00:00+02:00',
+    verificationStatus: 'verified',
+    audience: 'families',
+    attendanceModel: 'drop_in',
+    ageMin: 3,
+    ageMax: 12,
+    ageBand: 'mixed-kids',
+    guardianRequired: true,
+    priceNote: localized(
+      'Kids Club tickets start around EUR 4.50, with additional family discounts on selected screenings.',
+      'I biglietti Kids Club partono da circa 4,50 EUR, con ulteriori sconti family su alcune proiezioni.'
+    ),
+    scheduleKind: 'variable',
+    venueSlug: 'uci-cinemas-forum-palermo',
+    instructorSlug: 'uci-cinemas-palermo'
+  },
+  {
+    slug: 'cinema-city-family-screenings',
+    citySlug: 'palermo',
+    placeSlug: 'cinema-city-palermo',
+    organizerSlug: 'cinema-city-palermo',
+    categorySlug: 'cinema',
+    styleSlug: 'family-screening',
+    title: localized('Cinema City family-safe screenings', 'Cinema City proiezioni family'),
+    summary: localized(
+      'Seasonal open-air screenings in Palermo piazzas, with selected animation and family-accessible film nights.',
+      'Proiezioni stagionali nelle piazze di Palermo con alcune serate di animazione e film accessibili alle famiglie.'
+    ),
+    level: 'open',
+    language: 'Italian',
+    format: 'in_person',
+    bookingTargetSlug: 'cinema-city-program',
+    sourceUrl: 'https://www.cinemacitypalermo.it/cinema-city-edizione-2025/',
+    lastVerifiedAt: '2026-04-19T12:30:00+02:00',
+    verificationStatus: 'verified',
+    audience: 'families',
+    attendanceModel: 'drop_in',
+    ageMin: 4,
+    ageMax: 12,
+    ageBand: 'mixed-kids',
+    guardianRequired: true,
+    priceNote: localized(
+      'Program varies by edition; family-safe titles are easiest to monitor from the official program page.',
+      'Il programma varia per edizione; i titoli family-safe si controllano meglio dalla pagina ufficiale del programma.'
+    ),
+    scheduleKind: 'seasonal',
+    venueSlug: 'cinema-city-palermo',
+    instructorSlug: 'cinema-city-palermo'
   }
 ];
+
+const programBySlug = (slug: string) => {
+  const program = chefamoPrograms.find((item) => item.slug === slug);
+  if (!program) {
+    throw new Error(`Missing Chefamo program: ${slug}`);
+  }
+  return program;
+};
 
 export const chefamoOccurrences: Occurrence[] = [
   buildOccurrence('teatro-massimo-family-tour-sat', chefamoPrograms[0], nextWeekday(6, 10, 30, 40)),
@@ -1431,9 +1744,13 @@ export const chefamoOccurrences: Occurrence[] = [
   buildOccurrence('diaria-capoeira-thu', chefamoPrograms[10], nextWeekday(4, 16, 45, 60)),
   buildOccurrence('diaria-dance-foundations-tue', chefamoPrograms[11], nextWeekday(2, 16, 30, 60)),
   buildOccurrence('diaria-dance-pedagogy-wed', chefamoPrograms[12], nextWeekday(3, 16, 0, 60)),
-  buildOccurrence('giulia-dudi-natural-cooking-2026-04-04', chefamoPrograms[18], {
-    startAt: '2026-04-04T17:00:00+02:00',
-    endAt: '2026-04-04T18:00:00+02:00'
+  buildOccurrence('diaria-theater-tue', chefamoPrograms[22], nextWeekday(2, 16, 15, 105)),
+  buildOccurrence('diaria-theater-thu', chefamoPrograms[23], nextWeekday(4, 16, 15, 105)),
+  buildOccurrence('capoeira-zumbi-tue-kids-1630', chefamoPrograms[24], nextWeekday(2, 16, 30, 60)),
+  buildOccurrence('capoeira-zumbi-thu-kids-1630', chefamoPrograms[24], nextWeekday(4, 16, 30, 60)),
+  buildOccurrence('giulia-dudi-natural-cooking-2026-04-11', chefamoPrograms[18], {
+    startAt: '2026-04-11T17:00:00+02:00',
+    endAt: '2026-04-11T18:00:00+02:00'
   }),
   buildOccurrence('giulia-palazzo-lampedusa-natural-cooking-2026-04-10', chefamoPrograms[19], {
     startAt: '2026-04-10T17:45:00+02:00',
@@ -1446,7 +1763,17 @@ export const chefamoOccurrences: Occurrence[] = [
   buildOccurrence('giulia-radici-natural-cooking-2026-04-23', chefamoPrograms[21], {
     startAt: '2026-04-23T17:45:00+02:00',
     endAt: '2026-04-23T18:45:00+02:00'
-  })
+  }),
+  buildOccurrence('biblioteca-storytime-fri', programBySlug('biblioteca-storytime'), nextWeekday(5, 16, 30, 45)),
+  buildOccurrence('palermo-kids-coding-club-wed', programBySlug('palermo-kids-coding-club'), nextWeekday(3, 15, 30, 90)),
+  buildOccurrence('diaria-contemporary-dance-fri', programBySlug('diaria-contemporary-dance'), nextWeekday(5, 17, 0, 60)),
+  buildOccurrence('diaria-dance-foundations-thu', programBySlug('diaria-dance-foundations'), nextWeekday(4, 16, 30, 60)),
+  buildOccurrence('capoeira-zumbi-sat-kids-1030', programBySlug('capoeira-zumbi-kids'), nextWeekday(6, 10, 30, 60)),
+  buildOccurrence('le-giuggiole-family-labs-sat', programBySlug('le-giuggiole-family-labs'), nextWeekday(6, 11, 0, 90)),
+  buildOccurrence('booq-mammalingua-reading-fri', programBySlug('booq-mammalingua-reading'), nextWeekday(5, 10, 30, 60)),
+  buildOccurrence('dudi-reading-labs-thu', programBySlug('dudi-reading-labs'), nextWeekday(4, 17, 0, 75)),
+  buildOccurrence('radici-family-ecology-labs-sat', programBySlug('radici-family-ecology-labs'), nextWeekday(6, 16, 0, 90)),
+  buildOccurrence('zen-giufa-reading-club-thu', programBySlug('zen-giufa-reading-club'), nextWeekday(4, 17, 30, 60))
 ];
 
 export const chefamoCollections: EditorialCollection[] = [

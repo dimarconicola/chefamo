@@ -18,6 +18,7 @@ test('kids style mapping includes known Palermo styles', () => {
 test('category scope keeps the core family activity surfaces', () => {
   assert.equal(isCategoryInScope('movement'), true);
   assert.equal(isCategoryInScope('culture'), true);
+  assert.equal(isCategoryInScope('cinema'), true);
   assert.equal(isCategoryInScope('tennis'), false);
 });
 
