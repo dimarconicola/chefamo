@@ -157,6 +157,21 @@ describe('SessionCard', () => {
     expect(screen.getByText('Laboratorio del mattino')).toBeInTheDocument();
   });
 
+  it('should not throw when resolved card data is missing', () => {
+    render(
+      <TestWrapper>
+        <SessionCard
+          session={mockSession}
+          locale="it"
+          resolved={undefined}
+          scheduleLabel="Salva in agenda"
+        />
+      </TestWrapper>
+    );
+
+    expect(screen.queryByText('Laboratorio del mattino')).not.toBeInTheDocument();
+  });
+
   it('should show verified status chip', () => {
     const verifiedSession = {
       ...mockSession,

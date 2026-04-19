@@ -15,13 +15,15 @@ import { BookingLink } from './BookingLink';
 interface SessionCardProps {
   session: Occurrence;
   locale: Locale;
-  resolved: ResolvedOccurrenceCardData;
+  resolved?: ResolvedOccurrenceCardData;
   signedInEmail?: string;
   scheduleLabel: string;
   runtimeCapabilities?: RuntimeCapabilities;
 }
 
 export function SessionCard({ session, locale, resolved, signedInEmail, scheduleLabel, runtimeCapabilities }: SessionCardProps) {
+  if (!resolved) return null;
+
   const { place, organizer, style, target } = resolved;
   const labels =
     locale === 'it'
