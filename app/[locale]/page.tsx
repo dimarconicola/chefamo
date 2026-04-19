@@ -60,27 +60,20 @@ export default async function LocaleHome({ params }: { params: Promise<{ locale:
           newsletterChipTwo: 'Piani pioggia',
           newsletterChipThree: 'Weekend forti',
           motionCards: [
-          stats: {
-            activities: 'Attività nel catalogo',
-            places: 'Luoghi',
-            neighborhoods: 'Quartieri',
-            formats: 'Formati'
-          },
-          features: [
-            {
-              icon: 'map' as const,
-              title: 'Sport, cultura, laboratori, coding',
-              body: 'Non solo liste: il catalogo dice dove ha senso andare per una fascia d età e un livello di energia.'
-            },
             {
               icon: 'calendar' as const,
-              title: 'Gli slot con orario chiaro stanno in primo piano',
-              body: 'Tutto il resto resta luogo o programma. Niente finzione di precisione quando il dato non è abbastanza forte.'
+              title: 'Orari reali prima di tutto',
+              body: 'Se un attività ha uno slot forte, la vedi subito. Se non ce l ha, resta un buon luogo o un buon programma, non una promessa debole.'
             },
             {
               icon: 'cloud' as const,
-              title: 'C’è sempre un piano B sensato',
-              body: 'Anche quando non esiste lo slot perfetto, puoi comunque raggiungere il posto giusto per quella giornata.'
+              title: 'Piani B che non sembrano ripieghi',
+              body: 'Quando salta il pomeriggio ideale, trovi comunque luoghi indoor e fallback sensati per età, quartiere e livello di energia.'
+            },
+            {
+              icon: 'spark' as const,
+              title: 'Una guida che resta giocosa ma leggibile',
+              body: 'Sport, cultura, coding, lettura e movimento convivono nello stesso flusso senza diventare un feed rumoroso.'
             }
           ],
           features: [
@@ -143,27 +136,20 @@ export default async function LocaleHome({ params }: { params: Promise<{ locale:
           newsletterChipTwo: 'Rain plans',
           newsletterChipThree: 'Strong weekends',
           motionCards: [
-          stats: {
-            activities: 'Activities in catalog',
-            places: 'Places',
-            neighborhoods: 'Neighborhoods',
-            formats: 'Formats'
-          },
-          features: [
-            {
-              icon: 'map' as const,
-              title: 'Sports, culture, labs, coding',
-              body: 'Not just lists: the catalog tells you where it makes sense to go for a given age band and energy level.'
-            },
             {
               icon: 'calendar' as const,
-              title: 'Anything with clear timing gets the spotlight',
-              body: 'Everything else stays a place or a program. No fake precision when the data is not strong enough.'
+              title: 'Real schedules first',
+              body: 'If an activity has a strong slot, it surfaces fast. If it does not, it stays a useful place or program instead of fake precision.'
             },
             {
               icon: 'cloud' as const,
-              title: 'There is always a sensible backup plan',
-              body: 'Even when there is no perfect slot, you can still reach the right place for that day.'
+              title: 'Backups that do not feel second-best',
+              body: 'When the ideal afternoon falls apart, you still get indoor places and sensible fallback options by age, neighborhood, and energy.'
+            },
+            {
+              icon: 'spark' as const,
+              title: 'Playful, but decision-oriented',
+              body: 'Sports, culture, coding, reading, and movement live in one flow without collapsing into a noisy feed.'
             }
           ],
           features: [
@@ -232,29 +218,6 @@ export default async function LocaleHome({ params }: { params: Promise<{ locale:
           </div>
         </div>
       </section>
-          <div className="chefamo-hero-stack">
-            <article className="chefamo-play-card chefamo-city-overview-card">
-              <p className="chefamo-card-kicker">{copy.cityPanelEyebrow}</p>
-              <h2>{copy.cityPanelTitle}</h2>
-              <div className="chefamo-stat-grid">
-                <div className="chefamo-stat-tile chefamo-tone-red">
-                  <strong>{metrics.programs}</strong>
-                  <span>{copy.stats.activities}</span>
-                </div>
-                <div className="chefamo-stat-tile chefamo-tone-blue">
-                  <strong>{metrics.places}</strong>
-                  <span>{copy.stats.places}</span>
-                </div>
-                <div className="chefamo-stat-tile chefamo-tone-yellow">
-                  <strong>{metrics.neighborhoods}</strong>
-                  <span>{copy.stats.neighborhoods}</span>
-                </div>
-                <div className="chefamo-stat-tile chefamo-tone-green">
-                  <strong>{metrics.styles}</strong>
-                  <span>{copy.stats.formats}</span>
-                </div>
-              </div>
-            </article>
 
       <section className="home-v2-motion">
         <div className="home-v2-shell">

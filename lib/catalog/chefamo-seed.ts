@@ -139,6 +139,16 @@ export const chefamoNeighborhoods: Neighborhood[] = [
       'Spazi culturali di quartiere con lettura, cura della comunita e attivita educative per bambini.'
     ),
     center: { lat: 38.1682, lng: 13.3188 }
+  },
+  {
+    citySlug: 'palermo',
+    slug: 'roccella',
+    name: localized('Roccella', 'Roccella'),
+    description: localized(
+      'Eastern Palermo around Forum Palermo, useful for family plans tied to larger venues and weekend screenings.',
+      'Palermo est intorno a Forum Palermo, utile per piani family legati a grandi venue e proiezioni del weekend.'
+    ),
+    center: { lat: 38.0888, lng: 13.4112 }
   }
 ];
 
@@ -185,6 +195,17 @@ export const chefamoCategories: ActivityCategory[] = [
     description: localized('Parks and open-air family hubs that work without heavy planning.', 'Parchi e hub all aperto che funzionano senza pianificazioni pesanti.'),
     visibility: 'live',
     heroMetric: localized('Good-anytime places for family reset.', 'Luoghi da usare quando serve un reset in famiglia.')
+  },
+  {
+    slug: 'cinema',
+    citySlug: 'palermo',
+    name: localized('Cinema', 'Cinema'),
+    description: localized(
+      'Family screenings, kids-friendly multiplex options, and film plans that work for under-12s.',
+      'Proiezioni family, opzioni kids-friendly in multisala e piani cinema che funzionano per gli under 12.'
+    ),
+    visibility: 'live',
+    heroMetric: localized('Big-screen rituals with clear family access paths.', 'Riti sul grande schermo con accessi chiari per le famiglie.')
   }
 ];
 
@@ -202,6 +223,7 @@ export const chefamoStyles: Style[] = [
   { slug: 'storytime', categorySlug: 'reading', name: localized('Storytime', 'Letture animate'), description: localized('Reading-led session for young children and carers.', 'Sessione guidata da letture per bimbi piccoli e accompagnatori.') },
   { slug: 'puppet-theater', categorySlug: 'culture', name: localized('Puppet theater', 'Teatro dei pupi'), description: localized('Family theater rooted in Sicilian puppetry.', 'Teatro per famiglie radicato nella tradizione dei pupi siciliani.') },
   { slug: 'open-park-day', categorySlug: 'outdoors', name: localized('Open park day', 'Giornata al parco'), description: localized('Flexible outdoor time with family-friendly infrastructure.', 'Tempo flessibile all aperto con infrastruttura family-friendly.') },
+  { slug: 'family-screening', categorySlug: 'cinema', name: localized('Family screening', 'Proiezione family'), description: localized('Kids-friendly screening format with relaxed family logistics and easy online booking.', 'Formato di proiezione per famiglie con logistica semplice e prenotazione online chiara.') },
   { slug: 'kids-coding', categorySlug: 'stem', name: localized('Kids coding', 'Coding per bambini'), description: localized('Guided digital creativity and problem-solving.', 'Creativita digitale guidata e problem solving.') },
   { slug: 'creative-kids-lab', categorySlug: 'culture', name: localized('Creative kids lab', 'Laboratorio creativo bambini'), description: localized('Arts, making, and expressive workshops built around play and participation.', 'Laboratori di arte, creazione ed espressione costruiti intorno a gioco e partecipazione.') },
   { slug: 'natural-cooking-lab', categorySlug: 'stem', name: localized('Natural cooking lab', 'Laboratorio di cucina naturale'), description: localized('Hands-on food lab for children and families using seasonal ingredients and practical making.', 'Laboratorio pratico di cucina per bambini e famiglie con ingredienti stagionali e preparazioni concrete.') }
@@ -365,6 +387,28 @@ export const chefamoOrganizers: Organizer[] = [
     ),
     specialties: ['storytime', 'community-library', 'family-culture'],
     languages: ['Italian']
+  },
+  {
+    slug: 'uci-cinemas-palermo',
+    citySlug: 'palermo',
+    name: 'UCI Cinemas Palermo',
+    shortBio: localized(
+      'Multiplex at Forum Palermo with weekly Kids Club screenings and autism-friendly family slots.',
+      'Multisala a Forum Palermo con proiezioni settimanali Kids Club e slot family anche autism friendly.'
+    ),
+    specialties: ['family-screening', 'family-cinema', 'autism-friendly'],
+    languages: ['Italian']
+  },
+  {
+    slug: 'cinema-city-palermo',
+    citySlug: 'palermo',
+    name: 'Cinema City Palermo',
+    shortBio: localized(
+      'Citywide open-air cinema project with seasonal screenings in public spaces, including family-accessible titles.',
+      'Rassegna di cinema nelle piazze con proiezioni stagionali negli spazi pubblici, incluse serate accessibili alle famiglie.'
+    ),
+    specialties: ['family-screening', 'open-air-cinema', 'civic-culture'],
+    languages: ['Italian']
   }
 ];
 
@@ -388,7 +432,9 @@ export const chefamoBookingTargets: BookingTarget[] = [
   { slug: 'zen-giufa-info', type: 'website', label: 'Biblioteca Giufa', href: 'https://www.zeninsieme.it/la-biblioteca-giufa/' },
   { slug: 'elibe-corsi', type: 'website', label: 'Elibe', href: 'https://www.elibepalermo.it/corsi-elibe-palermo/' },
   { slug: 'palazzo-lampedusa-info', type: 'website', label: 'Palazzo Lampedusa', href: 'https://www.indigorooms.it/palazzo-lampedusa-palermo/' },
-  { slug: 'capoeira-zumbi-website', type: 'website', label: 'Capoeira Zumbi', href: 'https://www.capoeirazumbi.org/' }
+  { slug: 'capoeira-zumbi-website', type: 'website', label: 'Capoeira Zumbi', href: 'https://www.capoeirazumbi.org/' },
+  { slug: 'uci-kids-club', type: 'website', label: 'UCI Kids Club', href: 'https://www.ucicinemas.it/eventi-uci/rassegne/kidsclub/' },
+  { slug: 'cinema-city-program', type: 'website', label: 'Cinema City Palermo', href: 'https://www.cinemacitypalermo.it/programma-film/' }
 ];
 
 export const chefamoPlaces: Place[] = [
@@ -811,6 +857,65 @@ export const chefamoPlaces: Place[] = [
     lastVerifiedAt: '2026-04-03T09:00:00+02:00',
     profile: 'club',
     environment: 'indoor'
+  },
+  {
+    slug: 'uci-cinemas-forum-palermo',
+    citySlug: 'palermo',
+    neighborhoodSlug: 'roccella',
+    name: 'UCI Cinemas Palermo',
+    tagline: localized(
+      'A stable big-screen option for family films and Sunday-morning kids screenings.',
+      'Un opzione stabile da grande schermo per film family e proiezioni bambini la domenica mattina.'
+    ),
+    description: localized(
+      'Useful when the family wants a low-friction cinema plan with clear online booking, multiplex logistics, and under-12 friendly titles.',
+      'Utile quando la famiglia vuole un piano cinema a basso attrito con prenotazione online chiara, logistica da multisala e titoli adatti agli under 12.'
+    ),
+    address: 'Centro Commerciale Forum Palermo, Via Filippo Pecoraino, Palermo',
+    geo: { lat: 38.0888, lng: 13.4112 },
+    amenities: ['Multiplex', 'Online booking', 'Autism-friendly screenings', 'Parking'],
+    languages: ['Italian'],
+    styleSlugs: ['family-screening'],
+    categorySlugs: ['cinema'],
+    bookingTargetOrder: ['uci-kids-club'],
+    freshnessNote: localized(
+      'Kids Club and venue information checked from Forum Palermo and current family cinema listings.',
+      'Kids Club e informazioni venue controllati da Forum Palermo e listing correnti di cinema family.'
+    ),
+    sourceUrl: 'https://www.forum-palermo.it/negozi/uci-cinemas/',
+    lastVerifiedAt: '2026-04-19T12:00:00+02:00',
+    profile: 'arts_center',
+    environment: 'indoor',
+    goodAnytime: true
+  },
+  {
+    slug: 'cinema-city-palermo',
+    citySlug: 'palermo',
+    neighborhoodSlug: 'castellammare',
+    name: 'Cinema City Palermo',
+    tagline: localized(
+      'Open-air summer cinema in civic spaces, with some titles that work well for families.',
+      'Cinema estivo nelle piazze e negli spazi civici, con alcuni titoli che funzionano bene anche per le famiglie.'
+    ),
+    description: localized(
+      'Useful for summer nights when the family wants a cultural plan outdoors and can choose among specific family-safe screenings instead of a generic multiplex slot.',
+      'Utile nelle sere d estate quando la famiglia vuole un piano culturale outdoor e può scegliere tra proiezioni family-safe invece di uno slot generico da multisala.'
+    ),
+    address: 'Piazza del Parlamento 1, Palermo',
+    geo: { lat: 38.1107, lng: 13.3536 },
+    amenities: ['Open-air screening', 'Seasonal program', 'City-center location'],
+    languages: ['Italian'],
+    styleSlugs: ['family-screening'],
+    categorySlugs: ['cinema', 'culture'],
+    bookingTargetOrder: ['cinema-city-program'],
+    freshnessNote: localized(
+      'Seasonal film program checked from the official Cinema City program and annual edition pages.',
+      'Programma film stagionale controllato dal programma ufficiale e dalle pagine dell edizione annuale di Cinema City.'
+    ),
+    sourceUrl: 'https://www.cinemacitypalermo.it/programma-film/',
+    lastVerifiedAt: '2026-04-19T12:30:00+02:00',
+    profile: 'event_series',
+    environment: 'outdoor'
   }
 ];
 
@@ -1543,6 +1648,72 @@ export const chefamoPrograms: Program[] = [
     scheduleKind: 'recurring',
     venueSlug: 'capoeira-zumbi-palermo',
     instructorSlug: 'capoeira-zumbi-team'
+  },
+  {
+    slug: 'uci-kids-club-palermo',
+    citySlug: 'palermo',
+    placeSlug: 'uci-cinemas-forum-palermo',
+    organizerSlug: 'uci-cinemas-palermo',
+    categorySlug: 'cinema',
+    styleSlug: 'family-screening',
+    title: localized('Kids Club family screenings', 'Kids Club film per bambini'),
+    summary: localized(
+      'Sunday-morning family cinema with under-12 friendly titles, reduced pricing, and autism-friendly availability.',
+      'Cinema family della domenica mattina con titoli adatti agli under 12, prezzo ridotto e disponibilita autism friendly.'
+    ),
+    level: 'open',
+    language: 'Italian',
+    format: 'in_person',
+    bookingTargetSlug: 'uci-kids-club',
+    sourceUrl: 'https://www.balarm.it/eventi/cinema-per-i-piu-piccoli-anche-autism-friendly-kids-club-all-uci-di-palermo-140562',
+    lastVerifiedAt: '2026-04-19T12:00:00+02:00',
+    verificationStatus: 'verified',
+    audience: 'families',
+    attendanceModel: 'drop_in',
+    ageMin: 3,
+    ageMax: 12,
+    ageBand: 'mixed-kids',
+    guardianRequired: true,
+    priceNote: localized(
+      'Kids Club tickets start around EUR 4.50, with additional family discounts on selected screenings.',
+      'I biglietti Kids Club partono da circa 4,50 EUR, con ulteriori sconti family su alcune proiezioni.'
+    ),
+    scheduleKind: 'variable',
+    venueSlug: 'uci-cinemas-forum-palermo',
+    instructorSlug: 'uci-cinemas-palermo'
+  },
+  {
+    slug: 'cinema-city-family-screenings',
+    citySlug: 'palermo',
+    placeSlug: 'cinema-city-palermo',
+    organizerSlug: 'cinema-city-palermo',
+    categorySlug: 'cinema',
+    styleSlug: 'family-screening',
+    title: localized('Cinema City family-safe screenings', 'Cinema City proiezioni family'),
+    summary: localized(
+      'Seasonal open-air screenings in Palermo piazzas, with selected animation and family-accessible film nights.',
+      'Proiezioni stagionali nelle piazze di Palermo con alcune serate di animazione e film accessibili alle famiglie.'
+    ),
+    level: 'open',
+    language: 'Italian',
+    format: 'in_person',
+    bookingTargetSlug: 'cinema-city-program',
+    sourceUrl: 'https://www.cinemacitypalermo.it/cinema-city-edizione-2025/',
+    lastVerifiedAt: '2026-04-19T12:30:00+02:00',
+    verificationStatus: 'verified',
+    audience: 'families',
+    attendanceModel: 'drop_in',
+    ageMin: 4,
+    ageMax: 12,
+    ageBand: 'mixed-kids',
+    guardianRequired: true,
+    priceNote: localized(
+      'Program varies by edition; family-safe titles are easiest to monitor from the official program page.',
+      'Il programma varia per edizione; i titoli family-safe si controllano meglio dalla pagina ufficiale del programma.'
+    ),
+    scheduleKind: 'seasonal',
+    venueSlug: 'cinema-city-palermo',
+    instructorSlug: 'cinema-city-palermo'
   }
 ];
 

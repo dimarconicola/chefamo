@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-04-07T09:25:38.256Z",
+  "generatedAt": "2026-04-19T08:04:33.334Z",
   "citySlug": "palermo",
   "source": "chefamo-seed",
   "cities": [
@@ -104,6 +104,22 @@
         "lat": 38.1682,
         "lng": 13.3188
       }
+    },
+    {
+      "citySlug": "palermo",
+      "slug": "roccella",
+      "name": {
+        "en": "Roccella",
+        "it": "Roccella"
+      },
+      "description": {
+        "en": "Eastern Palermo around Forum Palermo, useful for family plans tied to larger venues and weekend screenings.",
+        "it": "Palermo est intorno a Forum Palermo, utile per piani family legati a grandi venue e proiezioni del weekend."
+      },
+      "center": {
+        "lat": 38.0888,
+        "lng": 13.4112
+      }
     }
   ],
   "categories": [
@@ -190,6 +206,23 @@
       "heroMetric": {
         "en": "Good-anytime places for family reset.",
         "it": "Luoghi da usare quando serve un reset in famiglia."
+      }
+    },
+    {
+      "slug": "cinema",
+      "citySlug": "palermo",
+      "name": {
+        "en": "Cinema",
+        "it": "Cinema"
+      },
+      "description": {
+        "en": "Family screenings, kids-friendly multiplex options, and film plans that work for under-12s.",
+        "it": "Proiezioni family, opzioni kids-friendly in multisala e piani cinema che funzionano per gli under 12."
+      },
+      "visibility": "live",
+      "heroMetric": {
+        "en": "Big-screen rituals with clear family access paths.",
+        "it": "Riti sul grande schermo con accessi chiari per le famiglie."
       }
     }
   ],
@@ -348,6 +381,18 @@
       "description": {
         "en": "Flexible outdoor time with family-friendly infrastructure.",
         "it": "Tempo flessibile all aperto con infrastruttura family-friendly."
+      }
+    },
+    {
+      "slug": "family-screening",
+      "categorySlug": "cinema",
+      "name": {
+        "en": "Family screening",
+        "it": "Proiezione family"
+      },
+      "description": {
+        "en": "Kids-friendly screening format with relaxed family logistics and easy online booking.",
+        "it": "Formato di proiezione per famiglie con logistica semplice e prenotazione online chiara."
       }
     },
     {
@@ -653,6 +698,40 @@
       "languages": [
         "Italian"
       ]
+    },
+    {
+      "slug": "uci-cinemas-palermo",
+      "citySlug": "palermo",
+      "name": "UCI Cinemas Palermo",
+      "shortBio": {
+        "en": "Multiplex at Forum Palermo with weekly Kids Club screenings and autism-friendly family slots.",
+        "it": "Multisala a Forum Palermo con proiezioni settimanali Kids Club e slot family anche autism friendly."
+      },
+      "specialties": [
+        "family-screening",
+        "family-cinema",
+        "autism-friendly"
+      ],
+      "languages": [
+        "Italian"
+      ]
+    },
+    {
+      "slug": "cinema-city-palermo",
+      "citySlug": "palermo",
+      "name": "Cinema City Palermo",
+      "shortBio": {
+        "en": "Citywide open-air cinema project with seasonal screenings in public spaces, including family-accessible titles.",
+        "it": "Rassegna di cinema nelle piazze con proiezioni stagionali negli spazi pubblici, incluse serate accessibili alle famiglie."
+      },
+      "specialties": [
+        "family-screening",
+        "open-air-cinema",
+        "civic-culture"
+      ],
+      "languages": [
+        "Italian"
+      ]
     }
   ],
   "bookingTargets": [
@@ -775,6 +854,18 @@
       "type": "website",
       "label": "Capoeira Zumbi",
       "href": "https://www.capoeirazumbi.org/"
+    },
+    {
+      "slug": "uci-kids-club",
+      "type": "website",
+      "label": "UCI Kids Club",
+      "href": "https://www.ucicinemas.it/eventi-uci/rassegne/kidsclub/"
+    },
+    {
+      "slug": "cinema-city-program",
+      "type": "website",
+      "label": "Cinema City Palermo",
+      "href": "https://www.cinemacitypalermo.it/programma-film/"
     }
   ],
   "places": [
@@ -1637,6 +1728,97 @@
       "lastVerifiedAt": "2026-04-03T09:00:00+02:00",
       "profile": "club",
       "environment": "indoor"
+    },
+    {
+      "slug": "uci-cinemas-forum-palermo",
+      "citySlug": "palermo",
+      "neighborhoodSlug": "roccella",
+      "name": "UCI Cinemas Palermo",
+      "tagline": {
+        "en": "A stable big-screen option for family films and Sunday-morning kids screenings.",
+        "it": "Un opzione stabile da grande schermo per film family e proiezioni bambini la domenica mattina."
+      },
+      "description": {
+        "en": "Useful when the family wants a low-friction cinema plan with clear online booking, multiplex logistics, and under-12 friendly titles.",
+        "it": "Utile quando la famiglia vuole un piano cinema a basso attrito con prenotazione online chiara, logistica da multisala e titoli adatti agli under 12."
+      },
+      "address": "Centro Commerciale Forum Palermo, Via Filippo Pecoraino, Palermo",
+      "geo": {
+        "lat": 38.0888,
+        "lng": 13.4112
+      },
+      "amenities": [
+        "Multiplex",
+        "Online booking",
+        "Autism-friendly screenings",
+        "Parking"
+      ],
+      "languages": [
+        "Italian"
+      ],
+      "styleSlugs": [
+        "family-screening"
+      ],
+      "categorySlugs": [
+        "cinema"
+      ],
+      "bookingTargetOrder": [
+        "uci-kids-club"
+      ],
+      "freshnessNote": {
+        "en": "Kids Club and venue information checked from Forum Palermo and current family cinema listings.",
+        "it": "Kids Club e informazioni venue controllati da Forum Palermo e listing correnti di cinema family."
+      },
+      "sourceUrl": "https://www.forum-palermo.it/negozi/uci-cinemas/",
+      "lastVerifiedAt": "2026-04-19T12:00:00+02:00",
+      "profile": "arts_center",
+      "environment": "indoor",
+      "goodAnytime": true
+    },
+    {
+      "slug": "cinema-city-palermo",
+      "citySlug": "palermo",
+      "neighborhoodSlug": "castellammare",
+      "name": "Cinema City Palermo",
+      "tagline": {
+        "en": "Open-air summer cinema in civic spaces, with some titles that work well for families.",
+        "it": "Cinema estivo nelle piazze e negli spazi civici, con alcuni titoli che funzionano bene anche per le famiglie."
+      },
+      "description": {
+        "en": "Useful for summer nights when the family wants a cultural plan outdoors and can choose among specific family-safe screenings instead of a generic multiplex slot.",
+        "it": "Utile nelle sere d estate quando la famiglia vuole un piano culturale outdoor e può scegliere tra proiezioni family-safe invece di uno slot generico da multisala."
+      },
+      "address": "Piazza del Parlamento 1, Palermo",
+      "geo": {
+        "lat": 38.1107,
+        "lng": 13.3536
+      },
+      "amenities": [
+        "Open-air screening",
+        "Seasonal program",
+        "City-center location"
+      ],
+      "languages": [
+        "Italian"
+      ],
+      "styleSlugs": [
+        "family-screening"
+      ],
+      "categorySlugs": [
+        "cinema",
+        "culture"
+      ],
+      "bookingTargetOrder": [
+        "cinema-city-program"
+      ],
+      "freshnessNote": {
+        "en": "Seasonal film program checked from the official Cinema City program and annual edition pages.",
+        "it": "Programma film stagionale controllato dal programma ufficiale e dalle pagine dell edizione annuale di Cinema City."
+      },
+      "sourceUrl": "https://www.cinemacitypalermo.it/programma-film/",
+      "lastVerifiedAt": "2026-04-19T12:30:00+02:00",
+      "profile": "event_series",
+      "environment": "outdoor"
     }
   ],
   "programs": [
@@ -2539,6 +2721,78 @@
       "scheduleKind": "recurring",
       "venueSlug": "capoeira-zumbi-palermo",
       "instructorSlug": "capoeira-zumbi-team"
+    },
+    {
+      "slug": "uci-kids-club-palermo",
+      "citySlug": "palermo",
+      "placeSlug": "uci-cinemas-forum-palermo",
+      "organizerSlug": "uci-cinemas-palermo",
+      "categorySlug": "cinema",
+      "styleSlug": "family-screening",
+      "title": {
+        "en": "Kids Club family screenings",
+        "it": "Kids Club film per bambini"
+      },
+      "summary": {
+        "en": "Sunday-morning family cinema with under-12 friendly titles, reduced pricing, and autism-friendly availability.",
+        "it": "Cinema family della domenica mattina con titoli adatti agli under 12, prezzo ridotto e disponibilita autism friendly."
+      },
+      "level": "open",
+      "language": "Italian",
+      "format": "in_person",
+      "bookingTargetSlug": "uci-kids-club",
+      "sourceUrl": "https://www.balarm.it/eventi/cinema-per-i-piu-piccoli-anche-autism-friendly-kids-club-all-uci-di-palermo-140562",
+      "lastVerifiedAt": "2026-04-19T12:00:00+02:00",
+      "verificationStatus": "verified",
+      "audience": "families",
+      "attendanceModel": "drop_in",
+      "ageMin": 3,
+      "ageMax": 12,
+      "ageBand": "mixed-kids",
+      "guardianRequired": true,
+      "priceNote": {
+        "en": "Kids Club tickets start around EUR 4.50, with additional family discounts on selected screenings.",
+        "it": "I biglietti Kids Club partono da circa 4,50 EUR, con ulteriori sconti family su alcune proiezioni."
+      },
+      "scheduleKind": "variable",
+      "venueSlug": "uci-cinemas-forum-palermo",
+      "instructorSlug": "uci-cinemas-palermo"
+    },
+    {
+      "slug": "cinema-city-family-screenings",
+      "citySlug": "palermo",
+      "placeSlug": "cinema-city-palermo",
+      "organizerSlug": "cinema-city-palermo",
+      "categorySlug": "cinema",
+      "styleSlug": "family-screening",
+      "title": {
+        "en": "Cinema City family-safe screenings",
+        "it": "Cinema City proiezioni family"
+      },
+      "summary": {
+        "en": "Seasonal open-air screenings in Palermo piazzas, with selected animation and family-accessible film nights.",
+        "it": "Proiezioni stagionali nelle piazze di Palermo con alcune serate di animazione e film accessibili alle famiglie."
+      },
+      "level": "open",
+      "language": "Italian",
+      "format": "in_person",
+      "bookingTargetSlug": "cinema-city-program",
+      "sourceUrl": "https://www.cinemacitypalermo.it/cinema-city-edizione-2025/",
+      "lastVerifiedAt": "2026-04-19T12:30:00+02:00",
+      "verificationStatus": "verified",
+      "audience": "families",
+      "attendanceModel": "drop_in",
+      "ageMin": 4,
+      "ageMax": 12,
+      "ageBand": "mixed-kids",
+      "guardianRequired": true,
+      "priceNote": {
+        "en": "Program varies by edition; family-safe titles are easiest to monitor from the official program page.",
+        "it": "Il programma varia per edizione; i titoli family-safe si controllano meglio dalla pagina ufficiale del programma."
+      },
+      "scheduleKind": "seasonal",
+      "venueSlug": "cinema-city-palermo",
+      "instructorSlug": "cinema-city-palermo"
     }
   ],
   "occurrences": [
@@ -2554,8 +2808,8 @@
         "en": "Family Theater Tour",
         "it": "Visita famiglia al Teatro Massimo"
       },
-      "startAt": "2026-04-11T10:30:00.000+02:00",
-      "endAt": "2026-04-11T11:10:00.000+02:00",
+      "startAt": "2026-04-25T10:30:00.000+02:00",
+      "endAt": "2026-04-25T11:10:00.000+02:00",
       "level": "open",
       "language": "Italian",
       "format": "in_person",
@@ -2588,8 +2842,8 @@
         "en": "Family Theater Tour",
         "it": "Visita famiglia al Teatro Massimo"
       },
-      "startAt": "2026-04-12T11:20:00.000+02:00",
-      "endAt": "2026-04-12T12:00:00.000+02:00",
+      "startAt": "2026-04-19T11:20:00.000+02:00",
+      "endAt": "2026-04-19T12:00:00.000+02:00",
       "level": "open",
       "language": "Italian",
       "format": "in_person",
@@ -2622,8 +2876,8 @@
         "en": "Weekend Planetarium Show",
         "it": "Spettacolo del weekend al planetario"
       },
-      "startAt": "2026-04-11T17:00:00.000+02:00",
-      "endAt": "2026-04-11T18:00:00.000+02:00",
+      "startAt": "2026-04-25T17:00:00.000+02:00",
+      "endAt": "2026-04-25T18:00:00.000+02:00",
       "level": "open",
       "language": "Italian",
       "format": "in_person",
@@ -2656,8 +2910,8 @@
         "en": "Weekend Planetarium Show",
         "it": "Spettacolo del weekend al planetario"
       },
-      "startAt": "2026-04-12T12:00:00.000+02:00",
-      "endAt": "2026-04-12T13:00:00.000+02:00",
+      "startAt": "2026-04-19T12:00:00.000+02:00",
+      "endAt": "2026-04-19T13:00:00.000+02:00",
       "level": "open",
       "language": "Italian",
       "format": "in_person",
@@ -2690,8 +2944,8 @@
         "en": "MiniMuPa Creative Lab",
         "it": "Laboratorio creativo MiniMuPa"
       },
-      "startAt": "2026-04-11T10:30:00.000+02:00",
-      "endAt": "2026-04-11T12:00:00.000+02:00",
+      "startAt": "2026-04-25T10:30:00.000+02:00",
+      "endAt": "2026-04-25T12:00:00.000+02:00",
       "level": "open",
       "language": "Italian",
       "format": "in_person",
@@ -2724,8 +2978,8 @@
         "en": "Library Story Circle",
         "it": "Cerchio di letture in biblioteca"
       },
-      "startAt": "2026-04-08T16:30:00.000+02:00",
-      "endAt": "2026-04-08T17:15:00.000+02:00",
+      "startAt": "2026-04-22T16:30:00.000+02:00",
+      "endAt": "2026-04-22T17:15:00.000+02:00",
       "level": "open",
       "language": "Italian",
       "format": "in_person",
@@ -2758,8 +3012,8 @@
         "en": "Library Story Circle",
         "it": "Cerchio di letture in biblioteca"
       },
-      "startAt": "2026-04-13T09:30:00.000+02:00",
-      "endAt": "2026-04-13T10:15:00.000+02:00",
+      "startAt": "2026-04-20T09:30:00.000+02:00",
+      "endAt": "2026-04-20T10:15:00.000+02:00",
       "level": "open",
       "language": "Italian",
       "format": "in_person",
@@ -2792,8 +3046,8 @@
         "en": "Weekend Puppet Theater",
         "it": "Teatro dei pupi del weekend"
       },
-      "startAt": "2026-04-11T16:30:00.000+02:00",
-      "endAt": "2026-04-11T17:30:00.000+02:00",
+      "startAt": "2026-04-25T16:30:00.000+02:00",
+      "endAt": "2026-04-25T17:30:00.000+02:00",
       "level": "open",
       "language": "Italian",
       "format": "in_person",
@@ -2826,8 +3080,8 @@
         "en": "Weekend Puppet Theater",
         "it": "Teatro dei pupi del weekend"
       },
-      "startAt": "2026-04-12T12:00:00.000+02:00",
-      "endAt": "2026-04-12T13:00:00.000+02:00",
+      "startAt": "2026-04-19T12:00:00.000+02:00",
+      "endAt": "2026-04-19T13:00:00.000+02:00",
       "level": "open",
       "language": "Italian",
       "format": "in_person",
@@ -2860,8 +3114,8 @@
         "en": "Coding Club 8-12",
         "it": "Coding club 8-12"
       },
-      "startAt": "2026-04-11T10:00:00.000+02:00",
-      "endAt": "2026-04-11T11:30:00.000+02:00",
+      "startAt": "2026-04-25T10:00:00.000+02:00",
+      "endAt": "2026-04-25T11:30:00.000+02:00",
       "level": "beginner",
       "language": "Italian",
       "format": "in_person",
@@ -2894,8 +3148,8 @@
         "en": "Kids Circomotricity",
         "it": "Circomotricita bambini"
       },
-      "startAt": "2026-04-07T17:00:00.000+02:00",
-      "endAt": "2026-04-07T18:00:00.000+02:00",
+      "startAt": "2026-04-21T17:00:00.000+02:00",
+      "endAt": "2026-04-21T18:00:00.000+02:00",
       "level": "beginner",
       "language": "Italian",
       "format": "in_person",
@@ -2928,8 +3182,8 @@
         "en": "Aerial Kids Lab",
         "it": "Laboratorio aereo bambini"
       },
-      "startAt": "2026-04-11T10:30:00.000+02:00",
-      "endAt": "2026-04-11T11:30:00.000+02:00",
+      "startAt": "2026-04-25T10:30:00.000+02:00",
+      "endAt": "2026-04-25T11:30:00.000+02:00",
       "level": "beginner",
       "language": "Italian",
       "format": "in_person",
@@ -2962,8 +3216,8 @@
         "en": "Contemporary Dance 7-10",
         "it": "Danza contemporanea 7-10"
       },
-      "startAt": "2026-04-13T17:00:00.000+02:00",
-      "endAt": "2026-04-13T18:00:00.000+02:00",
+      "startAt": "2026-04-20T17:00:00.000+02:00",
+      "endAt": "2026-04-20T18:00:00.000+02:00",
       "level": "beginner",
       "language": "Italian",
       "format": "in_person",
@@ -2996,8 +3250,8 @@
         "en": "Contemporary Dance 7-10",
         "it": "Danza contemporanea 7-10"
       },
-      "startAt": "2026-04-08T17:00:00.000+02:00",
-      "endAt": "2026-04-08T18:00:00.000+02:00",
+      "startAt": "2026-04-22T17:00:00.000+02:00",
+      "endAt": "2026-04-22T18:00:00.000+02:00",
       "level": "beginner",
       "language": "Italian",
       "format": "in_person",
@@ -3030,8 +3284,8 @@
         "en": "Capoeira 6-10",
         "it": "Capoeira 6-10"
       },
-      "startAt": "2026-04-13T16:45:00.000+02:00",
-      "endAt": "2026-04-13T17:45:00.000+02:00",
+      "startAt": "2026-04-20T16:45:00.000+02:00",
+      "endAt": "2026-04-20T17:45:00.000+02:00",
       "level": "beginner",
       "language": "Italian",
       "format": "in_person",
@@ -3064,8 +3318,8 @@
         "en": "Capoeira 6-10",
         "it": "Capoeira 6-10"
       },
-      "startAt": "2026-04-09T16:45:00.000+02:00",
-      "endAt": "2026-04-09T17:45:00.000+02:00",
+      "startAt": "2026-04-23T16:45:00.000+02:00",
+      "endAt": "2026-04-23T17:45:00.000+02:00",
       "level": "beginner",
       "language": "Italian",
       "format": "in_person",
@@ -3098,8 +3352,8 @@
         "en": "Dance 5-6 Years",
         "it": "Danza 5-6 anni"
       },
-      "startAt": "2026-04-07T16:30:00.000+02:00",
-      "endAt": "2026-04-07T17:30:00.000+02:00",
+      "startAt": "2026-04-21T16:30:00.000+02:00",
+      "endAt": "2026-04-21T17:30:00.000+02:00",
       "level": "beginner",
       "language": "Italian",
       "format": "in_person",
@@ -3132,8 +3386,8 @@
         "en": "Dance Pedagogy 3-4",
         "it": "Pedagogia della danza 3-4"
       },
-      "startAt": "2026-04-08T16:00:00.000+02:00",
-      "endAt": "2026-04-08T17:00:00.000+02:00",
+      "startAt": "2026-04-22T16:00:00.000+02:00",
+      "endAt": "2026-04-22T17:00:00.000+02:00",
       "level": "beginner",
       "language": "Italian",
       "format": "in_person",
@@ -3166,8 +3420,8 @@
         "en": "Theater 10+ Years",
         "it": "Teatro 10+ anni"
       },
-      "startAt": "2026-04-07T16:15:00.000+02:00",
-      "endAt": "2026-04-07T18:00:00.000+02:00",
+      "startAt": "2026-04-21T16:15:00.000+02:00",
+      "endAt": "2026-04-21T18:00:00.000+02:00",
       "level": "beginner",
       "language": "Italian",
       "format": "in_person",
@@ -3200,8 +3454,8 @@
         "en": "Theater 7-10 Years",
         "it": "Teatro 7-10 anni"
       },
-      "startAt": "2026-04-09T16:15:00.000+02:00",
-      "endAt": "2026-04-09T18:00:00.000+02:00",
+      "startAt": "2026-04-23T16:15:00.000+02:00",
+      "endAt": "2026-04-23T18:00:00.000+02:00",
       "level": "beginner",
       "language": "Italian",
       "format": "in_person",
@@ -3234,8 +3488,8 @@
         "en": "Capoeira Kids",
         "it": "Capoeira bambini"
       },
-      "startAt": "2026-04-07T16:30:00.000+02:00",
-      "endAt": "2026-04-07T17:30:00.000+02:00",
+      "startAt": "2026-04-21T16:30:00.000+02:00",
+      "endAt": "2026-04-21T17:30:00.000+02:00",
       "level": "beginner",
       "language": "Italian",
       "format": "in_person",
@@ -3268,8 +3522,8 @@
         "en": "Capoeira Kids",
         "it": "Capoeira bambini"
       },
-      "startAt": "2026-04-09T16:30:00.000+02:00",
-      "endAt": "2026-04-09T17:30:00.000+02:00",
+      "startAt": "2026-04-23T16:30:00.000+02:00",
+      "endAt": "2026-04-23T17:30:00.000+02:00",
       "level": "beginner",
       "language": "Italian",
       "format": "in_person",
@@ -3438,8 +3692,8 @@
         "en": "Library Story Circle",
         "it": "Cerchio di letture in biblioteca"
       },
-      "startAt": "2026-04-10T16:30:00.000+02:00",
-      "endAt": "2026-04-10T17:15:00.000+02:00",
+      "startAt": "2026-04-24T16:30:00.000+02:00",
+      "endAt": "2026-04-24T17:15:00.000+02:00",
       "level": "open",
       "language": "Italian",
       "format": "in_person",
@@ -3472,8 +3726,8 @@
         "en": "Coding Club 8-12",
         "it": "Coding club 8-12"
       },
-      "startAt": "2026-04-08T15:30:00.000+02:00",
-      "endAt": "2026-04-08T17:00:00.000+02:00",
+      "startAt": "2026-04-22T15:30:00.000+02:00",
+      "endAt": "2026-04-22T17:00:00.000+02:00",
       "level": "beginner",
       "language": "Italian",
       "format": "in_person",
@@ -3506,8 +3760,8 @@
         "en": "Contemporary Dance 7-10",
         "it": "Danza contemporanea 7-10"
       },
-      "startAt": "2026-04-10T17:00:00.000+02:00",
-      "endAt": "2026-04-10T18:00:00.000+02:00",
+      "startAt": "2026-04-24T17:00:00.000+02:00",
+      "endAt": "2026-04-24T18:00:00.000+02:00",
       "level": "beginner",
       "language": "Italian",
       "format": "in_person",
@@ -3540,8 +3794,8 @@
         "en": "Dance 5-6 Years",
         "it": "Danza 5-6 anni"
       },
-      "startAt": "2026-04-09T16:30:00.000+02:00",
-      "endAt": "2026-04-09T17:30:00.000+02:00",
+      "startAt": "2026-04-23T16:30:00.000+02:00",
+      "endAt": "2026-04-23T17:30:00.000+02:00",
       "level": "beginner",
       "language": "Italian",
       "format": "in_person",
@@ -3574,8 +3828,8 @@
         "en": "Capoeira Kids",
         "it": "Capoeira bambini"
       },
-      "startAt": "2026-04-11T10:30:00.000+02:00",
-      "endAt": "2026-04-11T11:30:00.000+02:00",
+      "startAt": "2026-04-25T10:30:00.000+02:00",
+      "endAt": "2026-04-25T11:30:00.000+02:00",
       "level": "beginner",
       "language": "Italian",
       "format": "in_person",
@@ -3608,8 +3862,8 @@
         "en": "Creative Family Labs at EPYC",
         "it": "Laboratori creativi in famiglia da EPYC"
       },
-      "startAt": "2026-04-11T11:00:00.000+02:00",
-      "endAt": "2026-04-11T12:30:00.000+02:00",
+      "startAt": "2026-04-25T11:00:00.000+02:00",
+      "endAt": "2026-04-25T12:30:00.000+02:00",
       "level": "open",
       "language": "Italian",
       "format": "in_person",
@@ -3642,8 +3896,8 @@
         "en": "MammaLingua and Intercultural Reading",
         "it": "MammaLingua e letture interculturali"
       },
-      "startAt": "2026-04-10T10:30:00.000+02:00",
-      "endAt": "2026-04-10T11:30:00.000+02:00",
+      "startAt": "2026-04-24T10:30:00.000+02:00",
+      "endAt": "2026-04-24T11:30:00.000+02:00",
       "level": "open",
       "language": "Italian",
       "format": "in_person",
@@ -3676,8 +3930,8 @@
         "en": "Dudi Readings and Workshops",
         "it": "Letture e laboratori Dudi"
       },
-      "startAt": "2026-04-09T17:00:00.000+02:00",
-      "endAt": "2026-04-09T18:15:00.000+02:00",
+      "startAt": "2026-04-23T17:00:00.000+02:00",
+      "endAt": "2026-04-23T18:15:00.000+02:00",
       "level": "open",
       "language": "Italian",
       "format": "in_person",
@@ -3710,8 +3964,8 @@
         "en": "Family Ecology Labs at Radici",
         "it": "Laboratori di ecologia per famiglie da Radici"
       },
-      "startAt": "2026-04-11T16:00:00.000+02:00",
-      "endAt": "2026-04-11T17:30:00.000+02:00",
+      "startAt": "2026-04-25T16:00:00.000+02:00",
+      "endAt": "2026-04-25T17:30:00.000+02:00",
       "level": "open",
       "language": "Italian",
       "format": "in_person",
@@ -3744,8 +3998,8 @@
         "en": "Biblioteca Giufa Reading Club",
         "it": "Biblioteca Giufa legge e crea"
       },
-      "startAt": "2026-04-09T17:30:00.000+02:00",
-      "endAt": "2026-04-09T18:30:00.000+02:00",
+      "startAt": "2026-04-23T17:30:00.000+02:00",
+      "endAt": "2026-04-23T18:30:00.000+02:00",
       "level": "open",
       "language": "Italian",
       "format": "in_person",
